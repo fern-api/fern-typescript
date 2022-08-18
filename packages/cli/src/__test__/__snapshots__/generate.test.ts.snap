@@ -25870,7 +25870,7 @@ export class _Client implements _Client {
                     \\"Authorization\\": this.options._token != null ? BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
                     \\"X-API-Key\\": this.options.xApiKey
                 },
-                queryParameters: queryParameters
+                queryParameters
             });
 
         if (response.ok) {
@@ -26709,7 +26709,7 @@ export declare namespace ActualResult {
 
 export const ActualResult = {
         value: (value: MyApi.commons.VariableValue): ActualResult.Value => ({
-            value: value,
+            value,
             _type: \\"value\\"
         }),
 
