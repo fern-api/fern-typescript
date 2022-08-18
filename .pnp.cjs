@@ -2995,6 +2995,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@fern-typescript/commons", "workspace:packages/commons"],\
             ["@fern-typescript/commons-v2", "workspace:packages/commons-v2"],\
             ["@fern-typescript/declaration-handler", "workspace:packages/declaration-handler"],\
+            ["@fern-typescript/resolvers", "workspace:packages/resolvers"],\
             ["@types/jest", "npm:28.1.6"],\
             ["@types/node", "npm:18.6.2"],\
             ["depcheck", "npm:1.4.3"],\
