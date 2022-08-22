@@ -154,7 +154,7 @@ export class FernTypescriptClientGenerator {
         filepath: ExportedFilePath;
     }) {
         const filepathStr = convertExportedFilePathToFilePath(filepath);
-        this.context.logger.info(`Generating ${filepathStr}`);
+        this.context.logger.debug(`Generating ${filepathStr}`);
 
         this.exportsManager.addExportsForFilepath(filepath);
 
