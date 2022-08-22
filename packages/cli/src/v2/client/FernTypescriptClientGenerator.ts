@@ -223,5 +223,7 @@ export class FernTypescriptClientGenerator {
         await run(file);
 
         importsManager.writeImportsToSourceFile(sourceFile);
+
+        this.context.logger.debug(`Generated ${filepathStr}`);
     }
 }
