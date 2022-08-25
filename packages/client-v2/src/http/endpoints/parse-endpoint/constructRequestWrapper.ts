@@ -113,7 +113,7 @@ function constructWrapperFields<T>({
 
         const property = wrapperInterface.addProperty({
             name: key,
-            type: getTextOfTsNode(type.typeNode),
+            type: getTextOfTsNode(type.isOptional ? type.typeNodeWithoutUndefined : type.typeNode),
             hasQuestionToken: type.isOptional,
         });
         maybeAddDocs(property, docs);
@@ -142,7 +142,7 @@ function constructBody({
 
     const property = wrapperInterface.addProperty({
         name: "body",
-        type: getTextOfTsNode(bodyType.typeNode),
+        type: getTextOfTsNode(bodyType.isOptional ? bodyType.typeNodeWithoutUndefined : bodyType.typeNode),
         hasQuestionToken: bodyType.isOptional,
     });
 

@@ -170,7 +170,11 @@ function addNonExtendableProperty({
 }) {
     interfaceNode.addProperty({
         name: resolvedSingleUnionType.discriminantValue.wireValue,
-        type: getTextOfTsNode(resolvedValueType.type.typeNode),
+        type: getTextOfTsNode(
+            resolvedValueType.type.isOptional
+                ? resolvedValueType.type.typeNodeWithoutUndefined
+                : resolvedValueType.type.typeNode
+        ),
         hasQuestionToken: resolvedValueType.type.isOptional,
     });
 }
@@ -273,7 +277,9 @@ function generateCreator({
                   undefined,
                   VALUE_PARAMETER_NAME,
                   parameterType.type.isOptional ? ts.factory.createToken(ts.SyntaxKind.QuestionToken) : undefined,
-                  parameterType.type.typeNode,
+                  parameterType.type.isOptional
+                      ? parameterType.type.typeNodeWithoutUndefined
+                      : parameterType.type.typeNode,
                   undefined
               )
             : undefined;

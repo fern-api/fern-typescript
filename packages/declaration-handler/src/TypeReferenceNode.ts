@@ -1,6 +1,9 @@
 import { ts } from "ts-morph";
 
-export interface TypeReferenceNode {
-    typeNode: ts.TypeNode;
-    isOptional: boolean;
-}
+export type TypeReferenceNode =
+    | { isOptional: false; typeNode: ts.TypeNode }
+    | {
+          isOptional: true;
+          typeNode: ts.TypeNode;
+          typeNodeWithoutUndefined: ts.TypeNode;
+      };

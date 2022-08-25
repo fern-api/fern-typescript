@@ -95,18 +95,22 @@ export function getReferenceToType({
                     ),
                     isOptional: false,
                 }),
-                optional: (valueType) => ({
-                    typeNode: ts.factory.createUnionTypeNode([
-                        getReferenceToType({
-                            apiName,
-                            referencedIn,
-                            typeReference: valueType,
-                            addImport,
-                        }).typeNode,
-                        ts.factory.createKeywordTypeNode(ts.SyntaxKind.UndefinedKeyword),
-                    ]),
-                    isOptional: true,
-                }),
+                optional: (valueType) => {
+                    const referencedToValueType = getReferenceToType({
+                        apiName,
+                        referencedIn,
+                        typeReference: valueType,
+                        addImport,
+                    }).typeNode;
+                    return {
+                        typeNode: ts.factory.createUnionTypeNode([
+                            referencedToValueType,
+                            ts.factory.createKeywordTypeNode(ts.SyntaxKind.UndefinedKeyword),
+                        ]),
+                        typeNodeWithoutUndefined: referencedToValueType,
+                        isOptional: true,
+                    };
+                },
                 _unknown: () => {
                     throw new Error("Unexpected container type: " + container._type);
                 },

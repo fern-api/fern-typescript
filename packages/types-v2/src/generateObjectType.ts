@@ -32,7 +32,11 @@ export function generateObjectType({
                 const referenceToProperty = file.getReferenceToType(field.valueType);
                 const property: OptionalKind<PropertySignatureStructure> = {
                     name: getPropertyKey(field.name.wireValue),
-                    type: getTextOfTsNode(referenceToProperty.typeNode),
+                    type: getTextOfTsNode(
+                        referenceToProperty.isOptional
+                            ? referenceToProperty.typeNodeWithoutUndefined
+                            : referenceToProperty.typeNode
+                    ),
                     hasQuestionToken: referenceToProperty.isOptional,
                     docs: field.docs != null ? [{ description: field.docs }] : undefined,
                 };
