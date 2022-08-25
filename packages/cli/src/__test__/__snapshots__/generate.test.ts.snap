@@ -978,7 +978,6 @@ export interface TestCaseWithExpectedResult {
                     "contents": "import { commons } from \\"../..\\";
 
 export type VariableType =
-    | VariableType.ZachType
     | VariableType.IntegerType
     | VariableType.DoubleType
     | VariableType.BooleanType
@@ -991,11 +990,6 @@ export type VariableType =
     | VariableType.DoublyLinkedListType;
 
 export declare namespace VariableType {
-    interface ZachType {
-        _type: \\"zachType\\";
-        zachType: commons.Zach | null | undefined;
-    }
-
     interface IntegerType {
         _type: \\"integerType\\";
     }
@@ -1037,7 +1031,6 @@ export declare namespace VariableType {
     }
 
     export interface _Visitor<Result> {
-        zachType: (value: commons.Zach | null | undefined) => Result;
         integerType: () => Result;
         doubleType: () => Result;
         booleanType: () => Result;
@@ -1053,11 +1046,6 @@ export declare namespace VariableType {
 }
 
 export const VariableType = {
-    zachType: (value: commons.Zach | null | undefined): VariableType.ZachType => ({
-        zachType: value,
-        _type: \\"zachType\\"
-    }),
-
     integerType: (): VariableType.IntegerType => ({
         _type: \\"integerType\\"
     }),
@@ -1102,7 +1090,6 @@ export const VariableType = {
 
     _visit: <Result>(value: VariableType, visitor: VariableType._Visitor<Result>): Result => {
         switch (value._type) {
-            case \\"zachType\\": return visitor.zachType(value.zachType);
             case \\"integerType\\": return visitor.integerType();
             case \\"doubleType\\": return visitor.doubleType();
             case \\"booleanType\\": return visitor.booleanType();
@@ -1117,7 +1104,7 @@ export const VariableType = {
         }
     },
 
-    _types: (): VariableType[\\"_type\\"][] => [\\"zachType\\", \\"integerType\\", \\"doubleType\\", \\"booleanType\\", \\"stringType\\", \\"charType\\", \\"listType\\", \\"mapType\\", \\"binaryTreeType\\", \\"singlyLinkedListType\\", \\"doublyLinkedListType\\"],
+    _types: (): VariableType[\\"_type\\"][] => [\\"integerType\\", \\"doubleType\\", \\"booleanType\\", \\"stringType\\", \\"charType\\", \\"listType\\", \\"mapType\\", \\"binaryTreeType\\", \\"singlyLinkedListType\\", \\"doublyLinkedListType\\"],
 } as const;
 ",
                     "name": "VariableType.ts",
@@ -1285,19 +1272,10 @@ export const VariableValue = {
                     "type": "file",
                   },
                   Object {
-                    "contents": "export interface Zach {
-    z: string;
-}
-",
-                    "name": "Zach.ts",
-                    "type": "file",
-                  },
-                  Object {
                     "contents": "export * from \\"./UserId\\";
 export * from \\"./ProblemId\\";
 export * from \\"./NodeId\\";
 export * from \\"./VariableType\\";
-export * from \\"./Zach\\";
 export * from \\"./ListType\\";
 export * from \\"./MapType\\";
 export * from \\"./VariableValue\\";
@@ -9170,7 +9148,6 @@ export interface TestCaseWithExpectedResult {
                     "contents": "import { commons } from \\"../..\\";
 
 export type VariableType =
-    | VariableType.ZachType
     | VariableType.IntegerType
     | VariableType.DoubleType
     | VariableType.BooleanType
@@ -9183,11 +9160,6 @@ export type VariableType =
     | VariableType.DoublyLinkedListType;
 
 export declare namespace VariableType {
-    interface ZachType {
-        _type: \\"zachType\\";
-        zachType: commons.Zach | null | undefined;
-    }
-
     interface IntegerType {
         _type: \\"integerType\\";
     }
@@ -9229,7 +9201,6 @@ export declare namespace VariableType {
     }
 
     export interface _Visitor<Result> {
-        zachType: (value: commons.Zach | null | undefined) => Result;
         integerType: () => Result;
         doubleType: () => Result;
         booleanType: () => Result;
@@ -9245,11 +9216,6 @@ export declare namespace VariableType {
 }
 
 export const VariableType = {
-    zachType: (value: commons.Zach | null | undefined): VariableType.ZachType => ({
-        zachType: value,
-        _type: \\"zachType\\"
-    }),
-
     integerType: (): VariableType.IntegerType => ({
         _type: \\"integerType\\"
     }),
@@ -9294,7 +9260,6 @@ export const VariableType = {
 
     _visit: <Result>(value: VariableType, visitor: VariableType._Visitor<Result>): Result => {
         switch (value._type) {
-            case \\"zachType\\": return visitor.zachType(value.zachType);
             case \\"integerType\\": return visitor.integerType();
             case \\"doubleType\\": return visitor.doubleType();
             case \\"booleanType\\": return visitor.booleanType();
@@ -9309,7 +9274,7 @@ export const VariableType = {
         }
     },
 
-    _types: (): VariableType[\\"_type\\"][] => [\\"zachType\\", \\"integerType\\", \\"doubleType\\", \\"booleanType\\", \\"stringType\\", \\"charType\\", \\"listType\\", \\"mapType\\", \\"binaryTreeType\\", \\"singlyLinkedListType\\", \\"doublyLinkedListType\\"],
+    _types: (): VariableType[\\"_type\\"][] => [\\"integerType\\", \\"doubleType\\", \\"booleanType\\", \\"stringType\\", \\"charType\\", \\"listType\\", \\"mapType\\", \\"binaryTreeType\\", \\"singlyLinkedListType\\", \\"doublyLinkedListType\\"],
 } as const;
 ",
                     "name": "VariableType.ts",
@@ -9477,19 +9442,10 @@ export const VariableValue = {
                     "type": "file",
                   },
                   Object {
-                    "contents": "export interface Zach {
-    z: string;
-}
-",
-                    "name": "Zach.ts",
-                    "type": "file",
-                  },
-                  Object {
                     "contents": "export * from \\"./UserId\\";
 export * from \\"./ProblemId\\";
 export * from \\"./NodeId\\";
 export * from \\"./VariableType\\";
-export * from \\"./Zach\\";
 export * from \\"./ListType\\";
 export * from \\"./MapType\\";
 export * from \\"./VariableValue\\";
@@ -17357,7 +17313,6 @@ export interface TestCaseWithExpectedResult {
                     "contents": "import { commons } from \\"../..\\";
 
 export type VariableType =
-    | VariableType.ZachType
     | VariableType.IntegerType
     | VariableType.DoubleType
     | VariableType.BooleanType
@@ -17370,11 +17325,6 @@ export type VariableType =
     | VariableType.DoublyLinkedListType;
 
 export declare namespace VariableType {
-    interface ZachType {
-        _type: \\"zachType\\";
-        zachType: commons.Zach | null | undefined;
-    }
-
     interface IntegerType {
         _type: \\"integerType\\";
     }
@@ -17416,7 +17366,6 @@ export declare namespace VariableType {
     }
 
     export interface _Visitor<Result> {
-        zachType: (value: commons.Zach | null | undefined) => Result;
         integerType: () => Result;
         doubleType: () => Result;
         booleanType: () => Result;
@@ -17432,11 +17381,6 @@ export declare namespace VariableType {
 }
 
 export const VariableType = {
-    zachType: (value: commons.Zach | null | undefined): VariableType.ZachType => ({
-        zachType: value,
-        _type: \\"zachType\\"
-    }),
-
     integerType: (): VariableType.IntegerType => ({
         _type: \\"integerType\\"
     }),
@@ -17481,7 +17425,6 @@ export const VariableType = {
 
     _visit: <Result>(value: VariableType, visitor: VariableType._Visitor<Result>): Result => {
         switch (value._type) {
-            case \\"zachType\\": return visitor.zachType(value.zachType);
             case \\"integerType\\": return visitor.integerType();
             case \\"doubleType\\": return visitor.doubleType();
             case \\"booleanType\\": return visitor.booleanType();
@@ -17496,7 +17439,7 @@ export const VariableType = {
         }
     },
 
-    _types: (): VariableType[\\"_type\\"][] => [\\"zachType\\", \\"integerType\\", \\"doubleType\\", \\"booleanType\\", \\"stringType\\", \\"charType\\", \\"listType\\", \\"mapType\\", \\"binaryTreeType\\", \\"singlyLinkedListType\\", \\"doublyLinkedListType\\"],
+    _types: (): VariableType[\\"_type\\"][] => [\\"integerType\\", \\"doubleType\\", \\"booleanType\\", \\"stringType\\", \\"charType\\", \\"listType\\", \\"mapType\\", \\"binaryTreeType\\", \\"singlyLinkedListType\\", \\"doublyLinkedListType\\"],
 } as const;
 ",
                     "name": "VariableType.ts",
@@ -17664,19 +17607,10 @@ export const VariableValue = {
                     "type": "file",
                   },
                   Object {
-                    "contents": "export interface Zach {
-    z: string;
-}
-",
-                    "name": "Zach.ts",
-                    "type": "file",
-                  },
-                  Object {
                     "contents": "export * from \\"./UserId\\";
 export * from \\"./ProblemId\\";
 export * from \\"./NodeId\\";
 export * from \\"./VariableType\\";
-export * from \\"./Zach\\";
 export * from \\"./ListType\\";
 export * from \\"./MapType\\";
 export * from \\"./VariableValue\\";
@@ -25230,7 +25164,6 @@ export interface TestCaseWithExpectedResult {
                 "contents": "import { MyApi } from \\"../..\\";
 
 export type VariableType = 
-    | VariableType.ZachType
     | VariableType.IntegerType
     | VariableType.DoubleType
     | VariableType.BooleanType
@@ -25243,11 +25176,6 @@ export type VariableType =
     | VariableType.DoublyLinkedListType;
 
 export declare namespace VariableType {
-    interface ZachType {
-        _type: \\"zachType\\";
-        zachType?: MyApi.commons.Zach | undefined;
-    }
-
     interface IntegerType {
         _type: \\"integerType\\";
     }
@@ -25289,7 +25217,6 @@ export declare namespace VariableType {
     }
 
     export interface _Visitor<Result> {
-        zachType: (value: MyApi.commons.Zach | undefined) => Result;
         integerType: () => Result;
         doubleType: () => Result;
         booleanType: () => Result;
@@ -25305,11 +25232,6 @@ export declare namespace VariableType {
 }
 
 export const VariableType = {
-        zachType: (value?: MyApi.commons.Zach | undefined): VariableType.ZachType => ({
-            zachType: value,
-            _type: \\"zachType\\"
-        }),
-
         integerType: (): VariableType.IntegerType => ({
             _type: \\"integerType\\"
         }),
@@ -25354,7 +25276,6 @@ export const VariableType = {
 
         _visit: <Result>(value: VariableType, visitor: VariableType._Visitor<Result>): Result => {
             switch (value._type) {
-                case \\"zachType\\": return visitor.zachType(value.zachType);
                 case \\"integerType\\": return visitor.integerType();
                 case \\"doubleType\\": return visitor.doubleType();
                 case \\"booleanType\\": return visitor.booleanType();
@@ -25369,7 +25290,7 @@ export const VariableType = {
             }
         },
 
-        _types: (): VariableType[\\"_type\\"][] => [\\"zachType\\", \\"integerType\\", \\"doubleType\\", \\"booleanType\\", \\"stringType\\", \\"charType\\", \\"listType\\", \\"mapType\\", \\"binaryTreeType\\", \\"singlyLinkedListType\\", \\"doublyLinkedListType\\"],
+        _types: (): VariableType[\\"_type\\"][] => [\\"integerType\\", \\"doubleType\\", \\"booleanType\\", \\"stringType\\", \\"charType\\", \\"listType\\", \\"mapType\\", \\"binaryTreeType\\", \\"singlyLinkedListType\\", \\"doublyLinkedListType\\"],
     } as const;
 ",
                 "name": "VariableType.ts",
@@ -25537,19 +25458,10 @@ export const VariableValue = {
                 "type": "file",
               },
               Object {
-                "contents": "export interface Zach {
-    z: string;
-}
-",
-                "name": "Zach.ts",
-                "type": "file",
-              },
-              Object {
                 "contents": "export * from \\"./UserId\\";
 export * from \\"./ProblemId\\";
 export * from \\"./NodeId\\";
 export * from \\"./VariableType\\";
-export * from \\"./Zach\\";
 export * from \\"./ListType\\";
 export * from \\"./MapType\\";
 export * from \\"./VariableValue\\";
@@ -32413,7 +32325,6 @@ export interface TestCaseWithExpectedResult {
                     "contents": "import { commons } from \\"../..\\";
 
 export type VariableType =
-    | VariableType.ZachType
     | VariableType.IntegerType
     | VariableType.DoubleType
     | VariableType.BooleanType
@@ -32426,11 +32337,6 @@ export type VariableType =
     | VariableType.DoublyLinkedListType;
 
 export declare namespace VariableType {
-    interface ZachType {
-        _type: \\"zachType\\";
-        zachType: commons.Zach | null | undefined;
-    }
-
     interface IntegerType {
         _type: \\"integerType\\";
     }
@@ -32472,7 +32378,6 @@ export declare namespace VariableType {
     }
 
     export interface _Visitor<Result> {
-        zachType: (value: commons.Zach | null | undefined) => Result;
         integerType: () => Result;
         doubleType: () => Result;
         booleanType: () => Result;
@@ -32488,11 +32393,6 @@ export declare namespace VariableType {
 }
 
 export const VariableType = {
-    zachType: (value: commons.Zach | null | undefined): VariableType.ZachType => ({
-        zachType: value,
-        _type: \\"zachType\\"
-    }),
-
     integerType: (): VariableType.IntegerType => ({
         _type: \\"integerType\\"
     }),
@@ -32537,7 +32437,6 @@ export const VariableType = {
 
     _visit: <Result>(value: VariableType, visitor: VariableType._Visitor<Result>): Result => {
         switch (value._type) {
-            case \\"zachType\\": return visitor.zachType(value.zachType);
             case \\"integerType\\": return visitor.integerType();
             case \\"doubleType\\": return visitor.doubleType();
             case \\"booleanType\\": return visitor.booleanType();
@@ -32552,7 +32451,7 @@ export const VariableType = {
         }
     },
 
-    _types: (): VariableType[\\"_type\\"][] => [\\"zachType\\", \\"integerType\\", \\"doubleType\\", \\"booleanType\\", \\"stringType\\", \\"charType\\", \\"listType\\", \\"mapType\\", \\"binaryTreeType\\", \\"singlyLinkedListType\\", \\"doublyLinkedListType\\"],
+    _types: (): VariableType[\\"_type\\"][] => [\\"integerType\\", \\"doubleType\\", \\"booleanType\\", \\"stringType\\", \\"charType\\", \\"listType\\", \\"mapType\\", \\"binaryTreeType\\", \\"singlyLinkedListType\\", \\"doublyLinkedListType\\"],
 } as const;
 ",
                     "name": "VariableType.ts",
@@ -32720,19 +32619,10 @@ export const VariableValue = {
                     "type": "file",
                   },
                   Object {
-                    "contents": "export interface Zach {
-    z: string;
-}
-",
-                    "name": "Zach.ts",
-                    "type": "file",
-                  },
-                  Object {
                     "contents": "export * from \\"./UserId\\";
 export * from \\"./ProblemId\\";
 export * from \\"./NodeId\\";
 export * from \\"./VariableType\\";
-export * from \\"./Zach\\";
 export * from \\"./ListType\\";
 export * from \\"./MapType\\";
 export * from \\"./VariableValue\\";

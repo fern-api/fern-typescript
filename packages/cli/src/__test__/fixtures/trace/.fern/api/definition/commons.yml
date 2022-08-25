@@ -5,7 +5,6 @@ ids:
 types:
   VariableType:
     union:
-      zachType: optional<Zach>
       integerType: {}
       doubleType: {}
       booleanType: {}
@@ -16,9 +15,6 @@ types:
       binaryTreeType: {}
       singlyLinkedListType: {}
       doublyLinkedListType: {}
-  Zach:
-    properties:
-      z: string
   ListType:
     properties:
       valueType: VariableType
