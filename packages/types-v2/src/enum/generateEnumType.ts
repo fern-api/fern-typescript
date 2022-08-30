@@ -4,7 +4,7 @@ import {
     getTextOfTsNode,
     getWriterForMultiLineUnionType,
     maybeAddDocs,
-    visitorUtils,
+    visitorUtils
 } from "@fern-typescript/commons";
 import { File } from "@fern-typescript/declaration-handler";
 import lowerFirst from "lodash-es/lowerFirst";

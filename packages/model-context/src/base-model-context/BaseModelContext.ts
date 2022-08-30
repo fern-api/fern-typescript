@@ -3,7 +3,7 @@ import {
     DirectoryNameWithExportStrategy,
     getPackagePath,
     ImportStrategy,
-    PathToSourceFile,
+    PathToSourceFile
 } from "@fern-typescript/commons";
 import { Directory, SourceFile, ts } from "ts-morph";
 import { getQualifiedReferenceToModelItem } from "./getQualifiedReferenceToModel";

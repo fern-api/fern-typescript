@@ -7,7 +7,7 @@ import {
     generateUnionType,
     isTypeExtendable,
     ResolvedSingleUnionValueType,
-    UNION_TYPE_MODEL_IMPORT_STRATEGY,
+    UNION_TYPE_MODEL_IMPORT_STRATEGY
 } from "@fern-typescript/types";
 import { SourceFile } from "ts-morph";
 

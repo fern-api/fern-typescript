@@ -6,7 +6,7 @@ import {
     getReferenceToFernServiceUtilsType,
     getTextOfTsKeyword,
     getTextOfTsNode,
-    maybeAddDocs,
+    maybeAddDocs
 } from "@fern-typescript/commons";
 import { ModelContext } from "@fern-typescript/model-context";
 import { Directory, Scope, ts } from "ts-morph";
