@@ -16,6 +16,9 @@ jobs:
           name: Format
           command: yarn format:check
       - run:
+          name: Organize imports
+          command: yarn organize-imports:check
+      - run:
           name: Check dependencies
           command: yarn depcheck
       - run:
