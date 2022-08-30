@@ -3,7 +3,7 @@ import {
     DependencyManager,
     getReferenceToFernServiceUtilsType,
     getTextOfTsKeyword,
-    getTextOfTsNode,
+    getTextOfTsNode
 } from "@fern-typescript/commons";
 import { ModelContext } from "@fern-typescript/model-context";
 import { InterfaceDeclaration, ModuleDeclaration, SourceFile, ts } from "ts-morph";

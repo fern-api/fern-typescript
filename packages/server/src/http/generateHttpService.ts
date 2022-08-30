@@ -3,7 +3,7 @@ import {
     createDirectoriesForFernFilepath,
     createSourceFileAndExportFromModule,
     DependencyManager,
-    getTextOfTsNode,
+    getTextOfTsNode
 } from "@fern-typescript/commons";
 import { ModelContext } from "@fern-typescript/model-context";
 import { getHttpRequestParameters } from "@fern-typescript/service-types";

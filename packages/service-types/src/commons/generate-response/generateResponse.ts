@@ -7,7 +7,7 @@ import { ModuleDeclaration, OptionalKind, PropertySignatureStructure, SourceFile
 import { ServiceTypesConstants } from "../../constants";
 import {
     generateServiceTypeReference,
-    ServiceTypeFileWriter,
+    ServiceTypeFileWriter
 } from "../service-type-reference/generateServiceTypeReference";
 import { generateErrorBody } from "./generateErrorBody";
 

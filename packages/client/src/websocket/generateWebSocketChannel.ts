@@ -5,7 +5,7 @@ import {
     DependencyManager,
     getTextOfTsKeyword,
     getTextOfTsNode,
-    maybeAddDocs,
+    maybeAddDocs
 } from "@fern-typescript/commons";
 import { ModelContext } from "@fern-typescript/model-context";
 import {
@@ -15,7 +15,7 @@ import {
     PropertySignatureStructure,
     Scope,
     SourceFile,
-    ts,
+    ts
 } from "ts-morph";
 import { ClientConstants } from "../constants";
 import { generateChannelConstructor } from "./generateChannelConstructor";
