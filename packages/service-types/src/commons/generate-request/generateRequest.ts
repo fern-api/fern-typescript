@@ -5,7 +5,7 @@ import { OptionalKind, PropertySignatureStructure, SourceFile, ts } from "ts-mor
 import { ServiceTypesConstants } from "../../constants";
 import {
     generateServiceTypeReference,
-    ServiceTypeFileWriter
+    ServiceTypeFileWriter,
 } from "../service-type-reference/generateServiceTypeReference";
 
 /**

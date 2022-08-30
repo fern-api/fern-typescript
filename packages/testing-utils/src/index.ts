@@ -1,5 +1,5 @@
 export {
     installAndCompileGeneratedProject,
-    installAndCompileGeneratedProjects
+    installAndCompileGeneratedProjects,
 } from "./installAndCompileGeneratedProject";
 export { itFernETE } from "./itFernETE";

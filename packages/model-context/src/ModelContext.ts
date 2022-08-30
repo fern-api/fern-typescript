@@ -9,13 +9,13 @@ import {
     HttpServiceTypeContext,
     HttpServiceTypeMetadata,
     HttpServiceTypeReference,
-    InlinedHttpServiceTypeReference
+    InlinedHttpServiceTypeReference,
 } from "./service-type-context/HttpServiceTypeContext";
 import {
     GeneratedWebSocketOperationTypes,
     WebSocketChannelTypeContext,
     WebSocketChannelTypeMetadata,
-    WebSocketChannelTypeReference
+    WebSocketChannelTypeReference,
 } from "./service-type-context/WebSocketChannelTypeContext";
 import { ResolvedType } from "./type-context/ResolvedType";
 import { TypeContext } from "./type-context/TypeContext";

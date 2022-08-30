@@ -4,7 +4,7 @@ import {
     getRelativePathAsModuleSpecifierTo,
     ImportStrategy,
     PackagePath,
-    PathToSourceFile
+    PathToSourceFile,
 } from "@fern-typescript/commons";
 import path from "path";
 import { Directory, ImportSpecifierStructure, OptionalKind, SourceFile } from "ts-morph";

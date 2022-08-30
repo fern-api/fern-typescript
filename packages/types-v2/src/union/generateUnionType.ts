@@ -4,7 +4,7 @@ import {
     getTextOfTsNode,
     getWriterForMultiLineUnionType,
     maybeAddDocs,
-    visitorUtils
+    visitorUtils,
 } from "@fern-typescript/commons";
 import { createPropertyAssignment } from "@fern-typescript/commons-v2";
 import { File } from "@fern-typescript/declaration-handler";
@@ -15,7 +15,7 @@ import {
     SourceFile,
     ts,
     VariableDeclarationKind,
-    WriterFunction
+    WriterFunction,
 } from "ts-morph";
 import { getKeyForUnion, ResolvedSingleUnionType, ResolvedSingleUnionValueType } from "./utils";
 

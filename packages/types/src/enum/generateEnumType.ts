@@ -4,7 +4,7 @@ import {
     getTextOfTsNode,
     getWriterForMultiLineUnionType,
     maybeAddDocs,
-    visitorUtils
+    visitorUtils,
 } from "@fern-typescript/commons";
 import lowerFirst from "lodash-es/lowerFirst";
 import { SourceFile, ts, VariableDeclarationKind, WriterFunction } from "ts-morph";
