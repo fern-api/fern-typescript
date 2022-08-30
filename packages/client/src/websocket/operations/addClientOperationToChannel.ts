@@ -7,7 +7,7 @@ import {
     OptionalKind,
     ParameterDeclarationStructure,
     Scope,
-    ts
+    ts,
 } from "ts-morph";
 import { ClientConstants } from "../../constants";
 import { generateOperationMethodBody } from "./operation-method-body/generateOperationMethodBody";

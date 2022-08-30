@@ -4,7 +4,7 @@ import {
     getTextOfTsNode,
     getWriterForMultiLineUnionType,
     maybeAddDocs,
-    visitorUtils
+    visitorUtils,
 } from "@fern-typescript/commons";
 import { ModelContext } from "@fern-typescript/model-context";
 import {
@@ -14,13 +14,13 @@ import {
     SourceFile,
     ts,
     VariableDeclarationKind,
-    WriterFunction
+    WriterFunction,
 } from "ts-morph";
 import {
     getKeyForUnion,
     ResolvedSingleUnionType,
     ResolvedSingleUnionValueType,
-    UNION_TYPE_MODEL_IMPORT_STRATEGY
+    UNION_TYPE_MODEL_IMPORT_STRATEGY,
 } from "./utils";
 
 export declare namespace generateUnionType {

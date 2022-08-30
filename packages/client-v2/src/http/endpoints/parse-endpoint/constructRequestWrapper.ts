@@ -3,7 +3,7 @@ import {
     HttpHeader,
     HttpRequest,
     PathParameter,
-    QueryParameter
+    QueryParameter,
 } from "@fern-fern/ir-model/services/http";
 import { TypeReference } from "@fern-fern/ir-model/types";
 import { getTextOfTsNode, maybeAddDocs } from "@fern-typescript/commons";

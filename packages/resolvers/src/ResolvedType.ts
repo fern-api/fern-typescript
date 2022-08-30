@@ -3,7 +3,7 @@ import {
     EnumTypeDeclaration,
     ObjectTypeDeclaration,
     PrimitiveType,
-    UnionTypeDeclaration
+    UnionTypeDeclaration,
 } from "@fern-fern/ir-model/types";
 
 export type ResolvedType =

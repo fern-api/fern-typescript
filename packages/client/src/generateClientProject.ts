@@ -3,7 +3,7 @@ import {
     createDirectoryAndExportFromModule,
     DependencyManager,
     GeneratedProjectSrcInfo,
-    generateTypeScriptProject
+    generateTypeScriptProject,
 } from "@fern-typescript/commons";
 import { generateModelFiles } from "@fern-typescript/model";
 import { Volume } from "memfs/lib/volume";

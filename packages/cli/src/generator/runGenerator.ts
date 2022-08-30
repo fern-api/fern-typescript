@@ -3,7 +3,7 @@ import { ExitStatusUpdate, GeneratorUpdate, PackageCoordinate } from "@fern-fern
 import {
     FernTypescriptGeneratorConfig,
     FernTypescriptGeneratorCustomConfig,
-    FernTypescriptGeneratorCustomConfigSchema
+    FernTypescriptGeneratorCustomConfigSchema,
 } from "@fern-typescript/commons";
 import { readFile } from "fs/promises";
 import { Command } from "../commands/Command";

@@ -1,5 +1,6 @@
 module.exports = {
-    "**/*.{j,t}sx?": [
+    "**/*.js{,x}": ["yarn organize-imports", "yarn format"],
+    "**/*.ts{,x}": [
         "eslint --fix --max-warnings 0 --no-eslintrc --config .eslintrc.lint-staged.js",
         "yarn organize-imports",
         "yarn format",
