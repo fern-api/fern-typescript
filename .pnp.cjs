@@ -45,16 +45,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/generators/sdk/cli"\
       },\
       {\
-        "name": "@fern-typescript/sdk-declaration-handler",\
-        "reference": "workspace:packages/generators/sdk/declaration-handler"\
-      },\
-      {\
         "name": "@fern-typescript/sdk-errors",\
         "reference": "workspace:packages/generators/sdk/errors"\
       },\
       {\
         "name": "@fern-typescript/sdk-generator",\
         "reference": "workspace:packages/generators/sdk/generator"\
+      },\
+      {\
+        "name": "@fern-typescript/sdk-declaration-handler",\
+        "reference": "workspace:packages/generators/sdk/sdk-declaration-handler"\
       },\
       {\
         "name": "@fern-typescript/sdk-service-declaration-handler",\
@@ -107,7 +107,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@fern-typescript/model", ["workspace:packages/model"]],\
       ["@fern-typescript/model-context", ["workspace:packages/model-context"]],\
       ["@fern-typescript/resolvers", ["workspace:packages/resolvers"]],\
-      ["@fern-typescript/sdk-declaration-handler", ["workspace:packages/generators/sdk/declaration-handler"]],\
+      ["@fern-typescript/sdk-declaration-handler", ["workspace:packages/generators/sdk/sdk-declaration-handler"]],\
       ["@fern-typescript/sdk-errors", ["workspace:packages/generators/sdk/errors"]],\
       ["@fern-typescript/sdk-generator", ["workspace:packages/generators/sdk/generator"]],\
       ["@fern-typescript/sdk-generator-cli", ["workspace:packages/generators/sdk/cli"]],\
@@ -3610,10 +3610,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@fern-typescript/sdk-declaration-handler", [\
-        ["workspace:packages/generators/sdk/declaration-handler", {\
-          "packageLocation": "./packages/generators/sdk/declaration-handler/",\
+        ["workspace:packages/generators/sdk/sdk-declaration-handler", {\
+          "packageLocation": "./packages/generators/sdk/sdk-declaration-handler/",\
           "packageDependencies": [\
-            ["@fern-typescript/sdk-declaration-handler", "workspace:packages/generators/sdk/declaration-handler"],\
+            ["@fern-typescript/sdk-declaration-handler", "workspace:packages/generators/sdk/sdk-declaration-handler"],\
             ["@babel/core", "npm:7.19.1"],\
             ["@babel/preset-env", "virtual:f8e21c9fa0a798b21a87ac455600e39198fef65848556a3a2cd5c956b0460181f9e618173dcff6d9d4fb96fb870055dfe1a3ec3db5db0700e71c0184e4711659#npm:7.19.1"],\
             ["@babel/preset-typescript", "virtual:f8e21c9fa0a798b21a87ac455600e39198fef65848556a3a2cd5c956b0460181f9e618173dcff6d9d4fb96fb870055dfe1a3ec3db5db0700e71c0184e4711659#npm:7.18.6"],\
@@ -3640,7 +3640,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/preset-env", "virtual:f8e21c9fa0a798b21a87ac455600e39198fef65848556a3a2cd5c956b0460181f9e618173dcff6d9d4fb96fb870055dfe1a3ec3db5db0700e71c0184e4711659#npm:7.19.1"],\
             ["@babel/preset-typescript", "virtual:f8e21c9fa0a798b21a87ac455600e39198fef65848556a3a2cd5c956b0460181f9e618173dcff6d9d4fb96fb870055dfe1a3ec3db5db0700e71c0184e4711659#npm:7.18.6"],\
             ["@fern-fern/ir-model", "npm:0.0.205"],\
-            ["@fern-typescript/sdk-declaration-handler", "workspace:packages/generators/sdk/declaration-handler"],\
+            ["@fern-typescript/sdk-declaration-handler", "workspace:packages/generators/sdk/sdk-declaration-handler"],\
             ["@fern-typescript/types-v2", "workspace:packages/types-v2"],\
             ["@types/jest", "npm:28.1.6"],\
             ["@types/node", "npm:18.7.18"],\
@@ -3667,7 +3667,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@fern-typescript/commons", "workspace:packages/commons"],\
             ["@fern-typescript/commons-v2", "workspace:packages/commons-v2"],\
             ["@fern-typescript/resolvers", "workspace:packages/resolvers"],\
-            ["@fern-typescript/sdk-declaration-handler", "workspace:packages/generators/sdk/declaration-handler"],\
+            ["@fern-typescript/sdk-declaration-handler", "workspace:packages/generators/sdk/sdk-declaration-handler"],\
             ["@fern-typescript/sdk-errors", "workspace:packages/generators/sdk/errors"],\
             ["@fern-typescript/sdk-service-declaration-handler", "workspace:packages/generators/sdk/service-declaration-handler"],\
             ["@fern-typescript/types-v2", "workspace:packages/types-v2"],\
@@ -3705,7 +3705,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@fern-fern/ir-model", "npm:0.0.205"],\
             ["@fern-typescript/commons", "workspace:packages/commons"],\
             ["@fern-typescript/commons-v2", "workspace:packages/commons-v2"],\
-            ["@fern-typescript/sdk-declaration-handler", "workspace:packages/generators/sdk/declaration-handler"],\
+            ["@fern-typescript/sdk-declaration-handler", "workspace:packages/generators/sdk/sdk-declaration-handler"],\
             ["@fern-typescript/sdk-generator", "workspace:packages/generators/sdk/generator"],\
             ["@fern-typescript/testing-utils", "workspace:packages/testing-utils"],\
             ["@ts-morph/common", "npm:0.16.0"],\
@@ -3746,7 +3746,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@fern-fern/ir-model", "npm:0.0.205"],\
             ["@fern-typescript/commons", "workspace:packages/commons"],\
             ["@fern-typescript/commons-v2", "workspace:packages/commons-v2"],\
-            ["@fern-typescript/sdk-declaration-handler", "workspace:packages/generators/sdk/declaration-handler"],\
+            ["@fern-typescript/sdk-declaration-handler", "workspace:packages/generators/sdk/sdk-declaration-handler"],\
             ["@types/jest", "npm:28.1.6"],\
             ["@types/node", "npm:18.7.18"],\
             ["depcheck", "npm:1.4.3"],\
@@ -3917,7 +3917,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@fern-fern/ir-model", "npm:0.0.205"],\
             ["@fern-typescript/commons", "workspace:packages/commons"],\
             ["@fern-typescript/commons-v2", "workspace:packages/commons-v2"],\
-            ["@fern-typescript/sdk-declaration-handler", "workspace:packages/generators/sdk/declaration-handler"],\
+            ["@fern-typescript/sdk-declaration-handler", "workspace:packages/generators/sdk/sdk-declaration-handler"],\
             ["@types/jest", "npm:28.1.6"],\
             ["@types/lodash-es", "npm:4.17.6"],\
             ["@types/node", "npm:18.7.18"],\
@@ -8027,7 +8027,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@fern-typescript/commons", "workspace:packages/commons"],\
             ["@fern-typescript/commons-v2", "workspace:packages/commons-v2"],\
             ["@fern-typescript/model", "workspace:packages/model"],\
-            ["@fern-typescript/sdk-declaration-handler", "workspace:packages/generators/sdk/declaration-handler"],\
+            ["@fern-typescript/sdk-declaration-handler", "workspace:packages/generators/sdk/sdk-declaration-handler"],\
             ["@fern-typescript/server", "workspace:packages/server"],\
             ["@fern-typescript/testing-utils", "workspace:packages/testing-utils"],\
             ["@ts-morph/common", "npm:0.16.0"],\

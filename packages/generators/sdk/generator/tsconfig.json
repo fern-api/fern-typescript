@@ -7,8 +7,8 @@
     { "path": "../../../commons-v2" },
     { "path": "../../../resolvers" },
     { "path": "../../../types-v2" },
-    { "path": "../declaration-handler" },
     { "path": "../errors" },
+    { "path": "../sdk-declaration-handler" },
     { "path": "../service-declaration-handler" }
   ]
 }

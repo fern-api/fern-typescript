@@ -6,6 +6,6 @@
   "references": [
     { "path": "../commons" },
     { "path": "../commons-v2" },
-    { "path": "../generators/sdk/declaration-handler" }
+    { "path": "../generators/sdk/sdk-declaration-handler" }
   ]
 }
