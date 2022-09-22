@@ -1,6 +1,6 @@
 import { ErrorDeclaration } from "@fern-fern/ir-model/errors";
 import { ObjectTypeDeclaration } from "@fern-fern/ir-model/types";
-import { DeclarationHandler, File } from "@fern-typescript/declaration-handler";
+import { DeclarationHandler, File } from "@fern-typescript/sdk-declaration-handler";
 import { generateObjectType } from "@fern-typescript/types-v2";
 import { ts } from "ts-morph";
 

@@ -14,7 +14,7 @@ import {
     visitorUtils,
 } from "@fern-typescript/commons";
 import { createPropertyAssignment } from "@fern-typescript/commons-v2";
-import { File } from "@fern-typescript/declaration-handler";
+import { File } from "@fern-typescript/sdk-declaration-handler";
 import { InterfaceDeclarationStructure, OptionalKind, ts, VariableDeclarationKind, WriterFunction } from "ts-morph";
 import { getKeyForUnion } from "./utils";
 

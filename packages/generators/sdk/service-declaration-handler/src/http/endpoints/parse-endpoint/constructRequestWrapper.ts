@@ -7,7 +7,7 @@ import {
 } from "@fern-fern/ir-model/services/http";
 import { TypeReference } from "@fern-fern/ir-model/types";
 import { getTextOfTsNode, maybeAddDocs } from "@fern-typescript/commons";
-import { File, TypeReferenceNode } from "@fern-typescript/declaration-handler";
+import { File, TypeReferenceNode } from "@fern-typescript/sdk-declaration-handler";
 import { InterfaceDeclaration, ModuleDeclaration, ts } from "ts-morph";
 import { getReferenceToMaybeVoidType } from "./getReferenceToMaybeVoidType";
 

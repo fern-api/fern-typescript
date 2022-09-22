@@ -1,5 +1,5 @@
 import { EnumTypeDeclaration, Type, TypeDeclaration } from "@fern-fern/ir-model/types";
-import { DeclarationHandler } from "@fern-typescript/declaration-handler";
+import { DeclarationHandler } from "@fern-typescript/sdk-declaration-handler";
 import { generateEnumType } from "./enum/generateEnumType";
 import { generateAliasType } from "./generateAliasType";
 import { generateObjectType } from "./generateObjectType";

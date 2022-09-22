@@ -1,6 +1,6 @@
 import { AliasTypeDeclaration } from "@fern-fern/ir-model/types";
 import { getTextOfTsNode, maybeAddDocs } from "@fern-typescript/commons";
-import { File } from "@fern-typescript/declaration-handler";
+import { File } from "@fern-typescript/sdk-declaration-handler";
 
 export function generateAliasType({
     file,

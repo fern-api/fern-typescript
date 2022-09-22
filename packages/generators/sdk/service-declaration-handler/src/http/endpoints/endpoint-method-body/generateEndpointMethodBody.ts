@@ -1,5 +1,5 @@
 import { getTextOfTsNode } from "@fern-typescript/commons";
-import { File } from "@fern-typescript/declaration-handler";
+import { File } from "@fern-typescript/sdk-declaration-handler";
 import { StatementStructures, WriterFunction } from "ts-morph";
 import { ParsedClientEndpoint } from "../parse-endpoint/ParsedClientEndpoint";
 import { generateConstructQueryParams } from "./generateConstructQueryParams";

@@ -1,6 +1,6 @@
 import { getTextOfTsKeyword, getTextOfTsNode } from "@fern-typescript/commons";
 import { createPropertyAssignment, WrapperDeclaration } from "@fern-typescript/commons-v2";
-import { DeclarationHandler, File } from "@fern-typescript/declaration-handler";
+import { DeclarationHandler, File } from "@fern-typescript/sdk-declaration-handler";
 import { Scope, ts } from "ts-morph";
 import { ClientConstants } from "./constants";
 

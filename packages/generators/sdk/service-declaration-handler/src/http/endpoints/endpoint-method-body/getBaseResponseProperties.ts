@@ -1,5 +1,5 @@
 import { createPropertyAssignment } from "@fern-typescript/commons-v2";
-import { File } from "@fern-typescript/declaration-handler";
+import { File } from "@fern-typescript/sdk-declaration-handler";
 import { ts } from "ts-morph";
 
 export function getBaseResponseProperties({ ok, file }: { ok: boolean; file: File }): ts.ObjectLiteralElementLike[] {

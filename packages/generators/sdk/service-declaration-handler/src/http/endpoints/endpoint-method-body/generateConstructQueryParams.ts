@@ -5,7 +5,7 @@ import {
     ShapeType,
     TypeReference,
 } from "@fern-fern/ir-model/types";
-import { File } from "@fern-typescript/declaration-handler";
+import { File } from "@fern-typescript/sdk-declaration-handler";
 import { ts } from "ts-morph";
 import { ClientConstants } from "../../../constants";
 import { ParsedClientEndpoint } from "../parse-endpoint/ParsedClientEndpoint";

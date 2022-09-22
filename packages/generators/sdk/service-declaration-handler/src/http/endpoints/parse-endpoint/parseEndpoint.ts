@@ -1,6 +1,6 @@
 import { HttpEndpoint } from "@fern-fern/ir-model/services/http";
 import { getTextOfTsNode } from "@fern-typescript/commons";
-import { File } from "@fern-typescript/declaration-handler";
+import { File } from "@fern-typescript/sdk-declaration-handler";
 import { ModuleDeclaration, ts, VariableDeclarationKind } from "ts-morph";
 import { constructEndpointErrors } from "./constructEndpointErrors";
 import { constructRequestWrapper } from "./constructRequestWrapper";

@@ -4,7 +4,7 @@ import { HttpEndpoint } from "@fern-fern/ir-model/services/http";
 import { getTextOfTsNode, getWriterForMultiLineUnionType, visitorUtils } from "@fern-typescript/commons";
 import { createPropertyAssignment } from "@fern-typescript/commons-v2";
 import { TsNodeMaybeWithDocs } from "@fern-typescript/commons/src/writers/getWriterForMultiLineUnionType";
-import { File } from "@fern-typescript/declaration-handler";
+import { File } from "@fern-typescript/sdk-declaration-handler";
 import { ModuleDeclaration, OptionalKind, PropertySignature, PropertySignatureStructure, ts } from "ts-morph";
 import { ClientConstants } from "../../../constants";
 import { generateReturnErrorResponse } from "../endpoint-method-body/generateReturnErrorResponse";
