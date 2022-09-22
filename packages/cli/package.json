@@ -32,7 +32,7 @@
     "@fern-api/ir-generator": "0.0.188-13-g68e2f408",
     "@fern-api/workspace-loader": "0.0.188-13-g68e2f408",
     "@fern-fern/generator-exec-client": "^0.0.6",
-    "@fern-fern/ir-model": "0.0.184",
+    "@fern-fern/ir-model": "0.0.205",
     "@fern-typescript/client": "workspace:*",
     "@fern-typescript/client-v2": "workspace:*",
     "@fern-typescript/commons": "workspace:*",
