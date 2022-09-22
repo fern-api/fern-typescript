@@ -2110,9 +2110,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@fern-typescript/sdk-declaration-handler@workspace:*, @fern-typescript/sdk-declaration-handler@workspace:packages/generators/sdk/sdk-declaration-handler":
+"@fern-typescript/sdk-declaration-handler@workspace:*, @fern-typescript/sdk-declaration-handler@workspace:packages/generators/sdk/declaration-handler":
   version: 0.0.0-use.local
-  resolution: "@fern-typescript/sdk-declaration-handler@workspace:packages/generators/sdk/sdk-declaration-handler"
+  resolution: "@fern-typescript/sdk-declaration-handler@workspace:packages/generators/sdk/declaration-handler"
   dependencies:
     "@babel/core": ^7.19.1
     "@babel/preset-env": ^7.19.1

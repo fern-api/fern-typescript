@@ -7,7 +7,7 @@
     { "path": "../../../commons" },
     { "path": "../../../commons-v2" },
     { "path": "../../../testing-utils" },
-    { "path": "../generator" },
-    { "path": "../sdk-declaration-handler" }
+    { "path": "../declaration-handler" },
+    { "path": "../generator" }
   ]
 }
