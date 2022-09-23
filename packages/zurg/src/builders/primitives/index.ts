@@ -1,0 +1,1 @@
+export { string } from "./string";
