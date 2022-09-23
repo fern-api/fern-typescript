@@ -49,18 +49,10 @@ export class FernTypescriptClientGenerator {
     private errorResolver: ErrorResolver;
     private serviceResolver: ServiceResolver;
 
-    private typeDeclarationReferencer = new TypeDeclarationReferencer({
-        containingDirectory: this.getApiDirectory(),
-    });
-    private errorDeclarationReferencer = new ErrorDeclarationReferencer({
-        containingDirectory: this.getApiDirectory(),
-    });
-    private serviceDeclarationReferencer = new ServiceDeclarationReferencer({
-        containingDirectory: this.getApiDirectory(),
-    });
-    private wrapperDeclarationReferencer = new WrapperDeclarationReferencer({
-        containingDirectory: this.getApiDirectory(),
-    });
+    private typeDeclarationReferencer: TypeDeclarationReferencer;
+    private errorDeclarationReferencer: ErrorDeclarationReferencer;
+    private serviceDeclarationReferencer: ServiceDeclarationReferencer;
+    private wrapperDeclarationReferencer: WrapperDeclarationReferencer;
 
     private generatePackage: () => Promise<void>;
 
@@ -83,6 +75,20 @@ export class FernTypescriptClientGenerator {
         this.typeResolver = new TypeResolver(intermediateRepresentation);
         this.errorResolver = new ErrorResolver(intermediateRepresentation);
         this.serviceResolver = new ServiceResolver(intermediateRepresentation);
+
+        const apiDirectory = [this.getApiDirectory()];
+        this.typeDeclarationReferencer = new TypeDeclarationReferencer({
+            containingDirectory: apiDirectory,
+        });
+        this.errorDeclarationReferencer = new ErrorDeclarationReferencer({
+            containingDirectory: apiDirectory,
+        });
+        this.serviceDeclarationReferencer = new ServiceDeclarationReferencer({
+            containingDirectory: apiDirectory,
+        });
+        this.wrapperDeclarationReferencer = new WrapperDeclarationReferencer({
+            containingDirectory: apiDirectory,
+        });
 
         this.generatePackage = async () => {
             await generateTypeScriptProject({
@@ -255,12 +261,10 @@ export class FernTypescriptClientGenerator {
         this.context.logger.debug(`Generated ${filepathStr}`);
     }
 
-    private getApiDirectory(): ExportedDirectory[] {
-        return [
-            {
-                nameOnDisk: "api",
-                exportDeclaration: { namespaceExport: this.apiName },
-            },
-        ];
+    private getApiDirectory(): ExportedDirectory {
+        return {
+            nameOnDisk: "api",
+            exportDeclaration: { namespaceExport: this.apiName },
+        };
     }
 }

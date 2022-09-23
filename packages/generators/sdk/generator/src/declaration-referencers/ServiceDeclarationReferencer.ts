@@ -1,5 +1,5 @@
 import { DeclaredServiceName } from "@fern-fern/ir-model/services/commons";
-import { DeclaredTypeName } from "@fern-fern/ir-model/types";
+import { ClientConstants } from "@fern-typescript/sdk-service-declaration-handler";
 import { ExportedFilePath } from "../exports-manager/ExportedFilePath";
 import { AbstractDeclarationReferencer } from "./AbstractDeclarationReferencer";
 import { getExportedDirectoriesForFernFilepath } from "./utils/getExportedDirectoriesForFernFilepath";
@@ -12,19 +12,22 @@ export class ServiceDeclarationReferencer extends AbstractDeclarationReferencer<
                 ...getExportedDirectoriesForFernFilepath({
                     fernFilepath: serviceName.fernFilepath,
                 }),
+                {
+                    nameOnDisk: "client",
+                    exportDeclaration: { exportAll: true },
+                },
             ],
             file: {
-                nameOnDisk: "client",
-                exportDeclaration: { exportAll: true },
+                nameOnDisk: this.getFilename(),
             },
         };
     }
 
-    public getFilename(serviceName: DeclaredTypeName): string {
-        return `${serviceName.name}.ts`;
+    public getFilename(): string {
+        return `${this.getExportedName()}.ts`;
     }
 
     public getExportedName(): string {
-        return "Client";
+        return ClientConstants.HttpService.SERVICE_NAME;
     }
 }
