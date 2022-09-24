@@ -1,34 +1,44 @@
-import { enum_ } from "../../enum";
+import { itSchemaIdentity } from "../../../__test__/utils/itSchema";
 import { stringLiteral } from "../stringLiteral";
 
 describe("stringLiteral", () => {
-    describe("parse()", () => {
-        it("functions as identity", () => {
-            const schema = stringLiteral("A");
-            const parsed: "A" = schema.parse("A");
-            expect(parsed).toBe("A");
+    itSchemaIdentity(stringLiteral("A"), "A");
+
+    describe("compile", () => {
+        describe("parse()", () => {
+            // eslint-disable-next-line jest/expect-expect
+            it("doesn't compile with incorrect string as input", () => {
+                const schema = stringLiteral("A");
+
+                // @ts-expect-error
+                () => schema.parse("D");
+            });
+
+            // eslint-disable-next-line jest/expect-expect
+            it("doesn't compile with non-string as input", () => {
+                const schema = stringLiteral("A");
+
+                // @ts-expect-error
+                () => schema.parse(42);
+            });
         });
 
-        it("fails with invalid enum as input", () => {
-            const schema = enum_(["A", "B", "C"]);
+        describe("json()", () => {
+            // eslint-disable-next-line jest/expect-expect
+            it("doesn't compile with incorrect string as input", () => {
+                const schema = stringLiteral("A");
 
-            // @ts-expect-error
-            schema.parse("D");
-        });
-    });
+                // @ts-expect-error
+                () => schema.json("D");
+            });
 
-    describe("json()", () => {
-        it("function as identity", () => {
-            const schema = enum_(["A", "B", "C"]);
-            const raw: "A" | "B" | "C" = schema.json("A");
-            expect(raw).toBe("A");
-        });
+            // eslint-disable-next-line jest/expect-expect
+            it("doesn't compile with non-string as input", () => {
+                const schema = stringLiteral("A");
 
-        it("fails with invalid enum as input", () => {
-            const schema = enum_(["A", "B", "C"]);
-
-            // @ts-expect-error
-            schema.json("D");
+                // @ts-expect-error
+                () => schema.json(42);
+            });
         });
     });
 });

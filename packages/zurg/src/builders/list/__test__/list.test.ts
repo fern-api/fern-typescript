@@ -1,34 +1,47 @@
+import { itSchemaIdentity } from "../../../__test__/utils/itSchema";
 import { string } from "../../primitives";
 import { list } from "../list";
 
 describe("list", () => {
-    describe("parse()", () => {
-        it("functions as identity with primitives", () => {
-            const schema = list(string());
-            const parsed: string[] = schema.parse(["hello", "world"]);
-            expect(parsed).toEqual(["hello", "world"]);
-        });
-
-        it("fails with invalid items as input", () => {
-            const schema = list(string());
-
-            // @ts-expect-error
-            schema.parse([42]);
-        });
+    itSchemaIdentity(list(string()), ["hello", "world"], {
+        title: "functions as identity when item type is primitive",
     });
 
-    describe("json()", () => {
-        it("functions as identity with primitives", () => {
-            const schema = list(string());
-            const raw: string[] = schema.json(["hello", "world"]);
-            expect(raw).toEqual(["hello", "world"]);
+    describe("compile", () => {
+        describe("parse()", () => {
+            // eslint-disable-next-line jest/expect-expect
+            it("doesn't compile with invalid items as input", () => {
+                const schema = list(string());
+
+                // @ts-expect-error
+                () => schema.parse([42]);
+            });
+
+            // eslint-disable-next-line jest/expect-expect
+            it("doesn't compile with non-list as input", () => {
+                const schema = list(string());
+
+                // @ts-expect-error
+                () => schema.parse(42);
+            });
         });
 
-        it("fails with invalid items as input", () => {
-            const schema = list(string());
+        describe("json()", () => {
+            // eslint-disable-next-line jest/expect-expect
+            it("doesn't compile with invalid items as input", () => {
+                const schema = list(string());
 
-            // @ts-expect-error
-            schema.json([42]);
+                // @ts-expect-error
+                () => schema.json([42]);
+            });
+
+            // eslint-disable-next-line jest/expect-expect
+            it("doesn't compile with non-list as input", () => {
+                const schema = list(string());
+
+                // @ts-expect-error
+                () => schema.json(42);
+            });
         });
     });
 });

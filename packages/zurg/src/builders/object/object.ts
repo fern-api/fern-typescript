@@ -7,7 +7,7 @@ import { inferParsedObject, inferRawObject, ObjectSchema, PropertySchemas } from
 
 interface ObjectPropertyWithRawKey {
     rawKey: string;
-    parsedKey: string;
+    parsedKey: string | number | symbol;
     valueSchema: Schema<any, any>;
 }
 
@@ -17,7 +17,7 @@ export function object<T extends PropertySchemas<T>>(
     const baseSchema: BaseObjectLikeSchema<inferRawObject<T>, inferParsedObject<T>> = {
         ...OBJECT_LIKE_BRAND,
 
-        parse: (raw, { includeUnknownKeys = false } = {}) => {
+        parse: (raw, { skipUnknownKeys = false } = {}) => {
             const rawKeyToProperty: Record<string, ObjectPropertyWithRawKey> = {};
 
             for (const [parsedKey, schemaOrObjectProperty] of entries(schemas)) {
@@ -25,7 +25,7 @@ export function object<T extends PropertySchemas<T>>(
 
                 const property: ObjectPropertyWithRawKey = {
                     rawKey,
-                    parsedKey: rawKey,
+                    parsedKey,
                     valueSchema: isProperty(schemaOrObjectProperty)
                         ? schemaOrObjectProperty.valueSchema
                         : schemaOrObjectProperty,
@@ -34,37 +34,36 @@ export function object<T extends PropertySchemas<T>>(
                 rawKeyToProperty[rawKey] = property;
             }
 
-            const parsed: Record<string, any> = {};
+            const parsed: Record<string | number | symbol, any> = {};
 
             for (const [rawKey, rawPropertyValue] of Object.entries(raw)) {
                 const property = rawKeyToProperty[rawKey];
 
-                if (property == null) {
-                    if (includeUnknownKeys) {
-                        parsed[rawKey] = rawPropertyValue;
-                    }
-                } else {
-                    parsed[property.rawKey] = property.valueSchema.parse(rawPropertyValue);
+                if (property != null) {
+                    parsed[property.parsedKey] = property.valueSchema.parse(rawPropertyValue);
+                } else if (!skipUnknownKeys) {
+                    parsed[rawKey] = rawPropertyValue;
                 }
             }
 
             return parsed as inferParsedObject<T>;
         },
 
-        json: (parsed, { includeUnknownKeys = false } = {}) => {
+        json: (parsed, { skipUnknownKeys = false } = {}) => {
             const raw: Record<string | number | symbol, any> = {};
 
             for (const [parsedKey, parsedPropertyValue] of entries(parsed)) {
                 const schemaOrObjectProperty = schemas[parsedKey as keyof T];
                 // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-                if (schemaOrObjectProperty == null) {
-                    if (includeUnknownKeys) {
-                        raw[parsedKey] = parsedPropertyValue;
+                if (schemaOrObjectProperty != null) {
+                    if (isProperty(schemaOrObjectProperty)) {
+                        raw[schemaOrObjectProperty.rawKey] =
+                            schemaOrObjectProperty.valueSchema.json(parsedPropertyValue);
+                    } else {
+                        raw[parsedKey] = schemaOrObjectProperty.json(parsedPropertyValue);
                     }
-                } else if (isProperty(schemaOrObjectProperty)) {
-                    raw[schemaOrObjectProperty.rawKey] = schemaOrObjectProperty.valueSchema.json(parsedPropertyValue);
-                } else {
-                    raw[parsedKey] = schemaOrObjectProperty.json(parsedPropertyValue);
+                } else if (!skipUnknownKeys) {
+                    raw[parsedKey] = parsedPropertyValue;
                 }
             }
 

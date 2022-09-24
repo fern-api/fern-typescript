@@ -2,7 +2,7 @@ import { BaseSchema, Schema } from "../../Schema";
 import { getSchemaUtils } from "../../SchemaUtils";
 import { entries } from "../../utils/entries";
 
-export function record<RawKey extends string, ParsedKey extends string, RawValue, ParsedValue>(
+export function record<RawKey extends string | number, ParsedKey extends string | number, RawValue, ParsedValue>(
     keySchema: Schema<RawKey, ParsedKey>,
     valueSchema: Schema<RawValue, ParsedValue>
 ): Schema<Record<RawKey, RawValue>, Record<ParsedKey, ParsedValue>> {
