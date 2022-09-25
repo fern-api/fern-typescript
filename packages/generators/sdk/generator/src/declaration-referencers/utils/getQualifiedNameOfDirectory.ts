@@ -1,21 +1,21 @@
-import { ExportedDirectory, ExportedFilePath } from "../../exports-manager/ExportedFilePath";
+import { ExportedDirectory } from "../../exports-manager/ExportedFilePath";
 
-export declare namespace getQualifiedNameOfContainingDirectory {
+export declare namespace getQualifiedNameOfDirectory {
     export interface Args<QualifiedName> {
         convertToQualifiedName: (value: string) => QualifiedName;
         constructQualifiedName: (left: QualifiedName, right: string) => QualifiedName;
-        pathToFile: ExportedFilePath;
+        pathToDirectory: ExportedDirectory[];
         prefix?: QualifiedName;
     }
 }
 
-export function getQualifiedNameOfContainingDirectory<QualifiedName>({
-    pathToFile,
+export function getQualifiedNameOfDirectory<QualifiedName>({
+    pathToDirectory,
     convertToQualifiedName,
     constructQualifiedName,
     prefix,
-}: getQualifiedNameOfContainingDirectory.Args<QualifiedName>): QualifiedName {
-    const { initial, remainingDirectories } = splitQualifieidName({ convertToQualifiedName, prefix, pathToFile });
+}: getQualifiedNameOfDirectory.Args<QualifiedName>): QualifiedName {
+    const { initial, remainingDirectories } = splitQualifieidName({ convertToQualifiedName, prefix, pathToDirectory });
 
     return remainingDirectories.reduce<QualifiedName>((qualifiedReference, directory) => {
         if (directory.exportDeclaration?.namespaceExport != null) {
@@ -27,25 +27,23 @@ export function getQualifiedNameOfContainingDirectory<QualifiedName>({
 
 function splitQualifieidName<QualifiedName>({
     convertToQualifiedName,
-    pathToFile,
+    pathToDirectory,
     prefix,
 }: {
     convertToQualifiedName: (value: string) => QualifiedName;
-    pathToFile: ExportedFilePath;
+    pathToDirectory: ExportedDirectory[];
     prefix?: QualifiedName;
 }): { initial: QualifiedName; remainingDirectories: ExportedDirectory[] } {
     if (prefix != null) {
-        return { initial: prefix, remainingDirectories: pathToFile.directories };
+        return { initial: prefix, remainingDirectories: pathToDirectory };
     }
 
-    const [first, ...rest] = pathToFile.directories;
+    const [first, ...rest] = pathToDirectory;
     if (first == null) {
-        throw new Error("Cannot get qualified name because path is empty: " + pathToFile.file.nameOnDisk);
+        throw new Error("Cannot get qualified name because path is empty");
     }
     if (first.exportDeclaration?.namespaceExport == null) {
-        throw new Error(
-            "Cannot get qualified name because path is not namespace-exported: " + pathToFile.file.nameOnDisk
-        );
+        throw new Error("Cannot get qualified name because path is not namespace-exported");
     }
 
     return { initial: convertToQualifiedName(first.exportDeclaration.namespaceExport), remainingDirectories: rest };

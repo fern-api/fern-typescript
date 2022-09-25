@@ -2,10 +2,10 @@ import { DeclaredErrorName, ErrorDeclaration } from "@fern-fern/ir-model/errors"
 import { FernConstants } from "@fern-fern/ir-model/ir";
 import { DeclaredServiceName } from "@fern-fern/ir-model/services/commons";
 import { HttpService } from "@fern-fern/ir-model/services/http";
-import { ResolvedTypeReference, TypeReference } from "@fern-fern/ir-model/types";
+import { DeclaredTypeName, ResolvedTypeReference, TypeReference } from "@fern-fern/ir-model/types";
 import { WrapperName } from "@fern-typescript/commons-v2";
 import { SourceFile } from "ts-morph";
-import { CoreUtilities } from "./core-utilities";
+import { CoreUtilities, Zurg } from "./core-utilities";
 import { ExternalDependencies } from "./external-dependencies/ExternalDependencies";
 import { ParsedAuthSchemes } from "./ParsedAuthSchemes";
 import { Reference } from "./Reference";
@@ -23,6 +23,7 @@ export interface SdkFile {
     getServiceDeclaration: (serviceName: DeclaredServiceName) => HttpService;
     getReferenceToService: (serviceName: DeclaredServiceName, options: { importAlias: string }) => Reference;
     getReferenceToWrapper: (wrapperName: WrapperName, options: { importAlias: string }) => Reference;
+    getReferenceToSchema: (typeName: DeclaredTypeName) => Zurg.Schema;
     externalDependencies: ExternalDependencies;
     coreUtilities: CoreUtilities;
     authSchemes: ParsedAuthSchemes;

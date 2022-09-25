@@ -5,9 +5,9 @@ import { generateObjectType } from "@fern-typescript/types-v2";
 import { ts } from "ts-morph";
 
 export const ErrorDeclarationHandler: SdkDeclarationHandler<ErrorDeclaration> = {
-    run: async (errorDeclaration, { file }) => {
+    run: async (errorDeclaration, { file, exportedName }) => {
         generateObjectType({
-            typeName: file.sourceFile.getBaseNameWithoutExtension(),
+            typeName: exportedName,
             docs: errorDeclaration.docs,
             file,
             shape: getErrorShapeWithoutAdditionalProperties(errorDeclaration, file),

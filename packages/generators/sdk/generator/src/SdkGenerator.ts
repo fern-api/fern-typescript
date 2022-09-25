@@ -2,6 +2,7 @@ import { AbsoluteFilePath } from "@fern-api/core-utils";
 import { IntermediateRepresentation } from "@fern-fern/ir-model/ir";
 import { TypeReference } from "@fern-fern/ir-model/types";
 import { ErrorResolver, ServiceResolver, TypeResolver } from "@fern-typescript/resolvers";
+import { SchemaGenerator } from "@fern-typescript/schema-generator";
 import { GeneratorContext, SdkFile } from "@fern-typescript/sdk-declaration-handler";
 import { ErrorDeclarationHandler } from "@fern-typescript/sdk-errors";
 import { ServiceDeclarationHandler, WrapperDeclarationHandler } from "@fern-typescript/sdk-service-declaration-handler";
@@ -11,6 +12,7 @@ import { Directory, Project } from "ts-morph";
 import { constructWrapperDeclarations } from "./constructWrapperDeclarations";
 import { CoreUtilitiesManager } from "./core-utilities/CoreUtilitiesManager";
 import { ErrorDeclarationReferencer } from "./declaration-referencers/ErrorDeclarationReferencer";
+import { SchemaDeclarationReferencer } from "./declaration-referencers/SchemaDeclarationReferencer";
 import { ServiceDeclarationReferencer } from "./declaration-referencers/ServiceDeclarationReferencer";
 import { TypeDeclarationReferencer } from "./declaration-referencers/TypeDeclarationReferencer";
 import { getReferenceToExportFromRoot } from "./declaration-referencers/utils/getReferenceToExportFromRoot";
@@ -53,6 +55,7 @@ export class SdkGenerator {
     private serviceResolver: ServiceResolver;
 
     private typeDeclarationReferencer: TypeDeclarationReferencer;
+    private schemaDeclarationReferencer: SchemaDeclarationReferencer;
     private errorDeclarationReferencer: ErrorDeclarationReferencer;
     private serviceDeclarationReferencer: ServiceDeclarationReferencer;
     private wrapperDeclarationReferencer: WrapperDeclarationReferencer;
@@ -83,6 +86,9 @@ export class SdkGenerator {
         this.typeDeclarationReferencer = new TypeDeclarationReferencer({
             containingDirectory: apiDirectory,
         });
+        this.schemaDeclarationReferencer = new SchemaDeclarationReferencer({
+            containingDirectory: [{ nameOnDisk: "schemas" }],
+        });
         this.errorDeclarationReferencer = new ErrorDeclarationReferencer({
             containingDirectory: apiDirectory,
         });
@@ -109,6 +115,7 @@ export class SdkGenerator {
         await this.generateErrorDeclarations();
         await this.generateServiceDeclarations();
         await this.generateWrappers();
+        this.coreUtilitiesManager.addExports(this.exportsManager);
         this.exportsManager.writeExportsToProject(this.rootDirectory);
         for (const sourceFile of this.rootDirectory.getSourceFiles()) {
             sourceFile.formatText();
@@ -127,6 +134,18 @@ export class SdkGenerator {
                 run: async (file) => {
                     await TypeDeclarationHandler.run(typeDeclaration, {
                         file,
+                        exportedName: this.typeDeclarationReferencer.getExportedName(typeDeclaration.name),
+                        context: this.context,
+                    });
+                },
+            });
+
+            await this.withFile({
+                filepath: this.schemaDeclarationReferencer.getExportedFilepath(typeDeclaration.name),
+                run: async (file) => {
+                    await SchemaGenerator.run(typeDeclaration, {
+                        file,
+                        exportedName: this.schemaDeclarationReferencer.getExportedName(typeDeclaration.name),
                         context: this.context,
                     });
                 },
@@ -141,6 +160,7 @@ export class SdkGenerator {
                 run: async (file) => {
                     await ErrorDeclarationHandler.run(errorDeclaration, {
                         file,
+                        exportedName: this.errorDeclarationReferencer.getExportedName(errorDeclaration.name),
                         context: this.context,
                     });
                 },
@@ -155,6 +175,7 @@ export class SdkGenerator {
                 run: async (file) => {
                     await ServiceDeclarationHandler.run(serviceDeclaration, {
                         file,
+                        exportedName: this.serviceDeclarationReferencer.getExportedName(),
                         context: this.context,
                     });
                 },
@@ -170,6 +191,7 @@ export class SdkGenerator {
                 run: async (file) => {
                     await WrapperDeclarationHandler.run(wrapperDeclaration, {
                         file,
+                        exportedName: this.wrapperDeclarationReferencer.getExportedName(wrapperDeclaration.name),
                         context: this.context,
                     });
                 },
@@ -240,6 +262,12 @@ export class SdkGenerator {
                 }),
             externalDependencies,
             coreUtilities: this.coreUtilitiesManager.getCoreUtilities({ sourceFile, addImport }),
+            getReferenceToSchema: (typeName) =>
+                this.schemaDeclarationReferencer.getReferenceTo(typeName, {
+                    importStrategy: { type: "direct" },
+                    addImport,
+                    referencedIn: sourceFile,
+                }),
             addDependency,
             authSchemes: parseAuthSchemes({
                 apiAuth: this.intermediateRepresentation.auth,

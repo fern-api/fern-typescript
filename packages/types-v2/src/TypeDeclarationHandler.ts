@@ -6,9 +6,7 @@ import { generateObjectType } from "./generateObjectType";
 import { generateUnionType } from "./union/generateUnionType";
 
 export const TypeDeclarationHandler: SdkDeclarationHandler<TypeDeclaration> = {
-    run: async (typeDeclaration, { file }) => {
-        const typeName = file.sourceFile.getBaseNameWithoutExtension();
-
+    run: async (typeDeclaration, { file, exportedName: typeName }) => {
         Type._visit(typeDeclaration.shape, {
             object: (objectTypeDeclaration) => {
                 generateObjectType({

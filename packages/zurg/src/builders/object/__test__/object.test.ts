@@ -120,24 +120,16 @@ describe("object", () => {
         );
     });
 
-    describe("withProperties", () => {
-        it("Added property is included on parsed object", () => {
-            const schema = object({
-                foo: property("raw_foo", string()),
-                bar: stringLiteral("bar"),
-            }).withProperties((parsed) => ({
-                printFoo: () => parsed.foo,
-            }));
-
-            const parsed = schema.parse({ raw_foo: "value of foo", bar: "bar" });
-            expect(parsed.printFoo()).toBe("value of foo");
-        });
-    });
-
     describe("compile", () => {
+        // eslint-disable-next-line jest/expect-expect
+        it("doesn't compile with non-object in schema", () => {
+            // @ts-expect-error
+            object([]);
+        });
+
         describe("parse()", () => {
             // eslint-disable-next-line jest/expect-expect
-            it("doesn't compile with missing property", () => {
+            it("doesn't compile with missing property in input", () => {
                 const schema = object({
                     foo: string(),
                     bar: stringLiteral("bar"),
@@ -148,7 +140,7 @@ describe("object", () => {
             });
 
             // eslint-disable-next-line jest/expect-expect
-            it("doesn't compile with extra property", () => {
+            it("doesn't compile with extra property in input", () => {
                 const schema = object({
                     foo: string(),
                     bar: stringLiteral("bar"),
@@ -177,7 +169,7 @@ describe("object", () => {
 
         describe("json()", () => {
             // eslint-disable-next-line jest/expect-expect
-            it("doesn't compile with missing property", () => {
+            it("doesn't compile with missing property in input", () => {
                 const schema = object({
                     foo: string(),
                     bar: stringLiteral("bar"),
@@ -188,7 +180,7 @@ describe("object", () => {
             });
 
             // eslint-disable-next-line jest/expect-expect
-            it("doesn't compile with extra property", () => {
+            it("doesn't compile with extra property in input", () => {
                 const schema = object({
                     foo: string(),
                     bar: stringLiteral("bar"),
@@ -204,7 +196,7 @@ describe("object", () => {
             });
 
             // eslint-disable-next-line jest/expect-expect
-            it("doesn't compile with non-object as input", () => {
+            it("doesn't compile with non-object as input in input", () => {
                 const schema = object({
                     foo: string(),
                     bar: stringLiteral("bar"),

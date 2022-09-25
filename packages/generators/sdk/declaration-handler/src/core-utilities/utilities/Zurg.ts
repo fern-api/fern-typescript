@@ -1,21 +1,32 @@
 import { ts } from "ts-morph";
 
 export interface Zurg {
-    object: (properties: Zurg.Property[]) => Zurg.ObjectLikeSchema;
+    object: (properties: Zurg.Property[]) => Zurg.ObjectSchema;
+    union: (args: Zurg.union.Args) => Zurg.ObjectLikeSchema;
     list: (itemSchema: Zurg.Schema) => Zurg.Schema;
-    string: () => void;
-    number: () => void;
-    boolean: () => void;
+    enum: (values: string[]) => Zurg.Schema;
+    string: () => Zurg.Schema;
+    stringLiteral: (parsedValue: string) => Zurg.Schema;
+    number: () => Zurg.Schema;
+    boolean: () => Zurg.Schema;
 }
 
 export declare namespace Zurg {
     interface Schema {
-        parse: () => ts.TypeNode;
-        json: () => ts.TypeNode;
+        toExpression: () => ts.Expression;
     }
 
     interface ObjectLikeSchema extends Schema {
-        withProperties: (properties: Record<string, AdditionalPropertyValueGetter>) => Zurg.Schema;
+        withProperties: (properties: Zurg.AdditionalProperty[]) => Zurg.ObjectLikeSchema;
+    }
+
+    interface AdditionalProperty {
+        key: string;
+        getValue: (args: { getReferenceToParsed: () => ts.Expression }) => ts.Expression;
+    }
+
+    interface ObjectSchema extends ObjectLikeSchema {
+        extend: (extension: Zurg.Schema) => ObjectSchema;
     }
 
     interface Property {
@@ -26,8 +37,16 @@ export declare namespace Zurg {
         value: Schema;
     }
 
-    type AdditionalPropertyValueGetter = (args: {
-        property: string;
-        getReferenceToParsed: () => ts.Expression;
-    }) => ts.Expression;
+    namespace union {
+        interface Args {
+            parsedDiscriminant: string;
+            rawDiscriminant: string;
+            singleUnionType: Zurg.union.SingleUnionType[];
+        }
+
+        interface SingleUnionType {
+            discriminantValue: string;
+            properties: Zurg.Property[];
+        }
+    }
 }

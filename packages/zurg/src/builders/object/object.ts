@@ -11,9 +11,7 @@ interface ObjectPropertyWithRawKey {
     valueSchema: Schema<any, any>;
 }
 
-export function object<T extends PropertySchemas<T>>(
-    schemas: T
-): ObjectSchema<inferRawObject<T>, inferParsedObject<T>> {
+export function object<ParsedKeys extends string, T extends PropertySchemas<ParsedKeys>>(schemas: T): ObjectSchema<T> {
     const baseSchema: BaseObjectLikeSchema<inferRawObject<T>, inferParsedObject<T>> = {
         ...OBJECT_LIKE_BRAND,
 
@@ -75,5 +73,11 @@ export function object<T extends PropertySchemas<T>>(
         ...baseSchema,
         ...getSchemaUtils(baseSchema),
         ...getObjectLikeProperties(baseSchema),
+        properties: schemas,
+        extend: <U extends PropertySchemas<keyof U>>(extension: U) =>
+            object({
+                ...schemas,
+                ...extension,
+            }) as unknown as Schema<inferRawObject<T> & inferRawObject<U>, inferParsedObject<T> & inferParsedObject<U>>,
     };
 }

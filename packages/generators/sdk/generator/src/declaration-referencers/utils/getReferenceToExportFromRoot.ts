@@ -9,8 +9,8 @@ import {
 import { ImportDeclaration } from "../../imports-manager/ImportsManager";
 import { ModuleSpecifier } from "../../utils/ModuleSpecifier";
 import { getDirectReferenceToExport } from "./getDirectReferenceToExport";
-import { getEntityNameOfContainingDirectory } from "./getEntityNameOfContainingDirectory";
-import { getExpressionToContainingDirectory } from "./getExpressionToContainingDirectory";
+import { getEntityNameOfDirectory } from "./getEntityNameOfDirectory";
+import { getExpressionToDirectory } from "./getExpressionToDirectory";
 
 export declare namespace getReferenceToExportFromRoot {
     export interface Args {
@@ -60,14 +60,9 @@ export function getReferenceToExportFromRoot({
         namedImports: [firstDirectoryInsideNamespaceExport.exportDeclaration.namespaceExport],
     });
 
-    const pathToFileInsideNamespaceExport: ExportedFilePath = {
-        directories: directoriesInsideNamespaceExport,
-        file: exportedFromPath.file,
-    };
-
     const entityName = ts.factory.createQualifiedName(
-        getEntityNameOfContainingDirectory({
-            pathToFile: pathToFileInsideNamespaceExport,
+        getEntityNameOfDirectory({
+            pathToDirectory: directoriesInsideNamespaceExport,
         }),
         exportedName
     );
@@ -76,8 +71,8 @@ export function getReferenceToExportFromRoot({
         typeNode: ts.factory.createTypeReferenceNode(entityName),
         entityName,
         expression: ts.factory.createPropertyAccessExpression(
-            getExpressionToContainingDirectory({
-                pathToFile: pathToFileInsideNamespaceExport,
+            getExpressionToDirectory({
+                pathToDirectory: directoriesInsideNamespaceExport,
             }),
             exportedName
         ),

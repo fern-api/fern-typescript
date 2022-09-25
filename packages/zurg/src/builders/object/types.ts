@@ -2,15 +2,28 @@ import { inferParsed, inferRaw, Schema } from "../../Schema";
 import { ObjectLikeSchema } from "./ObjectLikeSchema";
 import { Property } from "./property";
 
-export type ObjectSchema<Raw, Parsed> = ObjectLikeSchema<Raw, Parsed>;
+export type ObjectSchema<T extends PropertySchemas<keyof T>> = ObjectLikeSchema<
+    inferRawObject<T>,
+    inferParsedObject<T>
+> & {
+    properties: T;
+    extend: <U extends PropertySchemas<keyof U>>(
+        schemas: U
+    ) => Schema<inferRawObject<T> & inferRawObject<U>, inferParsedObject<T> & inferParsedObject<U>>;
+};
 
-export type inferRawObject<T extends PropertySchemas<T>> = {
+export type inferRawObject<T extends PropertySchemas<keyof T>> = {
     [ParsedKey in keyof T as inferRawKey<ParsedKey, T[ParsedKey]>]: inferRawPropertySchema<T[ParsedKey]>;
 };
 
-export type inferParsedObject<T extends PropertySchemas<T>> = { [K in keyof T]: inferParsedPropertySchema<T[K]> };
+export type inferParsedObject<T extends PropertySchemas<keyof T>> = {
+    [K in keyof T]: inferParsedPropertySchema<T[K]>;
+};
 
-export type PropertySchemas<T> = { [ParsedKey in keyof T]: Property<any, any, any> | Schema<any, any> };
+export type PropertySchemas<ParsedKeys extends string | number | symbol> = Record<
+    ParsedKeys,
+    Property<any, any, any> | Schema<any, any>
+>;
 
 export type inferRawPropertySchema<P extends Property<any, any, any> | Schema<any, any>> = P extends Property<
     any,
