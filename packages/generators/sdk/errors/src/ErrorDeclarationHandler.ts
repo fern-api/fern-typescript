@@ -2,20 +2,36 @@ import { ErrorDeclaration } from "@fern-fern/ir-model/errors";
 import { ObjectTypeDeclaration } from "@fern-fern/ir-model/types";
 import { SdkDeclarationHandler, SdkFile } from "@fern-typescript/sdk-declaration-handler";
 import { generateObjectType } from "@fern-typescript/types-v2";
-import { ts } from "ts-morph";
 
-export const ErrorDeclarationHandler: SdkDeclarationHandler<ErrorDeclaration> = {
-    run: async (errorDeclaration, { file, exportedName }) => {
+export declare namespace ErrorDeclarationHandler {
+    export interface Args extends Omit<SdkDeclarationHandler.Args, "file"> {
+        errorFile: SdkFile;
+        schemaFile: SdkFile;
+    }
+}
+
+export const ErrorDeclarationHandler: SdkDeclarationHandler<ErrorDeclaration, ErrorDeclarationHandler.Args> = {
+    run: async (errorDeclaration, { errorFile, schemaFile, exportedName }) => {
         generateObjectType({
             typeName: exportedName,
             docs: errorDeclaration.docs,
-            file,
-            shape: getErrorShapeWithoutAdditionalProperties(errorDeclaration, file),
-            additionalProperties: {
-                [file.fernConstants.errorDiscriminant]: ts.factory.createLiteralTypeNode(
-                    ts.factory.createStringLiteral(errorDeclaration.discriminantValue.wireValue)
-                ),
-            },
+            typeFile: errorFile,
+            schemaFile,
+            shape: getErrorShapeWithoutAdditionalProperties(errorDeclaration, errorFile),
+            additionalProperties: [
+                {
+                    docs: undefined,
+                    key: {
+                        raw: errorFile.fernConstants.errorDiscriminant,
+                        parsed: errorFile.fernConstants.errorDiscriminant,
+                    },
+                    value: {
+                        type: "literal",
+                        literal: errorDeclaration.discriminantValue.wireValue,
+                        isOptional: false,
+                    },
+                },
+            ],
         });
     },
 };

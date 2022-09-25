@@ -9,7 +9,6 @@
     { "path": "../../../types-v2" },
     { "path": "../declaration-handler" },
     { "path": "../errors" },
-    { "path": "../schema-generator" },
     { "path": "../service-declaration-handler" }
   ]
 }

@@ -1,11 +1,6 @@
-import { getSchemaUtils } from "../../SchemaUtils";
 import { object } from "../object";
-import {
-    BaseObjectLikeSchema,
-    getObjectLikeProperties,
-    ObjectLikeSchema,
-    OBJECT_LIKE_BRAND,
-} from "../object/ObjectLikeSchema";
+import { BaseObjectLikeSchema, getObjectLikeProperties, ObjectLikeSchema, OBJECT_LIKE_BRAND } from "../object-like";
+import { getSchemaUtils } from "../schema-utils";
 import { Discriminant } from "./discriminant";
 import { inferParsedDiscriminant, inferParsedUnion, inferRawDiscriminant, inferRawUnion, UnionSubtypes } from "./types";
 
@@ -30,7 +25,7 @@ export function union<D extends string | Discriminant<any, any>, U extends Union
             // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
             if (additionalPropertySchemas == null) {
                 return {
-                    ...raw,
+                    ...additionalProperties,
                     [parsedDiscriminant]: discriminantValue,
                 } as inferParsedUnion<D, U>;
             }
@@ -47,7 +42,10 @@ export function union<D extends string | Discriminant<any, any>, U extends Union
 
             // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
             if (additionalPropertySchemas == null) {
-                return parsed as inferRawUnion<D, U>;
+                return {
+                    ...additionalProperties,
+                    [rawDiscriminant]: discriminantValue,
+                } as inferRawUnion<D, U>;
             }
 
             return {

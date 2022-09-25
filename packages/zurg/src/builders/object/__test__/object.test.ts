@@ -31,9 +31,9 @@ describe("object", () => {
         }
     );
 
-    describe("unknown keys", () => {
-        itSchema(
-            "keeps unknown keys by default",
+    describe("skipUnknownKeysOnParse", () => {
+        itParse(
+            "includes unknown keys by default",
             object({
                 foo: property("raw_foo", string()),
                 bar: stringLiteral("bar"),
@@ -51,34 +51,36 @@ describe("object", () => {
                     // @ts-expect-error
                     baz: "yoyo",
                 },
-            }
-        );
-
-        itSchema(
-            "keeps unknown values by when skipUnknownKeys == false",
-            object({
-                foo: property("raw_foo", string()),
-                bar: stringLiteral("bar"),
-            }),
-            {
-                raw: {
-                    raw_foo: "foo",
-                    bar: "bar",
-                    // @ts-expect-error
-                    baz: "yoyo",
-                },
-                parsed: {
-                    foo: "foo",
-                    bar: "bar",
-                    // @ts-expect-error
-                    baz: "yoyo",
-                },
-                opts: { skipUnknownKeys: false },
             }
         );
 
         itParse(
-            "parse() skips unknown values by when skipUnknownKeys == true",
+            "includes unknown values by when skipUnknownKeysOnParse === false",
+            object({
+                foo: property("raw_foo", string()),
+                bar: stringLiteral("bar"),
+            }),
+            {
+                raw: {
+                    raw_foo: "foo",
+                    bar: "bar",
+                    // @ts-expect-error
+                    baz: "yoyo",
+                },
+                parsed: {
+                    foo: "foo",
+                    bar: "bar",
+                    // @ts-expect-error
+                    baz: "yoyo",
+                },
+                opts: {
+                    skipUnknownKeysOnParse: false,
+                },
+            }
+        );
+
+        itParse(
+            "skip unknown values by when skipUnknownKeysOnParse === true",
             object({
                 foo: property("raw_foo", string()),
                 bar: stringLiteral("bar"),
@@ -94,12 +96,36 @@ describe("object", () => {
                     foo: "foo",
                     bar: "bar",
                 },
-                opts: { skipUnknownKeys: true },
+                opts: {
+                    skipUnknownKeysOnParse: true,
+                },
+            }
+        );
+    });
+
+    describe("includeUnknownKeysOnJson", () => {
+        itJson(
+            "skips unknown keys by default",
+            object({
+                foo: property("raw_foo", string()),
+                bar: stringLiteral("bar"),
+            }),
+            {
+                raw: {
+                    raw_foo: "foo",
+                    bar: "bar",
+                },
+                parsed: {
+                    foo: "foo",
+                    bar: "bar",
+                    // @ts-expect-error
+                    baz: "yoyo",
+                },
             }
         );
 
         itJson(
-            "json() skips unknown values by when skipUnknownKeys == true",
+            "skips unknown values by when includeUnknownKeysOnJson === false",
             object({
                 foo: property("raw_foo", string()),
                 bar: stringLiteral("bar"),
@@ -115,7 +141,34 @@ describe("object", () => {
                     // @ts-expect-error
                     baz: "yoyo",
                 },
-                opts: { skipUnknownKeys: true },
+                opts: {
+                    includeUnknownKeysOnJson: false,
+                },
+            }
+        );
+
+        itJson(
+            "includes unknown values by when includeUnknownKeysOnJson === true",
+            object({
+                foo: property("raw_foo", string()),
+                bar: stringLiteral("bar"),
+            }),
+            {
+                raw: {
+                    raw_foo: "foo",
+                    bar: "bar",
+                    // @ts-expect-error
+                    baz: "yoyo",
+                },
+                parsed: {
+                    foo: "foo",
+                    bar: "bar",
+                    // @ts-expect-error
+                    baz: "yoyo",
+                },
+                opts: {
+                    includeUnknownKeysOnJson: true,
+                },
             }
         );
     });

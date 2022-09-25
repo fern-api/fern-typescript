@@ -3,6 +3,7 @@ import { Reference } from "@fern-typescript/sdk-declaration-handler";
 import { SourceFile, ts } from "ts-morph";
 import {
     convertExportedDirectoryPathToFilePath,
+    convertExportedFilePathToFilePath,
     ExportedDirectory,
     ExportedFilePath,
 } from "../../exports-manager/ExportedFilePath";
@@ -18,6 +19,7 @@ export declare namespace getReferenceToExportFromRoot {
         exportedName: string;
         exportedFromPath: ExportedFilePath;
         addImport: (moduleSpecifier: ModuleSpecifier, importDeclaration: ImportDeclaration) => void;
+        namespaceImport?: string;
     }
 }
 
@@ -26,43 +28,62 @@ export function getReferenceToExportFromRoot({
     exportedFromPath,
     addImport,
     referencedIn,
+    namespaceImport,
 }: getReferenceToExportFromRoot.Args): Reference {
-    const directoryToImportDirectlyFrom: ExportedDirectory[] = [];
+    let prefix: ts.Identifier | undefined;
+    let directoriesInsideNamespaceExport: ExportedDirectory[];
 
-    // find the first namespace-exported directory
-    for (const directory of exportedFromPath.directories) {
-        if (directory.exportDeclaration?.namespaceExport != null) {
-            break;
-        }
-        directoryToImportDirectlyFrom.push(directory);
-    }
-
-    const directoriesInsideNamespaceExport = exportedFromPath.directories.slice(directoryToImportDirectlyFrom.length);
-    const firstDirectoryInsideNamespaceExport = directoriesInsideNamespaceExport[0];
-
-    // if there's no namespace exports in the directory path, then just import
-    // directly from the file
-    if (firstDirectoryInsideNamespaceExport?.exportDeclaration?.namespaceExport == null) {
-        return getDirectReferenceToExport({
-            exportedName,
-            exportedFromPath,
-            addImport,
+    if (exportedFromPath.directories[0]?.exportDeclaration?.namespaceExport == null && namespaceImport != null) {
+        const [firstDirectory, ...remainingDirectories] = exportedFromPath.directories;
+        const moduleSpecifier = getRelativePathAsModuleSpecifierTo(
             referencedIn,
-            importAlias: undefined,
+            firstDirectory != null
+                ? convertExportedDirectoryPathToFilePath([firstDirectory])
+                : convertExportedFilePathToFilePath(exportedFromPath)
+        );
+        addImport(moduleSpecifier, { namespaceImport });
+
+        prefix = ts.factory.createIdentifier(namespaceImport);
+        directoriesInsideNamespaceExport = remainingDirectories;
+    } else {
+        const directoryToImportDirectlyFrom: ExportedDirectory[] = [];
+
+        // find the first namespace-exported directory
+        for (const directory of exportedFromPath.directories) {
+            if (directory.exportDeclaration?.namespaceExport != null) {
+                break;
+            }
+            directoryToImportDirectlyFrom.push(directory);
+        }
+
+        directoriesInsideNamespaceExport = exportedFromPath.directories.slice(directoryToImportDirectlyFrom.length);
+        const firstDirectoryInsideNamespaceExport = directoriesInsideNamespaceExport[0];
+
+        // if there's no namespace exports in the directory path, then just import
+        // directly from the file
+        if (firstDirectoryInsideNamespaceExport?.exportDeclaration?.namespaceExport == null) {
+            return getDirectReferenceToExport({
+                exportedName,
+                exportedFromPath,
+                addImport,
+                referencedIn,
+                importAlias: undefined,
+            });
+        }
+
+        const moduleSpecifier = getRelativePathAsModuleSpecifierTo(
+            referencedIn,
+            convertExportedDirectoryPathToFilePath(directoryToImportDirectlyFrom)
+        );
+        addImport(moduleSpecifier, {
+            namedImports: [firstDirectoryInsideNamespaceExport.exportDeclaration.namespaceExport],
         });
     }
-
-    const moduleSpecifier = getRelativePathAsModuleSpecifierTo(
-        referencedIn,
-        convertExportedDirectoryPathToFilePath(directoryToImportDirectlyFrom)
-    );
-    addImport(moduleSpecifier, {
-        namedImports: [firstDirectoryInsideNamespaceExport.exportDeclaration.namespaceExport],
-    });
 
     const entityName = ts.factory.createQualifiedName(
         getEntityNameOfDirectory({
             pathToDirectory: directoriesInsideNamespaceExport,
+            prefix,
         }),
         exportedName
     );
@@ -73,6 +94,7 @@ export function getReferenceToExportFromRoot({
         expression: ts.factory.createPropertyAccessExpression(
             getExpressionToDirectory({
                 pathToDirectory: directoriesInsideNamespaceExport,
+                prefix,
             }),
             exportedName
         ),

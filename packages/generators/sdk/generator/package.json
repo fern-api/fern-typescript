@@ -30,7 +30,6 @@
     "@fern-typescript/commons": "workspace:*",
     "@fern-typescript/commons-v2": "workspace:*",
     "@fern-typescript/resolvers": "workspace:*",
-    "@fern-typescript/schema-generator": "workspace:*",
     "@fern-typescript/sdk-declaration-handler": "workspace:*",
     "@fern-typescript/sdk-errors": "workspace:*",
     "@fern-typescript/sdk-service-declaration-handler": "workspace:*",

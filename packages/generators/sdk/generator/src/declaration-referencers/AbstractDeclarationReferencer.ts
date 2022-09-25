@@ -41,6 +41,7 @@ export abstract class AbstractDeclarationReferencer<Name> implements Declaration
                     exportedFromPath: this.getExportedFilepath(name),
                     referencedIn,
                     addImport,
+                    namespaceImport: importStrategy.namespaceImport,
                 });
             default:
                 assertNever(importStrategy);

@@ -1,5 +1,5 @@
 import { inferParsed, inferRaw, Schema } from "../../Schema";
-import { ObjectLikeSchema } from "./ObjectLikeSchema";
+import { ObjectLikeSchema } from "../object-like";
 import { Property } from "./property";
 
 export type ObjectSchema<T extends PropertySchemas<keyof T>> = ObjectLikeSchema<

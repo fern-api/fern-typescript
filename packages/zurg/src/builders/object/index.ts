@@ -1,5 +1,4 @@
 export { object } from "./object";
-export { type BaseObjectLikeSchema, type ObjectLikeSchema, type ObjectLikeUtils } from "./ObjectLikeSchema";
 export { isProperty, property, type Property } from "./property";
 export {
     type inferParsedObject,

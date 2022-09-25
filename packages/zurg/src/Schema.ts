@@ -1,4 +1,4 @@
-import { SchemaUtils } from "./SchemaUtils";
+import { SchemaUtils } from "./builders";
 
 export type Schema<Raw = unknown, Parsed = unknown> = BaseSchema<Raw, Parsed> & SchemaUtils<Raw, Parsed>;
 
@@ -11,5 +11,13 @@ export interface BaseSchema<Raw, Parsed> {
 }
 
 export interface SchemaOptions {
-    skipUnknownKeys?: boolean;
+    /**
+     * @default false
+     */
+    skipUnknownKeysOnParse?: boolean;
+
+    /**
+     * @default false
+     */
+    includeUnknownKeysOnJson?: boolean;
 }

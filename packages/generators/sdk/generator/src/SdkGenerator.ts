@@ -1,8 +1,8 @@
 import { AbsoluteFilePath } from "@fern-api/core-utils";
 import { IntermediateRepresentation } from "@fern-fern/ir-model/ir";
-import { TypeReference } from "@fern-fern/ir-model/types";
+import { DeclaredTypeName, TypeReference } from "@fern-fern/ir-model/types";
+import { getReferenceToType } from "@fern-typescript/commons-v2";
 import { ErrorResolver, ServiceResolver, TypeResolver } from "@fern-typescript/resolvers";
-import { SchemaGenerator } from "@fern-typescript/schema-generator";
 import { GeneratorContext, SdkFile } from "@fern-typescript/sdk-declaration-handler";
 import { ErrorDeclarationHandler } from "@fern-typescript/sdk-errors";
 import { ServiceDeclarationHandler, WrapperDeclarationHandler } from "@fern-typescript/sdk-service-declaration-handler";
@@ -12,9 +12,10 @@ import { Directory, Project } from "ts-morph";
 import { constructWrapperDeclarations } from "./constructWrapperDeclarations";
 import { CoreUtilitiesManager } from "./core-utilities/CoreUtilitiesManager";
 import { ErrorDeclarationReferencer } from "./declaration-referencers/ErrorDeclarationReferencer";
-import { SchemaDeclarationReferencer } from "./declaration-referencers/SchemaDeclarationReferencer";
+import { ErrorSchemaDeclarationReferencer } from "./declaration-referencers/ErrorSchemaDeclarationReferencer";
 import { ServiceDeclarationReferencer } from "./declaration-referencers/ServiceDeclarationReferencer";
 import { TypeDeclarationReferencer } from "./declaration-referencers/TypeDeclarationReferencer";
+import { TypeSchemaDeclarationReferencer } from "./declaration-referencers/TypeSchemaDeclarationReferencer";
 import { getReferenceToExportFromRoot } from "./declaration-referencers/utils/getReferenceToExportFromRoot";
 import { WrapperDeclarationReferencer } from "./declaration-referencers/WrapperDeclarationReferencer";
 import { DependencyManager } from "./dependency-manager/DependencyManager";
@@ -26,7 +27,6 @@ import {
 import { ExportsManager } from "./exports-manager/ExportsManager";
 import { createExternalDependencies } from "./external-dependencies/createExternalDependencies";
 import { generateTypeScriptProject } from "./generate-ts-project/generateTypeScriptProject";
-import { getReferenceToType } from "./getReferenceToType";
 import { ImportsManager } from "./imports-manager/ImportsManager";
 import { parseAuthSchemes } from "./parseAuthSchemes";
 
@@ -55,8 +55,9 @@ export class SdkGenerator {
     private serviceResolver: ServiceResolver;
 
     private typeDeclarationReferencer: TypeDeclarationReferencer;
-    private schemaDeclarationReferencer: SchemaDeclarationReferencer;
+    private typeSchemaDeclarationReferencer: TypeSchemaDeclarationReferencer;
     private errorDeclarationReferencer: ErrorDeclarationReferencer;
+    private errorSchemaDeclarationReferencer: ErrorSchemaDeclarationReferencer;
     private serviceDeclarationReferencer: ServiceDeclarationReferencer;
     private wrapperDeclarationReferencer: WrapperDeclarationReferencer;
 
@@ -82,15 +83,30 @@ export class SdkGenerator {
         this.errorResolver = new ErrorResolver(intermediateRepresentation);
         this.serviceResolver = new ServiceResolver(intermediateRepresentation);
 
-        const apiDirectory = [this.getApiDirectory()];
+        const apiDirectory: ExportedDirectory[] = [
+            {
+                nameOnDisk: "api",
+                exportDeclaration: { namespaceExport: this.apiName },
+            },
+        ];
+
+        const schemaDirectory: ExportedDirectory[] = [
+            {
+                nameOnDisk: "schemas",
+            },
+        ];
+
         this.typeDeclarationReferencer = new TypeDeclarationReferencer({
             containingDirectory: apiDirectory,
         });
-        this.schemaDeclarationReferencer = new SchemaDeclarationReferencer({
-            containingDirectory: [{ nameOnDisk: "schemas" }],
+        this.typeSchemaDeclarationReferencer = new TypeSchemaDeclarationReferencer({
+            containingDirectory: schemaDirectory,
         });
         this.errorDeclarationReferencer = new ErrorDeclarationReferencer({
             containingDirectory: apiDirectory,
+        });
+        this.errorSchemaDeclarationReferencer = new ErrorSchemaDeclarationReferencer({
+            containingDirectory: schemaDirectory,
         });
         this.serviceDeclarationReferencer = new ServiceDeclarationReferencer({
             containingDirectory: apiDirectory,
@@ -131,22 +147,17 @@ export class SdkGenerator {
         for (const typeDeclaration of this.intermediateRepresentation.types) {
             await this.withFile({
                 filepath: this.typeDeclarationReferencer.getExportedFilepath(typeDeclaration.name),
-                run: async (file) => {
-                    await TypeDeclarationHandler.run(typeDeclaration, {
-                        file,
-                        exportedName: this.typeDeclarationReferencer.getExportedName(typeDeclaration.name),
-                        context: this.context,
-                    });
-                },
-            });
-
-            await this.withFile({
-                filepath: this.schemaDeclarationReferencer.getExportedFilepath(typeDeclaration.name),
-                run: async (file) => {
-                    await SchemaGenerator.run(typeDeclaration, {
-                        file,
-                        exportedName: this.schemaDeclarationReferencer.getExportedName(typeDeclaration.name),
-                        context: this.context,
+                run: async (typeFile) => {
+                    await this.withFile({
+                        filepath: this.typeSchemaDeclarationReferencer.getExportedFilepath(typeDeclaration.name),
+                        run: async (schemaFile) => {
+                            await TypeDeclarationHandler.run(typeDeclaration, {
+                                typeFile,
+                                schemaFile,
+                                exportedName: this.typeDeclarationReferencer.getExportedName(typeDeclaration.name),
+                                context: this.context,
+                            });
+                        },
                     });
                 },
             });
@@ -157,11 +168,17 @@ export class SdkGenerator {
         for (const errorDeclaration of this.intermediateRepresentation.errors) {
             await this.withFile({
                 filepath: this.errorDeclarationReferencer.getExportedFilepath(errorDeclaration.name),
-                run: async (file) => {
-                    await ErrorDeclarationHandler.run(errorDeclaration, {
-                        file,
-                        exportedName: this.errorDeclarationReferencer.getExportedName(errorDeclaration.name),
-                        context: this.context,
+                run: async (errorFile) => {
+                    await this.withFile({
+                        filepath: this.errorSchemaDeclarationReferencer.getExportedFilepath(errorDeclaration.name),
+                        run: async (schemaFile) => {
+                            await ErrorDeclarationHandler.run(errorDeclaration, {
+                                errorFile,
+                                schemaFile,
+                                exportedName: this.errorDeclarationReferencer.getExportedName(errorDeclaration.name),
+                                context: this.context,
+                            });
+                        },
                     });
                 },
             });
@@ -216,15 +233,17 @@ export class SdkGenerator {
         const importsManager = new ImportsManager();
         const addImport = importsManager.addImport.bind(importsManager);
 
+        const getReferenceToNamedType = (typeName: DeclaredTypeName) =>
+            this.typeDeclarationReferencer.getReferenceTo(typeName, {
+                importStrategy: { type: "fromRoot" },
+                referencedIn: sourceFile,
+                addImport,
+            });
+
         const getReferenceToTypeForFile = (typeReference: TypeReference) =>
             getReferenceToType({
                 typeReference,
-                getReferenceToNamedType: (typeName) =>
-                    this.typeDeclarationReferencer.getReferenceTo(typeName, {
-                        importStrategy: { type: "fromRoot" },
-                        referencedIn: sourceFile,
-                        addImport,
-                    }).typeNode,
+                getReferenceToNamedType: (typeName) => getReferenceToNamedType(typeName).typeNode,
             });
 
         const addDependency = (name: string, version: string, options?: { preferPeer?: boolean }) => {
@@ -236,9 +255,12 @@ export class SdkGenerator {
             addImport,
         });
 
+        const coreUtilities = this.coreUtilitiesManager.getCoreUtilities({ sourceFile, addImport });
+
         const file: SdkFile = {
             sourceFile,
             getReferenceToType: getReferenceToTypeForFile,
+            getReferenceToNamedType,
             getServiceDeclaration: (serviceName) => this.serviceResolver.getServiceDeclarationFromName(serviceName),
             getReferenceToService: (serviceName, { importAlias }) =>
                 this.serviceDeclarationReferencer.getReferenceTo(serviceName, {
@@ -261,13 +283,23 @@ export class SdkGenerator {
                     addImport,
                 }),
             externalDependencies,
-            coreUtilities: this.coreUtilitiesManager.getCoreUtilities({ sourceFile, addImport }),
-            getReferenceToSchema: (typeName) =>
-                this.schemaDeclarationReferencer.getReferenceTo(typeName, {
-                    importStrategy: { type: "direct" },
-                    addImport,
-                    referencedIn: sourceFile,
-                }),
+            coreUtilities,
+            getReferenceToTypeSchema: (typeName) =>
+                coreUtilities.zurg.Schema._fromExpression(
+                    this.typeSchemaDeclarationReferencer.getReferenceTo(typeName, {
+                        importStrategy: { type: "fromRoot", namespaceImport: "schemas" },
+                        addImport,
+                        referencedIn: sourceFile,
+                    }).expression
+                ),
+            getReferenceToErrorSchema: (errorName) =>
+                coreUtilities.zurg.Schema._fromExpression(
+                    this.errorSchemaDeclarationReferencer.getReferenceTo(errorName, {
+                        importStrategy: { type: "fromRoot", namespaceImport: "schemas" },
+                        addImport,
+                        referencedIn: sourceFile,
+                    }).expression
+                ),
             addDependency,
             authSchemes: parseAuthSchemes({
                 apiAuth: this.intermediateRepresentation.auth,
@@ -294,12 +326,5 @@ export class SdkGenerator {
         importsManager.writeImportsToSourceFile(sourceFile);
 
         this.context.logger.debug(`Generated ${filepathStr}`);
-    }
-
-    private getApiDirectory(): ExportedDirectory {
-        return {
-            nameOnDisk: "api",
-            exportDeclaration: { namespaceExport: this.apiName },
-        };
     }
 }

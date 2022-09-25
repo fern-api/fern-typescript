@@ -1,31 +1,8 @@
-import { BaseSchema, Schema } from "../../Schema";
-import { getSchemaUtils } from "../../SchemaUtils";
+import { getSchemaUtils } from "../schema-utils";
+import { getObjectLikeProperties } from "./getObjectLikeProperties";
+import { BaseObjectLikeSchema, ObjectLikeSchema, OBJECT_LIKE_BRAND } from "./types";
 
-export type ObjectLikeSchema<Raw, Parsed> = Schema<Raw, Parsed> &
-    BaseObjectLikeSchema<Raw, Parsed> &
-    ObjectLikeUtils<Raw, Parsed>;
-
-export type BaseObjectLikeSchema<Raw, Parsed> = BaseSchema<Raw, Parsed> & {
-    _objectLike: void;
-};
-
-export interface ObjectLikeUtils<Raw, Parsed> {
-    withProperties: <T extends Record<string, any>>(properties: {
-        [K in keyof T]: T[K] | ((parsed: Parsed) => T[K]);
-    }) => ObjectLikeSchema<Raw, Parsed & T>;
-}
-
-export function getObjectLikeProperties<Raw, Parsed>(
-    schema: BaseObjectLikeSchema<Raw, Parsed>
-): ObjectLikeUtils<Raw, Parsed> {
-    return {
-        withProperties: (properties) => withProperties(schema, properties),
-    };
-}
-
-export const OBJECT_LIKE_BRAND = undefined as unknown as { _objectLike: void };
-
-function withProperties<RawObjectShape, ParsedObjectShape, Properties>(
+export function withProperties<RawObjectShape, ParsedObjectShape, Properties>(
     objectLike: BaseObjectLikeSchema<RawObjectShape, ParsedObjectShape>,
     properties: { [K in keyof Properties]: Properties[K] | ((parsed: ParsedObjectShape) => Properties[K]) }
 ): ObjectLikeSchema<RawObjectShape, ParsedObjectShape & Properties> {

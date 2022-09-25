@@ -1,6 +1,6 @@
 import { ContainerType, DeclaredTypeName, PrimitiveType, TypeReference } from "@fern-fern/ir-model/types";
-import { TypeReferenceNode } from "@fern-typescript/sdk-declaration-handler";
 import { ts } from "ts-morph";
+import { TypeReferenceNode } from "./TypeReferenceNode";
 
 export declare namespace getReferenceToType {
     export interface Args {
@@ -23,18 +23,7 @@ export function getReferenceToType({
 
         primitive: (primitive) => {
             return {
-                typeNode: PrimitiveType._visit<ts.TypeNode>(primitive, {
-                    boolean: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.BooleanKeyword),
-                    double: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword),
-                    integer: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword),
-                    long: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword),
-                    string: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
-                    uuid: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
-                    dateTime: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
-                    _unknown: () => {
-                        throw new Error("Unexpected primitive type: " + primitive);
-                    },
-                }),
+                typeNode: ts.factory.createKeywordTypeNode(getSyntaxKindForPrimitive(primitive)),
                 isOptional: false,
             };
         },
@@ -111,6 +100,25 @@ export function getReferenceToType({
 
         _unknown: () => {
             throw new Error("Unexpected type reference: " + typeReference._type);
+        },
+    });
+}
+
+export function getSyntaxKindForPrimitive(
+    primitive: PrimitiveType
+): ts.SyntaxKind.BooleanKeyword | ts.SyntaxKind.StringKeyword | ts.SyntaxKind.NumberKeyword {
+    return PrimitiveType._visit<
+        ts.SyntaxKind.BooleanKeyword | ts.SyntaxKind.StringKeyword | ts.SyntaxKind.NumberKeyword
+    >(primitive, {
+        boolean: () => ts.SyntaxKind.BooleanKeyword,
+        double: () => ts.SyntaxKind.NumberKeyword,
+        integer: () => ts.SyntaxKind.NumberKeyword,
+        long: () => ts.SyntaxKind.NumberKeyword,
+        string: () => ts.SyntaxKind.StringKeyword,
+        uuid: () => ts.SyntaxKind.StringKeyword,
+        dateTime: () => ts.SyntaxKind.StringKeyword,
+        _unknown: () => {
+            throw new Error("Unexpected primitive type: " + primitive);
         },
     });
 }

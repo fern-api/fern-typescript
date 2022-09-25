@@ -1,25 +1,35 @@
 import { EnumTypeDeclaration, Type, TypeDeclaration } from "@fern-fern/ir-model/types";
-import { SdkDeclarationHandler } from "@fern-typescript/sdk-declaration-handler";
+import { SdkDeclarationHandler, SdkFile } from "@fern-typescript/sdk-declaration-handler";
 import { generateEnumType } from "./enum/generateEnumType";
 import { generateAliasType } from "./generateAliasType";
 import { generateObjectType } from "./generateObjectType";
 import { generateUnionType } from "./union/generateUnionType";
 
-export const TypeDeclarationHandler: SdkDeclarationHandler<TypeDeclaration> = {
-    run: async (typeDeclaration, { file, exportedName: typeName }) => {
+export declare namespace TypeDeclarationHandler {
+    export interface Args extends Omit<SdkDeclarationHandler.Args, "file"> {
+        typeFile: SdkFile;
+        schemaFile: SdkFile;
+    }
+}
+
+export const TypeDeclarationHandler: SdkDeclarationHandler<TypeDeclaration, TypeDeclarationHandler.Args> = {
+    run: async (typeDeclaration, { typeFile, schemaFile, exportedName: typeName }) => {
         Type._visit(typeDeclaration.shape, {
             object: (objectTypeDeclaration) => {
                 generateObjectType({
                     typeName,
                     docs: typeDeclaration.docs,
-                    file,
+                    typeFile,
+                    schemaFile,
                     shape: objectTypeDeclaration,
                 });
             },
             union: (unionTypeDeclaration) => {
                 generateUnionType({
-                    file,
+                    typeFile,
+                    schemaFile,
                     typeName,
+                    declaredTypeName: typeDeclaration.name,
                     docs: typeDeclaration.docs,
                     union: unionTypeDeclaration,
                 });
@@ -28,15 +38,18 @@ export const TypeDeclarationHandler: SdkDeclarationHandler<TypeDeclaration> = {
                 generateAliasType({
                     typeName,
                     docs: typeDeclaration.docs,
-                    file,
+                    typeFile,
+                    schemaFile,
                     shape: aliasTypeDeclaration,
                 });
             },
             enum: (enumTypeDeclaration: EnumTypeDeclaration) => {
                 generateEnumType({
                     typeName,
+                    declaredTypeName: typeDeclaration.name,
                     docs: typeDeclaration.docs,
-                    file,
+                    typeFile,
+                    schemaFile,
                     shape: enumTypeDeclaration,
                 });
             },

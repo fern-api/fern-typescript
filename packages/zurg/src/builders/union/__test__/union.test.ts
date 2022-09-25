@@ -1,4 +1,5 @@
-import { itJson, itParse, itSchema, itSchemaIdentity } from "../../../__test__/utils/itSchema";
+import { itSchema, itSchemaIdentity } from "../../../__test__/utils/itSchema";
+import { object } from "../../object";
 import { boolean, number, string } from "../../primitives";
 import { discriminant } from "../discriminant";
 import { union } from "../union";
@@ -9,25 +10,16 @@ describe("union", () => {
             lion: {
                 meows: boolean(),
             },
-            giraffe: {
+            giraffe: object({
                 heightInInches: number(),
-            },
+            }).properties,
         }),
         { type: "lion", meows: true },
         { title: "doesn't transform discriminant when it's a string" }
     );
 
-    itSchemaIdentity(
-        union("type", {
-            lion: { meows: boolean() },
-            giraffe: { heightInInches: number() },
-        }),
-        { type: "lion", meows: true },
-        { title: "doesn't transform discriminant when it's a stringLiteral(<parsed value>)" }
-    );
-
     itSchema(
-        "transforms discriminant when it's a stringLiteral(<parsed value>, <raw value>)",
+        "transforms discriminant when it's a discriminant()",
         union(discriminant("type", "_type"), {
             lion: { meows: boolean() },
             giraffe: { heightInInches: number() },
@@ -38,86 +30,19 @@ describe("union", () => {
         }
     );
 
-    describe("unknown keys", () => {
-        itSchema(
-            "keeps unknown keys by default",
-            union("type", {
-                lion: {},
-                tiger: { value: string() },
-            }),
-            {
-                raw: {
-                    type: "lion",
-                    // @ts-expect-error
-                    additionalProperty: true,
-                },
-                parsed: {
-                    type: "lion",
-                    // @ts-expect-error
-                    additionalProperty: true,
-                },
-            }
-        );
-
-        itSchema(
-            "keeps unknown values by when skipUnknownKeys == false",
-            union("type", {
-                lion: {},
-                tiger: { value: string() },
-            }),
-            {
-                raw: {
-                    type: "lion",
-                    // @ts-expect-error
-                    additionalProperty: true,
-                },
-                parsed: {
-                    type: "lion",
-                    // @ts-expect-error
-                    additionalProperty: true,
-                },
-                opts: { skipUnknownKeys: false },
-            }
-        );
-
-        itParse(
-            "parse() skips unknown values by when skipUnknownKeys == true",
-            union("type", {
-                lion: {},
-                tiger: { value: string() },
-            }),
-            {
-                raw: {
-                    type: "lion",
-                    // @ts-expect-error
-                    additionalProperty: true,
-                },
-                parsed: {
-                    type: "lion",
-                },
-                opts: { skipUnknownKeys: true },
-            }
-        );
-
-        itJson(
-            "json() skips unknown values by when skipUnknownKeys == true",
-            union("type", {
-                lion: {},
-                tiger: { value: string() },
-            }),
-            {
-                raw: {
-                    type: "lion",
-                },
-                parsed: {
-                    type: "lion",
-                    // @ts-expect-error
-                    additionalProperty: true,
-                },
-                opts: { skipUnknownKeys: true },
-            }
-        );
-    });
+    itSchema(
+        "transforms discriminant when discriminant value is unrecognized",
+        union(discriminant("type", "_type"), {
+            lion: { meows: boolean() },
+            giraffe: { heightInInches: number() },
+        }),
+        {
+            // @ts-expect-error
+            raw: { _type: "moose" },
+            // @ts-expect-error
+            parsed: { type: "moose" },
+        }
+    );
 
     describe("withProperties", () => {
         it("Added property is included on parsed object", () => {

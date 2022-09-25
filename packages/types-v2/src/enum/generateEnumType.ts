@@ -1,133 +1,354 @@
-import { EnumTypeDeclaration, EnumValue } from "@fern-fern/ir-model/types";
-import {
-    FernWriters,
-    getTextOfTsNode,
-    getWriterForMultiLineUnionType,
-    maybeAddDocs,
-    visitorUtils,
-} from "@fern-typescript/commons";
+import { DeclaredTypeName, EnumTypeDeclaration, EnumValue } from "@fern-fern/ir-model/types";
+import { getTextOfTsNode, maybeAddDocs, visitorUtils } from "@fern-typescript/commons";
 import { SdkFile } from "@fern-typescript/sdk-declaration-handler";
-import lowerFirst from "lodash-es/lowerFirst";
-import { ts, VariableDeclarationKind, WriterFunction } from "ts-morph";
-import { getKeyForEnum } from "./utils";
+import { ts, VariableDeclarationKind } from "ts-morph";
 
 export const ENUM_VALUES_PROPERTY_KEY = "_values";
 
 export function generateEnumType({
-    file,
+    typeFile,
+    schemaFile,
     typeName,
+    declaredTypeName,
     docs,
     shape,
 }: {
-    file: SdkFile;
+    typeFile: SdkFile;
+    schemaFile: SdkFile;
     typeName: string;
     docs: string | null | undefined;
+    declaredTypeName: DeclaredTypeName;
     shape: EnumTypeDeclaration;
 }): void {
-    const typeAlias = file.sourceFile.addTypeAlias({
+    const enumInterface = typeFile.sourceFile.addInterface({
         name: typeName,
-        type: getWriterForMultiLineUnionType(
-            shape.values.map((value) => ({
-                node: ts.factory.createLiteralTypeNode(ts.factory.createStringLiteral(value.value)),
-                docs: value.docs,
-            }))
-        ),
         isExported: true,
     });
-    maybeAddDocs(typeAlias, docs);
+    maybeAddDocs(enumInterface, docs);
 
-    const visitorItems: visitorUtils.VisitableItems = {
-        items: shape.values.map((value) => ({
-            caseInSwitchStatement: getEnumValueReference({ typeName, enumValue: value }),
-            keyInVisitor: lowerFirst(getKeyForEnum(value)),
-            visitorArgument: undefined,
-        })),
-        unknownArgument: undefined,
-    };
-
-    file.sourceFile.addVariableStatement({
+    const enumUtilsStatement = typeFile.sourceFile.addVariableStatement({
         declarationKind: VariableDeclarationKind.Const,
+        isExported: true,
         declarations: [
             {
-                name: typeName,
-                initializer: createUtils({ shape, typeName, visitorItems }),
+                name: enumInterface.getName(),
             },
         ],
-        isExported: true,
     });
+    const enumUtils = enumUtilsStatement.getDeclarations()[0]!;
 
-    const moduleDeclaration = file.sourceFile.addModule({
-        name: typeName,
+    const enumModule = typeFile.sourceFile.addModule({
+        name: enumInterface.getName(),
         isExported: true,
         hasDeclareKeyword: true,
     });
 
-    for (const value of shape.values) {
-        moduleDeclaration.addTypeAlias({
-            name: getKeyForEnum(value),
-            type: getTextOfTsNode(ts.factory.createStringLiteral(value.value)),
-        });
-    }
-
-    moduleDeclaration.addInterface(visitorUtils.generateVisitorInterface({ items: visitorItems }));
-}
-
-function createUtils({
-    shape,
-    typeName,
-    visitorItems,
-}: {
-    shape: EnumTypeDeclaration;
-    typeName: string;
-    visitorItems: visitorUtils.VisitableItems;
-}): WriterFunction {
-    const writer = FernWriters.object.writer({ asConst: true });
-
-    for (const value of shape.values) {
-        writer.addProperty({
-            key: getKeyForEnum(value),
-            value: getTextOfTsNode(ts.factory.createLiteralTypeNode(ts.factory.createStringLiteral(value.value))),
-        });
-    }
-
-    writer.addNewLine();
-    writer.addProperty({
-        key: visitorUtils.VISIT_PROPERTY_NAME,
-        value: getTextOfTsNode(
-            visitorUtils.generateVisitMethod({
-                typeName,
-                switchOn: ts.factory.createIdentifier(visitorUtils.VALUE_PARAMETER_NAME),
-                items: visitorItems,
-            })
+    const rawValueTypeAlias = enumModule.addTypeAlias({
+        name: "RawValue",
+        type: getTextOfTsNode(
+            ts.factory.createUnionTypeNode([
+                ...shape.values.map((value) =>
+                    ts.factory.createLiteralTypeNode(ts.factory.createStringLiteral(value.value))
+                ),
+                ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
+            ])
         ),
     });
 
-    writer.addNewLine();
+    const getQualfiedReferenceToModuleExport = (name: string) =>
+        ts.factory.createQualifiedName(
+            ts.factory.createIdentifier(enumModule.getName()),
+            ts.factory.createIdentifier(name)
+        );
 
-    writer.addProperty({
-        key: ENUM_VALUES_PROPERTY_KEY,
-        value: getTextOfTsNode(
+    const visitorItems: visitorUtils.VisitableItems = {
+        items: shape.values.map((enumValue) => ({
+            caseInSwitchStatement: ts.factory.createStringLiteral(enumValue.value),
+            keyInVisitor: getVisitMethodName(enumValue),
+            visitorArgument: undefined,
+        })),
+        unknownArgument: {
+            type: ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
+            // TODO this doesn't apply anymore since we're not switching in the visit() method anymore
+            argument: ts.factory.createNull(),
+        },
+    };
+
+    const visitorInterface = enumModule.addInterface(
+        visitorUtils.generateVisitorInterface({ items: visitorItems, name: "Visitor" })
+    );
+
+    const qualifiedReferenceToRawValueType = getQualfiedReferenceToModuleExport(rawValueTypeAlias.getName());
+
+    const enumInterfaceTypeParameter = enumInterface.addTypeParameter({
+        name: rawValueTypeAlias.getName(),
+        constraint: getTextOfTsNode(qualifiedReferenceToRawValueType),
+        default: getTextOfTsNode(qualifiedReferenceToRawValueType),
+    });
+
+    const qualifiedReferenceToVisitor = getQualfiedReferenceToModuleExport(visitorInterface.getName());
+
+    const getMethod = enumInterface.addMethod({
+        name: "get",
+        returnType: enumInterfaceTypeParameter.getName(),
+    });
+
+    const visitMethod = enumInterface.addMethod({
+        name: "visit",
+        typeParameters: [
+            {
+                name: visitorUtils.VISITOR_RESULT_TYPE_PARAMETER,
+            },
+        ],
+        parameters: [
+            {
+                name: "visitor",
+                type: getTextOfTsNode(
+                    ts.factory.createTypeReferenceNode(qualifiedReferenceToVisitor, [
+                        ts.factory.createTypeReferenceNode(
+                            ts.factory.createIdentifier(visitorUtils.VISITOR_RESULT_TYPE_PARAMETER),
+                            undefined
+                        ),
+                    ])
+                ),
+            },
+        ],
+        returnType: visitorUtils.VISITOR_RESULT_TYPE_PARAMETER,
+    });
+
+    const enumUtilsProperties: ts.PropertyAssignment[] = [];
+    const enumBuilders: ts.CallExpression[] = [];
+    for (const value of shape.values) {
+        const builderName = getBuilderMethodName(value);
+        enumUtilsProperties.push(
+            ts.factory.createPropertyAssignment(
+                builderName,
+                ts.factory.createArrowFunction(
+                    undefined,
+                    undefined,
+                    [],
+                    ts.factory.createTypeReferenceNode(enumInterface.getName(), [
+                        ts.factory.createLiteralTypeNode(ts.factory.createStringLiteral(value.value)),
+                    ]),
+                    undefined,
+                    ts.factory.createParenthesizedExpression(
+                        ts.factory.createObjectLiteralExpression(
+                            [
+                                ts.factory.createPropertyAssignment(
+                                    getMethod.getName(),
+                                    ts.factory.createArrowFunction(
+                                        undefined,
+                                        undefined,
+                                        [],
+                                        undefined,
+                                        undefined,
+                                        ts.factory.createStringLiteral(value.value)
+                                    )
+                                ),
+                                ts.factory.createPropertyAssignment(
+                                    visitMethod.getName(),
+                                    ts.factory.createArrowFunction(
+                                        undefined,
+                                        undefined,
+                                        [
+                                            ts.factory.createParameterDeclaration(
+                                                undefined,
+                                                undefined,
+                                                undefined,
+                                                visitorUtils.VISITOR_PARAMETER_NAME
+                                            ),
+                                        ],
+                                        undefined,
+                                        undefined,
+                                        ts.factory.createCallExpression(
+                                            ts.factory.createPropertyAccessExpression(
+                                                ts.factory.createIdentifier(visitorUtils.VISITOR_PARAMETER_NAME),
+                                                ts.factory.createIdentifier(getVisitMethodName(value))
+                                            ),
+                                            undefined,
+                                            []
+                                        )
+                                    )
+                                ),
+                            ],
+                            true
+                        )
+                    )
+                )
+            )
+        );
+        enumBuilders.push(
+            ts.factory.createCallExpression(
+                ts.factory.createPropertyAccessExpression(
+                    ts.factory.createIdentifier(enumUtils.getName()),
+                    builderName
+                ),
+                undefined,
+                undefined
+            )
+        );
+    }
+
+    enumUtilsProperties.push(
+        ts.factory.createPropertyAssignment(
+            "_values",
             ts.factory.createArrowFunction(
                 undefined,
                 undefined,
                 [],
                 ts.factory.createArrayTypeNode(
-                    ts.factory.createTypeReferenceNode(ts.factory.createIdentifier(typeName))
+                    ts.factory.createTypeReferenceNode(ts.factory.createIdentifier(enumInterface.getName()))
                 ),
                 undefined,
-                ts.factory.createArrayLiteralExpression(
-                    shape.values.map((enumValue) => getEnumValueReference({ typeName, enumValue }))
-                )
+                ts.factory.createArrayLiteralExpression(enumBuilders, false)
+            )
+        )
+    );
+
+    enumUtils.setInitializer(getTextOfTsNode(ts.factory.createObjectLiteralExpression(enumUtilsProperties, true)));
+
+    const rawValueParameterName = "raw";
+    const parsedValueParameterName = "parsed";
+    const schema = schemaFile.coreUtilities.zurg.string().transform({
+        newShape: schemaFile.getReferenceToNamedType(declaredTypeName).typeNode,
+        parse: ts.factory.createArrowFunction(
+            undefined,
+            undefined,
+            [ts.factory.createParameterDeclaration(undefined, undefined, undefined, rawValueParameterName)],
+            undefined,
+            undefined,
+            ts.factory.createBlock(
+                [
+                    ts.factory.createSwitchStatement(
+                        ts.factory.createIdentifier(rawValueParameterName),
+                        ts.factory.createCaseBlock([
+                            ...shape.values.map((value) =>
+                                ts.factory.createCaseClause(ts.factory.createStringLiteral(value.value), [
+                                    ts.factory.createBlock(
+                                        [
+                                            ts.factory.createReturnStatement(
+                                                ts.factory.createCallExpression(
+                                                    ts.factory.createPropertyAccessExpression(
+                                                        schemaFile.getReferenceToNamedType(declaredTypeName).expression,
+                                                        ts.factory.createIdentifier(getBuilderMethodName(value))
+                                                    ),
+                                                    undefined,
+                                                    []
+                                                )
+                                            ),
+                                        ],
+                                        true
+                                    ),
+                                ])
+                            ),
+                            ts.factory.createDefaultClause([
+                                ts.factory.createBlock(
+                                    [
+                                        ts.factory.createReturnStatement(
+                                            ts.factory.createObjectLiteralExpression(
+                                                [
+                                                    ts.factory.createPropertyAssignment(
+                                                        ts.factory.createIdentifier(getMethod.getName()),
+                                                        ts.factory.createArrowFunction(
+                                                            undefined,
+                                                            undefined,
+                                                            [],
+                                                            undefined,
+                                                            ts.factory.createToken(
+                                                                ts.SyntaxKind.EqualsGreaterThanToken
+                                                            ),
+                                                            ts.factory.createIdentifier(rawValueParameterName)
+                                                        )
+                                                    ),
+                                                    ts.factory.createPropertyAssignment(
+                                                        ts.factory.createIdentifier(visitMethod.getName()),
+                                                        ts.factory.createArrowFunction(
+                                                            undefined,
+                                                            undefined,
+                                                            [
+                                                                ts.factory.createParameterDeclaration(
+                                                                    undefined,
+                                                                    undefined,
+                                                                    undefined,
+                                                                    visitorUtils.VISITOR_PARAMETER_NAME,
+                                                                    undefined,
+                                                                    undefined
+                                                                ),
+                                                            ],
+                                                            undefined,
+                                                            ts.factory.createToken(
+                                                                ts.SyntaxKind.EqualsGreaterThanToken
+                                                            ),
+                                                            ts.factory.createCallExpression(
+                                                                ts.factory.createPropertyAccessExpression(
+                                                                    ts.factory.createIdentifier(
+                                                                        visitorUtils.VISITOR_PARAMETER_NAME
+                                                                    ),
+                                                                    ts.factory.createIdentifier(
+                                                                        visitorUtils.UNKNOWN_PROPERY_NAME
+                                                                    )
+                                                                ),
+                                                                undefined,
+                                                                [ts.factory.createIdentifier(rawValueParameterName)]
+                                                            )
+                                                        )
+                                                    ),
+                                                ],
+                                                true
+                                            )
+                                        ),
+                                    ],
+                                    true
+                                ),
+                            ]),
+                        ])
+                    ),
+                ],
+                true
+            )
+        ),
+        json: ts.factory.createArrowFunction(
+            undefined,
+            undefined,
+            [
+                ts.factory.createParameterDeclaration(
+                    undefined,
+                    undefined,
+                    undefined,
+                    ts.factory.createIdentifier(parsedValueParameterName),
+                    undefined,
+                    undefined
+                ),
+            ],
+            undefined,
+            ts.factory.createToken(ts.SyntaxKind.EqualsGreaterThanToken),
+            ts.factory.createCallExpression(
+                ts.factory.createPropertyAccessExpression(
+                    ts.factory.createIdentifier(parsedValueParameterName),
+                    ts.factory.createIdentifier(getMethod.getName())
+                ),
+                undefined,
+                []
             )
         ),
     });
 
-    return writer.toFunction();
+    schemaFile.sourceFile.addVariableStatement({
+        isExported: true,
+        declarationKind: VariableDeclarationKind.Const,
+        declarations: [
+            {
+                name: typeName,
+                initializer: getTextOfTsNode(schema.toExpression()),
+            },
+        ],
+    });
 }
 
-function getEnumValueReference({ typeName, enumValue }: { typeName: string; enumValue: EnumValue }) {
-    return ts.factory.createPropertyAccessExpression(
-        ts.factory.createIdentifier(typeName),
-        ts.factory.createIdentifier(getKeyForEnum(enumValue))
-    );
+function getVisitMethodName(enumValue: EnumValue): string {
+    return enumValue.name.camelCase;
+}
+
+function getBuilderMethodName(enumValue: EnumValue): string {
+    return enumValue.name.pascalCase;
 }

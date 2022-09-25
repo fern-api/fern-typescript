@@ -1,7 +1,7 @@
 import { stringLiteral } from "../../literals";
+import { object } from "../../object/object";
+import { property } from "../../object/property";
 import { string } from "../../primitives";
-import { object } from "../object";
-import { property } from "../property";
 
 describe("withProperties", () => {
     it("Added properties included on parsed object", () => {

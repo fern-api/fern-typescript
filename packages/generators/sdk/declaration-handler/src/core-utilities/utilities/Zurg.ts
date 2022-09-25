@@ -4,19 +4,36 @@ export interface Zurg {
     object: (properties: Zurg.Property[]) => Zurg.ObjectSchema;
     union: (args: Zurg.union.Args) => Zurg.ObjectLikeSchema;
     list: (itemSchema: Zurg.Schema) => Zurg.Schema;
+    record: (args: { keySchema: Zurg.Schema; valueSchema: Zurg.Schema }) => Zurg.Schema;
     enum: (values: string[]) => Zurg.Schema;
     string: () => Zurg.Schema;
-    stringLiteral: (parsedValue: string) => Zurg.Schema;
+    stringLiteral: (literal: string) => Zurg.Schema;
     number: () => Zurg.Schema;
     boolean: () => Zurg.Schema;
+    any: () => Zurg.Schema;
+    unknown: () => Zurg.Schema;
+
+    Schema: {
+        _fromExpression: (expression: ts.Expression) => Zurg.Schema;
+        _fromArrowFunctions: (args: { parse: ts.ArrowFunction; json: ts.ArrowFunction }) => Zurg.Schema;
+    };
 }
 
 export declare namespace Zurg {
-    interface Schema {
+    interface Schema extends BaseSchema, SchemaUtils {}
+
+    interface BaseSchema {
         toExpression: () => ts.Expression;
     }
 
-    interface ObjectLikeSchema extends Schema {
+    interface SchemaUtils {
+        optional: () => Zurg.Schema;
+        transform: (args: { newShape: ts.TypeNode; parse: ts.ArrowFunction; json: ts.ArrowFunction }) => Zurg.Schema;
+    }
+
+    interface ObjectLikeSchema extends Schema, ObjectLikeUtils {}
+
+    interface ObjectLikeUtils {
         withProperties: (properties: Zurg.AdditionalProperty[]) => Zurg.ObjectLikeSchema;
     }
 
@@ -25,7 +42,9 @@ export declare namespace Zurg {
         getValue: (args: { getReferenceToParsed: () => ts.Expression }) => ts.Expression;
     }
 
-    interface ObjectSchema extends ObjectLikeSchema {
+    interface ObjectSchema extends Schema, ObjectLikeUtils, ObjectUtils {}
+
+    interface ObjectUtils {
         extend: (extension: Zurg.Schema) => ObjectSchema;
     }
 
@@ -41,12 +60,14 @@ export declare namespace Zurg {
         interface Args {
             parsedDiscriminant: string;
             rawDiscriminant: string;
-            singleUnionType: Zurg.union.SingleUnionType[];
+            singleUnionTypes: Zurg.union.SingleUnionType[];
         }
 
         interface SingleUnionType {
             discriminantValue: string;
-            properties: Zurg.Property[];
+            additionalProperties:
+                | { isInline: true; properties: Zurg.Property[] }
+                | { isInline: false; objectSchema: Zurg.Schema };
         }
     }
 }
