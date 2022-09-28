@@ -7,12 +7,12 @@ import { union } from "../union";
 describe("union", () => {
     itSchemaIdentity(
         union("type", {
-            lion: {
+            lion: object({
                 meows: boolean(),
-            },
+            }),
             giraffe: object({
                 heightInInches: number(),
-            }).properties,
+            }),
         }),
         { type: "lion", meows: true },
         { title: "doesn't transform discriminant when it's a string" }
@@ -21,8 +21,8 @@ describe("union", () => {
     itSchema(
         "transforms discriminant when it's a discriminant()",
         union(discriminant("type", "_type"), {
-            lion: { meows: boolean() },
-            giraffe: { heightInInches: number() },
+            lion: object({ meows: boolean() }),
+            giraffe: object({ heightInInches: number() }),
         }),
         {
             raw: { _type: "lion", meows: true },
@@ -31,24 +31,24 @@ describe("union", () => {
     );
 
     itSchema(
-        "transforms discriminant when discriminant value is unrecognized",
+        "transforms discriminant & passes through values when discriminant value is unrecognized",
         union(discriminant("type", "_type"), {
-            lion: { meows: boolean() },
-            giraffe: { heightInInches: number() },
+            lion: object({ meows: boolean() }),
+            giraffe: object({ heightInInches: number() }),
         }),
         {
             // @ts-expect-error
-            raw: { _type: "moose" },
+            raw: { _type: "moose", isAMoose: true },
             // @ts-expect-error
-            parsed: { type: "moose" },
+            parsed: { type: "moose", isAMoose: true },
         }
     );
 
     describe("withProperties", () => {
         it("Added property is included on parsed object", () => {
             const schema = union("type", {
-                lion: {},
-                tiger: { value: string() },
+                lion: object({}),
+                tiger: object({ value: string() }),
             }).withProperties({
                 printType: (parsed) => () => parsed.type,
             });
@@ -72,8 +72,8 @@ describe("union", () => {
             // eslint-disable-next-line jest/expect-expect
             it("doesn't compile when input is missing discriminant", () => {
                 const schema = union("type", {
-                    lion: {},
-                    tiger: { value: string() },
+                    lion: object({}),
+                    tiger: object({ value: string() }),
                 });
 
                 // @ts-expect-error
@@ -83,8 +83,8 @@ describe("union", () => {
             // eslint-disable-next-line jest/expect-expect
             it("doesn't compile with non-object as input", () => {
                 const schema = union("type", {
-                    lion: {},
-                    tiger: { value: string() },
+                    lion: object({}),
+                    tiger: object({ value: string() }),
                 });
 
                 // @ts-expect-error
@@ -96,8 +96,8 @@ describe("union", () => {
             // eslint-disable-next-line jest/expect-expect
             it("doesn't compile when input is missing discriminant", () => {
                 const schema = union("type", {
-                    lion: {},
-                    tiger: { value: string() },
+                    lion: object({}),
+                    tiger: object({ value: string() }),
                 });
 
                 // @ts-expect-error
@@ -107,8 +107,8 @@ describe("union", () => {
             // eslint-disable-next-line jest/expect-expect
             it("doesn't compile with non-object as input", () => {
                 const schema = union("type", {
-                    lion: {},
-                    tiger: { value: string() },
+                    lion: object({}),
+                    tiger: object({ value: string() }),
                 });
 
                 // @ts-expect-error

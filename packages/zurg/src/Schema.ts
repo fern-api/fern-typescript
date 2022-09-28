@@ -7,7 +7,7 @@ export type inferParsed<S extends Schema> = S extends Schema<any, infer Parsed> 
 
 export interface BaseSchema<Raw, Parsed> {
     parse: (raw: Raw, opts?: SchemaOptions) => Parsed;
-    json: (paresd: Parsed, opts?: SchemaOptions) => Raw;
+    json: (parsed: Parsed, opts?: SchemaOptions) => Raw;
 }
 
 export interface SchemaOptions {

@@ -1,5 +1,5 @@
 import { getSchemaUtils } from "../schema-utils";
-import { getObjectLikeProperties } from "./getObjectLikeProperties";
+import { getObjectLikeUtils } from "./getObjectLikeUtils";
 import { BaseObjectLikeSchema, ObjectLikeSchema, OBJECT_LIKE_BRAND } from "./types";
 
 export function withProperties<RawObjectShape, ParsedObjectShape, Properties>(
@@ -45,6 +45,6 @@ export function withProperties<RawObjectShape, ParsedObjectShape, Properties>(
     return {
         ...objectSchema,
         ...getSchemaUtils(objectSchema),
-        ...getObjectLikeProperties(objectSchema),
+        ...getObjectLikeUtils(objectSchema),
     };
 }

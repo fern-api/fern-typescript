@@ -1,12 +1,16 @@
 import { RelativeFilePath } from "@fern-api/core-utils";
-import { Reference, Zurg } from "@fern-typescript/sdk-declaration-handler";
+import { Zurg } from "@fern-typescript/commons-v2";
+import { Reference } from "@fern-typescript/sdk-declaration-handler";
 import { ts } from "ts-morph";
 import { CoreUtility } from "../CoreUtility";
 
 export class ZurgImpl extends CoreUtility implements Zurg {
     public readonly MANIFEST = {
         name: "zurg",
-        originalPathInRepo: RelativeFilePath.of("packages/zurg/src"),
+        repoInfoForTesting: {
+            path: RelativeFilePath.of("packages/zurg/src"),
+            ignoreGlob: "**/__test__",
+        },
         originalPathOnDocker: "/assets/zurg" as const,
         pathInCoreUtilities: [{ nameOnDisk: "schemas", exportDeclaration: { namespaceExport: "schemas" } }],
     };
@@ -169,14 +173,11 @@ export class ZurgImpl extends CoreUtility implements Zurg {
                                 singleUnionTypes.map((singleUnionType) =>
                                     ts.factory.createPropertyAssignment(
                                         singleUnionType.discriminantValue,
-                                        singleUnionType.additionalProperties.isInline
-                                            ? this.constructObjectLiteralForProperties(
-                                                  singleUnionType.additionalProperties.properties
-                                              )
-                                            : ts.factory.createPropertyAccessExpression(
-                                                  singleUnionType.additionalProperties.objectSchema.toExpression(),
-                                                  "properties"
-                                              )
+                                        singleUnionType.nonDiscriminantProperties.isInline
+                                            ? this.object(
+                                                  singleUnionType.nonDiscriminantProperties.properties
+                                              ).toExpression()
+                                            : singleUnionType.nonDiscriminantProperties.objectSchema.toExpression()
                                     )
                                 ),
                                 true
@@ -213,6 +214,17 @@ export class ZurgImpl extends CoreUtility implements Zurg {
         const baseSchema: Zurg.BaseSchema = {
             toExpression: () =>
                 ts.factory.createCallExpression(list.expression, undefined, [itemSchema.toExpression()]),
+        };
+
+        return {
+            ...baseSchema,
+            ...this.getSchemaUtils(baseSchema),
+        };
+    });
+
+    public set = this.withExportedName("set", (set: Reference) => (itemSchema: Zurg.Schema) => {
+        const baseSchema: Zurg.BaseSchema = {
+            toExpression: () => ts.factory.createCallExpression(set.expression, undefined, [itemSchema.toExpression()]),
         };
 
         return {
@@ -267,10 +279,10 @@ export class ZurgImpl extends CoreUtility implements Zurg {
         };
     });
 
-    public stringLiteral = this.withExportedName("stringLitreral", (stringLitreral: Reference) => (literal: string) => {
+    public stringLiteral = this.withExportedName("stringLiteral", (stringLiteral: Reference) => (literal: string) => {
         const baseSchema: Zurg.BaseSchema = {
             toExpression: () =>
-                ts.factory.createCallExpression(stringLitreral.expression, undefined, [
+                ts.factory.createCallExpression(stringLiteral.expression, undefined, [
                     ts.factory.createStringLiteral(literal),
                 ]),
         };
@@ -385,7 +397,62 @@ export class ZurgImpl extends CoreUtility implements Zurg {
         };
     }
 
+    public lazy = this.withExportedName("lazy", (lazy) => (schema: Zurg.Schema): Zurg.Schema => {
+        const baseSchema: Zurg.BaseSchema = {
+            toExpression: () =>
+                ts.factory.createCallExpression(lazy.expression, undefined, [
+                    ts.factory.createArrowFunction(
+                        undefined,
+                        undefined,
+                        [],
+                        undefined,
+                        undefined,
+                        schema.toExpression()
+                    ),
+                ]),
+        };
+
+        return {
+            ...baseSchema,
+            ...this.getSchemaUtils(baseSchema),
+        };
+    });
+
+    public lazyObject = this.withExportedName(
+        "lazyObject",
+        (lazyObject) =>
+            (schema: Zurg.ObjectSchema): Zurg.ObjectSchema => {
+                const baseSchema: Zurg.BaseSchema = {
+                    toExpression: () =>
+                        ts.factory.createCallExpression(lazyObject.expression, undefined, [
+                            ts.factory.createArrowFunction(
+                                undefined,
+                                undefined,
+                                [],
+                                undefined,
+                                undefined,
+                                schema.toExpression()
+                            ),
+                        ]),
+                };
+
+                return {
+                    ...baseSchema,
+                    ...this.getSchemaUtils(baseSchema),
+                    ...this.getObjectLikeUtils(baseSchema),
+                    ...this.getObjectUtils(baseSchema),
+                };
+            }
+    );
+
     public Schema = {
+        _getReferenceToType: this.withExportedName(
+            "Schema",
+            (Schema) =>
+                ({ rawShape, parsedShape }: { rawShape: ts.TypeNode; parsedShape: ts.TypeNode }) =>
+                    ts.factory.createTypeReferenceNode(Schema.entityName, [rawShape, parsedShape])
+        ),
+
         _fromExpression: (expression: ts.Expression): Zurg.Schema => {
             const baseSchema: Zurg.BaseSchema = { toExpression: () => expression };
 
@@ -406,5 +473,14 @@ export class ZurgImpl extends CoreUtility implements Zurg {
                 )
             );
         },
+    };
+
+    public ObjectSchema = {
+        _getReferenceToType: this.withExportedName(
+            "ObjectSchema",
+            (ObjectSchema) =>
+                ({ rawShape, parsedShape }: { rawShape: ts.TypeNode; parsedShape: ts.TypeNode }) =>
+                    ts.factory.createTypeReferenceNode(ObjectSchema.entityName, [rawShape, parsedShape])
+        ),
     };
 }

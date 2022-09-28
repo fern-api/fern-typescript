@@ -1,6 +1,6 @@
 import { itSchemaIdentity } from "../../../__test__/utils/itSchema";
 import { stringLiteral } from "../../literals";
-import { string } from "../../primitives";
+import { boolean, string } from "../../primitives";
 import { object } from "../object";
 
 describe("extend", () => {
@@ -16,6 +16,26 @@ describe("extend", () => {
         } as const,
         {
             title: "extended properties are included in schema",
+        }
+    );
+
+    itSchemaIdentity(
+        object({
+            foo: string(),
+        })
+            .extend({
+                bar: stringLiteral("bar"),
+            })
+            .extend({
+                baz: boolean(),
+            }),
+        {
+            foo: "",
+            bar: "bar",
+            baz: true,
+        } as const,
+        {
+            title: "extensions can be extended",
         }
     );
 

@@ -1,5 +1,5 @@
 import { ErrorDeclaration } from "@fern-fern/ir-model/errors";
-import { ObjectTypeDeclaration } from "@fern-fern/ir-model/types";
+import { ObjectTypeDeclaration, Type } from "@fern-fern/ir-model/types";
 import { SdkDeclarationHandler, SdkFile } from "@fern-typescript/sdk-declaration-handler";
 import { generateObjectType } from "@fern-typescript/types-v2";
 
@@ -12,12 +12,19 @@ export declare namespace ErrorDeclarationHandler {
 
 export const ErrorDeclarationHandler: SdkDeclarationHandler<ErrorDeclaration, ErrorDeclarationHandler.Args> = {
     run: async (errorDeclaration, { errorFile, schemaFile, exportedName }) => {
+        const shape = getErrorShapeWithoutAdditionalProperties(errorDeclaration, errorFile);
         generateObjectType({
             typeName: exportedName,
-            docs: errorDeclaration.docs,
+            typeDeclaration: {
+                name: errorDeclaration.name,
+                docs: errorDeclaration.docs,
+                shape: Type.object(shape),
+                // TODO errors should have referencedTypes
+                referencedTypes: [],
+            },
             typeFile: errorFile,
             schemaFile,
-            shape: getErrorShapeWithoutAdditionalProperties(errorDeclaration, errorFile),
+            shape,
             additionalProperties: [
                 {
                     docs: undefined,

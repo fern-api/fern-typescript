@@ -19,6 +19,7 @@ export declare namespace DeclarationReferencer {
             importStrategy: ImportStrategy;
             addImport: (moduleSpecifier: ModuleSpecifier, importDeclaration: ImportDeclaration) => void;
             referencedIn: SourceFile;
+            subImport?: string[];
         }
     }
 }

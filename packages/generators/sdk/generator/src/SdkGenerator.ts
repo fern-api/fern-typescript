@@ -1,16 +1,22 @@
 import { AbsoluteFilePath } from "@fern-api/core-utils";
+import { DeclaredErrorName } from "@fern-fern/ir-model/errors";
 import { IntermediateRepresentation } from "@fern-fern/ir-model/ir";
-import { DeclaredTypeName, TypeReference } from "@fern-fern/ir-model/types";
-import { getReferenceToType } from "@fern-typescript/commons-v2";
+import { DeclaredTypeName } from "@fern-fern/ir-model/types";
 import { ErrorResolver, ServiceResolver, TypeResolver } from "@fern-typescript/resolvers";
 import { GeneratorContext, SdkFile } from "@fern-typescript/sdk-declaration-handler";
 import { ErrorDeclarationHandler } from "@fern-typescript/sdk-errors";
 import { ServiceDeclarationHandler, WrapperDeclarationHandler } from "@fern-typescript/sdk-service-declaration-handler";
-import { TypeDeclarationHandler } from "@fern-typescript/types-v2";
+import {
+    TypeReferenceToParsedTypeNodeConverter,
+    TypeReferenceToRawTypeNodeConverter,
+    TypeReferenceToSchemaConverter,
+} from "@fern-typescript/type-reference-converters";
+import { RAW_TYPE_NAME, TypeDeclarationHandler } from "@fern-typescript/types-v2";
 import { Volume } from "memfs/lib/volume";
 import { Directory, Project } from "ts-morph";
 import { constructWrapperDeclarations } from "./constructWrapperDeclarations";
 import { CoreUtilitiesManager } from "./core-utilities/CoreUtilitiesManager";
+import { ImportStrategy } from "./declaration-referencers/DeclarationReferencer";
 import { ErrorDeclarationReferencer } from "./declaration-referencers/ErrorDeclarationReferencer";
 import { ErrorSchemaDeclarationReferencer } from "./declaration-referencers/ErrorSchemaDeclarationReferencer";
 import { ServiceDeclarationReferencer } from "./declaration-referencers/ServiceDeclarationReferencer";
@@ -29,6 +35,8 @@ import { createExternalDependencies } from "./external-dependencies/createExtern
 import { generateTypeScriptProject } from "./generate-ts-project/generateTypeScriptProject";
 import { ImportsManager } from "./imports-manager/ImportsManager";
 import { parseAuthSchemes } from "./parseAuthSchemes";
+
+const SCHEMA_IMPORT_STRATEGY: ImportStrategy = { type: "fromRoot", namespaceImport: "schemas" };
 
 export declare namespace SdkGenerator {
     export interface Init {
@@ -240,11 +248,41 @@ export class SdkGenerator {
                 addImport,
             });
 
-        const getReferenceToTypeForFile = (typeReference: TypeReference) =>
-            getReferenceToType({
-                typeReference,
-                getReferenceToNamedType: (typeName) => getReferenceToNamedType(typeName).typeNode,
+        const typeReferenceToParsedTypeNodeConverter = new TypeReferenceToParsedTypeNodeConverter({
+            getReferenceToNamedType: (typeName) => getReferenceToNamedType(typeName).entityName,
+            resolveType: (typeName) => this.typeResolver.resolveTypeName(typeName),
+        });
+
+        const getReferenceToRawNamedType = (typeName: DeclaredTypeName) =>
+            this.typeSchemaDeclarationReferencer.getReferenceTo(typeName, {
+                importStrategy: SCHEMA_IMPORT_STRATEGY,
+                subImport: [RAW_TYPE_NAME],
+                addImport,
+                referencedIn: sourceFile,
             });
+
+        const typeReferenceToRawTypeNodeConverter = new TypeReferenceToRawTypeNodeConverter({
+            getReferenceToNamedType: (typeName) => getReferenceToRawNamedType(typeName).entityName,
+            resolveType: (typeName) => this.typeResolver.resolveTypeName(typeName),
+        });
+
+        const coreUtilities = this.coreUtilitiesManager.getCoreUtilities({ sourceFile, addImport });
+
+        const getReferenceToNamedTypeSchema = (typeName: DeclaredTypeName) =>
+            this.typeSchemaDeclarationReferencer.getReferenceTo(typeName, {
+                importStrategy: SCHEMA_IMPORT_STRATEGY,
+                addImport,
+                referencedIn: sourceFile,
+            });
+
+        const getSchemaOfNamedType = (typeName: DeclaredTypeName) =>
+            coreUtilities.zurg.Schema._fromExpression(getReferenceToNamedTypeSchema(typeName).expression);
+
+        const typeReferenceToSchemaConverter = new TypeReferenceToSchemaConverter({
+            getSchemaOfNamedType,
+            zurg: coreUtilities.zurg,
+            resolveType: (typeName) => this.typeResolver.resolveTypeName(typeName),
+        });
 
         const addDependency = (name: string, version: string, options?: { preferPeer?: boolean }) => {
             this.dependencyManager.addDependency(name, version, options);
@@ -255,11 +293,18 @@ export class SdkGenerator {
             addImport,
         });
 
-        const coreUtilities = this.coreUtilitiesManager.getCoreUtilities({ sourceFile, addImport });
+        const getReferenceToErrorSchema = (errorName: DeclaredErrorName) =>
+            this.errorSchemaDeclarationReferencer.getReferenceTo(errorName, {
+                importStrategy: SCHEMA_IMPORT_STRATEGY,
+                addImport,
+                referencedIn: sourceFile,
+            });
 
         const file: SdkFile = {
             sourceFile,
-            getReferenceToType: getReferenceToTypeForFile,
+            getReferenceToType: typeReferenceToParsedTypeNodeConverter.convert.bind(
+                typeReferenceToParsedTypeNodeConverter
+            ),
             getReferenceToNamedType,
             getServiceDeclaration: (serviceName) => this.serviceResolver.getServiceDeclarationFromName(serviceName),
             getReferenceToService: (serviceName, { importAlias }) =>
@@ -274,7 +319,7 @@ export class SdkGenerator {
                     addImport,
                     importStrategy: { type: "direct", alias: importAlias },
                 }),
-            resolveTypeReference: (typeReference) => this.typeResolver.resolveTypeReference(typeReference),
+            resolveTypeReference: this.typeResolver.resolveTypeReference.bind(this.typeResolver),
             getErrorDeclaration: (errorName) => this.errorResolver.getErrorDeclarationFromName(errorName),
             getReferenceToError: (errorName) =>
                 this.errorDeclarationReferencer.getReferenceTo(errorName, {
@@ -284,27 +329,15 @@ export class SdkGenerator {
                 }),
             externalDependencies,
             coreUtilities,
-            getReferenceToTypeSchema: (typeName) =>
-                coreUtilities.zurg.Schema._fromExpression(
-                    this.typeSchemaDeclarationReferencer.getReferenceTo(typeName, {
-                        importStrategy: { type: "fromRoot", namespaceImport: "schemas" },
-                        addImport,
-                        referencedIn: sourceFile,
-                    }).expression
-                ),
-            getReferenceToErrorSchema: (errorName) =>
-                coreUtilities.zurg.Schema._fromExpression(
-                    this.errorSchemaDeclarationReferencer.getReferenceTo(errorName, {
-                        importStrategy: { type: "fromRoot", namespaceImport: "schemas" },
-                        addImport,
-                        referencedIn: sourceFile,
-                    }).expression
-                ),
+            getSchemaOfNamedType,
+            getErrorSchema: (errorName) =>
+                coreUtilities.zurg.Schema._fromExpression(getReferenceToErrorSchema(errorName).expression),
             addDependency,
             authSchemes: parseAuthSchemes({
                 apiAuth: this.intermediateRepresentation.auth,
                 externalDependencies,
-                getReferenceToType: (typeReference) => getReferenceToTypeForFile(typeReference).typeNode,
+                getReferenceToType: (typeReference) =>
+                    typeReferenceToParsedTypeNodeConverter.convert(typeReference).typeNode,
             }),
             fernConstants: this.intermediateRepresentation.constants,
             addNamedExport: (namedExport) => {
@@ -319,6 +352,11 @@ export class SdkGenerator {
                     exportedFromPath: filepath,
                     addImport: importsManager.addImport.bind(importsManager),
                 }),
+            getReferenceToRawType: typeReferenceToRawTypeNodeConverter.convert.bind(
+                typeReferenceToRawTypeNodeConverter
+            ),
+            getReferenceToRawNamedType,
+            getSchemaOfTypeReference: typeReferenceToSchemaConverter.convert.bind(typeReferenceToSchemaConverter),
         };
 
         await run(file);

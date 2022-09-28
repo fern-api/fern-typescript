@@ -13,8 +13,8 @@ describe("Schema", () => {
                 list(
                     object({
                         animal: union(discriminant("type", "_type"), {
-                            dog: { value: boolean() },
-                            cat: { value: property("raw_cat", number()) },
+                            dog: object({ value: boolean() }),
+                            cat: object({ value: property("raw_cat", number()) }),
                         }),
                     })
                 )

@@ -173,6 +173,32 @@ describe("object", () => {
         );
     });
 
+    describe("nullish properties", () => {
+        itSchema("optional properties are allowed to be omitted", object({ foo: string().optional() }), {
+            raw: {},
+            parsed: {},
+        });
+
+        describe("parse()", () => {
+            itParse("undefined properties are dropped", object({ foo: string().optional() }), {
+                raw: { foo: undefined },
+                parsed: {},
+            });
+
+            itParse("null properties are dropped", object({ foo: string().optional() }), {
+                raw: { foo: null },
+                parsed: {},
+            });
+        });
+
+        describe("json()", () => {
+            itJson("undefined properties are dropped", object({ foo: string().optional() }), {
+                raw: {},
+                parsed: { foo: undefined },
+            });
+        });
+    });
+
     describe("compile", () => {
         // eslint-disable-next-line jest/expect-expect
         it("doesn't compile with non-object in schema", () => {

@@ -4,3 +4,4 @@ export { type TypeReferenceNode } from "./get-reference-to-type/TypeReferenceNod
 export { getGeneratorVersion } from "./getGeneratorVersion";
 export * from "./logger";
 export * from "./wrapper-declaration";
+export { type Zurg } from "./Zurg";

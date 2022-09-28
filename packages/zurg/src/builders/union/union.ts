@@ -1,5 +1,4 @@
-import { object } from "../object";
-import { BaseObjectLikeSchema, getObjectLikeProperties, ObjectLikeSchema, OBJECT_LIKE_BRAND } from "../object-like";
+import { BaseObjectLikeSchema, getObjectLikeUtils, ObjectLikeSchema, OBJECT_LIKE_BRAND } from "../object-like";
 import { getSchemaUtils } from "../schema-utils";
 import { Discriminant } from "./discriminant";
 import { inferParsedDiscriminant, inferParsedUnion, inferRawDiscriminant, inferRawUnion, UnionSubtypes } from "./types";
@@ -31,7 +30,7 @@ export function union<D extends string | Discriminant<any, any>, U extends Union
             }
 
             return {
-                ...object(additionalPropertySchemas).parse(additionalProperties as any, opts),
+                ...additionalPropertySchemas.parse(additionalProperties as any, opts),
                 [parsedDiscriminant]: discriminantValue,
             } as inferParsedUnion<D, U>;
         },
@@ -45,11 +44,11 @@ export function union<D extends string | Discriminant<any, any>, U extends Union
                 return {
                     ...additionalProperties,
                     [rawDiscriminant]: discriminantValue,
-                } as inferRawUnion<D, U>;
+                } as unknown as inferRawUnion<D, U>;
             }
 
             return {
-                ...object(additionalPropertySchemas).json(additionalProperties as any, opts),
+                ...additionalPropertySchemas.json(additionalProperties as any, opts),
                 [rawDiscriminant]: discriminantValue,
             } as inferRawUnion<D, U>;
         },
@@ -58,6 +57,6 @@ export function union<D extends string | Discriminant<any, any>, U extends Union
     return {
         ...baseSchema,
         ...getSchemaUtils(baseSchema),
-        ...getObjectLikeProperties(baseSchema),
+        ...getObjectLikeUtils(baseSchema),
     };
 }

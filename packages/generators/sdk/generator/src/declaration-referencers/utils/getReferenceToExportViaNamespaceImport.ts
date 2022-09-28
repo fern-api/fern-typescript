@@ -18,6 +18,7 @@ export function getReferenceToExportViaNamespaceImport({
     namespaceImport,
     addImport,
     referencedIn,
+    subImport = [],
 }: {
     exportedName: string;
     directoryToNamespaceImport: ExportedDirectory[];
@@ -25,6 +26,7 @@ export function getReferenceToExportViaNamespaceImport({
     namespaceImport: string;
     addImport: (moduleSpecifier: ModuleSpecifier, importDeclaration: ImportDeclaration) => void;
     referencedIn: SourceFile;
+    subImport?: string[];
 }): Reference {
     addImport(
         getRelativePathAsModuleSpecifierTo(
@@ -41,23 +43,25 @@ export function getReferenceToExportViaNamespaceImport({
                 : filepathInsideNamespaceImport.directories
             : [];
 
-    const entityName = ts.factory.createQualifiedName(
+    const entityName = [exportedName, ...subImport].reduce<ts.EntityName>(
+        (acc, part) => ts.factory.createQualifiedName(acc, part),
         getEntityNameOfDirectory({
             pathToDirectory: pathToDirectoryInsideNamespaceImport,
             prefix: ts.factory.createIdentifier(namespaceImport),
-        }),
-        exportedName
+        })
+    );
+
+    const expression = [exportedName, ...subImport].reduce<ts.Expression>(
+        (acc, part) => ts.factory.createPropertyAccessExpression(acc, part),
+        getExpressionToDirectory({
+            pathToDirectory: pathToDirectoryInsideNamespaceImport,
+            prefix: ts.factory.createIdentifier(namespaceImport),
+        })
     );
 
     return {
         typeNode: ts.factory.createTypeReferenceNode(entityName),
         entityName,
-        expression: ts.factory.createPropertyAccessExpression(
-            getExpressionToDirectory({
-                pathToDirectory: pathToDirectoryInsideNamespaceImport,
-                prefix: ts.factory.createIdentifier(namespaceImport),
-            }),
-            exportedName
-        ),
+        expression,
     };
 }

@@ -18,7 +18,7 @@ export const TypeDeclarationHandler: SdkDeclarationHandler<TypeDeclaration, Type
             object: (objectTypeDeclaration) => {
                 generateObjectType({
                     typeName,
-                    docs: typeDeclaration.docs,
+                    typeDeclaration,
                     typeFile,
                     schemaFile,
                     shape: objectTypeDeclaration,
@@ -29,15 +29,14 @@ export const TypeDeclarationHandler: SdkDeclarationHandler<TypeDeclaration, Type
                     typeFile,
                     schemaFile,
                     typeName,
-                    declaredTypeName: typeDeclaration.name,
-                    docs: typeDeclaration.docs,
+                    typeDeclaration,
                     union: unionTypeDeclaration,
                 });
             },
             alias: (aliasTypeDeclaration) => {
                 generateAliasType({
                     typeName,
-                    docs: typeDeclaration.docs,
+                    typeDeclaration,
                     typeFile,
                     schemaFile,
                     shape: aliasTypeDeclaration,
@@ -46,8 +45,7 @@ export const TypeDeclarationHandler: SdkDeclarationHandler<TypeDeclaration, Type
             enum: (enumTypeDeclaration: EnumTypeDeclaration) => {
                 generateEnumType({
                     typeName,
-                    declaredTypeName: typeDeclaration.name,
-                    docs: typeDeclaration.docs,
+                    typeDeclaration,
                     typeFile,
                     schemaFile,
                     shape: enumTypeDeclaration,

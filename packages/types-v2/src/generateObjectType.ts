@@ -1,8 +1,9 @@
-import { ObjectTypeDeclaration, TypeReference } from "@fern-fern/ir-model/types";
+import { ObjectTypeDeclaration, TypeDeclaration, TypeReference } from "@fern-fern/ir-model/types";
 import { getTextOfTsNode, maybeAddDocs } from "@fern-typescript/commons";
-import { SdkFile, Zurg } from "@fern-typescript/sdk-declaration-handler";
-import { OptionalKind, PropertySignatureStructure, ts, VariableDeclarationKind } from "ts-morph";
-import { getSchemaFromTypeReference } from "./getSchemaFromTypeReference";
+import { Zurg } from "@fern-typescript/commons-v2";
+import { SdkFile } from "@fern-typescript/sdk-declaration-handler";
+import { OptionalKind, PropertySignatureStructure, ts } from "ts-morph";
+import { generateSchemaDeclarations } from "./generateSchemaDeclarations";
 
 interface PropertyWithSchema {
     docs: string | undefined;
@@ -14,6 +15,10 @@ interface PropertyWithSchema {
         type: ts.TypeNode;
         isOptional: boolean;
     };
+    getRawValueType: (file: SdkFile) => {
+        type: ts.TypeNode;
+        isOptional: boolean;
+    };
     getSchema: (file: SdkFile) => Zurg.Schema;
 }
 
@@ -21,7 +26,7 @@ export declare namespace generateObjectType {
     interface Args {
         typeFile: SdkFile;
         schemaFile: SdkFile;
-        docs: string | null | undefined;
+        typeDeclaration: TypeDeclaration;
         typeName: string;
         shape: ObjectTypeDeclaration;
         additionalProperties?: generateObjectType.AdditionalProperty[];
@@ -39,7 +44,7 @@ export declare namespace generateObjectType {
 
 export function generateObjectType({
     typeName,
-    docs,
+    typeDeclaration,
     typeFile,
     schemaFile,
     shape,
@@ -61,16 +66,7 @@ export function generateObjectType({
                     raw: property.name.wireValue,
                     parsed: property.name.camelCase,
                 },
-                getValueType: (file) => {
-                    const referenceToProperty = file.getReferenceToType(property.valueType);
-                    return {
-                        type: referenceToProperty.isOptional
-                            ? referenceToProperty.typeNodeWithoutUndefined
-                            : referenceToProperty.typeNode,
-                        isOptional: referenceToProperty.isOptional,
-                    };
-                },
-                getSchema: (file) => getSchemaFromTypeReference(property.valueType, file),
+                ...getValueGettersForTypeReference(property.valueType),
             };
         }),
     ];
@@ -93,7 +89,7 @@ export function generateObjectType({
         isExported: true,
     });
 
-    maybeAddDocs(interfaceNode, docs);
+    maybeAddDocs(interfaceNode, typeDeclaration.docs);
 
     let schema = schemaFile.coreUtilities.zurg.object(
         properties.map((property) => ({
@@ -107,24 +103,56 @@ export function generateObjectType({
 
     for (const extension of shape.extends) {
         interfaceNode.addExtends(getTextOfTsNode(typeFile.getReferenceToNamedType(extension).typeNode));
-        schema = schema.extend(getSchemaFromTypeReference(TypeReference.named(extension), schemaFile));
+        schema = schema.extend(schemaFile.getSchemaOfNamedType(extension));
     }
 
-    schemaFile.sourceFile.addVariableStatement({
-        declarationKind: VariableDeclarationKind.Const,
-        isExported: true,
-        declarations: [{ name: typeName, initializer: getTextOfTsNode(schema.toExpression()) }],
+    generateSchemaDeclarations({
+        schemaFile,
+        schema,
+        typeDeclaration,
+        typeName,
+        isObject: true,
+        generateRawTypeDeclaration: (module, rawTypeName) => {
+            module.addInterface({
+                name: rawTypeName,
+                extends: shape.extends.map((extension) =>
+                    getTextOfTsNode(schemaFile.getReferenceToRawNamedType(extension).typeNode)
+                ),
+                properties: properties.map((property) => {
+                    const propertyTypeWithMetadata = property.getRawValueType(schemaFile);
+                    let type = propertyTypeWithMetadata.type;
+                    if (propertyTypeWithMetadata.isOptional) {
+                        type = ts.factory.createUnionTypeNode([
+                            type,
+                            ts.factory.createLiteralTypeNode(ts.factory.createNull()),
+                        ]);
+                    }
+
+                    return {
+                        name: `"${property.key.raw}"`,
+                        type: getTextOfTsNode(type),
+                        hasQuestionToken: propertyTypeWithMetadata.isOptional,
+                    };
+                }),
+            });
+        },
     });
 }
 
 function getValueGettersFromAdditionalProperty(
     additionalProperty: generateObjectType.AdditionalProperty
-): Pick<PropertyWithSchema, "getValueType" | "getSchema"> {
+): Pick<PropertyWithSchema, "getValueType" | "getRawValueType" | "getSchema"> {
     switch (additionalProperty.value.type) {
         case "literal": {
             const { isOptional, literal } = additionalProperty.value;
             return {
                 getValueType: () => {
+                    return {
+                        isOptional,
+                        type: ts.factory.createLiteralTypeNode(ts.factory.createStringLiteral(literal)),
+                    };
+                },
+                getRawValueType: () => {
                     return {
                         isOptional,
                         type: ts.factory.createLiteralTypeNode(ts.factory.createStringLiteral(literal)),
@@ -139,20 +167,33 @@ function getValueGettersFromAdditionalProperty(
                 },
             };
         }
-        case "type": {
-            const { reference } = additionalProperty.value;
-            return {
-                getValueType: (file) => {
-                    const referenceToProperty = file.getReferenceToType(reference);
-                    return {
-                        isOptional: referenceToProperty.isOptional,
-                        type: referenceToProperty.isOptional
-                            ? referenceToProperty.typeNodeWithoutUndefined
-                            : referenceToProperty.typeNode,
-                    };
-                },
-                getSchema: (file) => getSchemaFromTypeReference(reference, file),
-            };
-        }
+        case "type":
+            return getValueGettersForTypeReference(additionalProperty.value.reference);
     }
+}
+
+function getValueGettersForTypeReference(
+    reference: TypeReference
+): Pick<PropertyWithSchema, "getValueType" | "getRawValueType" | "getSchema"> {
+    return {
+        getValueType: (file) => {
+            const referenceToProperty = file.getReferenceToType(reference);
+            return {
+                isOptional: referenceToProperty.isOptional,
+                type: referenceToProperty.isOptional
+                    ? referenceToProperty.typeNodeWithoutUndefined
+                    : referenceToProperty.typeNode,
+            };
+        },
+        getRawValueType: (file) => {
+            const referenceToProperty = file.getReferenceToRawType(reference);
+            return {
+                isOptional: referenceToProperty.isOptional,
+                type: referenceToProperty.isOptional
+                    ? referenceToProperty.typeNodeWithoutUndefined
+                    : referenceToProperty.typeNode,
+            };
+        },
+        getSchema: (file) => file.getSchemaOfTypeReference(reference),
+    };
 }

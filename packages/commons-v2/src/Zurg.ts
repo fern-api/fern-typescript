@@ -4,6 +4,7 @@ export interface Zurg {
     object: (properties: Zurg.Property[]) => Zurg.ObjectSchema;
     union: (args: Zurg.union.Args) => Zurg.ObjectLikeSchema;
     list: (itemSchema: Zurg.Schema) => Zurg.Schema;
+    set: (itemSchema: Zurg.Schema) => Zurg.Schema;
     record: (args: { keySchema: Zurg.Schema; valueSchema: Zurg.Schema }) => Zurg.Schema;
     enum: (values: string[]) => Zurg.Schema;
     string: () => Zurg.Schema;
@@ -12,10 +13,17 @@ export interface Zurg {
     boolean: () => Zurg.Schema;
     any: () => Zurg.Schema;
     unknown: () => Zurg.Schema;
+    lazy: (schema: Zurg.Schema) => Zurg.Schema;
+    lazyObject: (schema: Zurg.ObjectSchema) => Zurg.ObjectSchema;
 
     Schema: {
+        _getReferenceToType: (args: { rawShape: ts.TypeNode; parsedShape: ts.TypeNode }) => ts.TypeNode;
         _fromExpression: (expression: ts.Expression) => Zurg.Schema;
         _fromArrowFunctions: (args: { parse: ts.ArrowFunction; json: ts.ArrowFunction }) => Zurg.Schema;
+    };
+
+    ObjectSchema: {
+        _getReferenceToType: (args: { rawShape: ts.TypeNode; parsedShape: ts.TypeNode }) => ts.TypeNode;
     };
 }
 
@@ -65,7 +73,7 @@ export declare namespace Zurg {
 
         interface SingleUnionType {
             discriminantValue: string;
-            additionalProperties:
+            nonDiscriminantProperties:
                 | { isInline: true; properties: Zurg.Property[] }
                 | { isInline: false; objectSchema: Zurg.Schema };
         }

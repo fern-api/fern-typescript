@@ -1,7 +1,7 @@
 import { BaseObjectLikeSchema, ObjectLikeUtils } from "./types";
 import { withProperties } from "./withProperties";
 
-export function getObjectLikeProperties<Raw, Parsed>(
+export function getObjectLikeUtils<Raw, Parsed>(
     schema: BaseObjectLikeSchema<Raw, Parsed>
 ): ObjectLikeUtils<Raw, Parsed> {
     return {

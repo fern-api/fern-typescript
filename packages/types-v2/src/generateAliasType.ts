@@ -1,37 +1,38 @@
-import { AliasTypeDeclaration } from "@fern-fern/ir-model/types";
+import { AliasTypeDeclaration, TypeDeclaration } from "@fern-fern/ir-model/types";
 import { getTextOfTsNode, maybeAddDocs } from "@fern-typescript/commons";
 import { SdkFile } from "@fern-typescript/sdk-declaration-handler";
-import { VariableDeclarationKind } from "ts-morph";
-import { getSchemaFromTypeReference } from "./getSchemaFromTypeReference";
+import { generateSchemaDeclarations } from "./generateSchemaDeclarations";
 
 export function generateAliasType({
     typeFile,
     schemaFile,
     typeName,
-    docs,
     shape,
+    typeDeclaration,
 }: {
     typeFile: SdkFile;
     schemaFile: SdkFile;
     typeName: string;
-    docs: string | null | undefined;
     shape: AliasTypeDeclaration;
+    typeDeclaration: TypeDeclaration;
 }): void {
     const typeAlias = typeFile.sourceFile.addTypeAlias({
         name: typeName,
         type: getTextOfTsNode(typeFile.getReferenceToType(shape.aliasOf).typeNode),
         isExported: true,
     });
-    maybeAddDocs(typeAlias, docs);
+    maybeAddDocs(typeAlias, typeDeclaration.docs);
 
-    schemaFile.sourceFile.addVariableStatement({
-        isExported: true,
-        declarationKind: VariableDeclarationKind.Const,
-        declarations: [
-            {
-                name: typeName,
-                initializer: getTextOfTsNode(getSchemaFromTypeReference(shape.aliasOf, schemaFile).toExpression()),
-            },
-        ],
+    generateSchemaDeclarations({
+        schemaFile,
+        schema: schemaFile.getSchemaOfTypeReference(shape.aliasOf),
+        typeDeclaration,
+        typeName,
+        generateRawTypeDeclaration: (module, rawTypeName) => {
+            module.addTypeAlias({
+                name: rawTypeName,
+                type: getTextOfTsNode(schemaFile.getReferenceToRawType(shape.aliasOf).typeNode),
+            });
+        },
     });
 }

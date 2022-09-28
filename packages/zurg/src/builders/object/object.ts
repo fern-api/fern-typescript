@@ -1,9 +1,16 @@
 import { Schema } from "../../Schema";
 import { entries } from "../../utils/entries";
-import { BaseObjectLikeSchema, getObjectLikeProperties, OBJECT_LIKE_BRAND } from "../object-like";
+import { getObjectLikeUtils, OBJECT_LIKE_BRAND } from "../object-like";
 import { getSchemaUtils } from "../schema-utils";
 import { isProperty } from "./property";
-import { inferParsedObject, inferRawObject, ObjectSchema, PropertySchemas } from "./types";
+import {
+    BaseObjectSchema,
+    inferObjectSchemaFromPropertySchemas,
+    inferParsedObjectFromPropertySchemas,
+    inferRawObjectFromPropertySchemas,
+    ObjectUtils,
+    PropertySchemas,
+} from "./types";
 
 interface ObjectPropertyWithRawKey {
     rawKey: string;
@@ -11,8 +18,13 @@ interface ObjectPropertyWithRawKey {
     valueSchema: Schema<any, any>;
 }
 
-export function object<ParsedKeys extends string, T extends PropertySchemas<ParsedKeys>>(schemas: T): ObjectSchema<T> {
-    const baseSchema: BaseObjectLikeSchema<inferRawObject<T>, inferParsedObject<T>> = {
+export function object<ParsedKeys extends string, T extends PropertySchemas<ParsedKeys>>(
+    schemas: T
+): inferObjectSchemaFromPropertySchemas<T> {
+    const baseSchema: BaseObjectSchema<
+        inferRawObjectFromPropertySchemas<T>,
+        inferParsedObjectFromPropertySchemas<T>
+    > = {
         ...OBJECT_LIKE_BRAND,
 
         parse: (raw, { skipUnknownKeysOnParse = false } = {}) => {
@@ -38,13 +50,16 @@ export function object<ParsedKeys extends string, T extends PropertySchemas<Pars
                 const property = rawKeyToProperty[rawKey];
 
                 if (property != null) {
-                    parsed[property.parsedKey] = property.valueSchema.parse(rawPropertyValue);
-                } else if (!skipUnknownKeysOnParse) {
+                    const value = property.valueSchema.parse(rawPropertyValue);
+                    if (value != null) {
+                        parsed[property.parsedKey] = value;
+                    }
+                } else if (!skipUnknownKeysOnParse && rawPropertyValue != null) {
                     parsed[rawKey] = rawPropertyValue;
                 }
             }
 
-            return parsed as inferParsedObject<T>;
+            return parsed as inferParsedObjectFromPropertySchemas<T>;
         },
 
         json: (parsed, { includeUnknownKeysOnJson = false } = {}) => {
@@ -55,29 +70,57 @@ export function object<ParsedKeys extends string, T extends PropertySchemas<Pars
                 // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
                 if (schemaOrObjectProperty != null) {
                     if (isProperty(schemaOrObjectProperty)) {
-                        raw[schemaOrObjectProperty.rawKey] =
-                            schemaOrObjectProperty.valueSchema.json(parsedPropertyValue);
+                        const value = schemaOrObjectProperty.valueSchema.json(parsedPropertyValue);
+                        if (value != null) {
+                            raw[schemaOrObjectProperty.rawKey] = value;
+                        }
                     } else {
-                        raw[parsedKey] = schemaOrObjectProperty.json(parsedPropertyValue);
+                        const value = schemaOrObjectProperty.json(parsedPropertyValue);
+                        if (value != null) {
+                            raw[parsedKey] = value;
+                        }
                     }
-                } else if (includeUnknownKeysOnJson) {
+                } else if (includeUnknownKeysOnJson && parsedPropertyValue != null) {
                     raw[parsedKey] = parsedPropertyValue;
                 }
             }
 
-            return raw as inferRawObject<T>;
+            return raw as inferRawObjectFromPropertySchemas<T>;
         },
     };
 
     return {
         ...baseSchema,
         ...getSchemaUtils(baseSchema),
-        ...getObjectLikeProperties(baseSchema),
-        properties: schemas,
-        extend: <U extends PropertySchemas<keyof U>>(extension: U) =>
-            object({
-                ...schemas,
-                ...extension,
-            }) as unknown as Schema<inferRawObject<T> & inferRawObject<U>, inferParsedObject<T> & inferParsedObject<U>>,
+        ...getObjectLikeUtils(baseSchema),
+        ...getObjectUtils(baseSchema),
+    };
+}
+
+export function getObjectUtils<Raw, Parsed>(schema: BaseObjectSchema<Raw, Parsed>): ObjectUtils<Raw, Parsed> {
+    return {
+        extend: <U extends PropertySchemas<keyof U>>(extension: U) => {
+            const baseSchema: BaseObjectSchema<
+                Raw & inferRawObjectFromPropertySchemas<U>,
+                Parsed & inferParsedObjectFromPropertySchemas<U>
+            > = {
+                ...OBJECT_LIKE_BRAND,
+                parse: (raw, opts) => ({
+                    ...schema.parse(raw, opts),
+                    ...object(extension).parse(raw, opts),
+                }),
+                json: (parsed, opts) => ({
+                    ...schema.json(parsed, opts),
+                    ...object(extension).json(parsed, opts),
+                }),
+            };
+
+            return {
+                ...baseSchema,
+                ...getSchemaUtils(baseSchema),
+                ...getObjectLikeUtils(baseSchema),
+                ...getObjectUtils(baseSchema),
+            };
+        },
     };
 }

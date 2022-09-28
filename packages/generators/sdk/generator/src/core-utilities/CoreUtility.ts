@@ -11,7 +11,10 @@ export declare namespace CoreUtility {
 
     export interface Manifest {
         name: CoreUtilityName;
-        originalPathInRepo: RelativeFilePath;
+        repoInfoForTesting: {
+            path: RelativeFilePath;
+            ignoreGlob?: string;
+        };
         originalPathOnDocker: AbsoluteFilePath;
         pathInCoreUtilities: ExportedDirectory[];
     }

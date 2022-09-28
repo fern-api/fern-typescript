@@ -1,6 +1,7 @@
 import { AbsoluteFilePath, join, RelativeFilePath } from "@fern-api/core-utils";
 import { CoreUtilities } from "@fern-typescript/sdk-declaration-handler";
-import { cp } from "fs/promises";
+import { cp, rm } from "fs/promises";
+import glob from "glob-promise";
 import path from "path";
 import { SourceFile } from "ts-morph";
 import { getReferenceToExportViaNamespaceImport } from "../declaration-referencers/utils/getReferenceToExportViaNamespaceImport";
@@ -40,18 +41,27 @@ export class CoreUtilitiesManager {
 
     public async copyCoreUtilities({ pathToPackage }: { pathToPackage: AbsoluteFilePath }): Promise<void> {
         await Promise.all(
-            [...Object.values(this.referencedCoreUtilities)].map((utility) =>
-                cp(
+            [...Object.values(this.referencedCoreUtilities)].map(async (utility) => {
+                const toPath = join(
+                    pathToPackage,
+                    ...getPathToUtility(utility).map((directory) => RelativeFilePath.of(directory.nameOnDisk))
+                );
+                await cp(
                     process.env.NODE_ENV === "test"
-                        ? path.join(__dirname, "../../../../../..", utility.originalPathInRepo)
+                        ? path.join(__dirname, "../../../../../..", utility.repoInfoForTesting.path)
                         : utility.originalPathOnDocker,
-                    join(
-                        pathToPackage,
-                        ...getPathToUtility(utility).map((directory) => RelativeFilePath.of(directory.nameOnDisk))
-                    ),
+                    toPath,
                     { recursive: true }
-                )
-            )
+                );
+
+                if (utility.repoInfoForTesting.ignoreGlob != null && process.env.NODE_ENV === "test") {
+                    const filesToDelete = await glob(utility.repoInfoForTesting.ignoreGlob, {
+                        cwd: toPath,
+                        absolute: true,
+                    });
+                    await Promise.all(filesToDelete.map((filepath) => rm(filepath, { recursive: true })));
+                }
+            })
         );
     }
 

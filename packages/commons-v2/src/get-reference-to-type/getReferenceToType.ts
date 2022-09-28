@@ -82,9 +82,11 @@ export function getReferenceToType({
         },
 
         unknown: () => {
+            const typeNode = ts.factory.createKeywordTypeNode(ts.SyntaxKind.UnknownKeyword);
             return {
-                typeNode: ts.factory.createKeywordTypeNode(ts.SyntaxKind.UnknownKeyword),
-                isOptional: false,
+                typeNode,
+                isOptional: true,
+                typeNodeWithoutUndefined: typeNode,
             };
         },
 
