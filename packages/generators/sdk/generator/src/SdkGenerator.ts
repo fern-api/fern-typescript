@@ -283,7 +283,7 @@ export class SdkGenerator {
         const getSchemaOfNamedType = (typeName: DeclaredTypeName) => {
             let schema = coreUtilities.zurg.Schema._fromExpression(getReferenceToNamedTypeSchema(typeName).expression);
 
-            // if this type eventually references our forType, then use lazy()
+            // if this type eventually references the type we're generating, then use lazy()
             if (
                 stringifiedTypeNameBeingGenerated != null &&
                 this.typeResolver
