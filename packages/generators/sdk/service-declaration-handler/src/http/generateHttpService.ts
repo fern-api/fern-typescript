@@ -4,7 +4,7 @@ import { SdkFile } from "@fern-typescript/sdk-declaration-handler";
 import { Scope, ts } from "ts-morph";
 import { ClientConstants } from "../constants";
 import { ServiceDeclarationHandler } from "../ServiceDeclarationHandler";
-import { Endpoint } from "./endpoints/parsed-endpoint/Endpoint";
+import { Endpoint } from "./endpoints/Endpoint";
 
 export function generateHttpService({
     service: irService,
