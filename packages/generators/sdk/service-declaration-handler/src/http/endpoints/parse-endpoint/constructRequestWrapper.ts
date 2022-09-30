@@ -1,3 +1,4 @@
+import { DeclaredServiceName } from "@fern-fern/ir-model/services/commons";
 import {
     HttpEndpoint,
     HttpHeader,
@@ -9,7 +10,7 @@ import { TypeReference } from "@fern-fern/ir-model/types";
 import { getTextOfTsNode, maybeAddDocs } from "@fern-typescript/commons";
 import { TypeReferenceNode } from "@fern-typescript/commons-v2";
 import { SdkFile } from "@fern-typescript/sdk-declaration-handler";
-import { InterfaceDeclaration, ModuleDeclaration, ts } from "ts-morph";
+import { InterfaceDeclaration, ts } from "ts-morph";
 import { getReferenceToMaybeVoidType } from "./getReferenceToMaybeVoidType";
 
 export interface RequestWrapper {
@@ -27,29 +28,29 @@ export interface WrapperField<T> {
 }
 
 export function constructRequestWrapper({
+    serviceName,
     endpoint,
-    file,
-    endpointModule,
+    endpointFile,
 }: {
+    serviceName: DeclaredServiceName;
     endpoint: HttpEndpoint;
-    file: SdkFile;
-    endpointModule: ModuleDeclaration;
+    endpointFile: SdkFile;
 }): RequestWrapper {
-    const wrapperInterface = endpointModule.addInterface({
+    const wrapperInterface = endpointFile.sourceFile.addInterface({
         name: "Request",
         isExported: true,
     });
 
     const referenceToWrapper = ts.factory.createTypeReferenceNode(
         ts.factory.createQualifiedName(
-            file.getReferenceToExportInSameFile(endpointModule.getName()).entityName,
+            endpointFile.getReferenceToEndpointFile(serviceName, endpoint.id).entityName,
             wrapperInterface.getName()
         )
     );
 
     const pathParameters = constructWrapperFields({
         items: endpoint.pathParameters,
-        file,
+        endpointFile,
         wrapperInterface,
         getInfo: (pathParameter) => ({
             key: pathParameter.name.camelCase,
@@ -60,7 +61,7 @@ export function constructRequestWrapper({
 
     const queryParameters = constructWrapperFields({
         items: endpoint.queryParameters,
-        file,
+        endpointFile,
         wrapperInterface,
         getInfo: (queryParameter) => ({
             key: queryParameter.name.camelCase,
@@ -71,7 +72,7 @@ export function constructRequestWrapper({
 
     const headers = constructWrapperFields({
         items: [...endpoint.headers],
-        file,
+        endpointFile,
         wrapperInterface,
         getInfo: (header) => ({
             key: header.name.camelCase,
@@ -80,7 +81,7 @@ export function constructRequestWrapper({
         }),
     });
 
-    const body = constructBody({ request: endpoint.request, file, wrapperInterface });
+    const body = constructBody({ request: endpoint.request, endpointFile, wrapperInterface });
 
     return {
         referenceToWrapper,
@@ -93,18 +94,18 @@ export function constructRequestWrapper({
 
 function constructWrapperFields<T>({
     items,
-    file,
+    endpointFile,
     wrapperInterface,
     getInfo,
 }: {
     items: T[];
-    file: SdkFile;
+    endpointFile: SdkFile;
     wrapperInterface: InterfaceDeclaration;
     getInfo: (item: T) => { key: string; typeReference: TypeReference; docs: string | null | undefined };
 }): WrapperField<T>[] {
     return items.map((item) => {
         const { key, typeReference, docs } = getInfo(item);
-        const type = file.getReferenceToType(typeReference);
+        const type = endpointFile.getReferenceToType(typeReference);
 
         const property = wrapperInterface.addProperty({
             name: key,
@@ -123,14 +124,14 @@ function constructWrapperFields<T>({
 
 function constructBody({
     request,
-    file,
+    endpointFile,
     wrapperInterface,
 }: {
     request: HttpRequest;
-    file: SdkFile;
+    endpointFile: SdkFile;
     wrapperInterface: InterfaceDeclaration;
 }): WrapperField<HttpRequest> | undefined {
-    const bodyType = getReferenceToMaybeVoidType(request.type, file);
+    const bodyType = getReferenceToMaybeVoidType(request.type, endpointFile);
     if (bodyType == null) {
         return undefined;
     }

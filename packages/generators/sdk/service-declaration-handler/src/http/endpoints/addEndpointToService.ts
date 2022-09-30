@@ -1,24 +1,21 @@
-import { HttpEndpoint } from "@fern-fern/ir-model/services/http";
 import { getTextOfTsNode } from "@fern-typescript/commons";
 import { SdkFile } from "@fern-typescript/sdk-declaration-handler";
 import { ClassDeclaration, InterfaceDeclaration, Scope, ts } from "ts-morph";
 import { generateEndpointMethodBody } from "./endpoint-method-body/generateEndpointMethodBody";
 import { getHttpRequestParameters } from "./getHttpRequestParameters";
-import { parseEndpoint } from "./parse-endpoint/parseEndpoint";
+import { ParsedClientEndpoint } from "./parse-endpoint/ParsedClientEndpoint";
 
 export function addEndpointToService({
-    endpoint,
+    parsedEndpoint,
     file,
     serviceInterface,
     serviceClass,
 }: {
     file: SdkFile;
-    endpoint: HttpEndpoint;
+    parsedEndpoint: ParsedClientEndpoint;
     serviceInterface: InterfaceDeclaration;
     serviceClass: ClassDeclaration;
 }): void {
-    const parsedEndpoint = parseEndpoint({ endpoint, file });
-
     const parameters = getHttpRequestParameters(parsedEndpoint);
 
     const returnType = getTextOfTsNode(

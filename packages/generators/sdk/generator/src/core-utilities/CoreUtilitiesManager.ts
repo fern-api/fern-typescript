@@ -10,6 +10,7 @@ import { ExportsManager } from "../exports-manager/ExportsManager";
 import { ImportDeclaration } from "../imports-manager/ImportsManager";
 import { ModuleSpecifier } from "../utils/ModuleSpecifier";
 import { CoreUtility, CoreUtilityName } from "./CoreUtility";
+import { FetcherImpl } from "./implementations/FetcherImpl";
 import { ZurgImpl } from "./implementations/ZurgImpl";
 
 const CORE_UTILITIES_FILEPATH: ExportedDirectory[] = [{ nameOnDisk: "core" }];
@@ -30,6 +31,7 @@ export class CoreUtilitiesManager {
         const getReferenceToExport = this.createGetReferenceToExport({ sourceFile, addImport });
         return {
             zurg: new ZurgImpl({ getReferenceToExport }),
+            fetcher: new FetcherImpl({ getReferenceToExport }),
         };
     }
 

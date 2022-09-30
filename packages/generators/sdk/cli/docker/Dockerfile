@@ -5,4 +5,7 @@ COPY packages/generators/sdk/cli/docker/dist/bundle.js /bundle.js
 COPY packages/zurg/src/ /assets/zurg
 RUN find /assets/zurg -name __test__ -exec rm -rf {} \+
 
+# copy fetcher
+COPY packages/fetcher/src/ /assets/fetcher
+
 ENTRYPOINT ["node", "/bundle.js"]

@@ -3,7 +3,7 @@ import { string } from "../../primitives";
 import { set } from "../set";
 
 describe("set", () => {
-    itSchema("converts between raw lists and parsed Sets", set(string()), {
+    itSchema("converts between raw list and parsed Set", set(string()), {
         raw: ["A", "B"],
         parsed: new Set(["A", "B"]),
     });

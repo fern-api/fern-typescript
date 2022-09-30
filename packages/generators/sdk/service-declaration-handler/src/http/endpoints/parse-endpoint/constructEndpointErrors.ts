@@ -5,7 +5,7 @@ import { getTextOfTsNode, getWriterForMultiLineUnionType, visitorUtils } from "@
 import { createPropertyAssignment } from "@fern-typescript/commons-v2";
 import { TsNodeMaybeWithDocs } from "@fern-typescript/commons/src/writers/getWriterForMultiLineUnionType";
 import { SdkFile } from "@fern-typescript/sdk-declaration-handler";
-import { ModuleDeclaration, OptionalKind, PropertySignature, PropertySignatureStructure, ts } from "ts-morph";
+import { OptionalKind, PropertySignature, PropertySignatureStructure, ts } from "ts-morph";
 import { ClientConstants } from "../../../constants";
 import { generateReturnErrorResponse } from "../endpoint-method-body/generateReturnErrorResponse";
 import { ClientEndpointError } from "./ParsedClientEndpoint";
@@ -23,40 +23,32 @@ interface ServerError {
 
 export function constructEndpointErrors({
     endpoint,
-    file,
-    endpointModule,
+    endpointFile,
     addEndpointUtil,
 }: {
     endpoint: HttpEndpoint;
-    file: SdkFile;
-    endpointModule: ModuleDeclaration;
+    endpointFile: SdkFile;
     addEndpointUtil: (util: ts.ObjectLiteralElementLike) => void;
 }): ClientEndpointError {
-    const referenceToEndpointModule = file.getReferenceToExportInSameFile(endpointModule.getName());
-
-    const errorType = endpointModule.addInterface({
+    const errorType = endpointFile.sourceFile.addInterface({
         name: "Error",
         isExported: true,
     });
 
-    const referenceToErrorType = ts.factory.createTypeReferenceNode(
-        ts.factory.createQualifiedName(referenceToEndpointModule.entityName, errorType.getName())
-    );
+    const referenceToErrorType = ts.factory.createTypeReferenceNode(errorType.getName());
 
     const serverErrors = parseServerErrors({
         endpoint,
-        file,
-        endpointModule,
-        referenceToEndpointModule: referenceToEndpointModule.entityName,
+        endpointFile,
     });
 
     const errorBodyProperty = errorType.addProperty(
-        getErrorBodyProperty({ referenceToErrorBodyType: serverErrors?.referenceToErrorBodyType, file })
+        getErrorBodyProperty({ referenceToErrorBodyType: serverErrors?.referenceToErrorBodyType, endpointFile })
     );
 
     const networkErrorVisitableItem: visitorUtils.VisitableItem = {
         caseInSwitchStatement: ts.factory.createStringLiteral(
-            file.externalDependencies.serviceUtils.NetworkError.ERROR_NAME
+            endpointFile.externalDependencies.serviceUtils.NetworkError.ERROR_NAME
         ),
         keyInVisitor: "_network",
         visitorArgument: undefined,
@@ -64,14 +56,14 @@ export function constructEndpointErrors({
 
     const unknownVisitorArgument: visitorUtils.Argument = {
         name: "details",
-        type: file.externalDependencies.serviceUtils.ErrorDetails._getReferenceToType(),
+        type: endpointFile.externalDependencies.serviceUtils.ErrorDetails._getReferenceToType(),
         argument: ts.factory.createObjectLiteralExpression(
             [
                 createPropertyAssignment(
-                    file.externalDependencies.serviceUtils.ErrorDetails.STATUS_CODE,
+                    endpointFile.externalDependencies.serviceUtils.ErrorDetails.STATUS_CODE,
                     ts.factory.createPropertyAccessExpression(
                         ts.factory.createIdentifier(ClientConstants.HttpService.Endpoint.Variables.RESPONSE),
-                        file.externalDependencies.serviceUtils.Fetcher.ServerResponse.STATUS_CODE
+                        endpointFile.externalDependencies.serviceUtils.Fetcher.ServerResponse.STATUS_CODE
                     )
                 ),
             ],
@@ -84,7 +76,7 @@ export function constructEndpointErrors({
         visitableItemsForServerErrors.push(...serverErrors.errors.map((error) => error.visitableItem));
     }
     visitableItemsForServerErrors.push(networkErrorVisitableItem);
-    const visitorInterface = endpointModule.addInterface(
+    const visitorInterface = endpointFile.sourceFile.addInterface(
         visitorUtils.generateVisitorInterface({
             items: {
                 items: visitableItemsForServerErrors,
@@ -97,9 +89,7 @@ export function constructEndpointErrors({
     const visitProperty = errorType.addProperty({
         name: "_visit",
         type: getTextOfTsNode(
-            visitorUtils.generateVisitMethodType(
-                ts.factory.createQualifiedName(referenceToEndpointModule.entityName, visitorInterface.getName())
-            )
+            visitorUtils.generateVisitMethodType(ts.factory.createIdentifier(visitorInterface.getName()))
         ),
     });
 
@@ -108,7 +98,7 @@ export function constructEndpointErrors({
             createPropertyAssignment(
                 ClientConstants.HttpService.Endpoint.Utils.ERROR_PARSER,
                 constructErrorParser({
-                    file,
+                    endpointFile,
                     serverErrors,
                     errorBodyProperty,
                     referenceToErrorType,
@@ -117,16 +107,13 @@ export function constructEndpointErrors({
         );
     }
 
-    const referenceToErrorParser = ts.factory.createPropertyAccessExpression(
-        referenceToEndpointModule.expression,
-        ClientConstants.HttpService.Endpoint.Utils.ERROR_PARSER
-    );
+    const referenceToErrorParser = ts.factory.createIdentifier(ClientConstants.HttpService.Endpoint.Utils.ERROR_PARSER);
 
     return {
         reference: referenceToErrorType,
         generateConstructServerErrorStatements: () =>
             generateConstructServerErrorStatements({
-                file,
+                endpointFile,
                 referenceToErrorParser,
                 serverErrors,
                 unknownVisitorArgument,
@@ -134,7 +121,7 @@ export function constructEndpointErrors({
             }),
         generateConstructNetworkErrorBody: () =>
             generateConstructNetworkErrorBody({
-                file,
+                endpointFile,
                 errorBodyProperty,
                 visitProperty,
                 networkErrorVisitableItem,
@@ -144,18 +131,14 @@ export function constructEndpointErrors({
 
 function parseServerErrors({
     endpoint,
-    file,
-    endpointModule,
-    referenceToEndpointModule,
+    endpointFile,
 }: {
     endpoint: HttpEndpoint;
-    file: SdkFile;
-    endpointModule: ModuleDeclaration;
-    referenceToEndpointModule: ts.EntityName;
+    endpointFile: SdkFile;
 }): ServerErrors | undefined {
     const serverErrors = endpoint.errors.map((error) => {
-        const errorDeclaration = file.getErrorDeclaration(error.error);
-        const referenceToErrorBodyType = file.getReferenceToError(error.error).typeNode;
+        const errorDeclaration = endpointFile.getErrorDeclaration(error.error);
+        const referenceToErrorBodyType = endpointFile.getReferenceToError(error.error).typeNode;
         return {
             responseError: error,
             declaration: errorDeclaration,
@@ -177,12 +160,12 @@ function parseServerErrors({
         return undefined;
     }
 
-    const errorBodyType = endpointModule.addTypeAlias({
+    const errorBodyType = endpointFile.sourceFile.addTypeAlias({
         name: "ErrorBody",
         isExported: true,
         type: getWriterForMultiLineUnionType(
             endpoint.errors.map((error) => ({
-                node: file.getReferenceToError(error.error).typeNode,
+                node: endpointFile.getReferenceToError(error.error).typeNode,
                 docs: error.docs,
             }))
         ),
@@ -190,18 +173,16 @@ function parseServerErrors({
 
     return {
         errors: serverErrors,
-        referenceToErrorBodyType: ts.factory.createTypeReferenceNode(
-            ts.factory.createQualifiedName(referenceToEndpointModule, errorBodyType.getName())
-        ),
+        referenceToErrorBodyType: ts.factory.createTypeReferenceNode(errorBodyType.getName()),
     };
 }
 
 function getErrorBodyProperty({
     referenceToErrorBodyType,
-    file,
+    endpointFile,
 }: {
     referenceToErrorBodyType: ts.TypeNode | undefined;
-    file: SdkFile;
+    endpointFile: SdkFile;
 }): OptionalKind<PropertySignatureStructure> {
     const errorBodySubTypes: TsNodeMaybeWithDocs[] = [];
     if (referenceToErrorBodyType != null) {
@@ -213,11 +194,11 @@ function getErrorBodyProperty({
     errorBodySubTypes.push(
         {
             docs: undefined,
-            node: file.externalDependencies.serviceUtils.NetworkError._getReferenceToType(),
+            node: endpointFile.externalDependencies.serviceUtils.NetworkError._getReferenceToType(),
         },
         {
             docs: undefined,
-            node: file.externalDependencies.serviceUtils.UnknownError._getReferenceToType(),
+            node: endpointFile.externalDependencies.serviceUtils.UnknownError._getReferenceToType(),
         }
     );
     return {
@@ -227,12 +208,12 @@ function getErrorBodyProperty({
 }
 
 function constructErrorParser({
-    file,
+    endpointFile,
     serverErrors,
     errorBodyProperty,
     referenceToErrorType,
 }: {
-    file: SdkFile;
+    endpointFile: SdkFile;
     serverErrors: ServerErrors;
     errorBodyProperty: PropertySignature;
     referenceToErrorType: ts.TypeReferenceNode;
@@ -282,7 +263,7 @@ function constructErrorParser({
                                     ts.factory.createSwitchStatement(
                                         ts.factory.createPropertyAccessExpression(
                                             ts.factory.createIdentifier(visitorUtils.VALUE_PARAMETER_NAME),
-                                            file.fernConstants.errorDiscriminant
+                                            endpointFile.fernConstants.errorDiscriminant
                                         ),
                                         ts.factory.createCaseBlock(
                                             visitorUtils.generateVisitSwitchCaseClauses(
@@ -303,12 +284,12 @@ function constructErrorParser({
 }
 
 function generateConstructNetworkErrorBody({
-    file,
+    endpointFile,
     errorBodyProperty,
     visitProperty,
     networkErrorVisitableItem,
 }: {
-    file: SdkFile;
+    endpointFile: SdkFile;
     errorBodyProperty: PropertySignature;
     visitProperty: PropertySignature;
     networkErrorVisitableItem: visitorUtils.VisitableItem;
@@ -319,8 +300,10 @@ function generateConstructNetworkErrorBody({
                 errorBodyProperty.getName(),
                 ts.factory.createObjectLiteralExpression([
                     createPropertyAssignment(
-                        ts.factory.createIdentifier(file.fernConstants.errorDiscriminant),
-                        ts.factory.createStringLiteral(file.externalDependencies.serviceUtils.NetworkError.ERROR_NAME)
+                        ts.factory.createIdentifier(endpointFile.fernConstants.errorDiscriminant),
+                        ts.factory.createStringLiteral(
+                            endpointFile.externalDependencies.serviceUtils.NetworkError.ERROR_NAME
+                        )
                     ),
                 ])
             ),
@@ -358,20 +341,20 @@ function generateConstructNetworkErrorBody({
 }
 
 function generateConstructServerErrorStatements({
-    file,
+    endpointFile,
     referenceToErrorParser,
     serverErrors,
     unknownVisitorArgument,
     errorBodyProperty,
 }: {
-    file: SdkFile;
+    endpointFile: SdkFile;
     referenceToErrorParser: ts.Expression;
     serverErrors: ServerErrors | undefined;
     unknownVisitorArgument: visitorUtils.Argument;
     errorBodyProperty: PropertySignature;
 }) {
     const returnUnknownError = generateReturnErrorResponse({
-        file,
+        file: endpointFile,
         body: ts.factory.createObjectLiteralExpression(
             [
                 ts.factory.createPropertyAssignment(
@@ -379,9 +362,9 @@ function generateConstructServerErrorStatements({
                     ts.factory.createAsExpression(
                         ts.factory.createPropertyAccessExpression(
                             ts.factory.createIdentifier(ClientConstants.HttpService.Endpoint.Variables.RESPONSE),
-                            file.externalDependencies.serviceUtils.Fetcher.Response.BODY
+                            endpointFile.externalDependencies.serviceUtils.Fetcher.Response.BODY
                         ),
-                        file.externalDependencies.serviceUtils.UnknownError._getReferenceToType()
+                        endpointFile.externalDependencies.serviceUtils.UnknownError._getReferenceToType()
                     )
                 ),
                 ts.factory.createPropertyAssignment(
@@ -427,19 +410,19 @@ function generateConstructServerErrorStatements({
                 ts.factory.createAsExpression(
                     ts.factory.createPropertyAccessExpression(
                         ts.factory.createIdentifier(ClientConstants.HttpService.Endpoint.Variables.RESPONSE),
-                        file.externalDependencies.serviceUtils.Fetcher.Response.BODY
+                        endpointFile.externalDependencies.serviceUtils.Fetcher.Response.BODY
                     ),
                     serverErrors.referenceToErrorBodyType
                 )
             ),
             ts.factory.createToken(ts.SyntaxKind.QuestionDotToken),
-            file.fernConstants.errorDiscriminant
+            endpointFile.fernConstants.errorDiscriminant
         ),
         ts.factory.createCaseBlock([
             ...getServerErrorCaseStatements({
                 serverErrors,
                 referenceToErrorParser,
-                file,
+                endpointFile,
             }),
             ts.factory.createDefaultClause([returnUnknownError]),
         ])
@@ -449,11 +432,11 @@ function generateConstructServerErrorStatements({
 function getServerErrorCaseStatements({
     serverErrors,
     referenceToErrorParser,
-    file,
+    endpointFile,
 }: {
     serverErrors: ServerErrors;
     referenceToErrorParser: ts.Expression;
-    file: SdkFile;
+    endpointFile: SdkFile;
 }): ts.CaseClause[] {
     const lastServerError = serverErrors.errors[serverErrors.errors.length - 1];
     if (lastServerError == null) {
@@ -465,12 +448,12 @@ function getServerErrorCaseStatements({
             .map((error) => ts.factory.createCaseClause(error.visitableItem.caseInSwitchStatement, [])),
         ts.factory.createCaseClause(lastServerError.visitableItem.caseInSwitchStatement, [
             generateReturnErrorResponse({
-                file,
+                file: endpointFile,
                 body: ts.factory.createCallExpression(referenceToErrorParser, undefined, [
                     ts.factory.createAsExpression(
                         ts.factory.createPropertyAccessExpression(
                             ts.factory.createIdentifier(ClientConstants.HttpService.Endpoint.Variables.RESPONSE),
-                            file.externalDependencies.serviceUtils.Fetcher.Response.BODY
+                            endpointFile.externalDependencies.serviceUtils.Fetcher.Response.BODY
                         ),
                         serverErrors.referenceToErrorBodyType
                     ),

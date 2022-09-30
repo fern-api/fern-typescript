@@ -1,68 +1,57 @@
+import { DeclaredServiceName } from "@fern-fern/ir-model/services/commons";
 import { HttpEndpoint } from "@fern-fern/ir-model/services/http";
-import { getTextOfTsNode } from "@fern-typescript/commons";
 import { SdkFile } from "@fern-typescript/sdk-declaration-handler";
-import { ModuleDeclaration, ts, VariableDeclarationKind } from "ts-morph";
+import { ts } from "ts-morph";
 import { constructEndpointErrors } from "./constructEndpointErrors";
 import { constructRequestWrapper } from "./constructRequestWrapper";
 import { getReferenceToMaybeVoidType } from "./getReferenceToMaybeVoidType";
 import { ClientEndpointRequest, ParsedClientEndpoint } from "./ParsedClientEndpoint";
 
-export function parseEndpoint({ endpoint, file }: { endpoint: HttpEndpoint; file: SdkFile }): ParsedClientEndpoint {
-    const endpointModule = file.sourceFile.addModule({
-        name: endpoint.name.camelCase,
-        isExported: true,
-    });
-    file.addNamedExport(endpointModule.getName());
-
+export function parseEndpoint({
+    serviceName,
+    endpoint,
+    endpointFile,
+}: {
+    serviceName: DeclaredServiceName;
+    endpoint: HttpEndpoint;
+    endpointFile: SdkFile;
+    schemaFile: SdkFile;
+}): ParsedClientEndpoint {
     const endpointUtils: ts.ObjectLiteralElementLike[] = [];
 
     const parsedEndpoint: ParsedClientEndpoint = {
-        endpointMethodName: endpointModule.getName(),
+        endpointMethodName: endpoint.name.camelCase,
         path: endpoint.path,
         method: endpoint.method,
-        request: parseRequest({ endpoint, file, endpointModule }),
-        referenceToResponse: getReferenceToMaybeVoidType(endpoint.response.type, file),
+        request: parseRequest({ serviceName, endpoint, endpointFile }),
+        referenceToResponse: getReferenceToMaybeVoidType(endpoint.response.type, endpointFile),
         error: constructEndpointErrors({
             endpoint,
-            file,
-            endpointModule,
+            endpointFile,
             addEndpointUtil: (util) => {
                 endpointUtils.push(util);
             },
         }),
     };
 
-    if (endpointUtils.length > 0) {
-        file.sourceFile.addVariableStatement({
-            declarations: [
-                {
-                    name: endpointModule.getName(),
-                    initializer: getTextOfTsNode(ts.factory.createObjectLiteralExpression(endpointUtils, true)),
-                },
-            ],
-            declarationKind: VariableDeclarationKind.Const,
-            isExported: true,
-        });
-    }
-
     return parsedEndpoint;
 }
 
 function parseRequest({
+    serviceName,
     endpoint,
-    file,
-    endpointModule,
+    endpointFile,
 }: {
+    serviceName: DeclaredServiceName;
     endpoint: HttpEndpoint;
-    file: SdkFile;
-    endpointModule: ModuleDeclaration;
+    endpointFile: SdkFile;
 }): ClientEndpointRequest | undefined {
     if (
         endpoint.pathParameters.length === 0 &&
         endpoint.queryParameters.length === 0 &&
         endpoint.headers.length === 0
     ) {
-        const referenceToBody = getReferenceToMaybeVoidType(endpoint.request.type, file);
+        const referenceToBody = getReferenceToMaybeVoidType(endpoint.request.type, endpointFile);
         if (referenceToBody == null) {
             return undefined;
         }
@@ -73,7 +62,7 @@ function parseRequest({
         };
     }
 
-    const wrapper = constructRequestWrapper({ endpoint, file, endpointModule });
+    const wrapper = constructRequestWrapper({ serviceName, endpoint, endpointFile });
 
     return {
         isWrapped: true,

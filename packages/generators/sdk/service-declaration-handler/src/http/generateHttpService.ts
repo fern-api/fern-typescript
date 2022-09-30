@@ -3,23 +3,26 @@ import { getTextOfTsKeyword, getTextOfTsNode, maybeAddDocs } from "@fern-typescr
 import { SdkFile } from "@fern-typescript/sdk-declaration-handler";
 import { Scope, ts } from "ts-morph";
 import { ClientConstants } from "../constants";
-import { addEndpointToService } from "./endpoints/addEndpointToService";
+import { ServiceDeclarationHandler } from "../ServiceDeclarationHandler";
+import { Endpoint } from "./endpoints/parsed-endpoint/Endpoint";
 
 export function generateHttpService({
-    service,
+    service: irService,
     serviceClassName,
-    file,
+    serviceFile,
+    withEndpoint,
 }: {
     service: HttpService;
     serviceClassName: string;
-    file: SdkFile;
+    serviceFile: SdkFile;
+    withEndpoint: (endpointId: string, run: (args: ServiceDeclarationHandler.withEndpoint.Args) => void) => void;
 }): void {
-    const serviceInterface = file.sourceFile.addInterface({
+    const serviceInterface = serviceFile.sourceFile.addInterface({
         name: serviceClassName,
         isExported: true,
     });
 
-    const serviceModule = file.sourceFile.addModule({
+    const serviceModule = serviceFile.sourceFile.addModule({
         name: serviceInterface.getName(),
         isExported: true,
         hasDeclareKeyword: true,
@@ -35,14 +38,14 @@ export function generateHttpService({
         ],
     });
 
-    optionsInterface.addProperties(file.authSchemes.getProperties());
+    optionsInterface.addProperties(serviceFile.authSchemes.getProperties());
 
-    const serviceClass = file.sourceFile.addClass({
+    const serviceClass = serviceFile.sourceFile.addClass({
         name: serviceInterface.getName(),
         implements: [serviceInterface.getName()],
         isExported: true,
     });
-    maybeAddDocs(serviceClass, service.docs);
+    maybeAddDocs(serviceClass, irService.docs);
 
     serviceClass.addConstructor({
         parameters: [
@@ -62,12 +65,17 @@ export function generateHttpService({
         ],
     });
 
-    for (const endpoint of service.endpoints) {
-        addEndpointToService({
-            endpoint,
-            file,
-            serviceInterface,
-            serviceClass,
+    for (const irEndpoint of irService.endpoints) {
+        withEndpoint(irEndpoint.id, ({ endpointFile, schemaFile }) => {
+            const endpoint = new Endpoint({
+                serviceName: irService.name,
+                endpoint: irEndpoint,
+                file: endpointFile,
+            });
+            endpoint.generate({ endpointFile, schemaFile });
+            // TODO make a new class like Service() so we can do Service.getReferenceToOptions()
+            serviceInterface.addMethod(endpoint.getSignature(serviceFile));
+            serviceClass.addMethod(endpoint.getImplementation(serviceFile));
         });
     }
 }

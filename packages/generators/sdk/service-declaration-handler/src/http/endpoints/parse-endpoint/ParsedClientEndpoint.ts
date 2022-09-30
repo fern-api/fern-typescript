@@ -15,16 +15,14 @@ export interface ParsedClientEndpoint {
 export type ClientEndpointRequest = ClientEndpointRequest.Wrapped | ClientEndpointRequest.NotWrapped;
 
 export declare namespace ClientEndpointRequest {
-    export interface Wrapped extends Base, RequestWrapper {
+    export interface Wrapped extends RequestWrapper {
         isWrapped: true;
     }
 
-    export interface NotWrapped extends Base {
+    export interface NotWrapped {
         isWrapped: false;
         referenceToBody: TypeReferenceNode;
     }
-
-    export interface Base {}
 }
 
 export interface ClientEndpointError {

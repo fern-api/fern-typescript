@@ -1,3 +1,4 @@
+export * from "./date";
 export * from "./enum";
 export * from "./identity";
 export * from "./lazy";
