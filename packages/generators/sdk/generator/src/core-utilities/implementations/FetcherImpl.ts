@@ -1,16 +1,20 @@
 import { RelativeFilePath } from "@fern-api/core-utils";
 import { Fetcher } from "@fern-typescript/sdk-declaration-handler";
 import { ts } from "ts-morph";
+import { DependencyManager } from "../../dependency-manager/DependencyManager";
 import { CoreUtility } from "../CoreUtility";
 
 export class FetcherImpl extends CoreUtility implements Fetcher {
     public readonly MANIFEST = {
         name: "fetcher",
         repoInfoForTesting: {
-            path: RelativeFilePath.of("packages/fetcher/src"),
+            path: RelativeFilePath.of("packages/core-utilities/fetcher/src"),
         },
         originalPathOnDocker: "/assets/fetcher" as const,
         pathInCoreUtilities: [{ nameOnDisk: "fetcher", exportDeclaration: { exportAll: true } }],
+        addDependencies: (dependencyManager: DependencyManager): void => {
+            dependencyManager.addDependency("axios", "^0.27.2", { preferPeer: true });
+        },
     };
 
     public readonly Fetcher = {
@@ -53,11 +57,13 @@ export class FetcherImpl extends CoreUtility implements Fetcher {
                 ts.factory.createPropertyAssignment(this.Fetcher.Args.url, args.url),
                 ts.factory.createPropertyAssignment(this.Fetcher.Args.method, args.method),
             ];
-            if (args.headers != null) {
-                properties.push(ts.factory.createPropertyAssignment(this.Fetcher.Args.headers, args.headers));
-            }
-            if (args.authHeader != null) {
-                properties.push(ts.factory.createPropertyAssignment(this.Fetcher.Args.headers, args.authHeader));
+            if (args.headers.length > 0) {
+                properties.push(
+                    ts.factory.createPropertyAssignment(
+                        this.Fetcher.Args.headers,
+                        ts.factory.createObjectLiteralExpression(args.headers, true)
+                    )
+                );
             }
             if (args.queryParameters != null) {
                 properties.push(

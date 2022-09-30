@@ -37,12 +37,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/commons-v2"\
       },\
       {\
-        "name": "@fern-typescript/errors",\
-        "reference": "workspace:packages/errors"\
+        "name": "@fern-typescript/auth",\
+        "reference": "workspace:packages/core-utilities/auth"\
       },\
       {\
         "name": "@fern-typescript/fetcher",\
-        "reference": "workspace:packages/fetcher"\
+        "reference": "workspace:packages/core-utilities/fetcher"\
+      },\
+      {\
+        "name": "@fern-typescript/zurg",\
+        "reference": "workspace:packages/core-utilities/zurg"\
+      },\
+      {\
+        "name": "@fern-typescript/errors",\
+        "reference": "workspace:packages/errors"\
       },\
       {\
         "name": "@fern-typescript/sdk-generator-cli",\
@@ -103,20 +111,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {\
         "name": "@fern-typescript/types-v2",\
         "reference": "workspace:packages/types-v2"\
-      },\
-      {\
-        "name": "@fern-typescript/zurg",\
-        "reference": "workspace:packages/zurg"\
       }\
     ],\
     "enableTopLevelFallback": true,\
     "ignorePatternData": "(^(?:\\\\.yarn\\\\/sdks(?:\\\\/(?!\\\\.{1,2}(?:\\\\/|$))(?:(?:(?!(?:^|\\\\/)\\\\.{1,2}(?:\\\\/|$)).)*?)|$))$)",\
     "fallbackExclusionList": [\
+      ["@fern-typescript/auth", ["workspace:packages/core-utilities/auth"]],\
       ["@fern-typescript/client", ["workspace:packages/client"]],\
       ["@fern-typescript/commons", ["workspace:packages/commons"]],\
       ["@fern-typescript/commons-v2", ["workspace:packages/commons-v2"]],\
       ["@fern-typescript/errors", ["workspace:packages/errors"]],\
-      ["@fern-typescript/fetcher", ["workspace:packages/fetcher"]],\
+      ["@fern-typescript/fetcher", ["workspace:packages/core-utilities/fetcher"]],\
       ["@fern-typescript/model", ["workspace:packages/model"]],\
       ["@fern-typescript/model-context", ["workspace:packages/model-context"]],\
       ["@fern-typescript/resolvers", ["workspace:packages/resolvers"]],\
@@ -132,7 +137,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@fern-typescript/type-reference-converters", ["workspace:packages/generators/sdk/type-reference-converters"]],\
       ["@fern-typescript/types", ["workspace:packages/types"]],\
       ["@fern-typescript/types-v2", ["workspace:packages/types-v2"]],\
-      ["@fern-typescript/zurg", ["workspace:packages/zurg"]],\
+      ["@fern-typescript/zurg", ["workspace:packages/core-utilities/zurg"]],\
       ["fern", ["workspace:."]],\
       ["fern-typescript", ["workspace:packages/cli"]]\
     ],\
@@ -3436,6 +3441,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@fern-typescript/auth", [\
+        ["workspace:packages/core-utilities/auth", {\
+          "packageLocation": "./packages/core-utilities/auth/",\
+          "packageDependencies": [\
+            ["@fern-typescript/auth", "workspace:packages/core-utilities/auth"],\
+            ["@babel/core", "npm:7.19.1"],\
+            ["@babel/preset-env", "virtual:f8e21c9fa0a798b21a87ac455600e39198fef65848556a3a2cd5c956b0460181f9e618173dcff6d9d4fb96fb870055dfe1a3ec3db5db0700e71c0184e4711659#npm:7.19.1"],\
+            ["@babel/preset-typescript", "virtual:f8e21c9fa0a798b21a87ac455600e39198fef65848556a3a2cd5c956b0460181f9e618173dcff6d9d4fb96fb870055dfe1a3ec3db5db0700e71c0184e4711659#npm:7.18.6"],\
+            ["@types/basic-auth", "npm:1.1.3"],\
+            ["@types/jest", "npm:28.1.6"],\
+            ["@types/node", "npm:18.7.18"],\
+            ["basic-auth", "npm:2.0.1"],\
+            ["depcheck", "npm:1.4.3"],\
+            ["eslint", "npm:8.23.1"],\
+            ["jest", "virtual:f8e21c9fa0a798b21a87ac455600e39198fef65848556a3a2cd5c956b0460181f9e618173dcff6d9d4fb96fb870055dfe1a3ec3db5db0700e71c0184e4711659#npm:28.1.3"],\
+            ["js-base64", "npm:3.7.2"],\
+            ["prettier", "npm:2.7.1"],\
+            ["typescript", "patch:typescript@npm%3A4.6.4#~builtin<compat/typescript>::version=4.6.4&hash=f456af"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
       ["@fern-typescript/client", [\
         ["workspace:packages/client", {\
           "packageLocation": "./packages/client/",\
@@ -3537,14 +3564,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@fern-typescript/fetcher", [\
-        ["workspace:packages/fetcher", {\
-          "packageLocation": "./packages/fetcher/",\
+        ["workspace:packages/core-utilities/fetcher", {\
+          "packageLocation": "./packages/core-utilities/fetcher/",\
           "packageDependencies": [\
-            ["@fern-typescript/fetcher", "workspace:packages/fetcher"],\
+            ["@fern-typescript/fetcher", "workspace:packages/core-utilities/fetcher"],\
             ["@babel/core", "npm:7.19.1"],\
             ["@babel/preset-env", "virtual:f8e21c9fa0a798b21a87ac455600e39198fef65848556a3a2cd5c956b0460181f9e618173dcff6d9d4fb96fb870055dfe1a3ec3db5db0700e71c0184e4711659#npm:7.19.1"],\
             ["@babel/preset-typescript", "virtual:f8e21c9fa0a798b21a87ac455600e39198fef65848556a3a2cd5c956b0460181f9e618173dcff6d9d4fb96fb870055dfe1a3ec3db5db0700e71c0184e4711659#npm:7.18.6"],\
-            ["@types/basic-auth", "npm:1.1.3"],\
             ["@types/jest", "npm:28.1.6"],\
             ["@types/node", "npm:18.7.18"],\
             ["axios", "npm:0.27.2"],\
@@ -3978,10 +4004,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@fern-typescript/zurg", [\
-        ["workspace:packages/zurg", {\
-          "packageLocation": "./packages/zurg/",\
+        ["workspace:packages/core-utilities/zurg", {\
+          "packageLocation": "./packages/core-utilities/zurg/",\
           "packageDependencies": [\
-            ["@fern-typescript/zurg", "workspace:packages/zurg"],\
+            ["@fern-typescript/zurg", "workspace:packages/core-utilities/zurg"],\
             ["@babel/core", "npm:7.19.1"],\
             ["@babel/preset-env", "virtual:f8e21c9fa0a798b21a87ac455600e39198fef65848556a3a2cd5c956b0460181f9e618173dcff6d9d4fb96fb870055dfe1a3ec3db5db0700e71c0184e4711659#npm:7.19.1"],\
             ["@babel/preset-typescript", "virtual:f8e21c9fa0a798b21a87ac455600e39198fef65848556a3a2cd5c956b0460181f9e618173dcff6d9d4fb96fb870055dfe1a3ec3db5db0700e71c0184e4711659#npm:7.18.6"],\

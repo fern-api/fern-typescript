@@ -147,7 +147,7 @@ export class SdkGenerator {
         this.generateErrorDeclarations();
         this.generateServiceDeclarations();
         this.generateWrappers();
-        this.coreUtilitiesManager.addExports(this.exportsManager);
+        this.coreUtilitiesManager.finalize(this.exportsManager, this.dependencyManager);
         for (const sourceFile of this.rootDirectory.getDescendantSourceFiles()) {
             if (sourceFile.getStatements().length === 0) {
                 sourceFile.addExportDeclaration({});
@@ -267,8 +267,6 @@ export class SdkGenerator {
     }) {
         const filepathStr = convertExportedFilePathToFilePath(filepath);
         this.context.logger.debug(`Generating ${filepathStr}`);
-
-        this.exportsManager.addExportsForFilepath(filepath);
 
         const sourceFile = this.rootDirectory.createSourceFile(filepathStr);
 
@@ -417,7 +415,7 @@ export class SdkGenerator {
                 coreUtilities.zurg.Schema._fromExpression(getReferenceToErrorSchema(errorName).expression),
             authSchemes: parseAuthSchemes({
                 apiAuth: this.intermediateRepresentation.auth,
-                externalDependencies,
+                coreUtilities,
                 getReferenceToType: (typeReference) =>
                     typeReferenceToParsedTypeNodeConverter.convert(typeReference).typeNode,
             }),
@@ -441,9 +439,14 @@ export class SdkGenerator {
 
         run(file);
 
-        importsManager.writeImportsToSourceFile(sourceFile);
-
-        this.context.logger.debug(`Generated ${filepathStr}`);
+        if (sourceFile.getStatements().length === 0) {
+            sourceFile.delete();
+            this.context.logger.debug(`Skipping ${filepathStr} (no content)`);
+        } else {
+            importsManager.writeImportsToSourceFile(sourceFile);
+            this.exportsManager.addExportsForFilepath(filepath);
+            this.context.logger.debug(`Generated ${filepathStr}`);
+        }
     }
 }
 

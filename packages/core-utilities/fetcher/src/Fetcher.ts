@@ -12,7 +12,6 @@ export declare namespace Fetcher {
         url: string;
         method: string;
         headers?: Record<string, string | undefined>;
-        authHeader?: string;
         queryParameters?: URLSearchParams;
         body?: unknown;
         timeoutMs?: number;
@@ -53,10 +52,6 @@ export const fetcher: FetchFunction = async (args) => {
                 headers[key] = value;
             }
         }
-    }
-
-    if (args.authHeader != null) {
-        headers.Authorization = args.authHeader;
     }
 
     try {

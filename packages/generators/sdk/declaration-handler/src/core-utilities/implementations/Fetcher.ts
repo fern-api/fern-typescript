@@ -53,8 +53,7 @@ export declare namespace Fetcher {
     export interface Args {
         url: ts.Expression;
         method: ts.Expression;
-        headers: ts.Expression | undefined;
-        authHeader: ts.Expression | undefined;
+        headers: ts.ObjectLiteralElementLike[];
         queryParameters: ts.Expression | undefined;
         body: ts.Expression | undefined;
         timeoutMs: ts.Expression | undefined;

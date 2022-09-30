@@ -99,20 +99,7 @@ export class UnionSchema {
                             undefined,
                             undefined,
                             undefined,
-                            ts.factory.createObjectBindingPattern([
-                                ts.factory.createBindingElement(
-                                    undefined,
-                                    undefined,
-                                    UnionModule.VISIT_UTIL_PROPERTY_NAME,
-                                    undefined
-                                ),
-                                ts.factory.createBindingElement(
-                                    ts.factory.createToken(ts.SyntaxKind.DotDotDotToken),
-                                    undefined,
-                                    ts.factory.createIdentifier(parsedValueParameterName),
-                                    undefined
-                                ),
-                            ])
+                            ts.factory.createIdentifier(parsedValueParameterName)
                         ),
                     ],
                     undefined,

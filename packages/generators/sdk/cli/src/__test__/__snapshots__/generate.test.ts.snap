@@ -15,7 +15,7 @@ yarn.lock
   Object {
     "contents": Array [
       Object {
-        "contents": "import { BearerToken, BasicAuth } from \\"@fern-typescript/service-utils\\";
+        "contents": "import * as core from \\"../core\\";
 import { Client as AdminServiceClient } from \\"./admin/client/Client\\";
 import urlJoin from \\"url-join\\";
 import { Client as HomepageProblemServiceClient } from \\"./homepage/client/Client\\";
@@ -29,8 +29,8 @@ import { Wrapper as V2Wrapper } from \\"./v2/Wrapper\\";
 export namespace Client {
     export interface Options {
         _origin: string;
-        _token?: BearerToken;
-        _credentials?: BasicAuth;
+        _token?: core.BearerToken;
+        _credentials?: core.BasicAuth;
         xApiKey?: string;
     }
 }
@@ -131,9 +131,9 @@ export class Client {
           Object {
             "contents": Array [
               Object {
-                "contents": "import { BearerToken, BasicAuth } from \\"@fern-typescript/service-utils\\";
+                "contents": "import * as core from \\"../../../core\\";
 import { MyApi } from \\"../../..\\";
-import * as core from \\"../../../core\\";
+import urlJoin from \\"url-join\\";
 
 export interface Client {
     updateTestSubmissionStatus(request: MyApi.admin.updateTestSubmissionStatus.Request): Promise<MyApi.admin.updateTestSubmissionStatus.Response>;
@@ -149,8 +149,8 @@ export interface Client {
 export declare namespace Client {
     interface Options {
         _basePath: string;
-        _token?: BearerToken;
-        _credentials?: BasicAuth;
+        _token?: core.BearerToken;
+        _credentials?: core.BasicAuth;
         xApiKey?: string;
     }
 }
@@ -161,12 +161,19 @@ export class Client implements Client {
 
     public async updateTestSubmissionStatus(request: MyApi.admin.updateTestSubmissionStatus.Request): Promise<MyApi.admin.updateTestSubmissionStatus.Response> {
         const response = await core.fetcher({
-            url: \`/store-test-submission-status/\${request.submissionId}\`,
+            url: urlJoin(this.options._basePath, \`/store-test-submission-status/\${request.submissionId}\`),
             method: \\"POST\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            },
             body: request._body
         });
         if (response.ok) {
-            return;
+            return {
+                ok: true,
+                body: undefined
+            };
         }
 
         return {
@@ -181,12 +188,19 @@ export class Client implements Client {
 
     public async sendTestSubmissionUpdate(request: MyApi.admin.sendTestSubmissionUpdate.Request): Promise<MyApi.admin.sendTestSubmissionUpdate.Response> {
         const response = await core.fetcher({
-            url: \`/store-test-submission-status-v2/\${request.submissionId}\`,
+            url: urlJoin(this.options._basePath, \`/store-test-submission-status-v2/\${request.submissionId}\`),
             method: \\"POST\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            },
             body: request._body
         });
         if (response.ok) {
-            return;
+            return {
+                ok: true,
+                body: undefined
+            };
         }
 
         return {
@@ -201,12 +215,19 @@ export class Client implements Client {
 
     public async updateWorkspaceSubmissionStatus(request: MyApi.admin.updateWorkspaceSubmissionStatus.Request): Promise<MyApi.admin.updateWorkspaceSubmissionStatus.Response> {
         const response = await core.fetcher({
-            url: \`/store-workspace-submission-status/\${request.submissionId}\`,
+            url: urlJoin(this.options._basePath, \`/store-workspace-submission-status/\${request.submissionId}\`),
             method: \\"POST\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            },
             body: request._body
         });
         if (response.ok) {
-            return;
+            return {
+                ok: true,
+                body: undefined
+            };
         }
 
         return {
@@ -221,12 +242,19 @@ export class Client implements Client {
 
     public async sendWorkspaceSubmissionUpdate(request: MyApi.admin.sendWorkspaceSubmissionUpdate.Request): Promise<MyApi.admin.sendWorkspaceSubmissionUpdate.Response> {
         const response = await core.fetcher({
-            url: \`/store-workspace-submission-status-v2/\${request.submissionId}\`,
+            url: urlJoin(this.options._basePath, \`/store-workspace-submission-status-v2/\${request.submissionId}\`),
             method: \\"POST\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            },
             body: request._body
         });
         if (response.ok) {
-            return;
+            return {
+                ok: true,
+                body: undefined
+            };
         }
 
         return {
@@ -241,12 +269,19 @@ export class Client implements Client {
 
     public async storeTracedTestCase(request: MyApi.admin.storeTracedTestCase.Request): Promise<MyApi.admin.storeTracedTestCase.Response> {
         const response = await core.fetcher({
-            url: \`/store-test-trace/submission/\${request.submissionId}/testCase/\${request.testCaseId}\`,
+            url: urlJoin(this.options._basePath, \`/store-test-trace/submission/\${request.submissionId}/testCase/\${request.testCaseId}\`),
             method: \\"POST\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            },
             body: request._body
         });
         if (response.ok) {
-            return;
+            return {
+                ok: true,
+                body: undefined
+            };
         }
 
         return {
@@ -261,12 +296,19 @@ export class Client implements Client {
 
     public async storeTracedTestCaseV2(request: MyApi.admin.storeTracedTestCaseV2.Request): Promise<MyApi.admin.storeTracedTestCaseV2.Response> {
         const response = await core.fetcher({
-            url: \`/store-test-trace-v2/submission/\${request.submissionId}/testCase/\${request.testCaseId}\`,
+            url: urlJoin(this.options._basePath, \`/store-test-trace-v2/submission/\${request.submissionId}/testCase/\${request.testCaseId}\`),
             method: \\"POST\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            },
             body: request._body
         });
         if (response.ok) {
-            return;
+            return {
+                ok: true,
+                body: undefined
+            };
         }
 
         return {
@@ -281,12 +323,19 @@ export class Client implements Client {
 
     public async storeTracedWorkspace(request: MyApi.admin.storeTracedWorkspace.Request): Promise<MyApi.admin.storeTracedWorkspace.Response> {
         const response = await core.fetcher({
-            url: \`/store-workspace-trace/submission/\${request.submissionId}\`,
+            url: urlJoin(this.options._basePath, \`/store-workspace-trace/submission/\${request.submissionId}\`),
             method: \\"POST\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            },
             body: request._body
         });
         if (response.ok) {
-            return;
+            return {
+                ok: true,
+                body: undefined
+            };
         }
 
         return {
@@ -301,12 +350,19 @@ export class Client implements Client {
 
     public async storeTracedWorkspaceV2(request: MyApi.admin.storeTracedWorkspaceV2.Request): Promise<MyApi.admin.storeTracedWorkspaceV2.Response> {
         const response = await core.fetcher({
-            url: \`/store-workspace-trace-v2/submission/\${request.submissionId}\`,
+            url: urlJoin(this.options._basePath, \`/store-workspace-trace-v2/submission/\${request.submissionId}\`),
             method: \\"POST\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            },
             body: request._body
         });
         if (response.ok) {
-            return;
+            return {
+                ok: true,
+                body: undefined
+            };
         }
 
         return {
@@ -337,10 +393,13 @@ export * as storeTracedWorkspaceV2 from \\"./storeTracedWorkspaceV2\\";
                 "type": "file",
               },
               Object {
-                "contents": "import { MyApi } from \\"../../..\\";
-import * as core from \\"../../../core\\";
+                "contents": "import * as core from \\"../../../core\\";
+import { MyApi } from \\"../../..\\";
 
 export interface Request {
+    _token?: core.BearerToken;
+    _credentials?: core.BasicAuth;
+    xApiKey?: string;
     submissionId: MyApi.submission.SubmissionId;
     _body: MyApi.submission.TestSubmissionUpdate;
 }
@@ -368,10 +427,13 @@ export declare namespace Error {
                 "type": "file",
               },
               Object {
-                "contents": "import { MyApi } from \\"../../..\\";
-import * as core from \\"../../../core\\";
+                "contents": "import * as core from \\"../../../core\\";
+import { MyApi } from \\"../../..\\";
 
 export interface Request {
+    _token?: core.BearerToken;
+    _credentials?: core.BasicAuth;
+    xApiKey?: string;
     submissionId: MyApi.submission.SubmissionId;
     _body: MyApi.submission.WorkspaceSubmissionUpdate;
 }
@@ -399,10 +461,13 @@ export declare namespace Error {
                 "type": "file",
               },
               Object {
-                "contents": "import { MyApi } from \\"../../..\\";
-import * as core from \\"../../../core\\";
+                "contents": "import * as core from \\"../../../core\\";
+import { MyApi } from \\"../../..\\";
 
 export interface Request {
+    _token?: core.BearerToken;
+    _credentials?: core.BasicAuth;
+    xApiKey?: string;
     submissionId: MyApi.submission.SubmissionId;
     testCaseId: string;
     _body: MyApi.admin.StoreTracedTestCaseRequest;
@@ -431,10 +496,13 @@ export declare namespace Error {
                 "type": "file",
               },
               Object {
-                "contents": "import { MyApi } from \\"../../..\\";
-import * as core from \\"../../../core\\";
+                "contents": "import * as core from \\"../../../core\\";
+import { MyApi } from \\"../../..\\";
 
 export interface Request {
+    _token?: core.BearerToken;
+    _credentials?: core.BasicAuth;
+    xApiKey?: string;
     submissionId: MyApi.submission.SubmissionId;
     testCaseId: MyApi.v2.problem.TestCaseId;
     _body: MyApi.submission.TraceResponseV2[];
@@ -463,10 +531,13 @@ export declare namespace Error {
                 "type": "file",
               },
               Object {
-                "contents": "import { MyApi } from \\"../../..\\";
-import * as core from \\"../../../core\\";
+                "contents": "import * as core from \\"../../../core\\";
+import { MyApi } from \\"../../..\\";
 
 export interface Request {
+    _token?: core.BearerToken;
+    _credentials?: core.BasicAuth;
+    xApiKey?: string;
     submissionId: MyApi.submission.SubmissionId;
     _body: MyApi.admin.StoreTracedWorkspaceRequest;
 }
@@ -494,10 +565,13 @@ export declare namespace Error {
                 "type": "file",
               },
               Object {
-                "contents": "import { MyApi } from \\"../../..\\";
-import * as core from \\"../../../core\\";
+                "contents": "import * as core from \\"../../../core\\";
+import { MyApi } from \\"../../..\\";
 
 export interface Request {
+    _token?: core.BearerToken;
+    _credentials?: core.BasicAuth;
+    xApiKey?: string;
     submissionId: MyApi.submission.SubmissionId;
     _body: MyApi.submission.TraceResponseV2[];
 }
@@ -525,10 +599,13 @@ export declare namespace Error {
                 "type": "file",
               },
               Object {
-                "contents": "import { MyApi } from \\"../../..\\";
-import * as core from \\"../../../core\\";
+                "contents": "import * as core from \\"../../../core\\";
+import { MyApi } from \\"../../..\\";
 
 export interface Request {
+    _token?: core.BearerToken;
+    _credentials?: core.BasicAuth;
+    xApiKey?: string;
     submissionId: MyApi.submission.SubmissionId;
     _body: MyApi.submission.TestSubmissionStatus;
 }
@@ -556,10 +633,13 @@ export declare namespace Error {
                 "type": "file",
               },
               Object {
-                "contents": "import { MyApi } from \\"../../..\\";
-import * as core from \\"../../../core\\";
+                "contents": "import * as core from \\"../../../core\\";
+import { MyApi } from \\"../../..\\";
 
 export interface Request {
+    _token?: core.BearerToken;
+    _credentials?: core.BasicAuth;
+    xApiKey?: string;
     submissionId: MyApi.submission.SubmissionId;
     _body: MyApi.submission.WorkspaceSubmissionStatus;
 }
@@ -1445,9 +1525,9 @@ export * from \\"./Language\\";
           Object {
             "contents": Array [
               Object {
-                "contents": "import { BearerToken, BasicAuth } from \\"@fern-typescript/service-utils\\";
+                "contents": "import * as core from \\"../../../core\\";
 import { MyApi } from \\"../../..\\";
-import * as core from \\"../../../core\\";
+import urlJoin from \\"url-join\\";
 import * as schemas from \\"../../../schemas\\";
 
 export interface Client {
@@ -1458,8 +1538,8 @@ export interface Client {
 export declare namespace Client {
     interface Options {
         _basePath: string;
-        _token?: BearerToken;
-        _credentials?: BasicAuth;
+        _token?: core.BearerToken;
+        _credentials?: core.BasicAuth;
         xApiKey?: string;
     }
 }
@@ -1470,13 +1550,17 @@ export class Client implements Client {
 
     public async getHomepageProblems(): Promise<MyApi.homepage.getHomepageProblems.Response> {
         const response = await core.fetcher({
-            url: \\"/\\",
-            method: \\"GET\\"
+            url: urlJoin(this.options._basePath, \\"/\\"),
+            method: \\"GET\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            }
         });
         if (response.ok) {
             return {
                 ok: true,
-                body: core.schemas.list(schemas.commons.ProblemId).parse(response.body as schemas.commons.ProblemId.Raw[])
+                body: schemas.homepage.getHomepageProblems.Response.parse(response.body as schemas.commons.ProblemId.Raw[])
             };
         }
 
@@ -1492,12 +1576,19 @@ export class Client implements Client {
 
     public async setHomepageProblems(request: MyApi.commons.ProblemId[]): Promise<MyApi.homepage.setHomepageProblems.Response> {
         const response = await core.fetcher({
-            url: \\"/\\",
+            url: urlJoin(this.options._basePath, \\"/\\"),
             method: \\"POST\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            },
             body: schemas.homepage.setHomepageProblems.Request.json(request)
         });
         if (response.ok) {
-            return;
+            return {
+                ok: true,
+                body: undefined
+            };
         }
 
         return {
@@ -1657,9 +1748,9 @@ export * from \\"./LangServerResponse\\";
           Object {
             "contents": Array [
               Object {
-                "contents": "import { BearerToken, BasicAuth } from \\"@fern-typescript/service-utils\\";
+                "contents": "import * as core from \\"../../../core\\";
 import { MyApi } from \\"../../..\\";
-import * as core from \\"../../../core\\";
+import urlJoin from \\"url-join\\";
 import * as schemas from \\"../../../schemas\\";
 
 export interface Client {
@@ -1669,8 +1760,8 @@ export interface Client {
 export declare namespace Client {
     interface Options {
         _basePath: string;
-        _token?: BearerToken;
-        _credentials?: BasicAuth;
+        _token?: core.BearerToken;
+        _credentials?: core.BasicAuth;
         xApiKey?: string;
     }
 }
@@ -1681,13 +1772,17 @@ export class Client implements Client {
 
     public async getAttemptedMigrations(): Promise<MyApi.migration.getAttemptedMigrations.Response> {
         const response = await core.fetcher({
-            url: \\"/all\\",
-            method: \\"GET\\"
+            url: urlJoin(this.options._basePath, \\"/all\\"),
+            method: \\"GET\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            }
         });
         if (response.ok) {
             return {
                 ok: true,
-                body: core.schemas.list(schemas.migration.Migration).parse(response.body as schemas.migration.Migration.Raw[])
+                body: schemas.migration.getAttemptedMigrations.Response.parse(response.body as schemas.migration.Migration.Raw[])
             };
         }
 
@@ -1816,10 +1911,10 @@ export * from \\"./Migration\\";
           Object {
             "contents": Array [
               Object {
-                "contents": "import { BearerToken, BasicAuth } from \\"@fern-typescript/service-utils\\";
+                "contents": "import * as core from \\"../../../core\\";
 import { MyApi } from \\"../../..\\";
+import urlJoin from \\"url-join\\";
 import * as schemas from \\"../../../schemas\\";
-import * as core from \\"../../../core\\";
 
 export interface Client {
     createPlaylist(request: MyApi.playlist.PlaylistCreateRequest): Promise<MyApi.playlist.createPlaylist.Response>;
@@ -1832,8 +1927,8 @@ export interface Client {
 export declare namespace Client {
     interface Options {
         _basePath: string;
-        _token?: BearerToken;
-        _credentials?: BasicAuth;
+        _token?: core.BearerToken;
+        _credentials?: core.BasicAuth;
         xApiKey?: string;
     }
 }
@@ -1844,8 +1939,12 @@ export class Client implements Client {
 
     public async createPlaylist(request: MyApi.playlist.PlaylistCreateRequest): Promise<MyApi.playlist.createPlaylist.Response> {
         const response = await core.fetcher({
-            url: \\"/create\\",
+            url: urlJoin(this.options._basePath, \\"/create\\"),
             method: \\"POST\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            },
             body: schemas.playlist.PlaylistCreateRequest.json(request)
         });
         if (response.ok) {
@@ -1872,14 +1971,18 @@ export class Client implements Client {
         }
 
         const response = await core.fetcher({
-            url: \\"/all\\",
+            url: urlJoin(this.options._basePath, \\"/all\\"),
             method: \\"GET\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            },
             queryParameters: queryParameters
         });
         if (response.ok) {
             return {
                 ok: true,
-                body: core.schemas.list(schemas.playlist.Playlist).parse(response.body as schemas.playlist.Playlist.Raw[])
+                body: schemas.playlist.getPlaylists.Response.parse(response.body as schemas.playlist.Playlist.Raw[])
             };
         }
 
@@ -1895,8 +1998,12 @@ export class Client implements Client {
 
     public async getPlaylist(request: MyApi.playlist.getPlaylist.Request): Promise<MyApi.playlist.getPlaylist.Response> {
         const response = await core.fetcher({
-            url: \`/\${request.playlistId}\`,
-            method: \\"GET\\"
+            url: urlJoin(this.options._basePath, \`/\${request.playlistId}\`),
+            method: \\"GET\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            }
         });
         if (response.ok) {
             return {
@@ -1908,7 +2015,10 @@ export class Client implements Client {
         if (response.error.reason === \\"status-code\\") {
             switch ((response.error.body as schemas.playlist.getPlaylist.Error.Raw)?.errorName) {
                 case \\"PlaylistIdNotFoundError\\":
-                case \\"UnauthorizedError\\": return schemas.playlist.getPlaylist.Error.parse(response.error.body);
+                case \\"UnauthorizedError\\": return {
+                    ok: false,
+                    error: schemas.playlist.getPlaylist.Error.parse(response.error.body as schemas.playlist.getPlaylist.Error.Raw)
+                };
             }
         }
 
@@ -1924,20 +2034,27 @@ export class Client implements Client {
 
     public async updatePlaylist(request: MyApi.playlist.updatePlaylist.Request): Promise<MyApi.playlist.updatePlaylist.Response> {
         const response = await core.fetcher({
-            url: \`/\${request.playlistId}\`,
+            url: urlJoin(this.options._basePath, \`/\${request.playlistId}\`),
             method: \\"PUT\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            },
             body: request._body
         });
         if (response.ok) {
             return {
                 ok: true,
-                body: schemas.playlist.updatePlaylist.Response.parse(response.body as schemas.playlist.UpdatePlaylistRequest.Raw | null | undefined)
+                body: schemas.playlist.updatePlaylist.Response.parse(response.body as schemas.playlist.Playlist.Raw | null | undefined)
             };
         }
 
         if (response.error.reason === \\"status-code\\") {
             switch ((response.error.body as schemas.playlist.updatePlaylist.Error.Raw)?.errorName) {
-                case \\"PlaylistIdNotFoundError\\": return schemas.playlist.updatePlaylist.Error.parse(response.error.body);
+                case \\"PlaylistIdNotFoundError\\": return {
+                    ok: false,
+                    error: schemas.playlist.updatePlaylist.Error.parse(response.error.body as schemas.playlist.updatePlaylist.Error.Raw)
+                };
             }
         }
 
@@ -1953,11 +2070,18 @@ export class Client implements Client {
 
     public async deletePlaylist(request: MyApi.playlist.deletePlaylist.Request): Promise<MyApi.playlist.deletePlaylist.Response> {
         const response = await core.fetcher({
-            url: \`/\${request.playlistId}\`,
-            method: \\"DELETE\\"
+            url: urlJoin(this.options._basePath, \`/\${request.playlistId}\`),
+            method: \\"DELETE\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            }
         });
         if (response.ok) {
-            return;
+            return {
+                ok: true,
+                body: undefined
+            };
         }
 
         return {
@@ -2001,10 +2125,13 @@ export declare namespace Error {
                 "type": "file",
               },
               Object {
-                "contents": "import { MyApi } from \\"../../..\\";
-import * as core from \\"../../../core\\";
+                "contents": "import * as core from \\"../../../core\\";
+import { MyApi } from \\"../../..\\";
 
 export interface Request {
+    _token?: core.BearerToken;
+    _credentials?: core.BasicAuth;
+    xApiKey?: string;
     playlistId: MyApi.playlist.PlaylistId;
 }
 
@@ -2031,10 +2158,13 @@ export declare namespace Error {
                 "type": "file",
               },
               Object {
-                "contents": "import { MyApi } from \\"../../..\\";
-import * as core from \\"../../../core\\";
+                "contents": "import * as core from \\"../../../core\\";
+import { MyApi } from \\"../../..\\";
 
 export interface Request {
+    _token?: core.BearerToken;
+    _credentials?: core.BasicAuth;
+    xApiKey?: string;
     playlistId: MyApi.playlist.PlaylistId;
 }
 
@@ -2088,10 +2218,13 @@ export const Error = {
                 "type": "file",
               },
               Object {
-                "contents": "import { MyApi } from \\"../../..\\";
-import * as core from \\"../../../core\\";
+                "contents": "import * as core from \\"../../../core\\";
+import { MyApi } from \\"../../..\\";
 
 export interface Request {
+    _token?: core.BearerToken;
+    _credentials?: core.BasicAuth;
+    xApiKey?: string;
     limit?: number;
 }
 
@@ -2128,10 +2261,13 @@ export * as deletePlaylist from \\"./deletePlaylist\\";
                 "type": "file",
               },
               Object {
-                "contents": "import { MyApi } from \\"../../..\\";
-import * as core from \\"../../../core\\";
+                "contents": "import * as core from \\"../../../core\\";
+import { MyApi } from \\"../../..\\";
 
 export interface Request {
+    _token?: core.BearerToken;
+    _credentials?: core.BasicAuth;
+    xApiKey?: string;
     playlistId: MyApi.playlist.PlaylistId;
     _body?: MyApi.playlist.UpdatePlaylistRequest;
 }
@@ -2222,14 +2358,7 @@ export const PlaylistIdNotFoundError = {
                 "type": "file",
               },
               Object {
-                "contents": "export { };
-",
-                "name": "UnauthorizedError.ts",
-                "type": "file",
-              },
-              Object {
                 "contents": "export * from \\"./PlaylistIdNotFoundError\\";
-export * from \\"./UnauthorizedError\\";
 ",
                 "name": "index.ts",
                 "type": "file",
@@ -2311,10 +2440,10 @@ export * from \\"./UpdatePlaylistRequest\\";
           Object {
             "contents": Array [
               Object {
-                "contents": "import { BearerToken, BasicAuth } from \\"@fern-typescript/service-utils\\";
+                "contents": "import * as core from \\"../../../core\\";
 import { MyApi } from \\"../../..\\";
+import urlJoin from \\"url-join\\";
 import * as schemas from \\"../../../schemas\\";
-import * as core from \\"../../../core\\";
 
 export interface Client {
     createProblem(request: MyApi.problem.CreateProblemRequest): Promise<MyApi.problem.createProblem.Response>;
@@ -2326,8 +2455,8 @@ export interface Client {
 export declare namespace Client {
     interface Options {
         _basePath: string;
-        _token?: BearerToken;
-        _credentials?: BasicAuth;
+        _token?: core.BearerToken;
+        _credentials?: core.BasicAuth;
         xApiKey?: string;
     }
 }
@@ -2338,8 +2467,12 @@ export class Client implements Client {
 
     public async createProblem(request: MyApi.problem.CreateProblemRequest): Promise<MyApi.problem.createProblem.Response> {
         const response = await core.fetcher({
-            url: \\"/create\\",
+            url: urlJoin(this.options._basePath, \\"/create\\"),
             method: \\"POST\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            },
             body: schemas.problem.CreateProblemRequest.json(request)
         });
         if (response.ok) {
@@ -2361,8 +2494,12 @@ export class Client implements Client {
 
     public async updateProblem(request: MyApi.problem.updateProblem.Request): Promise<MyApi.problem.updateProblem.Response> {
         const response = await core.fetcher({
-            url: \`/update/\${request.problemId}\`,
+            url: urlJoin(this.options._basePath, \`/update/\${request.problemId}\`),
             method: \\"POST\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            },
             body: request._body
         });
         if (response.ok) {
@@ -2384,11 +2521,18 @@ export class Client implements Client {
 
     public async deleteProblem(request: MyApi.problem.deleteProblem.Request): Promise<MyApi.problem.deleteProblem.Response> {
         const response = await core.fetcher({
-            url: \`/delete/\${request.problemId}\`,
-            method: \\"DELETE\\"
+            url: urlJoin(this.options._basePath, \`/delete/\${request.problemId}\`),
+            method: \\"DELETE\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            }
         });
         if (response.ok) {
-            return;
+            return {
+                ok: true,
+                body: undefined
+            };
         }
 
         return {
@@ -2403,8 +2547,12 @@ export class Client implements Client {
 
     public async getDefaultStarterFiles(request: MyApi.problem.GetDefaultStarterFilesRequest): Promise<MyApi.problem.getDefaultStarterFiles.Response> {
         const response = await core.fetcher({
-            url: \\"/default-starter-files\\",
+            url: urlJoin(this.options._basePath, \\"/default-starter-files\\"),
             method: \\"POST\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            },
             body: schemas.problem.GetDefaultStarterFilesRequest.json(request)
         });
         if (response.ok) {
@@ -2455,10 +2603,13 @@ export declare namespace Error {
                 "type": "file",
               },
               Object {
-                "contents": "import { MyApi } from \\"../../..\\";
-import * as core from \\"../../../core\\";
+                "contents": "import * as core from \\"../../../core\\";
+import { MyApi } from \\"../../..\\";
 
 export interface Request {
+    _token?: core.BearerToken;
+    _credentials?: core.BasicAuth;
+    xApiKey?: string;
     problemId: MyApi.commons.ProblemId;
 }
 
@@ -2520,10 +2671,13 @@ export * as getDefaultStarterFiles from \\"./getDefaultStarterFiles\\";
                 "type": "file",
               },
               Object {
-                "contents": "import { MyApi } from \\"../../..\\";
-import * as core from \\"../../../core\\";
+                "contents": "import * as core from \\"../../../core\\";
+import { MyApi } from \\"../../..\\";
 
 export interface Request {
+    _token?: core.BearerToken;
+    _credentials?: core.BasicAuth;
+    xApiKey?: string;
     problemId: MyApi.commons.ProblemId;
     _body: MyApi.problem.CreateProblemRequest;
 }
@@ -2861,9 +3015,9 @@ export * from \\"./GetDefaultStarterFilesResponse\\";
           Object {
             "contents": Array [
               Object {
-                "contents": "import { BearerToken, BasicAuth } from \\"@fern-typescript/service-utils\\";
+                "contents": "import * as core from \\"../../../core\\";
 import { MyApi } from \\"../../..\\";
-import * as core from \\"../../../core\\";
+import urlJoin from \\"url-join\\";
 import * as schemas from \\"../../../schemas\\";
 
 export interface Client {
@@ -2876,8 +3030,8 @@ export interface Client {
 export declare namespace Client {
     interface Options {
         _basePath: string;
-        _token?: BearerToken;
-        _credentials?: BasicAuth;
+        _token?: core.BearerToken;
+        _credentials?: core.BasicAuth;
         xApiKey?: string;
     }
 }
@@ -2891,8 +3045,12 @@ export class Client implements Client {
 
     public async createExecutionSession(request: MyApi.submission.createExecutionSession.Request): Promise<MyApi.submission.createExecutionSession.Response> {
         const response = await core.fetcher({
-            url: \`/create-session/\${request.language}\`,
-            method: \\"POST\\"
+            url: urlJoin(this.options._basePath, \`/create-session/\${request.language}\`),
+            method: \\"POST\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            }
         });
         if (response.ok) {
             return {
@@ -2913,13 +3071,17 @@ export class Client implements Client {
 
     public async getExecutionSession(request: MyApi.submission.getExecutionSession.Request): Promise<MyApi.submission.getExecutionSession.Response> {
         const response = await core.fetcher({
-            url: \`/\${request.sessionId}\`,
-            method: \\"GET\\"
+            url: urlJoin(this.options._basePath, \`/\${request.sessionId}\`),
+            method: \\"GET\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            }
         });
         if (response.ok) {
             return {
                 ok: true,
-                body: schemas.submission.ExecutionSessionResponse.optional().parse(response.body as schemas.submission.ExecutionSessionResponse.Raw | null | undefined)
+                body: schemas.submission.getExecutionSession.Response.parse(response.body as schemas.submission.ExecutionSessionResponse.Raw | null | undefined)
             };
         }
 
@@ -2935,11 +3097,18 @@ export class Client implements Client {
 
     public async stopExecutionSession(request: MyApi.submission.stopExecutionSession.Request): Promise<MyApi.submission.stopExecutionSession.Response> {
         const response = await core.fetcher({
-            url: \`/stop/\${request.sessionId}\`,
-            method: \\"DELETE\\"
+            url: urlJoin(this.options._basePath, \`/stop/\${request.sessionId}\`),
+            method: \\"DELETE\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            }
         });
         if (response.ok) {
-            return;
+            return {
+                ok: true,
+                body: undefined
+            };
         }
 
         return {
@@ -2954,8 +3123,12 @@ export class Client implements Client {
 
     public async getExecutionSessionsState(): Promise<MyApi.submission.getExecutionSessionsState.Response> {
         const response = await core.fetcher({
-            url: \\"/execution-sessions-state\\",
-            method: \\"GET\\"
+            url: urlJoin(this.options._basePath, \\"/execution-sessions-state\\"),
+            method: \\"GET\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            }
         });
         if (response.ok) {
             return {
@@ -2979,10 +3152,13 @@ export class Client implements Client {
                 "type": "file",
               },
               Object {
-                "contents": "import { MyApi } from \\"../../..\\";
-import * as core from \\"../../../core\\";
+                "contents": "import * as core from \\"../../../core\\";
+import { MyApi } from \\"../../..\\";
 
 export interface Request {
+    _token?: core.BearerToken;
+    _credentials?: core.BasicAuth;
+    xApiKey?: string;
     language: MyApi.commons.Language;
 }
 
@@ -3009,10 +3185,13 @@ export declare namespace Error {
                 "type": "file",
               },
               Object {
-                "contents": "import { MyApi } from \\"../../..\\";
-import * as core from \\"../../../core\\";
+                "contents": "import * as core from \\"../../../core\\";
+import { MyApi } from \\"../../..\\";
 
 export interface Request {
+    _token?: core.BearerToken;
+    _credentials?: core.BasicAuth;
+    xApiKey?: string;
     sessionId: string;
 }
 
@@ -3074,10 +3253,13 @@ export * as getExecutionSessionsState from \\"./getExecutionSessionsState\\";
                 "type": "file",
               },
               Object {
-                "contents": "import { MyApi } from \\"../../..\\";
-import * as core from \\"../../../core\\";
+                "contents": "import * as core from \\"../../../core\\";
+import { MyApi } from \\"../../..\\";
 
 export interface Request {
+    _token?: core.BearerToken;
+    _credentials?: core.BasicAuth;
+    xApiKey?: string;
     sessionId: string;
 }
 
@@ -5241,9 +5423,9 @@ export * from \\"./GetSubmissionStateResponse\\";
           Object {
             "contents": Array [
               Object {
-                "contents": "import { BearerToken, BasicAuth } from \\"@fern-typescript/service-utils\\";
+                "contents": "import * as core from \\"../../../core\\";
 import { MyApi } from \\"../../..\\";
-import * as core from \\"../../../core\\";
+import urlJoin from \\"url-join\\";
 import * as schemas from \\"../../../schemas\\";
 
 export interface Client {
@@ -5254,8 +5436,8 @@ export interface Client {
 export declare namespace Client {
     interface Options {
         _basePath: string;
-        _token?: BearerToken;
-        _credentials?: BasicAuth;
+        _token?: core.BearerToken;
+        _credentials?: core.BasicAuth;
         xApiKey?: string;
     }
 }
@@ -5266,11 +5448,18 @@ export class Client implements Client {
 
     public async setNumWarmInstances(request: MyApi.sysprop.setNumWarmInstances.Request): Promise<MyApi.sysprop.setNumWarmInstances.Response> {
         const response = await core.fetcher({
-            url: \`/num-warm-instances/\${request.language}/\${request.numWarmInstances}\`,
-            method: \\"PUT\\"
+            url: urlJoin(this.options._basePath, \`/num-warm-instances/\${request.language}/\${request.numWarmInstances}\`),
+            method: \\"PUT\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            }
         });
         if (response.ok) {
-            return;
+            return {
+                ok: true,
+                body: undefined
+            };
         }
 
         return {
@@ -5285,13 +5474,17 @@ export class Client implements Client {
 
     public async getNumWarmInstances(): Promise<MyApi.sysprop.getNumWarmInstances.Response> {
         const response = await core.fetcher({
-            url: \\"/num-warm-instances\\",
-            method: \\"GET\\"
+            url: urlJoin(this.options._basePath, \\"/num-warm-instances\\"),
+            method: \\"GET\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            }
         });
         if (response.ok) {
             return {
                 ok: true,
-                body: core.schemas.record(core.schemas.string(), core.schemas.number()).parse(response.body as Record<schemas.commons.Language.Raw, number>)
+                body: schemas.sysprop.getNumWarmInstances.Response.parse(response.body as Record<schemas.commons.Language.Raw, number>)
             };
         }
 
@@ -5343,10 +5536,13 @@ export * as getNumWarmInstances from \\"./getNumWarmInstances\\";
                 "type": "file",
               },
               Object {
-                "contents": "import { MyApi } from \\"../../..\\";
-import * as core from \\"../../../core\\";
+                "contents": "import * as core from \\"../../../core\\";
+import { MyApi } from \\"../../..\\";
 
 export interface Request {
+    _token?: core.BearerToken;
+    _credentials?: core.BasicAuth;
+    xApiKey?: string;
     language: MyApi.commons.Language;
     numWarmInstances: number;
 }
@@ -5390,7 +5586,7 @@ export declare namespace Error {
       Object {
         "contents": Array [
           Object {
-            "contents": "import { BearerToken, BasicAuth } from \\"@fern-typescript/service-utils\\";
+            "contents": "import * as core from \\"../../core\\";
 import { Client as ProblemInfoServicV2Client } from \\"./problem/client/Client\\";
 import urlJoin from \\"url-join\\";
 import { Wrapper as V3Wrapper } from \\"./v3/Wrapper\\";
@@ -5398,8 +5594,8 @@ import { Wrapper as V3Wrapper } from \\"./v3/Wrapper\\";
 export namespace Wrapper {
     export interface Options {
         _origin: string;
-        _token?: BearerToken;
-        _credentials?: BasicAuth;
+        _token?: core.BearerToken;
+        _credentials?: core.BasicAuth;
         xApiKey?: string;
     }
 }
@@ -5442,9 +5638,9 @@ export * as v3 from \\"./v3\\";
               Object {
                 "contents": Array [
                   Object {
-                    "contents": "import { BearerToken, BasicAuth } from \\"@fern-typescript/service-utils\\";
+                    "contents": "import * as core from \\"../../../../core\\";
 import { MyApi } from \\"../../../..\\";
-import * as core from \\"../../../../core\\";
+import urlJoin from \\"url-join\\";
 import * as schemas from \\"../../../../schemas\\";
 
 export interface Client {
@@ -5457,8 +5653,8 @@ export interface Client {
 export declare namespace Client {
     interface Options {
         _basePath: string;
-        _token?: BearerToken;
-        _credentials?: BasicAuth;
+        _token?: core.BearerToken;
+        _credentials?: core.BasicAuth;
         xApiKey?: string;
     }
 }
@@ -5469,13 +5665,17 @@ export class Client implements Client {
 
     public async getLightweightProblems(): Promise<MyApi.v2.problem.getLightweightProblems.Response> {
         const response = await core.fetcher({
-            url: \\"/lightweight-problem-info\\",
-            method: \\"GET\\"
+            url: urlJoin(this.options._basePath, \\"/lightweight-problem-info\\"),
+            method: \\"GET\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            }
         });
         if (response.ok) {
             return {
                 ok: true,
-                body: core.schemas.list(schemas.v2.problem.LightweightProblemInfoV2).parse(response.body as schemas.v2.problem.LightweightProblemInfoV2.Raw[])
+                body: schemas.v2.problem.getLightweightProblems.Response.parse(response.body as schemas.v2.problem.LightweightProblemInfoV2.Raw[])
             };
         }
 
@@ -5491,13 +5691,17 @@ export class Client implements Client {
 
     public async getProblems(): Promise<MyApi.v2.problem.getProblems.Response> {
         const response = await core.fetcher({
-            url: \\"/problem-info\\",
-            method: \\"GET\\"
+            url: urlJoin(this.options._basePath, \\"/problem-info\\"),
+            method: \\"GET\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            }
         });
         if (response.ok) {
             return {
                 ok: true,
-                body: core.schemas.list(schemas.v2.problem.ProblemInfoV2).parse(response.body as schemas.v2.problem.ProblemInfoV2.Raw[])
+                body: schemas.v2.problem.getProblems.Response.parse(response.body as schemas.v2.problem.ProblemInfoV2.Raw[])
             };
         }
 
@@ -5513,8 +5717,12 @@ export class Client implements Client {
 
     public async getLatestProblem(request: MyApi.v2.problem.getLatestProblem.Request): Promise<MyApi.v2.problem.getLatestProblem.Response> {
         const response = await core.fetcher({
-            url: \`/problem-info/\${request.problemId}\`,
-            method: \\"GET\\"
+            url: urlJoin(this.options._basePath, \`/problem-info/\${request.problemId}\`),
+            method: \\"GET\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            }
         });
         if (response.ok) {
             return {
@@ -5535,8 +5743,12 @@ export class Client implements Client {
 
     public async getProblemVersion(request: MyApi.v2.problem.getProblemVersion.Request): Promise<MyApi.v2.problem.getProblemVersion.Response> {
         const response = await core.fetcher({
-            url: \`/problem-info/\${request.problemId}/version/\${request.problemVersion}\`,
-            method: \\"GET\\"
+            url: urlJoin(this.options._basePath, \`/problem-info/\${request.problemId}/version/\${request.problemVersion}\`),
+            method: \\"GET\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            }
         });
         if (response.ok) {
             return {
@@ -5560,10 +5772,13 @@ export class Client implements Client {
                     "type": "file",
                   },
                   Object {
-                    "contents": "import { MyApi } from \\"../../../..\\";
-import * as core from \\"../../../../core\\";
+                    "contents": "import * as core from \\"../../../../core\\";
+import { MyApi } from \\"../../../..\\";
 
 export interface Request {
+    _token?: core.BearerToken;
+    _credentials?: core.BasicAuth;
+    xApiKey?: string;
     problemId: MyApi.commons.ProblemId;
 }
 
@@ -5616,10 +5831,13 @@ export declare namespace Error {
                     "type": "file",
                   },
                   Object {
-                    "contents": "import { MyApi } from \\"../../../..\\";
-import * as core from \\"../../../../core\\";
+                    "contents": "import * as core from \\"../../../../core\\";
+import { MyApi } from \\"../../../..\\";
 
 export interface Request {
+    _token?: core.BearerToken;
+    _credentials?: core.BasicAuth;
+    xApiKey?: string;
     problemId: MyApi.commons.ProblemId;
     problemVersion: number;
 }
@@ -6465,15 +6683,15 @@ export * from \\"./GetGeneratedTestCaseTemplateFileRequest\\";
           Object {
             "contents": Array [
               Object {
-                "contents": "import { BearerToken, BasicAuth } from \\"@fern-typescript/service-utils\\";
+                "contents": "import * as core from \\"../../../core\\";
 import { Client as ProblemInfoServicV2Client } from \\"./problem/client/Client\\";
 import urlJoin from \\"url-join\\";
 
 export namespace Wrapper {
     export interface Options {
         _origin: string;
-        _token?: BearerToken;
-        _credentials?: BasicAuth;
+        _token?: core.BearerToken;
+        _credentials?: core.BasicAuth;
         xApiKey?: string;
     }
 }
@@ -6509,9 +6727,9 @@ export * from \\"./problem/types\\";
                   Object {
                     "contents": Array [
                       Object {
-                        "contents": "import { BearerToken, BasicAuth } from \\"@fern-typescript/service-utils\\";
+                        "contents": "import * as core from \\"../../../../../core\\";
 import { MyApi } from \\"../../../../..\\";
-import * as core from \\"../../../../../core\\";
+import urlJoin from \\"url-join\\";
 import * as schemas from \\"../../../../../schemas\\";
 
 export interface Client {
@@ -6524,8 +6742,8 @@ export interface Client {
 export declare namespace Client {
     interface Options {
         _basePath: string;
-        _token?: BearerToken;
-        _credentials?: BasicAuth;
+        _token?: core.BearerToken;
+        _credentials?: core.BasicAuth;
         xApiKey?: string;
     }
 }
@@ -6536,13 +6754,17 @@ export class Client implements Client {
 
     public async getLightweightProblems(): Promise<MyApi.v2.v3.problem.getLightweightProblems.Response> {
         const response = await core.fetcher({
-            url: \\"/lightweight-problem-info\\",
-            method: \\"GET\\"
+            url: urlJoin(this.options._basePath, \\"/lightweight-problem-info\\"),
+            method: \\"GET\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            }
         });
         if (response.ok) {
             return {
                 ok: true,
-                body: core.schemas.list(schemas.v2.v3.problem.LightweightProblemInfoV2).parse(response.body as schemas.v2.v3.problem.LightweightProblemInfoV2.Raw[])
+                body: schemas.v2.v3.problem.getLightweightProblems.Response.parse(response.body as schemas.v2.v3.problem.LightweightProblemInfoV2.Raw[])
             };
         }
 
@@ -6558,13 +6780,17 @@ export class Client implements Client {
 
     public async getProblems(): Promise<MyApi.v2.v3.problem.getProblems.Response> {
         const response = await core.fetcher({
-            url: \\"/problem-info\\",
-            method: \\"GET\\"
+            url: urlJoin(this.options._basePath, \\"/problem-info\\"),
+            method: \\"GET\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            }
         });
         if (response.ok) {
             return {
                 ok: true,
-                body: core.schemas.list(schemas.v2.v3.problem.ProblemInfoV2).parse(response.body as schemas.v2.v3.problem.ProblemInfoV2.Raw[])
+                body: schemas.v2.v3.problem.getProblems.Response.parse(response.body as schemas.v2.v3.problem.ProblemInfoV2.Raw[])
             };
         }
 
@@ -6580,8 +6806,12 @@ export class Client implements Client {
 
     public async getLatestProblem(request: MyApi.v2.v3.problem.getLatestProblem.Request): Promise<MyApi.v2.v3.problem.getLatestProblem.Response> {
         const response = await core.fetcher({
-            url: \`/problem-info/\${request.problemId}\`,
-            method: \\"GET\\"
+            url: urlJoin(this.options._basePath, \`/problem-info/\${request.problemId}\`),
+            method: \\"GET\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            }
         });
         if (response.ok) {
             return {
@@ -6602,8 +6832,12 @@ export class Client implements Client {
 
     public async getProblemVersion(request: MyApi.v2.v3.problem.getProblemVersion.Request): Promise<MyApi.v2.v3.problem.getProblemVersion.Response> {
         const response = await core.fetcher({
-            url: \`/problem-info/\${request.problemId}/version/\${request.problemVersion}\`,
-            method: \\"GET\\"
+            url: urlJoin(this.options._basePath, \`/problem-info/\${request.problemId}/version/\${request.problemVersion}\`),
+            method: \\"GET\\",
+            headers: {
+                \\"Authorization\\": this.options._token != null ? core.BearerToken.toAuthorizationHeader(this.options._token) : this.options._credentials != null ? core.BasicAuth.toAuthorizationHeader(this.options._credentials) : undefined,
+                \\"X-API-Key\\": this.options.xApiKey
+            }
         });
         if (response.ok) {
             return {
@@ -6627,10 +6861,13 @@ export class Client implements Client {
                         "type": "file",
                       },
                       Object {
-                        "contents": "import { MyApi } from \\"../../../../..\\";
-import * as core from \\"../../../../../core\\";
+                        "contents": "import * as core from \\"../../../../../core\\";
+import { MyApi } from \\"../../../../..\\";
 
 export interface Request {
+    _token?: core.BearerToken;
+    _credentials?: core.BasicAuth;
+    xApiKey?: string;
     problemId: MyApi.commons.ProblemId;
 }
 
@@ -6683,10 +6920,13 @@ export declare namespace Error {
                         "type": "file",
                       },
                       Object {
-                        "contents": "import { MyApi } from \\"../../../../..\\";
-import * as core from \\"../../../../../core\\";
+                        "contents": "import * as core from \\"../../../../../core\\";
+import { MyApi } from \\"../../../../..\\";
 
 export interface Request {
+    _token?: core.BearerToken;
+    _credentials?: core.BasicAuth;
+    xApiKey?: string;
     problemId: MyApi.commons.ProblemId;
     problemVersion: number;
 }
@@ -7546,6 +7786,65 @@ export * from \\"./GetGeneratedTestCaseTemplateFileRequest\\";
       Object {
         "contents": Array [
           Object {
+            "contents": "import { parse } from \\"basic-auth\\";
+import { Base64 } from \\"js-base64\\";
+
+export interface BasicAuth {
+    username: string;
+    password: string;
+}
+
+export const BasicAuth = {
+    toAuthorizationHeader: (basicAuth: BasicAuth): string => {
+        const token = Base64.encode(\`\${basicAuth.username}:\${basicAuth.password}\`);
+        return \`Basic \${token}\`;
+    },
+    fromAuthorizationHeader: (header: string): BasicAuth => {
+        const parsed = parse(header);
+        if (parsed == null) {
+            throw new Error(\\"Invalid basic auth\\");
+        }
+        return {
+            username: parsed.name,
+            password: parsed.pass,
+        };
+    },
+};
+",
+            "name": "BasicAuth.ts",
+            "type": "file",
+          },
+          Object {
+            "contents": "export type BearerToken = string;
+
+const BEARER_AUTH_HEADER_PREFIX = /^Bearer /i;
+
+export const BearerToken = {
+    toAuthorizationHeader: (token: BearerToken): string => {
+        return \`Bearer \${token}\`;
+    },
+    fromAuthorizationHeader: (header: string): BearerToken => {
+        return header.replace(BEARER_AUTH_HEADER_PREFIX, \\"\\").trim() as BearerToken;
+    },
+};
+",
+            "name": "BearerToken.ts",
+            "type": "file",
+          },
+          Object {
+            "contents": "export { BasicAuth } from \\"./BasicAuth\\";
+export { BearerToken } from \\"./BearerToken\\";
+",
+            "name": "index.ts",
+            "type": "file",
+          },
+        ],
+        "name": "auth",
+        "type": "directory",
+      },
+      Object {
+        "contents": Array [
+          Object {
             "contents": "export type APIResponse<Success, Failure> = SuccessfulResponse<Success> | FailedResponse<Failure>;
 
 export interface SuccessfulResponse<T> {
@@ -7576,7 +7875,6 @@ export declare namespace Fetcher {
         url: string;
         method: string;
         headers?: Record<string, string | undefined>;
-        authHeader?: string;
         queryParameters?: URLSearchParams;
         body?: unknown;
         timeoutMs?: number;
@@ -7617,10 +7915,6 @@ export const fetcher: FetchFunction = async (args) => {
                 headers[key] = value;
             }
         }
-    }
-
-    if (args.authHeader != null) {
-        headers.Authorization = args.authHeader;
     }
 
     try {
@@ -7708,6 +8002,7 @@ export { fetcher, type Fetcher, type FetchFunction } from \\"./Fetcher\\";
       },
       Object {
         "contents": "export * as schemas from \\"./schemas\\";
+export * from \\"./auth\\";
 export * from \\"./fetcher\\";
 ",
         "name": "index.ts",
@@ -8655,7 +8950,7 @@ export function union<D extends string | Discriminant<any, any>, U extends Union
             }
 
             return {
-                ...additionalPropertySchemas.parse(additionalProperties as any, opts),
+                ...additionalPropertySchemas.parse(additionalProperties, opts),
                 [parsedDiscriminant]: discriminantValue,
             } as inferParsedUnion<D, U>;
         },
@@ -8673,7 +8968,7 @@ export function union<D extends string | Discriminant<any, any>, U extends Union
             }
 
             return {
-                ...additionalPropertySchemas.json(additionalProperties as any, opts),
+                ...additionalPropertySchemas.json(additionalProperties, opts),
                 [rawDiscriminant]: discriminantValue,
             } as inferRawUnion<D, U>;
         },
@@ -8765,9 +9060,15 @@ export type RequiredKeys<T> = {
         \\"build\\": \\"esbuild $(find . -name '*.ts' -not -path './node_modules/*') --format=cjs --sourcemap --outdir=. && tsc\\"
     },
     \\"dependencies\\": {
-        \\"@fern-typescript/service-utils\\": \\"0.0.0\\",
         \\"url-join\\": \\"4.0.1\\",
-        \\"@types/url-join\\": \\"4.0.1\\"
+        \\"@types/url-join\\": \\"4.0.1\\",
+        \\"basic-auth\\": \\"^2.0.1\\",
+        \\"@types/basic-auth\\": \\"^1.1.3\\",
+        \\"js-base64\\": \\"^3.7.2\\",
+        \\"axios\\": \\"^0.27.2\\"
+    },
+    \\"peerDependencies\\": {
+        \\"axios\\": \\"*\\"
     },
     \\"devDependencies\\": {
         \\"@types/node\\": \\"17.0.33\\",
@@ -8785,74 +9086,30 @@ export type RequiredKeys<T> = {
           Object {
             "contents": Array [
               Object {
-                "contents": "export * as updateTestSubmissionStatus from \\"./updateTestSubmissionStatus\\";
-export * as sendTestSubmissionUpdate from \\"./sendTestSubmissionUpdate\\";
-export * as updateWorkspaceSubmissionStatus from \\"./updateWorkspaceSubmissionStatus\\";
-export * as sendWorkspaceSubmissionUpdate from \\"./sendWorkspaceSubmissionUpdate\\";
-export * as storeTracedTestCase from \\"./storeTracedTestCase\\";
-export * as storeTracedTestCaseV2 from \\"./storeTracedTestCaseV2\\";
-export * as storeTracedWorkspace from \\"./storeTracedWorkspace\\";
+                "contents": "export * as storeTracedTestCaseV2 from \\"./storeTracedTestCaseV2\\";
 export * as storeTracedWorkspaceV2 from \\"./storeTracedWorkspaceV2\\";
 ",
                 "name": "index.ts",
                 "type": "file",
               },
               Object {
-                "contents": "export { };
-",
-                "name": "sendTestSubmissionUpdate.ts",
-                "type": "file",
-              },
-              Object {
-                "contents": "export { };
-",
-                "name": "sendWorkspaceSubmissionUpdate.ts",
-                "type": "file",
-              },
-              Object {
-                "contents": "export { };
-",
-                "name": "storeTracedTestCase.ts",
-                "type": "file",
-              },
-              Object {
                 "contents": "import * as schemas from \\"../..\\";
 import { MyApi } from \\"../../..\\";
 import * as core from \\"../../../core\\";
 
 export const Request: core.schemas.Schema<schemas.submission.TraceResponseV2.Raw[], MyApi.submission.TraceResponseV2[]> = core.schemas.list(schemas.submission.TraceResponseV2);
-export const Response: core.schemas.Schema<schemas.submission.TraceResponseV2.Raw[], MyApi.submission.TraceResponseV2[]> = core.schemas.list(schemas.submission.TraceResponseV2);
 ",
                 "name": "storeTracedTestCaseV2.ts",
                 "type": "file",
               },
               Object {
-                "contents": "export { };
-",
-                "name": "storeTracedWorkspace.ts",
-                "type": "file",
-              },
-              Object {
                 "contents": "import * as schemas from \\"../..\\";
 import { MyApi } from \\"../../..\\";
 import * as core from \\"../../../core\\";
 
 export const Request: core.schemas.Schema<schemas.submission.TraceResponseV2.Raw[], MyApi.submission.TraceResponseV2[]> = core.schemas.list(schemas.submission.TraceResponseV2);
-export const Response: core.schemas.Schema<schemas.submission.TraceResponseV2.Raw[], MyApi.submission.TraceResponseV2[]> = core.schemas.list(schemas.submission.TraceResponseV2);
 ",
                 "name": "storeTracedWorkspaceV2.ts",
-                "type": "file",
-              },
-              Object {
-                "contents": "export { };
-",
-                "name": "updateTestSubmissionStatus.ts",
-                "type": "file",
-              },
-              Object {
-                "contents": "export { };
-",
-                "name": "updateWorkspaceSubmissionStatus.ts",
                 "type": "file",
               },
             ],
@@ -9155,7 +9412,7 @@ export const DebugVariableValue: core.schemas.Schema<DebugVariableValue.Raw, MyA
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace DebugVariableValue {
@@ -9665,7 +9922,7 @@ export const VariableType: core.schemas.Schema<VariableType.Raw, MyApi.commons.V
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace VariableType {
@@ -9821,7 +10078,7 @@ export const VariableValue: core.schemas.Schema<VariableValue.Raw, MyApi.commons
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace VariableValue {
@@ -9925,7 +10182,11 @@ export * from \\"./Language\\";
           Object {
             "contents": Array [
               Object {
-                "contents": "export { };
+                "contents": "import * as schemas from \\"../..\\";
+import { MyApi } from \\"../../..\\";
+import * as core from \\"../../../core\\";
+
+export const Response: core.schemas.Schema<schemas.commons.ProblemId.Raw[], MyApi.commons.ProblemId[]> = core.schemas.list(schemas.commons.ProblemId);
 ",
                 "name": "getHomepageProblems.ts",
                 "type": "file",
@@ -9943,7 +10204,6 @@ import { MyApi } from \\"../../..\\";
 import * as core from \\"../../../core\\";
 
 export const Request: core.schemas.Schema<schemas.commons.ProblemId.Raw[], MyApi.commons.ProblemId[]> = core.schemas.list(schemas.commons.ProblemId);
-export const Response: core.schemas.Schema<schemas.commons.ProblemId.Raw[], MyApi.commons.ProblemId[]> = core.schemas.list(schemas.commons.ProblemId);
 ",
                 "name": "setHomepageProblems.ts",
                 "type": "file",
@@ -10049,7 +10309,11 @@ export * from \\"./LangServerResponse\\";
           Object {
             "contents": Array [
               Object {
-                "contents": "export { };
+                "contents": "import * as schemas from \\"../..\\";
+import { MyApi } from \\"../../..\\";
+import * as core from \\"../../../core\\";
+
+export const Response: core.schemas.Schema<schemas.migration.Migration.Raw[], MyApi.migration.Migration[]> = core.schemas.list(schemas.migration.Migration);
 ",
                 "name": "getAttemptedMigrations.ts",
                 "type": "file",
@@ -10147,18 +10411,6 @@ export * from \\"./Migration\\";
           Object {
             "contents": Array [
               Object {
-                "contents": "export { };
-",
-                "name": "createPlaylist.ts",
-                "type": "file",
-              },
-              Object {
-                "contents": "export { };
-",
-                "name": "deletePlaylist.ts",
-                "type": "file",
-              },
-              Object {
                 "contents": "import { MyApi } from \\"../../..\\";
 import * as core from \\"../../../core\\";
 import * as schemas from \\"../..\\";
@@ -10185,7 +10437,7 @@ export const Error: core.schemas.Schema<Error.Raw, MyApi.playlist.getPlaylist.Er
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace Error {
@@ -10205,17 +10457,19 @@ export declare namespace Error {
                 "type": "file",
               },
               Object {
-                "contents": "export { };
+                "contents": "import * as schemas from \\"../..\\";
+import { MyApi } from \\"../../..\\";
+import * as core from \\"../../../core\\";
+
+export const Response: core.schemas.Schema<schemas.playlist.Playlist.Raw[], MyApi.playlist.Playlist[]> = core.schemas.list(schemas.playlist.Playlist);
 ",
                 "name": "getPlaylists.ts",
                 "type": "file",
               },
               Object {
-                "contents": "export * as createPlaylist from \\"./createPlaylist\\";
-export * as getPlaylists from \\"./getPlaylists\\";
+                "contents": "export * as getPlaylists from \\"./getPlaylists\\";
 export * as getPlaylist from \\"./getPlaylist\\";
 export * as updatePlaylist from \\"./updatePlaylist\\";
-export * as deletePlaylist from \\"./deletePlaylist\\";
 ",
                 "name": "index.ts",
                 "type": "file",
@@ -10226,7 +10480,7 @@ import { MyApi } from \\"../../..\\";
 import * as core from \\"../../../core\\";
 
 export const Request: core.schemas.Schema<schemas.playlist.UpdatePlaylistRequest.Raw | null | undefined, MyApi.playlist.UpdatePlaylistRequest | undefined> = schemas.playlist.UpdatePlaylistRequest.optional();
-export const Response: core.schemas.Schema<schemas.playlist.UpdatePlaylistRequest.Raw | null | undefined, MyApi.playlist.UpdatePlaylistRequest | undefined> = schemas.playlist.UpdatePlaylistRequest.optional();
+export const Response: core.schemas.Schema<schemas.playlist.Playlist.Raw | null | undefined, MyApi.playlist.Playlist | undefined> = schemas.playlist.Playlist.optional();
 export const Error: core.schemas.Schema<Error.Raw, MyApi.playlist.updatePlaylist.Error> = core.schemas.union(\\"errorName\\", {
     PlaylistIdNotFoundError: core.schemas.object({
         content: schemas.playlist.PlaylistIdNotFoundError
@@ -10242,7 +10496,7 @@ export const Error: core.schemas.Schema<Error.Raw, MyApi.playlist.updatePlaylist
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace Error {
@@ -10289,7 +10543,7 @@ export const PlaylistIdNotFoundError: core.schemas.Schema<PlaylistIdNotFoundErro
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace PlaylistIdNotFoundError {
@@ -10305,14 +10559,7 @@ export declare namespace PlaylistIdNotFoundError {
                 "type": "file",
               },
               Object {
-                "contents": "export { };
-",
-                "name": "UnauthorizedError.ts",
-                "type": "file",
-              },
-              Object {
                 "contents": "export * from \\"./PlaylistIdNotFoundError\\";
-export * from \\"./UnauthorizedError\\";
 ",
                 "name": "index.ts",
                 "type": "file",
@@ -10428,47 +10675,7 @@ export * from \\"./UpdatePlaylistRequest\\";
       Object {
         "contents": Array [
           Object {
-            "contents": Array [
-              Object {
-                "contents": "export { };
-",
-                "name": "createProblem.ts",
-                "type": "file",
-              },
-              Object {
-                "contents": "export { };
-",
-                "name": "deleteProblem.ts",
-                "type": "file",
-              },
-              Object {
-                "contents": "export { };
-",
-                "name": "getDefaultStarterFiles.ts",
-                "type": "file",
-              },
-              Object {
-                "contents": "export * as createProblem from \\"./createProblem\\";
-export * as updateProblem from \\"./updateProblem\\";
-export * as deleteProblem from \\"./deleteProblem\\";
-export * as getDefaultStarterFiles from \\"./getDefaultStarterFiles\\";
-",
-                "name": "index.ts",
-                "type": "file",
-              },
-              Object {
-                "contents": "export { };
-",
-                "name": "updateProblem.ts",
-                "type": "file",
-              },
-            ],
-            "name": "client",
-            "type": "directory",
-          },
-          Object {
             "contents": "export * from \\"./types\\";
-export * from \\"./client\\";
 ",
             "name": "index.ts",
             "type": "file",
@@ -10499,7 +10706,7 @@ export const CreateProblemError: core.schemas.Schema<CreateProblemError.Raw, MyA
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace CreateProblemError {
@@ -10578,7 +10785,7 @@ export const CreateProblemResponse: core.schemas.Schema<CreateProblemResponse.Ra
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace CreateProblemResponse {
@@ -10721,7 +10928,7 @@ export const ProblemDescriptionBoard: core.schemas.Schema<ProblemDescriptionBoar
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace ProblemDescriptionBoard {
@@ -10869,36 +11076,19 @@ export * from \\"./GetDefaultStarterFilesResponse\\";
           Object {
             "contents": Array [
               Object {
-                "contents": "export { };
-",
-                "name": "createExecutionSession.ts",
-                "type": "file",
-              },
-              Object {
-                "contents": "export { };
+                "contents": "import * as schemas from \\"../..\\";
+import { MyApi } from \\"../../..\\";
+import * as core from \\"../../../core\\";
+
+export const Response: core.schemas.Schema<schemas.submission.ExecutionSessionResponse.Raw | null | undefined, MyApi.submission.ExecutionSessionResponse | undefined> = schemas.submission.ExecutionSessionResponse.optional();
 ",
                 "name": "getExecutionSession.ts",
                 "type": "file",
               },
               Object {
-                "contents": "export { };
-",
-                "name": "getExecutionSessionsState.ts",
-                "type": "file",
-              },
-              Object {
-                "contents": "export * as createExecutionSession from \\"./createExecutionSession\\";
-export * as getExecutionSession from \\"./getExecutionSession\\";
-export * as stopExecutionSession from \\"./stopExecutionSession\\";
-export * as getExecutionSessionsState from \\"./getExecutionSessionsState\\";
+                "contents": "export * as getExecutionSession from \\"./getExecutionSession\\";
 ",
                 "name": "index.ts",
-                "type": "file",
-              },
-              Object {
-                "contents": "export { };
-",
-                "name": "stopExecutionSession.ts",
                 "type": "file",
               },
             ],
@@ -10956,7 +11146,7 @@ export const ActualResult: core.schemas.Schema<ActualResult.Raw, MyApi.submissio
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace ActualResult {
@@ -11094,7 +11284,7 @@ export const CodeExecutionUpdate: core.schemas.Schema<CodeExecutionUpdate.Raw, M
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace CodeExecutionUpdate {
@@ -11223,7 +11413,7 @@ export const ErrorInfo: core.schemas.Schema<ErrorInfo.Raw, MyApi.submission.Erro
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace ErrorInfo {
@@ -11317,7 +11507,7 @@ export const ExceptionV2: core.schemas.Schema<ExceptionV2.Raw, MyApi.submission.
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace ExceptionV2 {
@@ -11684,7 +11874,7 @@ export const InvalidRequestCause: core.schemas.Schema<InvalidRequestCause.Raw, M
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace InvalidRequestCause {
@@ -12143,7 +12333,7 @@ export const SubmissionRequest: core.schemas.Schema<SubmissionRequest.Raw, MyApi
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace SubmissionRequest {
@@ -12236,7 +12426,7 @@ export const SubmissionResponse: core.schemas.Schema<SubmissionResponse.Raw, MyA
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace SubmissionResponse {
@@ -12312,7 +12502,7 @@ export const SubmissionStatusForTestCase: core.schemas.Schema<SubmissionStatusFo
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace SubmissionStatusForTestCase {
@@ -12366,7 +12556,7 @@ export const SubmissionStatusV2: core.schemas.Schema<SubmissionStatusV2.Raw, MyA
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace SubmissionStatusV2 {
@@ -12443,7 +12633,7 @@ export const SubmissionTypeState: core.schemas.Schema<SubmissionTypeState.Raw, M
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace SubmissionTypeState {
@@ -12534,7 +12724,7 @@ export const TestCaseGrade: core.schemas.Schema<TestCaseGrade.Raw, MyApi.submiss
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace TestCaseGrade {
@@ -12710,7 +12900,7 @@ export const TestSubmissionStatus: core.schemas.Schema<TestSubmissionStatus.Raw,
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace TestSubmissionStatus {
@@ -12846,7 +13036,7 @@ export const TestSubmissionUpdateInfo: core.schemas.Schema<TestSubmissionUpdateI
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace TestSubmissionUpdateInfo {
@@ -13211,7 +13401,7 @@ export const WorkspaceSubmissionStatus: core.schemas.Schema<WorkspaceSubmissionS
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace WorkspaceSubmissionStatus {
@@ -13351,7 +13541,7 @@ export const WorkspaceSubmissionUpdateInfo: core.schemas.Schema<WorkspaceSubmiss
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace WorkspaceSubmissionUpdateInfo {
@@ -13530,22 +13720,19 @@ export * from \\"./GetSubmissionStateResponse\\";
           Object {
             "contents": Array [
               Object {
-                "contents": "export { };
+                "contents": "import * as schemas from \\"../..\\";
+import { MyApi } from \\"../../..\\";
+import * as core from \\"../../../core\\";
+
+export const Response: core.schemas.Schema<Record<schemas.commons.Language.Raw, number>, Record<MyApi.commons.Language.RawValue, number>> = core.schemas.record(core.schemas.string(), core.schemas.number());
 ",
                 "name": "getNumWarmInstances.ts",
                 "type": "file",
               },
               Object {
-                "contents": "export * as setNumWarmInstances from \\"./setNumWarmInstances\\";
-export * as getNumWarmInstances from \\"./getNumWarmInstances\\";
+                "contents": "export * as getNumWarmInstances from \\"./getNumWarmInstances\\";
 ",
                 "name": "index.ts",
-                "type": "file",
-              },
-              Object {
-                "contents": "export { };
-",
-                "name": "setNumWarmInstances.ts",
                 "type": "file",
               },
             ],
@@ -13577,25 +13764,21 @@ export * as v3 from \\"./v3\\";
               Object {
                 "contents": Array [
                   Object {
-                    "contents": "export { };
-",
-                    "name": "getLatestProblem.ts",
-                    "type": "file",
-                  },
-                  Object {
-                    "contents": "export { };
+                    "contents": "import * as schemas from \\"../../..\\";
+import { MyApi } from \\"../../../..\\";
+import * as core from \\"../../../../core\\";
+
+export const Response: core.schemas.Schema<schemas.v2.problem.LightweightProblemInfoV2.Raw[], MyApi.v2.problem.LightweightProblemInfoV2[]> = core.schemas.list(schemas.v2.problem.LightweightProblemInfoV2);
 ",
                     "name": "getLightweightProblems.ts",
                     "type": "file",
                   },
                   Object {
-                    "contents": "export { };
-",
-                    "name": "getProblemVersion.ts",
-                    "type": "file",
-                  },
-                  Object {
-                    "contents": "export { };
+                    "contents": "import * as schemas from \\"../../..\\";
+import { MyApi } from \\"../../../..\\";
+import * as core from \\"../../../../core\\";
+
+export const Response: core.schemas.Schema<schemas.v2.problem.ProblemInfoV2.Raw[], MyApi.v2.problem.ProblemInfoV2[]> = core.schemas.list(schemas.v2.problem.ProblemInfoV2);
 ",
                     "name": "getProblems.ts",
                     "type": "file",
@@ -13603,8 +13786,6 @@ export * as v3 from \\"./v3\\";
                   Object {
                     "contents": "export * as getLightweightProblems from \\"./getLightweightProblems\\";
 export * as getProblems from \\"./getProblems\\";
-export * as getLatestProblem from \\"./getLatestProblem\\";
-export * as getProblemVersion from \\"./getProblemVersion\\";
 ",
                     "name": "index.ts",
                     "type": "file",
@@ -13653,7 +13834,7 @@ export const AssertCorrectnessCheck: core.schemas.Schema<AssertCorrectnessCheck.
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace AssertCorrectnessCheck {
@@ -13782,7 +13963,7 @@ export const CustomFiles: core.schemas.Schema<CustomFiles.Raw, MyApi.v2.problem.
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace CustomFiles {
@@ -13955,7 +14136,7 @@ export const FunctionSignature: core.schemas.Schema<FunctionSignature.Raw, MyApi
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace FunctionSignature {
@@ -14294,7 +14475,7 @@ export const TestCaseFunction: core.schemas.Schema<TestCaseFunction.Raw, MyApi.v
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace TestCaseFunction {
@@ -14398,7 +14579,7 @@ export const TestCaseImplementationDescriptionBoard: core.schemas.Schema<TestCas
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace TestCaseImplementationDescriptionBoard {
@@ -14451,7 +14632,7 @@ export const TestCaseImplementationReference: core.schemas.Schema<TestCaseImplem
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace TestCaseImplementationReference {
@@ -14717,25 +14898,21 @@ export * from \\"./problem/types\\";
                   Object {
                     "contents": Array [
                       Object {
-                        "contents": "export { };
-",
-                        "name": "getLatestProblem.ts",
-                        "type": "file",
-                      },
-                      Object {
-                        "contents": "export { };
+                        "contents": "import * as schemas from \\"../../../..\\";
+import { MyApi } from \\"../../../../..\\";
+import * as core from \\"../../../../../core\\";
+
+export const Response: core.schemas.Schema<schemas.v2.v3.problem.LightweightProblemInfoV2.Raw[], MyApi.v2.v3.problem.LightweightProblemInfoV2[]> = core.schemas.list(schemas.v2.v3.problem.LightweightProblemInfoV2);
 ",
                         "name": "getLightweightProblems.ts",
                         "type": "file",
                       },
                       Object {
-                        "contents": "export { };
-",
-                        "name": "getProblemVersion.ts",
-                        "type": "file",
-                      },
-                      Object {
-                        "contents": "export { };
+                        "contents": "import * as schemas from \\"../../../..\\";
+import { MyApi } from \\"../../../../..\\";
+import * as core from \\"../../../../../core\\";
+
+export const Response: core.schemas.Schema<schemas.v2.v3.problem.ProblemInfoV2.Raw[], MyApi.v2.v3.problem.ProblemInfoV2[]> = core.schemas.list(schemas.v2.v3.problem.ProblemInfoV2);
 ",
                         "name": "getProblems.ts",
                         "type": "file",
@@ -14743,8 +14920,6 @@ export * from \\"./problem/types\\";
                       Object {
                         "contents": "export * as getLightweightProblems from \\"./getLightweightProblems\\";
 export * as getProblems from \\"./getProblems\\";
-export * as getLatestProblem from \\"./getLatestProblem\\";
-export * as getProblemVersion from \\"./getProblemVersion\\";
 ",
                         "name": "index.ts",
                         "type": "file",
@@ -14793,7 +14968,7 @@ export const AssertCorrectnessCheck: core.schemas.Schema<AssertCorrectnessCheck.
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace AssertCorrectnessCheck {
@@ -14922,7 +15097,7 @@ export const CustomFiles: core.schemas.Schema<CustomFiles.Raw, MyApi.v2.v3.probl
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace CustomFiles {
@@ -15095,7 +15270,7 @@ export const FunctionSignature: core.schemas.Schema<FunctionSignature.Raw, MyApi
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace FunctionSignature {
@@ -15434,7 +15609,7 @@ export const TestCaseFunction: core.schemas.Schema<TestCaseFunction.Raw, MyApi.v
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace TestCaseFunction {
@@ -15538,7 +15713,7 @@ export const TestCaseImplementationDescriptionBoard: core.schemas.Schema<TestCas
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace TestCaseImplementationDescriptionBoard {
@@ -15591,7 +15766,7 @@ export const TestCaseImplementationReference: core.schemas.Schema<TestCaseImplem
             }
         }
     },
-    json: ({ _visit, ...value }) => value as any
+    json: value => value as any
 });
 
 export declare namespace TestCaseImplementationReference {

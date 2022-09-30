@@ -30,7 +30,7 @@ export function union<D extends string | Discriminant<any, any>, U extends Union
             }
 
             return {
-                ...additionalPropertySchemas.parse(additionalProperties as any, opts),
+                ...additionalPropertySchemas.parse(additionalProperties, opts),
                 [parsedDiscriminant]: discriminantValue,
             } as inferParsedUnion<D, U>;
         },
@@ -48,7 +48,7 @@ export function union<D extends string | Discriminant<any, any>, U extends Union
             }
 
             return {
-                ...additionalPropertySchemas.json(additionalProperties as any, opts),
+                ...additionalPropertySchemas.json(additionalProperties, opts),
                 [rawDiscriminant]: discriminantValue,
             } as inferRawUnion<D, U>;
         },

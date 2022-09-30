@@ -1,4 +1,4 @@
-import { PathParameter, QueryParameter } from "@fern-fern/ir-model/services/http";
+import { HttpHeader, PathParameter, QueryParameter } from "@fern-fern/ir-model/services/http";
 import { getTextOfTsNode } from "@fern-typescript/commons";
 import { TypeReferenceNode } from "@fern-typescript/commons-v2";
 import { SdkFile } from "@fern-typescript/sdk-declaration-handler";
@@ -16,6 +16,11 @@ interface ParsedPathParam {
     pathParameter: PathParameter;
 }
 
+interface ParsedHeader {
+    keyInWrapper: string;
+    header: HttpHeader;
+}
+
 export class WrappedEndpointRequest extends AbstractEndpointRequest {
     private static REQUEST_WRAPPER_INTERFACE_NAME = "Request";
     private static REQUEST_BODY_PROPERTY_NAME = "_body";
@@ -23,6 +28,7 @@ export class WrappedEndpointRequest extends AbstractEndpointRequest {
 
     private parsedQueryParameters: ParsedQueryParam[] = [];
     private parsedPathParameters: ParsedPathParam[] = [];
+    private parsedHeaders: ParsedHeader[] = [];
 
     constructor(init: AbstractEndpointDeclaration.Init) {
         super(init);
@@ -34,6 +40,10 @@ export class WrappedEndpointRequest extends AbstractEndpointRequest {
         this.parsedPathParameters = this.endpoint.pathParameters.map((pathParameter) => ({
             keyInWrapper: pathParameter.name.camelCase,
             pathParameter,
+        }));
+        this.parsedHeaders = this.endpoint.headers.map((header) => ({
+            keyInWrapper: header.name.camelCase,
+            header,
         }));
     }
 
@@ -152,12 +162,15 @@ export class WrappedEndpointRequest extends AbstractEndpointRequest {
     protected override generateTypeDeclaration(file: SdkFile): void {
         const properties: OptionalKind<PropertySignatureStructure>[] = [];
 
+        properties.push(...file.authSchemes.getProperties());
+
         for (const { keyInWrapper, queryParameter } of this.parsedQueryParameters) {
             const type = file.getReferenceToType(queryParameter.valueType);
             properties.push({
                 name: keyInWrapper,
                 type: getTextOfTsNode(type.isOptional ? type.typeNodeWithoutUndefined : type.typeNode),
                 hasQuestionToken: type.isOptional,
+                docs: queryParameter.docs != null ? [queryParameter.docs] : undefined,
             });
         }
 
@@ -167,11 +180,19 @@ export class WrappedEndpointRequest extends AbstractEndpointRequest {
                 name: keyInWrapper,
                 type: getTextOfTsNode(type.isOptional ? type.typeNodeWithoutUndefined : type.typeNode),
                 hasQuestionToken: type.isOptional,
+                docs: pathParameter.docs != null ? [pathParameter.docs] : undefined,
             });
         }
 
-        // TODO headers
-        // TODO auth?
+        for (const { keyInWrapper, header } of this.parsedHeaders) {
+            const type = file.getReferenceToType(header.valueType);
+            properties.push({
+                name: keyInWrapper,
+                type: getTextOfTsNode(type.isOptional ? type.typeNodeWithoutUndefined : type.typeNode),
+                hasQuestionToken: type.isOptional,
+                docs: header.docs != null ? [header.docs] : undefined,
+            });
+        }
 
         if (this.hasRequestBody()) {
             const type = file.getReferenceToType(this.endpoint.request.type);
@@ -187,5 +208,14 @@ export class WrappedEndpointRequest extends AbstractEndpointRequest {
             isExported: true,
             properties,
         });
+    }
+
+    protected override getHeaders(): ts.PropertyAssignment[] {
+        return this.parsedHeaders.map((header) =>
+            ts.factory.createPropertyAssignment(
+                ts.factory.createStringLiteral(header.header.name.wireValue),
+                this.getReferenceToWrapperProperty(header.keyInWrapper)
+            )
+        );
     }
 }

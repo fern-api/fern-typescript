@@ -24,4 +24,8 @@ export class NotWrappedEndpointRequest extends AbstractEndpointRequest {
     }
 
     protected override generateTypeDeclaration(): void {}
+
+    protected override getHeaders(): ts.PropertyAssignment[] {
+        return [];
+    }
 }

@@ -1,6 +1,7 @@
 import { TypeReferenceNode, Zurg } from "@fern-typescript/commons-v2";
 import { Fetcher, SdkFile } from "@fern-typescript/sdk-declaration-handler";
 import { ts } from "ts-morph";
+import { Client } from "../../Client";
 import { AbstractEndpointDeclaration } from "../AbstractEndpointDeclaration";
 import { WireBodySchema } from "../WireBodySchema";
 
@@ -67,12 +68,9 @@ export abstract class AbstractEndpointRequest extends AbstractEndpointDeclaratio
         return {
             statements,
             fetcherArgs: {
-                url: this.getUrlPath(file),
+                url: file.externalDependencies.urlJoin.invoke([Client.getReferenceToBasePath(), this.getUrlPath(file)]),
                 method: ts.factory.createStringLiteral(this.endpoint.method),
-                // TODO
-                authHeader: undefined,
-                // TODO
-                headers: undefined,
+                headers: [...Client.getAuthHeaders(file), ...this.getHeaders()],
                 queryParameters: queryParameters?.referenceToUrlParams,
                 body: this.hasRequestBody() ? this.getReferenceToRequestBodyInsideEndpoint(file) : undefined,
                 timeoutMs: undefined,
@@ -105,4 +103,6 @@ export abstract class AbstractEndpointRequest extends AbstractEndpointDeclaratio
         }
         return ts.factory.createStringLiteral(this.endpoint.path.head);
     }
+
+    protected abstract getHeaders(): ts.PropertyAssignment[];
 }

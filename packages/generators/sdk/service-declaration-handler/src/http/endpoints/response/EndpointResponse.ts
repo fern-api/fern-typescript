@@ -25,7 +25,7 @@ export class EndpointResponse extends AbstractEndpointDeclaration {
         super(superInit);
         this.schema = WireBodySchema.of({
             typeName: EndpointResponse.SCHEMA_TYPE_NAME,
-            type: superInit.endpoint.request.type,
+            type: superInit.endpoint.response.type,
             serviceName: superInit.serviceName,
             endpoint: superInit.endpoint,
         });
@@ -74,14 +74,20 @@ export class EndpointResponse extends AbstractEndpointDeclaration {
                 ts.factory.createIdentifier(EndpointResponse.RESPONSE_VARIABLE),
                 ts.factory.createIdentifier("ok")
             ),
-            ts.factory.createBlock([ts.factory.createReturnStatement(this.getReturnOkResponse(file))], true),
-            undefined
+            ts.factory.createBlock(
+                [
+                    ts.factory.createReturnStatement(
+                        file.coreUtilities.fetcher.APIResponse.SuccessfulResponse._build(this.getOkResponseBody(file))
+                    ),
+                ],
+                true
+            )
         );
     }
 
-    private getReturnOkResponse(file: SdkFile) {
+    private getOkResponseBody(file: SdkFile): ts.Expression {
         if (!this.hasResponseBody()) {
-            return undefined;
+            return ts.factory.createIdentifier("undefined");
         }
 
         const responseBodySchema =
@@ -93,15 +99,13 @@ export class EndpointResponse extends AbstractEndpointDeclaration {
                 ? this.schema.getReferenceToRawShape(file)
                 : file.getReferenceToRawType(this.endpoint.response.type).typeNode;
 
-        return file.coreUtilities.fetcher.APIResponse.SuccessfulResponse._build(
-            responseBodySchema.parse(
-                ts.factory.createAsExpression(
-                    ts.factory.createPropertyAccessExpression(
-                        ts.factory.createIdentifier(EndpointResponse.RESPONSE_VARIABLE),
-                        file.coreUtilities.fetcher.APIResponse.SuccessfulResponse.body
-                    ),
-                    rawResponseBody
-                )
+        return responseBodySchema.parse(
+            ts.factory.createAsExpression(
+                ts.factory.createPropertyAccessExpression(
+                    ts.factory.createIdentifier(EndpointResponse.RESPONSE_VARIABLE),
+                    file.coreUtilities.fetcher.APIResponse.SuccessfulResponse.body
+                ),
+                rawResponseBody
             )
         );
     }
@@ -160,7 +164,16 @@ export class EndpointResponse extends AbstractEndpointDeclaration {
                                 ts.factory.createStringLiteral(lastError.getDiscriminantValue()),
                                 [
                                     ts.factory.createReturnStatement(
-                                        this.endpointError.getReferenceToSchema(file).parse(referenceToErrorBody)
+                                        file.coreUtilities.fetcher.APIResponse.FailedResponse._build(
+                                            this.endpointError
+                                                .getReferenceToSchema(file)
+                                                .parse(
+                                                    ts.factory.createAsExpression(
+                                                        referenceToErrorBody,
+                                                        this.endpointError.getReferenceToRawType(file)
+                                                    )
+                                                )
+                                        )
                                     ),
                                 ]
                             ),
