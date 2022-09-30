@@ -2,7 +2,7 @@ import { getTextOfTsKeyword, getTextOfTsNode } from "@fern-typescript/commons";
 import { createPropertyAssignment, WrapperDeclaration } from "@fern-typescript/commons-v2";
 import { GeneratorContext, SdkFile } from "@fern-typescript/sdk-declaration-handler";
 import { Scope, ts } from "ts-morph";
-import { ClientConstants } from "./constants";
+import { Client } from "./http/Client";
 
 export declare namespace WrapperDeclarationHandler {
     export interface Args {
@@ -110,10 +110,7 @@ export function WrapperDeclarationHandler(
                                     ts.factory.createObjectLiteralExpression(
                                         [
                                             createPropertyAssignment(
-                                                ts.factory.createIdentifier(
-                                                    ClientConstants.HttpService.ServiceNamespace.Options.Properties
-                                                        .BASE_PATH
-                                                ),
+                                                ts.factory.createIdentifier(Client.BASE_PATH_OPTIONS_PROPERTY_NAME),
                                                 basePath
                                             ),
                                             ...authSchemeProperties.map(({ name: propertyName }) =>

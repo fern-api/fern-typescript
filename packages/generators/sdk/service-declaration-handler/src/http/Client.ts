@@ -13,8 +13,8 @@ export declare namespace Client {
 
 export class Client {
     private static OPTIONS_INTERFACE_NAME = "Options";
-    private static BASE_PATH_OPTIONS_PROPERTY_NAME = "_basePath";
     private static OPTIONS_PRIVATE_MEMBER = "options";
+    public static BASE_PATH_OPTIONS_PROPERTY_NAME = "_basePath";
 
     private service: HttpService;
     private serviceClassName: string;
