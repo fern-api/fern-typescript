@@ -3756,7 +3756,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@fern-typescript/commons-v2", "workspace:packages/commons-v2"],\
             ["@fern-typescript/sdk-declaration-handler", "workspace:packages/generators/sdk/declaration-handler"],\
             ["@fern-typescript/sdk-generator", "workspace:packages/generators/sdk/generator"],\
-            ["@fern-typescript/testing-utils", "workspace:packages/testing-utils"],\
             ["@ts-morph/common", "npm:0.16.0"],\
             ["@types/decompress", "npm:4.2.4"],\
             ["@types/jest", "npm:28.1.6"],\
