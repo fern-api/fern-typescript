@@ -30,6 +30,8 @@ node_modules
   },
   Object {
     "contents": "nodeLinker: pnp
+
+yarnPath: .yarn/releases/yarn-3.2.3.cjs
 ",
     "name": ".yarnrc.yml",
     "type": "file",
@@ -4983,7 +4985,8 @@ export type RequiredKeys<T> = {
         \\"esbuild\\": \\"0.14.47\\",
         \\"prettier\\": \\"2.7.1\\",
         \\"typescript\\": \\"4.6.4\\"
-    }
+    },
+    \\"packageManager\\": \\"yarn@3.2.3\\"
 }
 ",
     "name": "package.json",
