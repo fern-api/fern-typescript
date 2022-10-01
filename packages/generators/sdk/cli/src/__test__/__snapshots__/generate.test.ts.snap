@@ -39,7 +39,6 @@ yarnPath: .yarn/releases/yarn-3.2.3.cjs
       Object {
         "contents": "import * as core from \\"../core\\";
 import { Client as AdminServiceClient } from \\"./admin/client/Client\\";
-import urlJoin from \\"url-join\\";
 import { Client as HomepageProblemServiceClient } from \\"./homepage/client/Client\\";
 import { Client as MigrationInfoServiceClient } from \\"./migration/client/Client\\";
 import { Client as PlaylistCrudServiceClient } from \\"./playlist/client/Client\\";
@@ -64,7 +63,7 @@ export class Client {
 
   public get admin(): AdminServiceClient {
     return (this.#admin ??= new AdminServiceClient({
-      _basePath: urlJoin(this.options._origin, \\"/admin\\"),
+      _origin: this.options._origin,
       _token: this.options._token,
       _credentials: this.options._credentials,
       xApiKey: this.options.xApiKey,
@@ -75,7 +74,7 @@ export class Client {
 
   public get homepage(): HomepageProblemServiceClient {
     return (this.#homepage ??= new HomepageProblemServiceClient({
-      _basePath: urlJoin(this.options._origin, \\"/homepage-problems\\"),
+      _origin: this.options._origin,
       _token: this.options._token,
       _credentials: this.options._credentials,
       xApiKey: this.options.xApiKey,
@@ -86,7 +85,7 @@ export class Client {
 
   public get migration(): MigrationInfoServiceClient {
     return (this.#migration ??= new MigrationInfoServiceClient({
-      _basePath: urlJoin(this.options._origin, \\"/migration-info\\"),
+      _origin: this.options._origin,
       _token: this.options._token,
       _credentials: this.options._credentials,
       xApiKey: this.options.xApiKey,
@@ -97,7 +96,7 @@ export class Client {
 
   public get playlist(): PlaylistCrudServiceClient {
     return (this.#playlist ??= new PlaylistCrudServiceClient({
-      _basePath: urlJoin(this.options._origin, \\"/v2/playlist\\"),
+      _origin: this.options._origin,
       _token: this.options._token,
       _credentials: this.options._credentials,
       xApiKey: this.options.xApiKey,
@@ -108,7 +107,7 @@ export class Client {
 
   public get problem(): ProblemCrudServiceClient {
     return (this.#problem ??= new ProblemCrudServiceClient({
-      _basePath: urlJoin(this.options._origin, \\"/problem-crud\\"),
+      _origin: this.options._origin,
       _token: this.options._token,
       _credentials: this.options._credentials,
       xApiKey: this.options.xApiKey,
@@ -119,7 +118,7 @@ export class Client {
 
   public get submission(): ExecutionSesssionManagementServiceClient {
     return (this.#submission ??= new ExecutionSesssionManagementServiceClient({
-      _basePath: urlJoin(this.options._origin, \\"/sessions\\"),
+      _origin: this.options._origin,
       _token: this.options._token,
       _credentials: this.options._credentials,
       xApiKey: this.options.xApiKey,
@@ -130,7 +129,7 @@ export class Client {
 
   public get sysprop(): SysPropCrudServiceClient {
     return (this.#sysprop ??= new SysPropCrudServiceClient({
-      _basePath: urlJoin(this.options._origin, \\"/sysprop\\"),
+      _origin: this.options._origin,
       _token: this.options._token,
       _credentials: this.options._credentials,
       xApiKey: this.options.xApiKey,
@@ -185,7 +184,7 @@ export interface Client {
 
 export declare namespace Client {
   interface Options {
-    _basePath: string;
+    _origin: string;
     _token?: core.BearerToken;
     _credentials?: core.BasicAuth;
     xApiKey?: string;
@@ -200,8 +199,8 @@ export class Client implements Client {
   ): Promise<MyApi.admin.updateTestSubmissionStatus.Response> {
     const response = await core.fetcher({
       url: urlJoin(
-        this.options._basePath,
-        \`/store-test-submission-status/\${request.submissionId}\`
+        this.options._origin,
+        \`/admin//store-test-submission-status/\${request.submissionId}\`
       ),
       method: \\"POST\\",
       headers: {
@@ -237,8 +236,8 @@ export class Client implements Client {
   ): Promise<MyApi.admin.sendTestSubmissionUpdate.Response> {
     const response = await core.fetcher({
       url: urlJoin(
-        this.options._basePath,
-        \`/store-test-submission-status-v2/\${request.submissionId}\`
+        this.options._origin,
+        \`/admin//store-test-submission-status-v2/\${request.submissionId}\`
       ),
       method: \\"POST\\",
       headers: {
@@ -274,8 +273,8 @@ export class Client implements Client {
   ): Promise<MyApi.admin.updateWorkspaceSubmissionStatus.Response> {
     const response = await core.fetcher({
       url: urlJoin(
-        this.options._basePath,
-        \`/store-workspace-submission-status/\${request.submissionId}\`
+        this.options._origin,
+        \`/admin//store-workspace-submission-status/\${request.submissionId}\`
       ),
       method: \\"POST\\",
       headers: {
@@ -311,8 +310,8 @@ export class Client implements Client {
   ): Promise<MyApi.admin.sendWorkspaceSubmissionUpdate.Response> {
     const response = await core.fetcher({
       url: urlJoin(
-        this.options._basePath,
-        \`/store-workspace-submission-status-v2/\${request.submissionId}\`
+        this.options._origin,
+        \`/admin//store-workspace-submission-status-v2/\${request.submissionId}\`
       ),
       method: \\"POST\\",
       headers: {
@@ -348,8 +347,8 @@ export class Client implements Client {
   ): Promise<MyApi.admin.storeTracedTestCase.Response> {
     const response = await core.fetcher({
       url: urlJoin(
-        this.options._basePath,
-        \`/store-test-trace/submission/\${request.submissionId}/testCase/\${request.testCaseId}\`
+        this.options._origin,
+        \`/admin//store-test-trace/submission/\${request.submissionId}/testCase/\${request.testCaseId}\`
       ),
       method: \\"POST\\",
       headers: {
@@ -385,8 +384,8 @@ export class Client implements Client {
   ): Promise<MyApi.admin.storeTracedTestCaseV2.Response> {
     const response = await core.fetcher({
       url: urlJoin(
-        this.options._basePath,
-        \`/store-test-trace-v2/submission/\${request.submissionId}/testCase/\${request.testCaseId}\`
+        this.options._origin,
+        \`/admin//store-test-trace-v2/submission/\${request.submissionId}/testCase/\${request.testCaseId}\`
       ),
       method: \\"POST\\",
       headers: {
@@ -422,8 +421,8 @@ export class Client implements Client {
   ): Promise<MyApi.admin.storeTracedWorkspace.Response> {
     const response = await core.fetcher({
       url: urlJoin(
-        this.options._basePath,
-        \`/store-workspace-trace/submission/\${request.submissionId}\`
+        this.options._origin,
+        \`/admin//store-workspace-trace/submission/\${request.submissionId}\`
       ),
       method: \\"POST\\",
       headers: {
@@ -459,8 +458,8 @@ export class Client implements Client {
   ): Promise<MyApi.admin.storeTracedWorkspaceV2.Response> {
     const response = await core.fetcher({
       url: urlJoin(
-        this.options._basePath,
-        \`/store-workspace-trace-v2/submission/\${request.submissionId}\`
+        this.options._origin,
+        \`/admin//store-workspace-trace-v2/submission/\${request.submissionId}\`
       ),
       method: \\"POST\\",
       headers: {
@@ -1704,7 +1703,7 @@ export interface Client {
 
 export declare namespace Client {
   interface Options {
-    _basePath: string;
+    _origin: string;
     _token?: core.BearerToken;
     _credentials?: core.BasicAuth;
     xApiKey?: string;
@@ -1716,7 +1715,7 @@ export class Client implements Client {
 
   public async getHomepageProblems(): Promise<MyApi.homepage.getHomepageProblems.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options._basePath, \\"/\\"),
+      url: urlJoin(this.options._origin, \\"/\\"),
       method: \\"GET\\",
       headers: {
         Authorization:
@@ -1751,7 +1750,7 @@ export class Client implements Client {
     request: MyApi.commons.ProblemId[]
   ): Promise<MyApi.homepage.setHomepageProblems.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options._basePath, \\"/\\"),
+      url: urlJoin(this.options._origin, \\"/\\"),
       method: \\"POST\\",
       headers: {
         Authorization:
@@ -1943,7 +1942,7 @@ export interface Client {
 
 export declare namespace Client {
   interface Options {
-    _basePath: string;
+    _origin: string;
     _token?: core.BearerToken;
     _credentials?: core.BasicAuth;
     xApiKey?: string;
@@ -1955,7 +1954,7 @@ export class Client implements Client {
 
   public async getAttemptedMigrations(): Promise<MyApi.migration.getAttemptedMigrations.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options._basePath, \\"/all\\"),
+      url: urlJoin(this.options._origin, \\"/all\\"),
       method: \\"GET\\",
       headers: {
         Authorization:
@@ -2112,7 +2111,7 @@ import * as schemas from \\"../../../schemas\\";
 
 export interface Client {
   createPlaylist(
-    request: MyApi.playlist.PlaylistCreateRequest
+    request: MyApi.playlist.createPlaylist.Request
   ): Promise<MyApi.playlist.createPlaylist.Response>;
   getPlaylists(
     request: MyApi.playlist.getPlaylists.Request
@@ -2130,7 +2129,7 @@ export interface Client {
 
 export declare namespace Client {
   interface Options {
-    _basePath: string;
+    _origin: string;
     _token?: core.BearerToken;
     _credentials?: core.BasicAuth;
     xApiKey?: string;
@@ -2141,10 +2140,13 @@ export class Client implements Client {
   constructor(private readonly options: Client.Options) {}
 
   public async createPlaylist(
-    request: MyApi.playlist.PlaylistCreateRequest
+    request: MyApi.playlist.createPlaylist.Request
   ): Promise<MyApi.playlist.createPlaylist.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options._basePath, \\"/create\\"),
+      url: urlJoin(
+        this.options._origin,
+        \`/v2/playlist/\${request.serviceParam}/create\`
+      ),
       method: \\"POST\\",
       headers: {
         Authorization:
@@ -2155,7 +2157,7 @@ export class Client implements Client {
             : undefined,
         \\"X-API-Key\\": this.options.xApiKey,
       },
-      body: schemas.playlist.PlaylistCreateRequest.json(request),
+      body: request._body,
     });
     if (response.ok) {
       return {
@@ -2185,7 +2187,10 @@ export class Client implements Client {
     }
 
     const response = await core.fetcher({
-      url: urlJoin(this.options._basePath, \\"/all\\"),
+      url: urlJoin(
+        this.options._origin,
+        \`/v2/playlist/\${request.serviceParam}/all\`
+      ),
       method: \\"GET\\",
       headers: {
         Authorization:
@@ -2221,7 +2226,10 @@ export class Client implements Client {
     request: MyApi.playlist.getPlaylist.Request
   ): Promise<MyApi.playlist.getPlaylist.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options._basePath, \`/\${request.playlistId}\`),
+      url: urlJoin(
+        this.options._origin,
+        \`/v2/playlist/\${request.serviceParam}/\${request.playlistId}\`
+      ),
       method: \\"GET\\",
       headers: {
         Authorization:
@@ -2272,7 +2280,10 @@ export class Client implements Client {
     request: MyApi.playlist.updatePlaylist.Request
   ): Promise<MyApi.playlist.updatePlaylist.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options._basePath, \`/\${request.playlistId}\`),
+      url: urlJoin(
+        this.options._origin,
+        \`/v2/playlist/\${request.serviceParam}/\${request.playlistId}\`
+      ),
       method: \\"PUT\\",
       headers: {
         Authorization:
@@ -2323,7 +2334,10 @@ export class Client implements Client {
     request: MyApi.playlist.deletePlaylist.Request
   ): Promise<MyApi.playlist.deletePlaylist.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options._basePath, \`/\${request.playlistId}\`),
+      url: urlJoin(
+        this.options._origin,
+        \`/v2/playlist/\${request.serviceParam}/\${request.playlistId}\`
+      ),
       method: \\"DELETE\\",
       headers: {
         Authorization:
@@ -2357,8 +2371,16 @@ export class Client implements Client {
                 "type": "file",
               },
               Object {
-                "contents": "import { MyApi } from \\"../../..\\";
-import * as core from \\"../../../core\\";
+                "contents": "import * as core from \\"../../../core\\";
+import { MyApi } from \\"../../..\\";
+
+export interface Request {
+  _token?: core.BearerToken;
+  _credentials?: core.BasicAuth;
+  xApiKey?: string;
+  serviceParam: number;
+  _body: MyApi.playlist.PlaylistCreateRequest;
+}
 
 export type Response = core.APIResponse<
   MyApi.playlist.Playlist,
@@ -2392,6 +2414,7 @@ export interface Request {
   _token?: core.BearerToken;
   _credentials?: core.BasicAuth;
   xApiKey?: string;
+  serviceParam: number;
   playlistId: MyApi.playlist.PlaylistId;
 }
 
@@ -2427,6 +2450,7 @@ export interface Request {
   _token?: core.BearerToken;
   _credentials?: core.BasicAuth;
   xApiKey?: string;
+  serviceParam: number;
   playlistId: MyApi.playlist.PlaylistId;
 }
 
@@ -2494,6 +2518,7 @@ export interface Request {
   _credentials?: core.BasicAuth;
   xApiKey?: string;
   limit?: number;
+  serviceParam: number;
 }
 
 export type Response = core.APIResponse<
@@ -2538,6 +2563,7 @@ export interface Request {
   _token?: core.BearerToken;
   _credentials?: core.BasicAuth;
   xApiKey?: string;
+  serviceParam: number;
   playlistId: MyApi.playlist.PlaylistId;
   _body?: MyApi.playlist.UpdatePlaylistRequest;
 }
@@ -2737,7 +2763,7 @@ export interface Client {
 
 export declare namespace Client {
   interface Options {
-    _basePath: string;
+    _origin: string;
     _token?: core.BearerToken;
     _credentials?: core.BasicAuth;
     xApiKey?: string;
@@ -2751,7 +2777,7 @@ export class Client implements Client {
     request: MyApi.problem.CreateProblemRequest
   ): Promise<MyApi.problem.createProblem.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options._basePath, \\"/create\\"),
+      url: urlJoin(this.options._origin, \\"/create\\"),
       method: \\"POST\\",
       headers: {
         Authorization:
@@ -2787,7 +2813,10 @@ export class Client implements Client {
     request: MyApi.problem.updateProblem.Request
   ): Promise<MyApi.problem.updateProblem.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options._basePath, \`/update/\${request.problemId}\`),
+      url: urlJoin(
+        this.options._origin,
+        \`/problem-crud//update/\${request.problemId}\`
+      ),
       method: \\"POST\\",
       headers: {
         Authorization:
@@ -2823,7 +2852,10 @@ export class Client implements Client {
     request: MyApi.problem.deleteProblem.Request
   ): Promise<MyApi.problem.deleteProblem.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options._basePath, \`/delete/\${request.problemId}\`),
+      url: urlJoin(
+        this.options._origin,
+        \`/problem-crud//delete/\${request.problemId}\`
+      ),
       method: \\"DELETE\\",
       headers: {
         Authorization:
@@ -2856,7 +2888,7 @@ export class Client implements Client {
     request: MyApi.problem.GetDefaultStarterFilesRequest
   ): Promise<MyApi.problem.getDefaultStarterFiles.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options._basePath, \\"/default-starter-files\\"),
+      url: urlJoin(this.options._origin, \\"/default-starter-files\\"),
       method: \\"POST\\",
       headers: {
         Authorization:
@@ -3358,7 +3390,7 @@ export interface Client {
 
 export declare namespace Client {
   interface Options {
-    _basePath: string;
+    _origin: string;
     _token?: core.BearerToken;
     _credentials?: core.BasicAuth;
     xApiKey?: string;
@@ -3376,8 +3408,8 @@ export class Client implements Client {
   ): Promise<MyApi.submission.createExecutionSession.Response> {
     const response = await core.fetcher({
       url: urlJoin(
-        this.options._basePath,
-        \`/create-session/\${request.language}\`
+        this.options._origin,
+        \`/sessions//create-session/\${request.language}\`
       ),
       method: \\"POST\\",
       headers: {
@@ -3413,7 +3445,7 @@ export class Client implements Client {
     request: MyApi.submission.getExecutionSession.Request
   ): Promise<MyApi.submission.getExecutionSession.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options._basePath, \`/\${request.sessionId}\`),
+      url: urlJoin(this.options._origin, \`/sessions//\${request.sessionId}\`),
       method: \\"GET\\",
       headers: {
         Authorization:
@@ -3451,7 +3483,10 @@ export class Client implements Client {
     request: MyApi.submission.stopExecutionSession.Request
   ): Promise<MyApi.submission.stopExecutionSession.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options._basePath, \`/stop/\${request.sessionId}\`),
+      url: urlJoin(
+        this.options._origin,
+        \`/sessions//stop/\${request.sessionId}\`
+      ),
       method: \\"DELETE\\",
       headers: {
         Authorization:
@@ -3482,7 +3517,7 @@ export class Client implements Client {
 
   public async getExecutionSessionsState(): Promise<MyApi.submission.getExecutionSessionsState.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options._basePath, \\"/execution-sessions-state\\"),
+      url: urlJoin(this.options._origin, \\"/execution-sessions-state\\"),
       method: \\"GET\\",
       headers: {
         Authorization:
@@ -5946,7 +5981,7 @@ export interface Client {
 
 export declare namespace Client {
   interface Options {
-    _basePath: string;
+    _origin: string;
     _token?: core.BearerToken;
     _credentials?: core.BasicAuth;
     xApiKey?: string;
@@ -5961,8 +5996,8 @@ export class Client implements Client {
   ): Promise<MyApi.sysprop.setNumWarmInstances.Response> {
     const response = await core.fetcher({
       url: urlJoin(
-        this.options._basePath,
-        \`/num-warm-instances/\${request.language}/\${request.numWarmInstances}\`
+        this.options._origin,
+        \`/sysprop//num-warm-instances/\${request.language}/\${request.numWarmInstances}\`
       ),
       method: \\"PUT\\",
       headers: {
@@ -5994,7 +6029,7 @@ export class Client implements Client {
 
   public async getNumWarmInstances(): Promise<MyApi.sysprop.getNumWarmInstances.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options._basePath, \\"/num-warm-instances\\"),
+      url: urlJoin(this.options._origin, \\"/num-warm-instances\\"),
       method: \\"GET\\",
       headers: {
         Authorization:
@@ -6119,7 +6154,6 @@ export declare namespace Error {
           Object {
             "contents": "import * as core from \\"../../core\\";
 import { Client as ProblemInfoServicV2Client } from \\"./problem/client/Client\\";
-import urlJoin from \\"url-join\\";
 import { Wrapper as V3Wrapper } from \\"./v3/Wrapper\\";
 
 export namespace Wrapper {
@@ -6138,7 +6172,7 @@ export class Wrapper {
 
   public get problem(): ProblemInfoServicV2Client {
     return (this.#problem ??= new ProblemInfoServicV2Client({
-      _basePath: urlJoin(this.options._origin, \\"/problems-v2\\"),
+      _origin: this.options._origin,
       _token: this.options._token,
       _credentials: this.options._credentials,
       xApiKey: this.options.xApiKey,
@@ -6186,7 +6220,7 @@ export interface Client {
 
 export declare namespace Client {
   interface Options {
-    _basePath: string;
+    _origin: string;
     _token?: core.BearerToken;
     _credentials?: core.BasicAuth;
     xApiKey?: string;
@@ -6198,7 +6232,7 @@ export class Client implements Client {
 
   public async getLightweightProblems(): Promise<MyApi.v2.problem.getLightweightProblems.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options._basePath, \\"/lightweight-problem-info\\"),
+      url: urlJoin(this.options._origin, \\"/lightweight-problem-info\\"),
       method: \\"GET\\",
       headers: {
         Authorization:
@@ -6231,7 +6265,7 @@ export class Client implements Client {
 
   public async getProblems(): Promise<MyApi.v2.problem.getProblems.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options._basePath, \\"/problem-info\\"),
+      url: urlJoin(this.options._origin, \\"/problem-info\\"),
       method: \\"GET\\",
       headers: {
         Authorization:
@@ -6267,8 +6301,8 @@ export class Client implements Client {
   ): Promise<MyApi.v2.problem.getLatestProblem.Response> {
     const response = await core.fetcher({
       url: urlJoin(
-        this.options._basePath,
-        \`/problem-info/\${request.problemId}\`
+        this.options._origin,
+        \`/problems-v2//problem-info/\${request.problemId}\`
       ),
       method: \\"GET\\",
       headers: {
@@ -6305,8 +6339,8 @@ export class Client implements Client {
   ): Promise<MyApi.v2.problem.getProblemVersion.Response> {
     const response = await core.fetcher({
       url: urlJoin(
-        this.options._basePath,
-        \`/problem-info/\${request.problemId}/version/\${request.problemVersion}\`
+        this.options._origin,
+        \`/problems-v2//problem-info/\${request.problemId}/version/\${request.problemVersion}\`
       ),
       method: \\"GET\\",
       headers: {
@@ -7309,7 +7343,6 @@ export * from \\"./GetGeneratedTestCaseTemplateFileRequest\\";
               Object {
                 "contents": "import * as core from \\"../../../core\\";
 import { Client as ProblemInfoServicV2Client } from \\"./problem/client/Client\\";
-import urlJoin from \\"url-join\\";
 
 export namespace Wrapper {
   export interface Options {
@@ -7327,7 +7360,7 @@ export class Wrapper {
 
   public get problem(): ProblemInfoServicV2Client {
     return (this.#problem ??= new ProblemInfoServicV2Client({
-      _basePath: urlJoin(this.options._origin, \\"/problems-v2\\"),
+      _origin: this.options._origin,
       _token: this.options._token,
       _credentials: this.options._credentials,
       xApiKey: this.options.xApiKey,
@@ -7368,7 +7401,7 @@ export interface Client {
 
 export declare namespace Client {
   interface Options {
-    _basePath: string;
+    _origin: string;
     _token?: core.BearerToken;
     _credentials?: core.BasicAuth;
     xApiKey?: string;
@@ -7380,7 +7413,7 @@ export class Client implements Client {
 
   public async getLightweightProblems(): Promise<MyApi.v2.v3.problem.getLightweightProblems.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options._basePath, \\"/lightweight-problem-info\\"),
+      url: urlJoin(this.options._origin, \\"/lightweight-problem-info\\"),
       method: \\"GET\\",
       headers: {
         Authorization:
@@ -7413,7 +7446,7 @@ export class Client implements Client {
 
   public async getProblems(): Promise<MyApi.v2.v3.problem.getProblems.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options._basePath, \\"/problem-info\\"),
+      url: urlJoin(this.options._origin, \\"/problem-info\\"),
       method: \\"GET\\",
       headers: {
         Authorization:
@@ -7449,8 +7482,8 @@ export class Client implements Client {
   ): Promise<MyApi.v2.v3.problem.getLatestProblem.Response> {
     const response = await core.fetcher({
       url: urlJoin(
-        this.options._basePath,
-        \`/problem-info/\${request.problemId}\`
+        this.options._origin,
+        \`/problems-v2//problem-info/\${request.problemId}\`
       ),
       method: \\"GET\\",
       headers: {
@@ -7487,8 +7520,8 @@ export class Client implements Client {
   ): Promise<MyApi.v2.v3.problem.getProblemVersion.Response> {
     const response = await core.fetcher({
       url: urlJoin(
-        this.options._basePath,
-        \`/problem-info/\${request.problemId}/version/\${request.problemVersion}\`
+        this.options._origin,
+        \`/problems-v2//problem-info/\${request.problemId}/version/\${request.problemVersion}\`
       ),
       method: \\"GET\\",
       headers: {

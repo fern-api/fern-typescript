@@ -80,7 +80,7 @@ describe("runGenerator", () => {
 
                 // check that the non-git-ignored files match snapshot
                 const pathToGitArchive = path.join(outputPath, "archive.zip");
-                await runCommandInOutputDirectory("git", ["init"]);
+                await runCommandInOutputDirectory("git", ["init", "--initial-branch=main"]);
                 await runCommandInOutputDirectory("git", ["add", "."]);
                 await runCommandInOutputDirectory("git", ["commit", "-m", '"Initial commit"']);
                 await runCommandInOutputDirectory("git", ["archive", "--output", pathToGitArchive, "main"]);
