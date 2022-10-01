@@ -50,6 +50,9 @@ jobs:
           name: Install latest yarn
           command: yarn set version stable
       - run:
+          name: corepack enable
+          command: corepack enable
+      - run:
           name: Run tests
           command: yarn test --ci
       - run:
