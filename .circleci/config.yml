@@ -45,12 +45,10 @@ jobs:
       - checkout
       - node/install-packages:
           pkg-manager: yarn-berry
+      # needed for snapshotted yarn packages to be generated correctly
       - run:
-          name: Compile
-          command: yarn compile
-      - run:
-          name: Build docker
-          command: yarn workspace fern-typescript dockerTagLocal
+          name: Install latest yarn
+          command: yarn set version stable
       - run:
           name: Run tests
           command: yarn test --ci
