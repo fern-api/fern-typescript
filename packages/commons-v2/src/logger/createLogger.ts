@@ -1,7 +1,7 @@
 import { Logger } from "./Logger";
 import { LogLevel } from "./LogLevel";
 
-export function createLogger(log: (message: string, level: LogLevel) => void): Logger {
+export function gcreateLogger(log: (message: string, level: LogLevel) => void): Logger {
     return {
         log,
         debug: (message) => log(message, LogLevel.Debug),
