@@ -5900,7 +5900,6 @@ __metadata:
     prettier: ^2.7.1
     ts-node: ^10.9.1
     typescript: 4.6.4
-    url-join: ^4.0.1
   languageName: unknown
   linkType: soft
 
@@ -9925,7 +9924,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"url-join@npm:4.0.1, url-join@npm:^4.0.1":
+"url-join@npm:4.0.1":
   version: 4.0.1
   resolution: "url-join@npm:4.0.1"
   checksum: f74e868bf25dbc8be6a8d7237d4c36bb5b6c62c72e594d5ab1347fe91d6af7ccd9eb5d621e30152e4da45c2e9a26bec21390e911ab54a62d4d82e76028374ee5
