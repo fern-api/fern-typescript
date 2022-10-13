@@ -28,6 +28,6 @@ export function constructNpmPackage(generatorConfig: FernGeneratorExec.Generator
                 publishInfo: undefined,
             };
         default:
-            throw new Error(`Encountered unknown output mode: ${outputMode}`);
+            throw new Error(`Encountered unknown output mode: ${outputMode.type}`);
     }
 }
