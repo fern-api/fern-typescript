@@ -1,4 +1,3 @@
-
 import { NpmRegistryConfig, PackageCoordinate } from "@fern-fern/generator-exec-client/api";
 import { FernTypescriptGeneratorConfig } from "@fern-typescript/commons";
 import { CommandKey } from "./Command";
