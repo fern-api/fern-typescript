@@ -2192,7 +2192,6 @@ __metadata:
     "@fern-typescript/commons-v2": "workspace:*"
     "@fern-typescript/sdk-declaration-handler": "workspace:*"
     "@fern-typescript/sdk-generator": "workspace:*"
-    "@fern-typescript/testing-utils": "workspace:*"
     "@ts-morph/common": ^0.16.0
     "@types/decompress": ^4.2.4
     "@types/jest": ^28.1.6
