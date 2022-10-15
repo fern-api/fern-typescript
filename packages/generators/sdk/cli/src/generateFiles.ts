@@ -33,6 +33,7 @@ export async function generateFiles({
         volume,
         packageName: npmPackage.packageName,
         packageVersion: npmPackage.version,
+        repositoryUrl: npmPackage.repoUrl,
     });
 
     await sdkGenerator.generate();

@@ -37,7 +37,7 @@ export async function generatePackageJson({
     packageJson = {
         ...packageJson,
         version: packageVersion,
-        repository: repoUrl,
+        repository: repositoryUrl,
         main: "./index.js",
         types: "./index.d.ts",
         files: [
