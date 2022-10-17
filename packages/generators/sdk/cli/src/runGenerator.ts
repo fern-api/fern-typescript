@@ -52,7 +52,7 @@ export async function runGenerator(pathToConfig: string): Promise<void> {
             runYarnCommand,
         });
 
-        if (config.output.mode.type === "publish" && npmPackage.publishInfo != null) {
+        if (config.output.mode.type === "publish" && npmPackage.publishInfo != null && !config.dryRun) {
             await publishPackage({
                 generatorNotificationService,
                 logger,
