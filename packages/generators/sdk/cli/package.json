@@ -40,7 +40,8 @@
     "execa": "^5.1.1",
     "lodash-es": "^4.17.21",
     "memfs": "^3.4.1",
-    "tmp-promise": "^3.0.3"
+    "tmp-promise": "^3.0.3",
+    "ts-morph": "^15.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",

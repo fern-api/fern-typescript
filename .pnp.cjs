@@ -3787,6 +3787,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["simple-progress-webpack-plugin", "virtual:e63295de2bd8fc275ac5033fb924070abcf529ffb116fc48141d6d806d85b3cae9f9f36de59923e81253dacbacb6558ad3568777013d3cbf523bddadae542880#npm:2.0.0"],\
             ["tmp-promise", "npm:3.0.3"],\
             ["ts-loader", "virtual:e63295de2bd8fc275ac5033fb924070abcf529ffb116fc48141d6d806d85b3cae9f9f36de59923e81253dacbacb6558ad3568777013d3cbf523bddadae542880#npm:9.3.1"],\
+            ["ts-morph", "npm:15.1.0"],\
             ["ts-node", "virtual:f8e21c9fa0a798b21a87ac455600e39198fef65848556a3a2cd5c956b0460181f9e618173dcff6d9d4fb96fb870055dfe1a3ec3db5db0700e71c0184e4711659#npm:10.9.1"],\
             ["typescript", "patch:typescript@npm%3A4.6.4#~builtin<compat/typescript>::version=4.6.4&hash=a1c5e5"],\
             ["umd-compat-loader", "npm:2.1.2"],\
