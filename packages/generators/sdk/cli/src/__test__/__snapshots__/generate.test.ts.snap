@@ -1982,9 +1982,9 @@ yarnPath: .yarn/releases/yarn-3.2.4.cjs
     \\"main\\": \\"./src/index.js\\",
     \\"types\\": \\"./src/index.d.ts\\",
     \\"files\\": [
-        \\"src\\"
+        \\"./src\\"
     ],
-    \\"exports\\": \\"src\\",
+    \\"exports\\": \\"./src\\",
     \\"scripts\\": {
         \\"format\\": \\"prettier --write --print-width 120 '**/*.ts'\\",
         \\"build\\": \\"esbuild $(find . -name '*.ts' -not -path './node_modules/*') --format=cjs --sourcemap --outdir=. && tsc\\"
@@ -3253,7 +3253,7 @@ export * from \\"./token/types\\";
 
 import { FernNurseryApi } from \\"../../..\\";
 import urlJoin from \\"url-join\\";
-import * as schemas from \\"../../../schemas\\";
+import * as schemas from \\"../../../serialization\\";
 import * as core from \\"../../../core\\";
 
 export declare namespace Client {
@@ -3627,7 +3627,7 @@ export * from \\"./Owner\\";
 
 import { FernNurseryApi } from \\"../../..\\";
 import urlJoin from \\"url-join\\";
-import * as schemas from \\"../../../schemas\\";
+import * as schemas from \\"../../../serialization\\";
 import * as core from \\"../../../core\\";
 
 export declare namespace Client {
@@ -4679,7 +4679,7 @@ export * from \\"./TokenStatus\\";
             "type": "directory",
           },
         ],
-        "name": "schemas",
+        "name": "serialization",
         "type": "directory",
       },
     ],
@@ -4797,9 +4797,9 @@ yarnPath: .yarn/releases/yarn-3.2.4.cjs
     \\"main\\": \\"./src/index.js\\",
     \\"types\\": \\"./src/index.d.ts\\",
     \\"files\\": [
-        \\"src\\"
+        \\"./src\\"
     ],
-    \\"exports\\": \\"src\\",
+    \\"exports\\": \\"./src\\",
     \\"scripts\\": {
         \\"format\\": \\"prettier --write --print-width 120 '**/*.ts'\\",
         \\"build\\": \\"esbuild $(find . -name '*.ts' -not -path './node_modules/*') --format=cjs --sourcemap --outdir=. && tsc\\"
@@ -6165,7 +6165,7 @@ export { TraceMyApiClient } from \\"./TraceMyApiClient\\";
 import * as core from \\"../../../core\\";
 import { TraceMyApi } from \\"../../..\\";
 import urlJoin from \\"url-join\\";
-import * as schemas from \\"../../../schemas\\";
+import * as schemas from \\"../../../serialization\\";
 
 export declare namespace Client {
   interface Options {
@@ -7975,7 +7975,7 @@ export * from \\"./Language\\";
 import * as core from \\"../../../core\\";
 import { TraceMyApi } from \\"../../..\\";
 import urlJoin from \\"url-join\\";
-import * as schemas from \\"../../../schemas\\";
+import * as schemas from \\"../../../serialization\\";
 
 export declare namespace Client {
   interface Options {
@@ -8207,7 +8207,7 @@ export * from \\"./LangServerResponse\\";
 import * as core from \\"../../../core\\";
 import { TraceMyApi } from \\"../../..\\";
 import urlJoin from \\"url-join\\";
-import * as schemas from \\"../../../schemas\\";
+import * as schemas from \\"../../../serialization\\";
 
 export declare namespace Client {
   interface Options {
@@ -8404,7 +8404,7 @@ export * from \\"./Migration\\";
 import * as core from \\"../../../core\\";
 import { TraceMyApi } from \\"../../..\\";
 import urlJoin from \\"url-join\\";
-import * as schemas from \\"../../../schemas\\";
+import * as schemas from \\"../../../serialization\\";
 
 export declare namespace Client {
   interface Options {
@@ -9067,7 +9067,7 @@ export * from \\"./ReservedKeywordEnum\\";
 import * as core from \\"../../../core\\";
 import { TraceMyApi } from \\"../../..\\";
 import urlJoin from \\"url-join\\";
-import * as schemas from \\"../../../schemas\\";
+import * as schemas from \\"../../../serialization\\";
 
 export declare namespace Client {
   interface Options {
@@ -9744,7 +9744,7 @@ export * from \\"./GetDefaultStarterFilesResponse\\";
 import * as core from \\"../../../core\\";
 import { TraceMyApi } from \\"../../..\\";
 import urlJoin from \\"url-join\\";
-import * as schemas from \\"../../../schemas\\";
+import * as schemas from \\"../../../serialization\\";
 
 export declare namespace Client {
   interface Options {
@@ -13051,7 +13051,7 @@ export * from \\"./GetSubmissionStateResponse\\";
 import * as core from \\"../../../core\\";
 import { TraceMyApi } from \\"../../..\\";
 import urlJoin from \\"url-join\\";
-import * as schemas from \\"../../../schemas\\";
+import * as schemas from \\"../../../serialization\\";
 
 export declare namespace Client {
   interface Options {
@@ -13280,7 +13280,7 @@ export * as v3 from \\"./v3\\";
 import * as core from \\"../../../../../core\\";
 import { TraceMyApi } from \\"../../../../..\\";
 import urlJoin from \\"url-join\\";
-import * as schemas from \\"../../../../../schemas\\";
+import * as schemas from \\"../../../../../serialization\\";
 
 export declare namespace Client {
   interface Options {
@@ -14610,7 +14610,7 @@ export * from \\"./problem/types\\";
 import * as core from \\"../../../../../../../core\\";
 import { TraceMyApi } from \\"../../../../../../..\\";
 import urlJoin from \\"url-join\\";
-import * as schemas from \\"../../../../../../../schemas\\";
+import * as schemas from \\"../../../../../../../serialization\\";
 
 export declare namespace Client {
   interface Options {
@@ -24084,7 +24084,7 @@ export * from \\"./GetGeneratedTestCaseTemplateFileRequest\\";
             "type": "directory",
           },
         ],
-        "name": "schemas",
+        "name": "serialization",
         "type": "directory",
       },
     ],

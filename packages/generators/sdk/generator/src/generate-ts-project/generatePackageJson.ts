@@ -47,8 +47,8 @@ export async function generatePackageJson({
         repository: repositoryUrl,
         main: "./src/index.js",
         types: "./src/index.d.ts",
-        files: ["src"],
-        exports: "src",
+        files: ["./src"],
+        exports: "./src",
         scripts: {
             [PackageJsonScript.FORMAT]: "prettier --write --print-width 120 '**/*.ts'",
             [PackageJsonScript.BUILD]: [
