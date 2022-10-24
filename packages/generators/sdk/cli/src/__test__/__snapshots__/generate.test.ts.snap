@@ -2049,7 +2049,7 @@ export class Client {
     };
   }
 
-  public async get_(request: FernNurseryApi.owner.get_.Request): Promise<FernNurseryApi.owner.get_.Response> {
+  public async get(request: FernNurseryApi.owner.get.Request): Promise<FernNurseryApi.owner.get.Response> {
     const response = await core.fetcher({
       url: urlJoin(this.options._origin, \`/owner/\${request.ownerId}\`),
       method: \\"GET\\",
@@ -2062,11 +2062,11 @@ export class Client {
     }
 
     if (response.error.reason === \\"status-code\\") {
-      switch ((response.error.body as schemas.owner.get_.Error.Raw)?.errorName) {
+      switch ((response.error.body as schemas.owner.get.Error.Raw)?.errorName) {
         case \\"OwnerNotFoundError\\":
           return {
             ok: false,
-            error: schemas.owner.get_.Error.parse(response.error.body as schemas.owner.get_.Error.Raw),
+            error: schemas.owner.get.Error.parse(response.error.body as schemas.owner.get.Error.Raw),
           };
       }
     }
@@ -2179,7 +2179,7 @@ export interface Request {
   ownerId: FernNurseryApi.owner.OwnerId;
 }
 
-export type Response = core.APIResponse<FernNurseryApi.owner.Owner, FernNurseryApi.owner.get_.Error>;
+export type Response = core.APIResponse<FernNurseryApi.owner.Owner, FernNurseryApi.owner.get.Error>;
 export type Error = Error.OwnerNotFoundError | Error._Unknown;
 
 export declare namespace Error {
@@ -2217,12 +2217,12 @@ export const Error = {
   },
 } as const;
 ",
-                    "name": "get_.ts",
+                    "name": "get.ts",
                     "type": "file",
                   },
                   Object {
                     "contents": "export * as create from \\"./create\\";
-export * as get_ from \\"./get_\\";
+export * as get from \\"./get\\";
 export * as update from \\"./update\\";
 ",
                     "name": "index.ts",
@@ -2757,19 +2757,19 @@ export type TokenStatus = TokenStatus.Active | TokenStatus.Expired | TokenStatus
 
 export declare namespace TokenStatus {
   interface Active extends _Utils {
-    type_: \\"active\\";
+    type: \\"active\\";
   }
 
   interface Expired extends _Utils {
-    type_: \\"expired\\";
+    type: \\"expired\\";
   }
 
   interface Revoked extends _Utils {
-    type_: \\"revoked\\";
+    type: \\"revoked\\";
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -2780,14 +2780,14 @@ export declare namespace TokenStatus {
     active: () => Result;
     expired: () => Result;
     revoked: () => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
 export const TokenStatus = {
   active: (): TokenStatus.Active => {
     const valueWithoutVisit: Omit<TokenStatus.Active, \\"_visit\\"> = {
-      type_: \\"active\\",
+      type: \\"active\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -2800,7 +2800,7 @@ export const TokenStatus = {
 
   expired: (): TokenStatus.Expired => {
     const valueWithoutVisit: Omit<TokenStatus.Expired, \\"_visit\\"> = {
-      type_: \\"expired\\",
+      type: \\"expired\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -2813,7 +2813,7 @@ export const TokenStatus = {
 
   revoked: (): TokenStatus.Revoked => {
     const valueWithoutVisit: Omit<TokenStatus.Revoked, \\"_visit\\"> = {
-      type_: \\"revoked\\",
+      type: \\"revoked\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -4177,15 +4177,15 @@ export declare namespace Error {
 import { FernNurseryApi } from \\"../../../..\\";
 import * as core from \\"../../../../core\\";
 
-export const Error: core.schemas.Schema<Error.Raw, FernNurseryApi.owner.get_.Error> = core.schemas
+export const Error: core.schemas.Schema<Error.Raw, FernNurseryApi.owner.get.Error> = core.schemas
   .union(\\"errorName\\", {
     OwnerNotFoundError: core.schemas.object({}),
   })
-  .transform<FernNurseryApi.owner.get_.Error>({
+  .transform<FernNurseryApi.owner.get.Error>({
     parse: (value) => {
       switch (value.errorName) {
         case \\"OwnerNotFoundError\\": {
-          return FernNurseryApi.owner.get_.Error.ownerNotFoundError();
+          return FernNurseryApi.owner.get.Error.ownerNotFoundError();
         }
       }
     },
@@ -4200,12 +4200,12 @@ export declare namespace Error {
   }
 }
 ",
-                    "name": "get_.ts",
+                    "name": "get.ts",
                     "type": "file",
                   },
                   Object {
                     "contents": "export * as create from \\"./create\\";
-export * as get_ from \\"./get_\\";
+export * as get from \\"./get\\";
 export * as update from \\"./update\\";
 ",
                     "name": "index.ts",
@@ -4632,14 +4632,14 @@ import { FernNurseryApi } from \\"../../../..\\";
 import * as core from \\"../../../../core\\";
 
 export const TokenStatus: core.schemas.Schema<TokenStatus.Raw, FernNurseryApi.token.TokenStatus> = core.schemas
-  .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+  .union(\\"type\\", {
     active: core.schemas.object({}),
     expired: core.schemas.object({}),
     revoked: core.schemas.object({}),
   })
   .transform<FernNurseryApi.token.TokenStatus>({
     parse: (value) => {
-      switch (value.type_) {
+      switch (value.type) {
         case \\"active\\": {
           return FernNurseryApi.token.TokenStatus.active();
         }
@@ -5577,65 +5577,65 @@ export type DebugVariableValue =
 
 export declare namespace DebugVariableValue {
   interface IntegerValue extends _Utils {
-    type_: \\"integerValue\\";
+    type: \\"integerValue\\";
     value: number;
   }
 
   interface BooleanValue extends _Utils {
-    type_: \\"booleanValue\\";
+    type: \\"booleanValue\\";
     value: boolean;
   }
 
   interface DoubleValue extends _Utils {
-    type_: \\"doubleValue\\";
+    type: \\"doubleValue\\";
     value: number;
   }
 
   interface StringValue extends _Utils {
-    type_: \\"stringValue\\";
+    type: \\"stringValue\\";
     value: string;
   }
 
   interface CharValue extends _Utils {
-    type_: \\"charValue\\";
+    type: \\"charValue\\";
     value: string;
   }
 
   interface MapValue extends TraceMyApi.commons.DebugMapValue, _Utils {
-    type_: \\"mapValue\\";
+    type: \\"mapValue\\";
   }
 
   interface ListValue extends _Utils {
-    type_: \\"listValue\\";
+    type: \\"listValue\\";
     value: TraceMyApi.commons.DebugVariableValue[];
   }
 
   interface BinaryTreeNodeValue extends TraceMyApi.commons.BinaryTreeNodeAndTreeValue, _Utils {
-    type_: \\"binaryTreeNodeValue\\";
+    type: \\"binaryTreeNodeValue\\";
   }
 
   interface SinglyLinkedListNodeValue extends TraceMyApi.commons.SinglyLinkedListNodeAndListValue, _Utils {
-    type_: \\"singlyLinkedListNodeValue\\";
+    type: \\"singlyLinkedListNodeValue\\";
   }
 
   interface DoublyLinkedListNodeValue extends TraceMyApi.commons.DoublyLinkedListNodeAndListValue, _Utils {
-    type_: \\"doublyLinkedListNodeValue\\";
+    type: \\"doublyLinkedListNodeValue\\";
   }
 
   interface UndefinedValue extends _Utils {
-    type_: \\"undefinedValue\\";
+    type: \\"undefinedValue\\";
   }
 
   interface NullValue extends _Utils {
-    type_: \\"nullValue\\";
+    type: \\"nullValue\\";
   }
 
   interface GenericValue extends TraceMyApi.commons.GenericValue, _Utils {
-    type_: \\"genericValue\\";
+    type: \\"genericValue\\";
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -5656,7 +5656,7 @@ export declare namespace DebugVariableValue {
     undefinedValue: () => Result;
     nullValue: () => Result;
     genericValue: (value: TraceMyApi.commons.GenericValue) => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
@@ -5664,7 +5664,7 @@ export const DebugVariableValue = {
   integerValue: (value: number): DebugVariableValue.IntegerValue => {
     const valueWithoutVisit: Omit<DebugVariableValue.IntegerValue, \\"_visit\\"> = {
       value: value,
-      type_: \\"integerValue\\",
+      type: \\"integerValue\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -5678,7 +5678,7 @@ export const DebugVariableValue = {
   booleanValue: (value: boolean): DebugVariableValue.BooleanValue => {
     const valueWithoutVisit: Omit<DebugVariableValue.BooleanValue, \\"_visit\\"> = {
       value: value,
-      type_: \\"booleanValue\\",
+      type: \\"booleanValue\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -5692,7 +5692,7 @@ export const DebugVariableValue = {
   doubleValue: (value: number): DebugVariableValue.DoubleValue => {
     const valueWithoutVisit: Omit<DebugVariableValue.DoubleValue, \\"_visit\\"> = {
       value: value,
-      type_: \\"doubleValue\\",
+      type: \\"doubleValue\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -5706,7 +5706,7 @@ export const DebugVariableValue = {
   stringValue: (value: string): DebugVariableValue.StringValue => {
     const valueWithoutVisit: Omit<DebugVariableValue.StringValue, \\"_visit\\"> = {
       value: value,
-      type_: \\"stringValue\\",
+      type: \\"stringValue\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -5720,7 +5720,7 @@ export const DebugVariableValue = {
   charValue: (value: string): DebugVariableValue.CharValue => {
     const valueWithoutVisit: Omit<DebugVariableValue.CharValue, \\"_visit\\"> = {
       value: value,
-      type_: \\"charValue\\",
+      type: \\"charValue\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -5734,7 +5734,7 @@ export const DebugVariableValue = {
   mapValue: (value: TraceMyApi.commons.DebugMapValue): DebugVariableValue.MapValue => {
     const valueWithoutVisit: Omit<DebugVariableValue.MapValue, \\"_visit\\"> = {
       ...value,
-      type_: \\"mapValue\\",
+      type: \\"mapValue\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -5748,7 +5748,7 @@ export const DebugVariableValue = {
   listValue: (value: TraceMyApi.commons.DebugVariableValue[]): DebugVariableValue.ListValue => {
     const valueWithoutVisit: Omit<DebugVariableValue.ListValue, \\"_visit\\"> = {
       value: value,
-      type_: \\"listValue\\",
+      type: \\"listValue\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -5764,7 +5764,7 @@ export const DebugVariableValue = {
   ): DebugVariableValue.BinaryTreeNodeValue => {
     const valueWithoutVisit: Omit<DebugVariableValue.BinaryTreeNodeValue, \\"_visit\\"> = {
       ...value,
-      type_: \\"binaryTreeNodeValue\\",
+      type: \\"binaryTreeNodeValue\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -5780,7 +5780,7 @@ export const DebugVariableValue = {
   ): DebugVariableValue.SinglyLinkedListNodeValue => {
     const valueWithoutVisit: Omit<DebugVariableValue.SinglyLinkedListNodeValue, \\"_visit\\"> = {
       ...value,
-      type_: \\"singlyLinkedListNodeValue\\",
+      type: \\"singlyLinkedListNodeValue\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -5796,7 +5796,7 @@ export const DebugVariableValue = {
   ): DebugVariableValue.DoublyLinkedListNodeValue => {
     const valueWithoutVisit: Omit<DebugVariableValue.DoublyLinkedListNodeValue, \\"_visit\\"> = {
       ...value,
-      type_: \\"doublyLinkedListNodeValue\\",
+      type: \\"doublyLinkedListNodeValue\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -5809,7 +5809,7 @@ export const DebugVariableValue = {
 
   undefinedValue: (): DebugVariableValue.UndefinedValue => {
     const valueWithoutVisit: Omit<DebugVariableValue.UndefinedValue, \\"_visit\\"> = {
-      type_: \\"undefinedValue\\",
+      type: \\"undefinedValue\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -5822,7 +5822,7 @@ export const DebugVariableValue = {
 
   nullValue: (): DebugVariableValue.NullValue => {
     const valueWithoutVisit: Omit<DebugVariableValue.NullValue, \\"_visit\\"> = {
-      type_: \\"nullValue\\",
+      type: \\"nullValue\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -5836,7 +5836,7 @@ export const DebugVariableValue = {
   genericValue: (value: TraceMyApi.commons.GenericValue): DebugVariableValue.GenericValue => {
     const valueWithoutVisit: Omit<DebugVariableValue.GenericValue, \\"_visit\\"> = {
       ...value,
-      type_: \\"genericValue\\",
+      type: \\"genericValue\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -6173,47 +6173,47 @@ export type VariableType =
 
 export declare namespace VariableType {
   interface IntegerType extends _Utils {
-    type_: \\"integerType\\";
+    type: \\"integerType\\";
   }
 
   interface DoubleType extends _Utils {
-    type_: \\"doubleType\\";
+    type: \\"doubleType\\";
   }
 
   interface BooleanType extends _Utils {
-    type_: \\"booleanType\\";
+    type: \\"booleanType\\";
   }
 
   interface StringType extends _Utils {
-    type_: \\"stringType\\";
+    type: \\"stringType\\";
   }
 
   interface CharType extends _Utils {
-    type_: \\"charType\\";
+    type: \\"charType\\";
   }
 
   interface ListType extends TraceMyApi.commons.ListType, _Utils {
-    type_: \\"listType\\";
+    type: \\"listType\\";
   }
 
   interface MapType extends TraceMyApi.commons.MapType, _Utils {
-    type_: \\"mapType\\";
+    type: \\"mapType\\";
   }
 
   interface BinaryTreeType extends _Utils {
-    type_: \\"binaryTreeType\\";
+    type: \\"binaryTreeType\\";
   }
 
   interface SinglyLinkedListType extends _Utils {
-    type_: \\"singlyLinkedListType\\";
+    type: \\"singlyLinkedListType\\";
   }
 
   interface DoublyLinkedListType extends _Utils {
-    type_: \\"doublyLinkedListType\\";
+    type: \\"doublyLinkedListType\\";
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -6231,14 +6231,14 @@ export declare namespace VariableType {
     binaryTreeType: () => Result;
     singlyLinkedListType: () => Result;
     doublyLinkedListType: () => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
 export const VariableType = {
   integerType: (): VariableType.IntegerType => {
     const valueWithoutVisit: Omit<VariableType.IntegerType, \\"_visit\\"> = {
-      type_: \\"integerType\\",
+      type: \\"integerType\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -6251,7 +6251,7 @@ export const VariableType = {
 
   doubleType: (): VariableType.DoubleType => {
     const valueWithoutVisit: Omit<VariableType.DoubleType, \\"_visit\\"> = {
-      type_: \\"doubleType\\",
+      type: \\"doubleType\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -6264,7 +6264,7 @@ export const VariableType = {
 
   booleanType: (): VariableType.BooleanType => {
     const valueWithoutVisit: Omit<VariableType.BooleanType, \\"_visit\\"> = {
-      type_: \\"booleanType\\",
+      type: \\"booleanType\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -6277,7 +6277,7 @@ export const VariableType = {
 
   stringType: (): VariableType.StringType => {
     const valueWithoutVisit: Omit<VariableType.StringType, \\"_visit\\"> = {
-      type_: \\"stringType\\",
+      type: \\"stringType\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -6290,7 +6290,7 @@ export const VariableType = {
 
   charType: (): VariableType.CharType => {
     const valueWithoutVisit: Omit<VariableType.CharType, \\"_visit\\"> = {
-      type_: \\"charType\\",
+      type: \\"charType\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -6304,7 +6304,7 @@ export const VariableType = {
   listType: (value: TraceMyApi.commons.ListType): VariableType.ListType => {
     const valueWithoutVisit: Omit<VariableType.ListType, \\"_visit\\"> = {
       ...value,
-      type_: \\"listType\\",
+      type: \\"listType\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -6318,7 +6318,7 @@ export const VariableType = {
   mapType: (value: TraceMyApi.commons.MapType): VariableType.MapType => {
     const valueWithoutVisit: Omit<VariableType.MapType, \\"_visit\\"> = {
       ...value,
-      type_: \\"mapType\\",
+      type: \\"mapType\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -6331,7 +6331,7 @@ export const VariableType = {
 
   binaryTreeType: (): VariableType.BinaryTreeType => {
     const valueWithoutVisit: Omit<VariableType.BinaryTreeType, \\"_visit\\"> = {
-      type_: \\"binaryTreeType\\",
+      type: \\"binaryTreeType\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -6344,7 +6344,7 @@ export const VariableType = {
 
   singlyLinkedListType: (): VariableType.SinglyLinkedListType => {
     const valueWithoutVisit: Omit<VariableType.SinglyLinkedListType, \\"_visit\\"> = {
-      type_: \\"singlyLinkedListType\\",
+      type: \\"singlyLinkedListType\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -6357,7 +6357,7 @@ export const VariableType = {
 
   doublyLinkedListType: (): VariableType.DoublyLinkedListType => {
     const valueWithoutVisit: Omit<VariableType.DoublyLinkedListType, \\"_visit\\"> = {
-      type_: \\"doublyLinkedListType\\",
+      type: \\"doublyLinkedListType\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -6395,57 +6395,57 @@ export type VariableValue =
 
 export declare namespace VariableValue {
   interface IntegerValue extends _Utils {
-    type_: \\"integerValue\\";
+    type: \\"integerValue\\";
     value: number;
   }
 
   interface BooleanValue extends _Utils {
-    type_: \\"booleanValue\\";
+    type: \\"booleanValue\\";
     value: boolean;
   }
 
   interface DoubleValue extends _Utils {
-    type_: \\"doubleValue\\";
+    type: \\"doubleValue\\";
     value: number;
   }
 
   interface StringValue extends _Utils {
-    type_: \\"stringValue\\";
+    type: \\"stringValue\\";
     value: string;
   }
 
   interface CharValue extends _Utils {
-    type_: \\"charValue\\";
+    type: \\"charValue\\";
     value: string;
   }
 
   interface MapValue extends TraceMyApi.commons.MapValue, _Utils {
-    type_: \\"mapValue\\";
+    type: \\"mapValue\\";
   }
 
   interface ListValue extends _Utils {
-    type_: \\"listValue\\";
+    type: \\"listValue\\";
     value: TraceMyApi.commons.VariableValue[];
   }
 
   interface BinaryTreeValue extends TraceMyApi.commons.BinaryTreeValue, _Utils {
-    type_: \\"binaryTreeValue\\";
+    type: \\"binaryTreeValue\\";
   }
 
   interface SinglyLinkedListValue extends TraceMyApi.commons.SinglyLinkedListValue, _Utils {
-    type_: \\"singlyLinkedListValue\\";
+    type: \\"singlyLinkedListValue\\";
   }
 
   interface DoublyLinkedListValue extends TraceMyApi.commons.DoublyLinkedListValue, _Utils {
-    type_: \\"doublyLinkedListValue\\";
+    type: \\"doublyLinkedListValue\\";
   }
 
   interface NullValue extends _Utils {
-    type_: \\"nullValue\\";
+    type: \\"nullValue\\";
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -6464,7 +6464,7 @@ export declare namespace VariableValue {
     singlyLinkedListValue: (value: TraceMyApi.commons.SinglyLinkedListValue) => Result;
     doublyLinkedListValue: (value: TraceMyApi.commons.DoublyLinkedListValue) => Result;
     nullValue: () => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
@@ -6472,7 +6472,7 @@ export const VariableValue = {
   integerValue: (value: number): VariableValue.IntegerValue => {
     const valueWithoutVisit: Omit<VariableValue.IntegerValue, \\"_visit\\"> = {
       value: value,
-      type_: \\"integerValue\\",
+      type: \\"integerValue\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -6486,7 +6486,7 @@ export const VariableValue = {
   booleanValue: (value: boolean): VariableValue.BooleanValue => {
     const valueWithoutVisit: Omit<VariableValue.BooleanValue, \\"_visit\\"> = {
       value: value,
-      type_: \\"booleanValue\\",
+      type: \\"booleanValue\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -6500,7 +6500,7 @@ export const VariableValue = {
   doubleValue: (value: number): VariableValue.DoubleValue => {
     const valueWithoutVisit: Omit<VariableValue.DoubleValue, \\"_visit\\"> = {
       value: value,
-      type_: \\"doubleValue\\",
+      type: \\"doubleValue\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -6514,7 +6514,7 @@ export const VariableValue = {
   stringValue: (value: string): VariableValue.StringValue => {
     const valueWithoutVisit: Omit<VariableValue.StringValue, \\"_visit\\"> = {
       value: value,
-      type_: \\"stringValue\\",
+      type: \\"stringValue\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -6528,7 +6528,7 @@ export const VariableValue = {
   charValue: (value: string): VariableValue.CharValue => {
     const valueWithoutVisit: Omit<VariableValue.CharValue, \\"_visit\\"> = {
       value: value,
-      type_: \\"charValue\\",
+      type: \\"charValue\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -6542,7 +6542,7 @@ export const VariableValue = {
   mapValue: (value: TraceMyApi.commons.MapValue): VariableValue.MapValue => {
     const valueWithoutVisit: Omit<VariableValue.MapValue, \\"_visit\\"> = {
       ...value,
-      type_: \\"mapValue\\",
+      type: \\"mapValue\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -6556,7 +6556,7 @@ export const VariableValue = {
   listValue: (value: TraceMyApi.commons.VariableValue[]): VariableValue.ListValue => {
     const valueWithoutVisit: Omit<VariableValue.ListValue, \\"_visit\\"> = {
       value: value,
-      type_: \\"listValue\\",
+      type: \\"listValue\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -6570,7 +6570,7 @@ export const VariableValue = {
   binaryTreeValue: (value: TraceMyApi.commons.BinaryTreeValue): VariableValue.BinaryTreeValue => {
     const valueWithoutVisit: Omit<VariableValue.BinaryTreeValue, \\"_visit\\"> = {
       ...value,
-      type_: \\"binaryTreeValue\\",
+      type: \\"binaryTreeValue\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -6584,7 +6584,7 @@ export const VariableValue = {
   singlyLinkedListValue: (value: TraceMyApi.commons.SinglyLinkedListValue): VariableValue.SinglyLinkedListValue => {
     const valueWithoutVisit: Omit<VariableValue.SinglyLinkedListValue, \\"_visit\\"> = {
       ...value,
-      type_: \\"singlyLinkedListValue\\",
+      type: \\"singlyLinkedListValue\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -6598,7 +6598,7 @@ export const VariableValue = {
   doublyLinkedListValue: (value: TraceMyApi.commons.DoublyLinkedListValue): VariableValue.DoublyLinkedListValue => {
     const valueWithoutVisit: Omit<VariableValue.DoublyLinkedListValue, \\"_visit\\"> = {
       ...value,
-      type_: \\"doublyLinkedListValue\\",
+      type: \\"doublyLinkedListValue\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -6611,7 +6611,7 @@ export const VariableValue = {
 
   nullValue: (): VariableValue.NullValue => {
     const valueWithoutVisit: Omit<VariableValue.NullValue, \\"_visit\\"> = {
-      type_: \\"nullValue\\",
+      type: \\"nullValue\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -7634,12 +7634,12 @@ export type PlaylistIdNotFoundErrorBody = PlaylistIdNotFoundErrorBody.PlaylistId
 
 export declare namespace PlaylistIdNotFoundErrorBody {
   interface PlaylistId extends _Utils {
-    type_: \\"playlistId\\";
+    type: \\"playlistId\\";
     value: TraceMyApi.playlist.PlaylistId;
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -7648,7 +7648,7 @@ export declare namespace PlaylistIdNotFoundErrorBody {
 
   interface _Visitor<Result> {
     playlistId: (value: TraceMyApi.playlist.PlaylistId) => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
@@ -7656,7 +7656,7 @@ export const PlaylistIdNotFoundErrorBody = {
   playlistId: (value: TraceMyApi.playlist.PlaylistId): PlaylistIdNotFoundErrorBody.PlaylistId => {
     const valueWithoutVisit: Omit<PlaylistIdNotFoundErrorBody.PlaylistId, \\"_visit\\"> = {
       value: value,
-      type_: \\"playlistId\\",
+      type: \\"playlistId\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -7687,7 +7687,7 @@ const _Is: ReservedKeywordEnum<\\"is\\"> = {
 };
 const _As: ReservedKeywordEnum<\\"as\\"> = {
   value: \\"as\\",
-  visit: (visitor) => visitor.as_(),
+  visit: (visitor) => visitor.as(),
 };
 export const ReservedKeywordEnum = {
   Is: _Is,
@@ -7715,7 +7715,7 @@ export declare namespace ReservedKeywordEnum {
 
   interface _Visitor<Result> {
     is: () => Result;
-    as_: () => Result;
+    as: () => Result;
     _other: (value: string) => Result;
   }
 }
@@ -8137,17 +8137,17 @@ export type CreateProblemResponse =
 
 export declare namespace CreateProblemResponse {
   interface Success extends _Utils {
-    type_: \\"success\\";
+    type: \\"success\\";
     value: TraceMyApi.commons.ProblemId;
   }
 
   interface Error extends _Utils {
-    type_: \\"error\\";
+    type: \\"error\\";
     value: TraceMyApi.problem.CreateProblemError;
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -8157,7 +8157,7 @@ export declare namespace CreateProblemResponse {
   interface _Visitor<Result> {
     success: (value: TraceMyApi.commons.ProblemId) => Result;
     error: (value: TraceMyApi.problem.CreateProblemError) => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
@@ -8165,7 +8165,7 @@ export const CreateProblemResponse = {
   success: (value: TraceMyApi.commons.ProblemId): CreateProblemResponse.Success => {
     const valueWithoutVisit: Omit<CreateProblemResponse.Success, \\"_visit\\"> = {
       value: value,
-      type_: \\"success\\",
+      type: \\"success\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -8179,7 +8179,7 @@ export const CreateProblemResponse = {
   error: (value: TraceMyApi.problem.CreateProblemError): CreateProblemResponse.Error => {
     const valueWithoutVisit: Omit<CreateProblemResponse.Error, \\"_visit\\"> = {
       value: value,
-      type_: \\"error\\",
+      type: \\"error\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -8201,7 +8201,7 @@ export const CreateProblemResponse = {
 
 export interface GenericCreateProblemError {
   message: string;
-  type_: string;
+  type: string;
   stacktrace: string;
 }
 ",
@@ -8267,22 +8267,22 @@ export type ProblemDescriptionBoard =
 
 export declare namespace ProblemDescriptionBoard {
   interface Html extends _Utils {
-    type_: \\"html\\";
+    type: \\"html\\";
     value: string;
   }
 
   interface Variable extends _Utils {
-    type_: \\"variable\\";
+    type: \\"variable\\";
     value: TraceMyApi.commons.VariableValue;
   }
 
   interface TestCaseId extends _Utils {
-    type_: \\"testCaseId\\";
+    type: \\"testCaseId\\";
     value: string;
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -8293,7 +8293,7 @@ export declare namespace ProblemDescriptionBoard {
     html: (value: string) => Result;
     variable: (value: TraceMyApi.commons.VariableValue) => Result;
     testCaseId: (value: string) => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
@@ -8301,7 +8301,7 @@ export const ProblemDescriptionBoard = {
   html: (value: string): ProblemDescriptionBoard.Html => {
     const valueWithoutVisit: Omit<ProblemDescriptionBoard.Html, \\"_visit\\"> = {
       value: value,
-      type_: \\"html\\",
+      type: \\"html\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -8315,7 +8315,7 @@ export const ProblemDescriptionBoard = {
   variable: (value: TraceMyApi.commons.VariableValue): ProblemDescriptionBoard.Variable => {
     const valueWithoutVisit: Omit<ProblemDescriptionBoard.Variable, \\"_visit\\"> = {
       value: value,
-      type_: \\"variable\\",
+      type: \\"variable\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -8329,7 +8329,7 @@ export const ProblemDescriptionBoard = {
   testCaseId: (value: string): ProblemDescriptionBoard.TestCaseId => {
     const valueWithoutVisit: Omit<ProblemDescriptionBoard.TestCaseId, \\"_visit\\"> = {
       value: value,
-      type_: \\"testCaseId\\",
+      type: \\"testCaseId\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -8754,21 +8754,21 @@ export type ActualResult =
 
 export declare namespace ActualResult {
   interface Value extends _Utils {
-    type_: \\"value\\";
+    type: \\"value\\";
     value: TraceMyApi.commons.VariableValue;
   }
 
   interface Exception extends TraceMyApi.submission.ExceptionInfo, _Utils {
-    type_: \\"exception\\";
+    type: \\"exception\\";
   }
 
   interface ExceptionV2 extends _Utils {
-    type_: \\"exceptionV2\\";
+    type: \\"exceptionV2\\";
     value: TraceMyApi.submission.ExceptionV2;
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -8779,7 +8779,7 @@ export declare namespace ActualResult {
     value: (value: TraceMyApi.commons.VariableValue) => Result;
     exception: (value: TraceMyApi.submission.ExceptionInfo) => Result;
     exceptionV2: (value: TraceMyApi.submission.ExceptionV2) => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
@@ -8787,7 +8787,7 @@ export const ActualResult = {
   value: (value: TraceMyApi.commons.VariableValue): ActualResult.Value => {
     const valueWithoutVisit: Omit<ActualResult.Value, \\"_visit\\"> = {
       value: value,
-      type_: \\"value\\",
+      type: \\"value\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -8801,7 +8801,7 @@ export const ActualResult = {
   exception: (value: TraceMyApi.submission.ExceptionInfo): ActualResult.Exception => {
     const valueWithoutVisit: Omit<ActualResult.Exception, \\"_visit\\"> = {
       ...value,
-      type_: \\"exception\\",
+      type: \\"exception\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -8815,7 +8815,7 @@ export const ActualResult = {
   exceptionV2: (value: TraceMyApi.submission.ExceptionV2): ActualResult.ExceptionV2 => {
     const valueWithoutVisit: Omit<ActualResult.ExceptionV2, \\"_visit\\"> = {
       value: value,
-      type_: \\"exceptionV2\\",
+      type: \\"exceptionV2\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -8890,51 +8890,51 @@ export type CodeExecutionUpdate =
 
 export declare namespace CodeExecutionUpdate {
   interface BuildingExecutor extends TraceMyApi.submission.BuildingExecutorResponse, _Utils {
-    type_: \\"buildingExecutor\\";
+    type: \\"buildingExecutor\\";
   }
 
   interface Running extends TraceMyApi.submission.RunningResponse, _Utils {
-    type_: \\"running\\";
+    type: \\"running\\";
   }
 
   interface Errored extends TraceMyApi.submission.ErroredResponse, _Utils {
-    type_: \\"errored\\";
+    type: \\"errored\\";
   }
 
   interface Stopped extends TraceMyApi.submission.StoppedResponse, _Utils {
-    type_: \\"stopped\\";
+    type: \\"stopped\\";
   }
 
   interface Graded extends TraceMyApi.submission.GradedResponse, _Utils {
-    type_: \\"graded\\";
+    type: \\"graded\\";
   }
 
   interface GradedV2 extends TraceMyApi.submission.GradedResponseV2, _Utils {
-    type_: \\"gradedV2\\";
+    type: \\"gradedV2\\";
   }
 
   interface WorkspaceRan extends TraceMyApi.submission.WorkspaceRanResponse, _Utils {
-    type_: \\"workspaceRan\\";
+    type: \\"workspaceRan\\";
   }
 
   interface Recording extends TraceMyApi.submission.RecordingResponseNotification, _Utils {
-    type_: \\"recording\\";
+    type: \\"recording\\";
   }
 
   interface Recorded extends TraceMyApi.submission.RecordedResponseNotification, _Utils {
-    type_: \\"recorded\\";
+    type: \\"recorded\\";
   }
 
   interface InvalidRequest extends TraceMyApi.submission.InvalidRequestResponse, _Utils {
-    type_: \\"invalidRequest\\";
+    type: \\"invalidRequest\\";
   }
 
   interface Finished extends TraceMyApi.submission.FinishedResponse, _Utils {
-    type_: \\"finished\\";
+    type: \\"finished\\";
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -8953,7 +8953,7 @@ export declare namespace CodeExecutionUpdate {
     recorded: (value: TraceMyApi.submission.RecordedResponseNotification) => Result;
     invalidRequest: (value: TraceMyApi.submission.InvalidRequestResponse) => Result;
     finished: (value: TraceMyApi.submission.FinishedResponse) => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
@@ -8961,7 +8961,7 @@ export const CodeExecutionUpdate = {
   buildingExecutor: (value: TraceMyApi.submission.BuildingExecutorResponse): CodeExecutionUpdate.BuildingExecutor => {
     const valueWithoutVisit: Omit<CodeExecutionUpdate.BuildingExecutor, \\"_visit\\"> = {
       ...value,
-      type_: \\"buildingExecutor\\",
+      type: \\"buildingExecutor\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -8975,7 +8975,7 @@ export const CodeExecutionUpdate = {
   running: (value: TraceMyApi.submission.RunningResponse): CodeExecutionUpdate.Running => {
     const valueWithoutVisit: Omit<CodeExecutionUpdate.Running, \\"_visit\\"> = {
       ...value,
-      type_: \\"running\\",
+      type: \\"running\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -8989,7 +8989,7 @@ export const CodeExecutionUpdate = {
   errored: (value: TraceMyApi.submission.ErroredResponse): CodeExecutionUpdate.Errored => {
     const valueWithoutVisit: Omit<CodeExecutionUpdate.Errored, \\"_visit\\"> = {
       ...value,
-      type_: \\"errored\\",
+      type: \\"errored\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -9003,7 +9003,7 @@ export const CodeExecutionUpdate = {
   stopped: (value: TraceMyApi.submission.StoppedResponse): CodeExecutionUpdate.Stopped => {
     const valueWithoutVisit: Omit<CodeExecutionUpdate.Stopped, \\"_visit\\"> = {
       ...value,
-      type_: \\"stopped\\",
+      type: \\"stopped\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -9017,7 +9017,7 @@ export const CodeExecutionUpdate = {
   graded: (value: TraceMyApi.submission.GradedResponse): CodeExecutionUpdate.Graded => {
     const valueWithoutVisit: Omit<CodeExecutionUpdate.Graded, \\"_visit\\"> = {
       ...value,
-      type_: \\"graded\\",
+      type: \\"graded\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -9031,7 +9031,7 @@ export const CodeExecutionUpdate = {
   gradedV2: (value: TraceMyApi.submission.GradedResponseV2): CodeExecutionUpdate.GradedV2 => {
     const valueWithoutVisit: Omit<CodeExecutionUpdate.GradedV2, \\"_visit\\"> = {
       ...value,
-      type_: \\"gradedV2\\",
+      type: \\"gradedV2\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -9045,7 +9045,7 @@ export const CodeExecutionUpdate = {
   workspaceRan: (value: TraceMyApi.submission.WorkspaceRanResponse): CodeExecutionUpdate.WorkspaceRan => {
     const valueWithoutVisit: Omit<CodeExecutionUpdate.WorkspaceRan, \\"_visit\\"> = {
       ...value,
-      type_: \\"workspaceRan\\",
+      type: \\"workspaceRan\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -9059,7 +9059,7 @@ export const CodeExecutionUpdate = {
   recording: (value: TraceMyApi.submission.RecordingResponseNotification): CodeExecutionUpdate.Recording => {
     const valueWithoutVisit: Omit<CodeExecutionUpdate.Recording, \\"_visit\\"> = {
       ...value,
-      type_: \\"recording\\",
+      type: \\"recording\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -9073,7 +9073,7 @@ export const CodeExecutionUpdate = {
   recorded: (value: TraceMyApi.submission.RecordedResponseNotification): CodeExecutionUpdate.Recorded => {
     const valueWithoutVisit: Omit<CodeExecutionUpdate.Recorded, \\"_visit\\"> = {
       ...value,
-      type_: \\"recorded\\",
+      type: \\"recorded\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -9087,7 +9087,7 @@ export const CodeExecutionUpdate = {
   invalidRequest: (value: TraceMyApi.submission.InvalidRequestResponse): CodeExecutionUpdate.InvalidRequest => {
     const valueWithoutVisit: Omit<CodeExecutionUpdate.InvalidRequest, \\"_visit\\"> = {
       ...value,
-      type_: \\"invalidRequest\\",
+      type: \\"invalidRequest\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -9101,7 +9101,7 @@ export const CodeExecutionUpdate = {
   finished: (value: TraceMyApi.submission.FinishedResponse): CodeExecutionUpdate.Finished => {
     const valueWithoutVisit: Omit<CodeExecutionUpdate.Finished, \\"_visit\\"> = {
       ...value,
-      type_: \\"finished\\",
+      type: \\"finished\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -9164,19 +9164,19 @@ export type ErrorInfo =
 
 export declare namespace ErrorInfo {
   interface CompileError extends TraceMyApi.submission.CompileError, _Utils {
-    type_: \\"compileError\\";
+    type: \\"compileError\\";
   }
 
   interface RuntimeError extends TraceMyApi.submission.RuntimeError, _Utils {
-    type_: \\"runtimeError\\";
+    type: \\"runtimeError\\";
   }
 
   interface InternalError extends TraceMyApi.submission.InternalError, _Utils {
-    type_: \\"internalError\\";
+    type: \\"internalError\\";
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -9187,7 +9187,7 @@ export declare namespace ErrorInfo {
     compileError: (value: TraceMyApi.submission.CompileError) => Result;
     runtimeError: (value: TraceMyApi.submission.RuntimeError) => Result;
     internalError: (value: TraceMyApi.submission.InternalError) => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
@@ -9195,7 +9195,7 @@ export const ErrorInfo = {
   compileError: (value: TraceMyApi.submission.CompileError): ErrorInfo.CompileError => {
     const valueWithoutVisit: Omit<ErrorInfo.CompileError, \\"_visit\\"> = {
       ...value,
-      type_: \\"compileError\\",
+      type: \\"compileError\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -9209,7 +9209,7 @@ export const ErrorInfo = {
   runtimeError: (value: TraceMyApi.submission.RuntimeError): ErrorInfo.RuntimeError => {
     const valueWithoutVisit: Omit<ErrorInfo.RuntimeError, \\"_visit\\"> = {
       ...value,
-      type_: \\"runtimeError\\",
+      type: \\"runtimeError\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -9223,7 +9223,7 @@ export const ErrorInfo = {
   internalError: (value: TraceMyApi.submission.InternalError): ErrorInfo.InternalError => {
     const valueWithoutVisit: Omit<ErrorInfo.InternalError, \\"_visit\\"> = {
       ...value,
-      type_: \\"internalError\\",
+      type: \\"internalError\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -9278,15 +9278,15 @@ export type ExceptionV2 = ExceptionV2.Generic | ExceptionV2.Timeout | ExceptionV
 
 export declare namespace ExceptionV2 {
   interface Generic extends TraceMyApi.submission.ExceptionInfo, _Utils {
-    type_: \\"generic\\";
+    type: \\"generic\\";
   }
 
   interface Timeout extends _Utils {
-    type_: \\"timeout\\";
+    type: \\"timeout\\";
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -9296,7 +9296,7 @@ export declare namespace ExceptionV2 {
   interface _Visitor<Result> {
     generic: (value: TraceMyApi.submission.ExceptionInfo) => Result;
     timeout: () => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
@@ -9304,7 +9304,7 @@ export const ExceptionV2 = {
   generic: (value: TraceMyApi.submission.ExceptionInfo): ExceptionV2.Generic => {
     const valueWithoutVisit: Omit<ExceptionV2.Generic, \\"_visit\\"> = {
       ...value,
-      type_: \\"generic\\",
+      type: \\"generic\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -9317,7 +9317,7 @@ export const ExceptionV2 = {
 
   timeout: (): ExceptionV2.Timeout => {
     const valueWithoutVisit: Omit<ExceptionV2.Timeout, \\"_visit\\"> = {
-      type_: \\"timeout\\",
+      type: \\"timeout\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -9643,19 +9643,19 @@ export type InvalidRequestCause =
 
 export declare namespace InvalidRequestCause {
   interface SubmissionIdNotFound extends TraceMyApi.submission.SubmissionIdNotFound, _Utils {
-    type_: \\"submissionIdNotFound\\";
+    type: \\"submissionIdNotFound\\";
   }
 
   interface CustomTestCasesUnsupported extends TraceMyApi.submission.CustomTestCasesUnsupported, _Utils {
-    type_: \\"customTestCasesUnsupported\\";
+    type: \\"customTestCasesUnsupported\\";
   }
 
   interface UnexpectedLanguage extends TraceMyApi.submission.UnexpectedLanguageError, _Utils {
-    type_: \\"unexpectedLanguage\\";
+    type: \\"unexpectedLanguage\\";
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -9666,7 +9666,7 @@ export declare namespace InvalidRequestCause {
     submissionIdNotFound: (value: TraceMyApi.submission.SubmissionIdNotFound) => Result;
     customTestCasesUnsupported: (value: TraceMyApi.submission.CustomTestCasesUnsupported) => Result;
     unexpectedLanguage: (value: TraceMyApi.submission.UnexpectedLanguageError) => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
@@ -9676,7 +9676,7 @@ export const InvalidRequestCause = {
   ): InvalidRequestCause.SubmissionIdNotFound => {
     const valueWithoutVisit: Omit<InvalidRequestCause.SubmissionIdNotFound, \\"_visit\\"> = {
       ...value,
-      type_: \\"submissionIdNotFound\\",
+      type: \\"submissionIdNotFound\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -9692,7 +9692,7 @@ export const InvalidRequestCause = {
   ): InvalidRequestCause.CustomTestCasesUnsupported => {
     const valueWithoutVisit: Omit<InvalidRequestCause.CustomTestCasesUnsupported, \\"_visit\\"> = {
       ...value,
-      type_: \\"customTestCasesUnsupported\\",
+      type: \\"customTestCasesUnsupported\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -9708,7 +9708,7 @@ export const InvalidRequestCause = {
   ): InvalidRequestCause.UnexpectedLanguage => {
     const valueWithoutVisit: Omit<InvalidRequestCause.UnexpectedLanguage, \\"_visit\\"> = {
       ...value,
-      type_: \\"unexpectedLanguage\\",
+      type: \\"unexpectedLanguage\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -10081,27 +10081,27 @@ export type SubmissionRequest =
 
 export declare namespace SubmissionRequest {
   interface InitializeProblemRequest extends TraceMyApi.submission.InitializeProblemRequest, _Utils {
-    type_: \\"initializeProblemRequest\\";
+    type: \\"initializeProblemRequest\\";
   }
 
   interface InitializeWorkspaceRequest extends _Utils {
-    type_: \\"initializeWorkspaceRequest\\";
+    type: \\"initializeWorkspaceRequest\\";
   }
 
   interface SubmitV2 extends TraceMyApi.submission.SubmitRequestV2, _Utils {
-    type_: \\"submitV2\\";
+    type: \\"submitV2\\";
   }
 
   interface WorkspaceSubmit extends TraceMyApi.submission.WorkspaceSubmitRequest, _Utils {
-    type_: \\"workspaceSubmit\\";
+    type: \\"workspaceSubmit\\";
   }
 
   interface Stop extends TraceMyApi.submission.StopRequest, _Utils {
-    type_: \\"stop\\";
+    type: \\"stop\\";
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -10114,7 +10114,7 @@ export declare namespace SubmissionRequest {
     submitV2: (value: TraceMyApi.submission.SubmitRequestV2) => Result;
     workspaceSubmit: (value: TraceMyApi.submission.WorkspaceSubmitRequest) => Result;
     stop: (value: TraceMyApi.submission.StopRequest) => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
@@ -10124,7 +10124,7 @@ export const SubmissionRequest = {
   ): SubmissionRequest.InitializeProblemRequest => {
     const valueWithoutVisit: Omit<SubmissionRequest.InitializeProblemRequest, \\"_visit\\"> = {
       ...value,
-      type_: \\"initializeProblemRequest\\",
+      type: \\"initializeProblemRequest\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -10137,7 +10137,7 @@ export const SubmissionRequest = {
 
   initializeWorkspaceRequest: (): SubmissionRequest.InitializeWorkspaceRequest => {
     const valueWithoutVisit: Omit<SubmissionRequest.InitializeWorkspaceRequest, \\"_visit\\"> = {
-      type_: \\"initializeWorkspaceRequest\\",
+      type: \\"initializeWorkspaceRequest\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -10151,7 +10151,7 @@ export const SubmissionRequest = {
   submitV2: (value: TraceMyApi.submission.SubmitRequestV2): SubmissionRequest.SubmitV2 => {
     const valueWithoutVisit: Omit<SubmissionRequest.SubmitV2, \\"_visit\\"> = {
       ...value,
-      type_: \\"submitV2\\",
+      type: \\"submitV2\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -10165,7 +10165,7 @@ export const SubmissionRequest = {
   workspaceSubmit: (value: TraceMyApi.submission.WorkspaceSubmitRequest): SubmissionRequest.WorkspaceSubmit => {
     const valueWithoutVisit: Omit<SubmissionRequest.WorkspaceSubmit, \\"_visit\\"> = {
       ...value,
-      type_: \\"workspaceSubmit\\",
+      type: \\"workspaceSubmit\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -10179,7 +10179,7 @@ export const SubmissionRequest = {
   stop: (value: TraceMyApi.submission.StopRequest): SubmissionRequest.Stop => {
     const valueWithoutVisit: Omit<SubmissionRequest.Stop, \\"_visit\\"> = {
       ...value,
-      type_: \\"stop\\",
+      type: \\"stop\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -10212,33 +10212,33 @@ export type SubmissionResponse =
 
 export declare namespace SubmissionResponse {
   interface ServerInitialized extends _Utils {
-    type_: \\"serverInitialized\\";
+    type: \\"serverInitialized\\";
   }
 
   interface ProblemInitialized extends _Utils {
-    type_: \\"problemInitialized\\";
+    type: \\"problemInitialized\\";
     value: TraceMyApi.commons.ProblemId;
   }
 
   interface WorkspaceInitialized extends _Utils {
-    type_: \\"workspaceInitialized\\";
+    type: \\"workspaceInitialized\\";
   }
 
   interface ServerErrored extends TraceMyApi.submission.ExceptionInfo, _Utils {
-    type_: \\"serverErrored\\";
+    type: \\"serverErrored\\";
   }
 
   interface CodeExecutionUpdate extends _Utils {
-    type_: \\"codeExecutionUpdate\\";
+    type: \\"codeExecutionUpdate\\";
     value: TraceMyApi.submission.CodeExecutionUpdate;
   }
 
   interface Terminated extends TraceMyApi.submission.TerminatedResponse, _Utils {
-    type_: \\"terminated\\";
+    type: \\"terminated\\";
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -10252,14 +10252,14 @@ export declare namespace SubmissionResponse {
     serverErrored: (value: TraceMyApi.submission.ExceptionInfo) => Result;
     codeExecutionUpdate: (value: TraceMyApi.submission.CodeExecutionUpdate) => Result;
     terminated: (value: TraceMyApi.submission.TerminatedResponse) => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
 export const SubmissionResponse = {
   serverInitialized: (): SubmissionResponse.ServerInitialized => {
     const valueWithoutVisit: Omit<SubmissionResponse.ServerInitialized, \\"_visit\\"> = {
-      type_: \\"serverInitialized\\",
+      type: \\"serverInitialized\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -10273,7 +10273,7 @@ export const SubmissionResponse = {
   problemInitialized: (value: TraceMyApi.commons.ProblemId): SubmissionResponse.ProblemInitialized => {
     const valueWithoutVisit: Omit<SubmissionResponse.ProblemInitialized, \\"_visit\\"> = {
       value: value,
-      type_: \\"problemInitialized\\",
+      type: \\"problemInitialized\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -10286,7 +10286,7 @@ export const SubmissionResponse = {
 
   workspaceInitialized: (): SubmissionResponse.WorkspaceInitialized => {
     const valueWithoutVisit: Omit<SubmissionResponse.WorkspaceInitialized, \\"_visit\\"> = {
-      type_: \\"workspaceInitialized\\",
+      type: \\"workspaceInitialized\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -10300,7 +10300,7 @@ export const SubmissionResponse = {
   serverErrored: (value: TraceMyApi.submission.ExceptionInfo): SubmissionResponse.ServerErrored => {
     const valueWithoutVisit: Omit<SubmissionResponse.ServerErrored, \\"_visit\\"> = {
       ...value,
-      type_: \\"serverErrored\\",
+      type: \\"serverErrored\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -10314,7 +10314,7 @@ export const SubmissionResponse = {
   codeExecutionUpdate: (value: TraceMyApi.submission.CodeExecutionUpdate): SubmissionResponse.CodeExecutionUpdate => {
     const valueWithoutVisit: Omit<SubmissionResponse.CodeExecutionUpdate, \\"_visit\\"> = {
       value: value,
-      type_: \\"codeExecutionUpdate\\",
+      type: \\"codeExecutionUpdate\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -10328,7 +10328,7 @@ export const SubmissionResponse = {
   terminated: (value: TraceMyApi.submission.TerminatedResponse): SubmissionResponse.Terminated => {
     const valueWithoutVisit: Omit<SubmissionResponse.Terminated, \\"_visit\\"> = {
       ...value,
-      type_: \\"terminated\\",
+      type: \\"terminated\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -10358,20 +10358,20 @@ export type SubmissionStatusForTestCase =
 
 export declare namespace SubmissionStatusForTestCase {
   interface Graded extends TraceMyApi.submission.TestCaseResultWithStdout, _Utils {
-    type_: \\"graded\\";
+    type: \\"graded\\";
   }
 
   interface GradedV2 extends _Utils {
-    type_: \\"gradedV2\\";
+    type: \\"gradedV2\\";
     value: TraceMyApi.submission.TestCaseGrade;
   }
 
   interface Traced extends TraceMyApi.submission.TracedTestCase, _Utils {
-    type_: \\"traced\\";
+    type: \\"traced\\";
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -10382,7 +10382,7 @@ export declare namespace SubmissionStatusForTestCase {
     graded: (value: TraceMyApi.submission.TestCaseResultWithStdout) => Result;
     gradedV2: (value: TraceMyApi.submission.TestCaseGrade) => Result;
     traced: (value: TraceMyApi.submission.TracedTestCase) => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
@@ -10390,7 +10390,7 @@ export const SubmissionStatusForTestCase = {
   graded: (value: TraceMyApi.submission.TestCaseResultWithStdout): SubmissionStatusForTestCase.Graded => {
     const valueWithoutVisit: Omit<SubmissionStatusForTestCase.Graded, \\"_visit\\"> = {
       ...value,
-      type_: \\"graded\\",
+      type: \\"graded\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -10404,7 +10404,7 @@ export const SubmissionStatusForTestCase = {
   gradedV2: (value: TraceMyApi.submission.TestCaseGrade): SubmissionStatusForTestCase.GradedV2 => {
     const valueWithoutVisit: Omit<SubmissionStatusForTestCase.GradedV2, \\"_visit\\"> = {
       value: value,
-      type_: \\"gradedV2\\",
+      type: \\"gradedV2\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -10418,7 +10418,7 @@ export const SubmissionStatusForTestCase = {
   traced: (value: TraceMyApi.submission.TracedTestCase): SubmissionStatusForTestCase.Traced => {
     const valueWithoutVisit: Omit<SubmissionStatusForTestCase.Traced, \\"_visit\\"> = {
       ...value,
-      type_: \\"traced\\",
+      type: \\"traced\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -10444,15 +10444,15 @@ export type SubmissionStatusV2 = SubmissionStatusV2.Test | SubmissionStatusV2.Wo
 
 export declare namespace SubmissionStatusV2 {
   interface Test extends TraceMyApi.submission.TestSubmissionStatusV2, _Utils {
-    type_: \\"test\\";
+    type: \\"test\\";
   }
 
   interface Workspace extends TraceMyApi.submission.WorkspaceSubmissionStatusV2, _Utils {
-    type_: \\"workspace\\";
+    type: \\"workspace\\";
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -10462,7 +10462,7 @@ export declare namespace SubmissionStatusV2 {
   interface _Visitor<Result> {
     test: (value: TraceMyApi.submission.TestSubmissionStatusV2) => Result;
     workspace: (value: TraceMyApi.submission.WorkspaceSubmissionStatusV2) => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
@@ -10470,7 +10470,7 @@ export const SubmissionStatusV2 = {
   test: (value: TraceMyApi.submission.TestSubmissionStatusV2): SubmissionStatusV2.Test => {
     const valueWithoutVisit: Omit<SubmissionStatusV2.Test, \\"_visit\\"> = {
       ...value,
-      type_: \\"test\\",
+      type: \\"test\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -10484,7 +10484,7 @@ export const SubmissionStatusV2 = {
   workspace: (value: TraceMyApi.submission.WorkspaceSubmissionStatusV2): SubmissionStatusV2.Workspace => {
     const valueWithoutVisit: Omit<SubmissionStatusV2.Workspace, \\"_visit\\"> = {
       ...value,
-      type_: \\"workspace\\",
+      type: \\"workspace\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -10559,15 +10559,15 @@ export type SubmissionTypeState =
 
 export declare namespace SubmissionTypeState {
   interface Test extends TraceMyApi.submission.TestSubmissionState, _Utils {
-    type_: \\"test\\";
+    type: \\"test\\";
   }
 
   interface Workspace extends TraceMyApi.submission.WorkspaceSubmissionState, _Utils {
-    type_: \\"workspace\\";
+    type: \\"workspace\\";
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -10577,7 +10577,7 @@ export declare namespace SubmissionTypeState {
   interface _Visitor<Result> {
     test: (value: TraceMyApi.submission.TestSubmissionState) => Result;
     workspace: (value: TraceMyApi.submission.WorkspaceSubmissionState) => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
@@ -10585,7 +10585,7 @@ export const SubmissionTypeState = {
   test: (value: TraceMyApi.submission.TestSubmissionState): SubmissionTypeState.Test => {
     const valueWithoutVisit: Omit<SubmissionTypeState.Test, \\"_visit\\"> = {
       ...value,
-      type_: \\"test\\",
+      type: \\"test\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -10599,7 +10599,7 @@ export const SubmissionTypeState = {
   workspace: (value: TraceMyApi.submission.WorkspaceSubmissionState): SubmissionTypeState.Workspace => {
     const valueWithoutVisit: Omit<SubmissionTypeState.Workspace, \\"_visit\\"> = {
       ...value,
-      type_: \\"workspace\\",
+      type: \\"workspace\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -10654,15 +10654,15 @@ export type TestCaseGrade = TestCaseGrade.Hidden | TestCaseGrade.NonHidden | Tes
 
 export declare namespace TestCaseGrade {
   interface Hidden extends TraceMyApi.submission.TestCaseHiddenGrade, _Utils {
-    type_: \\"hidden\\";
+    type: \\"hidden\\";
   }
 
   interface NonHidden extends TraceMyApi.submission.TestCaseNonHiddenGrade, _Utils {
-    type_: \\"nonHidden\\";
+    type: \\"nonHidden\\";
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -10672,7 +10672,7 @@ export declare namespace TestCaseGrade {
   interface _Visitor<Result> {
     hidden: (value: TraceMyApi.submission.TestCaseHiddenGrade) => Result;
     nonHidden: (value: TraceMyApi.submission.TestCaseNonHiddenGrade) => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
@@ -10680,7 +10680,7 @@ export const TestCaseGrade = {
   hidden: (value: TraceMyApi.submission.TestCaseHiddenGrade): TestCaseGrade.Hidden => {
     const valueWithoutVisit: Omit<TestCaseGrade.Hidden, \\"_visit\\"> = {
       ...value,
-      type_: \\"hidden\\",
+      type: \\"hidden\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -10694,7 +10694,7 @@ export const TestCaseGrade = {
   nonHidden: (value: TraceMyApi.submission.TestCaseNonHiddenGrade): TestCaseGrade.NonHidden => {
     const valueWithoutVisit: Omit<TestCaseGrade.NonHidden, \\"_visit\\"> = {
       ...value,
-      type_: \\"nonHidden\\",
+      type: \\"nonHidden\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -10802,26 +10802,26 @@ export type TestSubmissionStatus =
 
 export declare namespace TestSubmissionStatus {
   interface Stopped extends _Utils {
-    type_: \\"stopped\\";
+    type: \\"stopped\\";
   }
 
   interface Errored extends _Utils {
-    type_: \\"errored\\";
+    type: \\"errored\\";
     value: TraceMyApi.submission.ErrorInfo;
   }
 
   interface Running extends _Utils {
-    type_: \\"running\\";
+    type: \\"running\\";
     value: TraceMyApi.submission.RunningSubmissionState;
   }
 
   interface TestCaseIdToState extends _Utils {
-    type_: \\"testCaseIdToState\\";
+    type: \\"testCaseIdToState\\";
     value: Record<string, TraceMyApi.submission.SubmissionStatusForTestCase>;
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -10833,14 +10833,14 @@ export declare namespace TestSubmissionStatus {
     errored: (value: TraceMyApi.submission.ErrorInfo) => Result;
     running: (value: TraceMyApi.submission.RunningSubmissionState) => Result;
     testCaseIdToState: (value: Record<string, TraceMyApi.submission.SubmissionStatusForTestCase>) => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
 export const TestSubmissionStatus = {
   stopped: (): TestSubmissionStatus.Stopped => {
     const valueWithoutVisit: Omit<TestSubmissionStatus.Stopped, \\"_visit\\"> = {
-      type_: \\"stopped\\",
+      type: \\"stopped\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -10854,7 +10854,7 @@ export const TestSubmissionStatus = {
   errored: (value: TraceMyApi.submission.ErrorInfo): TestSubmissionStatus.Errored => {
     const valueWithoutVisit: Omit<TestSubmissionStatus.Errored, \\"_visit\\"> = {
       value: value,
-      type_: \\"errored\\",
+      type: \\"errored\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -10868,7 +10868,7 @@ export const TestSubmissionStatus = {
   running: (value: TraceMyApi.submission.RunningSubmissionState): TestSubmissionStatus.Running => {
     const valueWithoutVisit: Omit<TestSubmissionStatus.Running, \\"_visit\\"> = {
       value: value,
-      type_: \\"running\\",
+      type: \\"running\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -10884,7 +10884,7 @@ export const TestSubmissionStatus = {
   ): TestSubmissionStatus.TestCaseIdToState => {
     const valueWithoutVisit: Omit<TestSubmissionStatus.TestCaseIdToState, \\"_visit\\"> = {
       value: value,
-      type_: \\"testCaseIdToState\\",
+      type: \\"testCaseIdToState\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -10949,33 +10949,33 @@ export type TestSubmissionUpdateInfo =
 
 export declare namespace TestSubmissionUpdateInfo {
   interface Running extends _Utils {
-    type_: \\"running\\";
+    type: \\"running\\";
     value: TraceMyApi.submission.RunningSubmissionState;
   }
 
   interface Stopped extends _Utils {
-    type_: \\"stopped\\";
+    type: \\"stopped\\";
   }
 
   interface Errored extends _Utils {
-    type_: \\"errored\\";
+    type: \\"errored\\";
     value: TraceMyApi.submission.ErrorInfo;
   }
 
   interface GradedTestCase extends TraceMyApi.submission.GradedTestCaseUpdate, _Utils {
-    type_: \\"gradedTestCase\\";
+    type: \\"gradedTestCase\\";
   }
 
   interface RecordedTestCase extends TraceMyApi.submission.RecordedTestCaseUpdate, _Utils {
-    type_: \\"recordedTestCase\\";
+    type: \\"recordedTestCase\\";
   }
 
   interface Finished extends _Utils {
-    type_: \\"finished\\";
+    type: \\"finished\\";
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -10989,7 +10989,7 @@ export declare namespace TestSubmissionUpdateInfo {
     gradedTestCase: (value: TraceMyApi.submission.GradedTestCaseUpdate) => Result;
     recordedTestCase: (value: TraceMyApi.submission.RecordedTestCaseUpdate) => Result;
     finished: () => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
@@ -10997,7 +10997,7 @@ export const TestSubmissionUpdateInfo = {
   running: (value: TraceMyApi.submission.RunningSubmissionState): TestSubmissionUpdateInfo.Running => {
     const valueWithoutVisit: Omit<TestSubmissionUpdateInfo.Running, \\"_visit\\"> = {
       value: value,
-      type_: \\"running\\",
+      type: \\"running\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -11010,7 +11010,7 @@ export const TestSubmissionUpdateInfo = {
 
   stopped: (): TestSubmissionUpdateInfo.Stopped => {
     const valueWithoutVisit: Omit<TestSubmissionUpdateInfo.Stopped, \\"_visit\\"> = {
-      type_: \\"stopped\\",
+      type: \\"stopped\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -11024,7 +11024,7 @@ export const TestSubmissionUpdateInfo = {
   errored: (value: TraceMyApi.submission.ErrorInfo): TestSubmissionUpdateInfo.Errored => {
     const valueWithoutVisit: Omit<TestSubmissionUpdateInfo.Errored, \\"_visit\\"> = {
       value: value,
-      type_: \\"errored\\",
+      type: \\"errored\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -11038,7 +11038,7 @@ export const TestSubmissionUpdateInfo = {
   gradedTestCase: (value: TraceMyApi.submission.GradedTestCaseUpdate): TestSubmissionUpdateInfo.GradedTestCase => {
     const valueWithoutVisit: Omit<TestSubmissionUpdateInfo.GradedTestCase, \\"_visit\\"> = {
       ...value,
-      type_: \\"gradedTestCase\\",
+      type: \\"gradedTestCase\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -11054,7 +11054,7 @@ export const TestSubmissionUpdateInfo = {
   ): TestSubmissionUpdateInfo.RecordedTestCase => {
     const valueWithoutVisit: Omit<TestSubmissionUpdateInfo.RecordedTestCase, \\"_visit\\"> = {
       ...value,
-      type_: \\"recordedTestCase\\",
+      type: \\"recordedTestCase\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -11067,7 +11067,7 @@ export const TestSubmissionUpdateInfo = {
 
   finished: (): TestSubmissionUpdateInfo.Finished => {
     const valueWithoutVisit: Omit<TestSubmissionUpdateInfo.Finished, \\"_visit\\"> = {
-      type_: \\"finished\\",
+      type: \\"finished\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -11309,29 +11309,29 @@ export type WorkspaceSubmissionStatus =
 
 export declare namespace WorkspaceSubmissionStatus {
   interface Stopped extends _Utils {
-    type_: \\"stopped\\";
+    type: \\"stopped\\";
   }
 
   interface Errored extends _Utils {
-    type_: \\"errored\\";
+    type: \\"errored\\";
     value: TraceMyApi.submission.ErrorInfo;
   }
 
   interface Running extends _Utils {
-    type_: \\"running\\";
+    type: \\"running\\";
     value: TraceMyApi.submission.RunningSubmissionState;
   }
 
   interface Ran extends TraceMyApi.submission.WorkspaceRunDetails, _Utils {
-    type_: \\"ran\\";
+    type: \\"ran\\";
   }
 
   interface Traced extends TraceMyApi.submission.WorkspaceRunDetails, _Utils {
-    type_: \\"traced\\";
+    type: \\"traced\\";
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -11344,14 +11344,14 @@ export declare namespace WorkspaceSubmissionStatus {
     running: (value: TraceMyApi.submission.RunningSubmissionState) => Result;
     ran: (value: TraceMyApi.submission.WorkspaceRunDetails) => Result;
     traced: (value: TraceMyApi.submission.WorkspaceRunDetails) => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
 export const WorkspaceSubmissionStatus = {
   stopped: (): WorkspaceSubmissionStatus.Stopped => {
     const valueWithoutVisit: Omit<WorkspaceSubmissionStatus.Stopped, \\"_visit\\"> = {
-      type_: \\"stopped\\",
+      type: \\"stopped\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -11365,7 +11365,7 @@ export const WorkspaceSubmissionStatus = {
   errored: (value: TraceMyApi.submission.ErrorInfo): WorkspaceSubmissionStatus.Errored => {
     const valueWithoutVisit: Omit<WorkspaceSubmissionStatus.Errored, \\"_visit\\"> = {
       value: value,
-      type_: \\"errored\\",
+      type: \\"errored\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -11379,7 +11379,7 @@ export const WorkspaceSubmissionStatus = {
   running: (value: TraceMyApi.submission.RunningSubmissionState): WorkspaceSubmissionStatus.Running => {
     const valueWithoutVisit: Omit<WorkspaceSubmissionStatus.Running, \\"_visit\\"> = {
       value: value,
-      type_: \\"running\\",
+      type: \\"running\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -11393,7 +11393,7 @@ export const WorkspaceSubmissionStatus = {
   ran: (value: TraceMyApi.submission.WorkspaceRunDetails): WorkspaceSubmissionStatus.Ran => {
     const valueWithoutVisit: Omit<WorkspaceSubmissionStatus.Ran, \\"_visit\\"> = {
       ...value,
-      type_: \\"ran\\",
+      type: \\"ran\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -11407,7 +11407,7 @@ export const WorkspaceSubmissionStatus = {
   traced: (value: TraceMyApi.submission.WorkspaceRunDetails): WorkspaceSubmissionStatus.Traced => {
     const valueWithoutVisit: Omit<WorkspaceSubmissionStatus.Traced, \\"_visit\\"> = {
       ...value,
-      type_: \\"traced\\",
+      type: \\"traced\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -11470,37 +11470,37 @@ export type WorkspaceSubmissionUpdateInfo =
 
 export declare namespace WorkspaceSubmissionUpdateInfo {
   interface Running extends _Utils {
-    type_: \\"running\\";
+    type: \\"running\\";
     value: TraceMyApi.submission.RunningSubmissionState;
   }
 
   interface Ran extends TraceMyApi.submission.WorkspaceRunDetails, _Utils {
-    type_: \\"ran\\";
+    type: \\"ran\\";
   }
 
   interface Stopped extends _Utils {
-    type_: \\"stopped\\";
+    type: \\"stopped\\";
   }
 
   interface Traced extends _Utils {
-    type_: \\"traced\\";
+    type: \\"traced\\";
   }
 
   interface TracedV2 extends TraceMyApi.submission.WorkspaceTracedUpdate, _Utils {
-    type_: \\"tracedV2\\";
+    type: \\"tracedV2\\";
   }
 
   interface Errored extends _Utils {
-    type_: \\"errored\\";
+    type: \\"errored\\";
     value: TraceMyApi.submission.ErrorInfo;
   }
 
   interface Finished extends _Utils {
-    type_: \\"finished\\";
+    type: \\"finished\\";
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -11515,7 +11515,7 @@ export declare namespace WorkspaceSubmissionUpdateInfo {
     tracedV2: (value: TraceMyApi.submission.WorkspaceTracedUpdate) => Result;
     errored: (value: TraceMyApi.submission.ErrorInfo) => Result;
     finished: () => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
@@ -11523,7 +11523,7 @@ export const WorkspaceSubmissionUpdateInfo = {
   running: (value: TraceMyApi.submission.RunningSubmissionState): WorkspaceSubmissionUpdateInfo.Running => {
     const valueWithoutVisit: Omit<WorkspaceSubmissionUpdateInfo.Running, \\"_visit\\"> = {
       value: value,
-      type_: \\"running\\",
+      type: \\"running\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -11537,7 +11537,7 @@ export const WorkspaceSubmissionUpdateInfo = {
   ran: (value: TraceMyApi.submission.WorkspaceRunDetails): WorkspaceSubmissionUpdateInfo.Ran => {
     const valueWithoutVisit: Omit<WorkspaceSubmissionUpdateInfo.Ran, \\"_visit\\"> = {
       ...value,
-      type_: \\"ran\\",
+      type: \\"ran\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -11550,7 +11550,7 @@ export const WorkspaceSubmissionUpdateInfo = {
 
   stopped: (): WorkspaceSubmissionUpdateInfo.Stopped => {
     const valueWithoutVisit: Omit<WorkspaceSubmissionUpdateInfo.Stopped, \\"_visit\\"> = {
-      type_: \\"stopped\\",
+      type: \\"stopped\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -11563,7 +11563,7 @@ export const WorkspaceSubmissionUpdateInfo = {
 
   traced: (): WorkspaceSubmissionUpdateInfo.Traced => {
     const valueWithoutVisit: Omit<WorkspaceSubmissionUpdateInfo.Traced, \\"_visit\\"> = {
-      type_: \\"traced\\",
+      type: \\"traced\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -11577,7 +11577,7 @@ export const WorkspaceSubmissionUpdateInfo = {
   tracedV2: (value: TraceMyApi.submission.WorkspaceTracedUpdate): WorkspaceSubmissionUpdateInfo.TracedV2 => {
     const valueWithoutVisit: Omit<WorkspaceSubmissionUpdateInfo.TracedV2, \\"_visit\\"> = {
       ...value,
-      type_: \\"tracedV2\\",
+      type: \\"tracedV2\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -11591,7 +11591,7 @@ export const WorkspaceSubmissionUpdateInfo = {
   errored: (value: TraceMyApi.submission.ErrorInfo): WorkspaceSubmissionUpdateInfo.Errored => {
     const valueWithoutVisit: Omit<WorkspaceSubmissionUpdateInfo.Errored, \\"_visit\\"> = {
       value: value,
-      type_: \\"errored\\",
+      type: \\"errored\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -11604,7 +11604,7 @@ export const WorkspaceSubmissionUpdateInfo = {
 
   finished: (): WorkspaceSubmissionUpdateInfo.Finished => {
     const valueWithoutVisit: Omit<WorkspaceSubmissionUpdateInfo.Finished, \\"_visit\\"> = {
-      type_: \\"finished\\",
+      type: \\"finished\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -12279,15 +12279,15 @@ export type AssertCorrectnessCheck =
 
 export declare namespace AssertCorrectnessCheck {
   interface DeepEquality extends TraceMyApi.v2.problem.DeepEqualityCorrectnessCheck, _Utils {
-    type_: \\"deepEquality\\";
+    type: \\"deepEquality\\";
   }
 
   interface Custom extends TraceMyApi.v2.problem.VoidFunctionDefinitionThatTakesActualResult, _Utils {
-    type_: \\"custom\\";
+    type: \\"custom\\";
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -12297,7 +12297,7 @@ export declare namespace AssertCorrectnessCheck {
   interface _Visitor<Result> {
     deepEquality: (value: TraceMyApi.v2.problem.DeepEqualityCorrectnessCheck) => Result;
     custom: (value: TraceMyApi.v2.problem.VoidFunctionDefinitionThatTakesActualResult) => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
@@ -12305,7 +12305,7 @@ export const AssertCorrectnessCheck = {
   deepEquality: (value: TraceMyApi.v2.problem.DeepEqualityCorrectnessCheck): AssertCorrectnessCheck.DeepEquality => {
     const valueWithoutVisit: Omit<AssertCorrectnessCheck.DeepEquality, \\"_visit\\"> = {
       ...value,
-      type_: \\"deepEquality\\",
+      type: \\"deepEquality\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -12319,7 +12319,7 @@ export const AssertCorrectnessCheck = {
   custom: (value: TraceMyApi.v2.problem.VoidFunctionDefinitionThatTakesActualResult): AssertCorrectnessCheck.Custom => {
     const valueWithoutVisit: Omit<AssertCorrectnessCheck.Custom, \\"_visit\\"> = {
       ...value,
-      type_: \\"custom\\",
+      type: \\"custom\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -12399,16 +12399,16 @@ export type CustomFiles = CustomFiles.Basic | CustomFiles.Custom | CustomFiles._
 
 export declare namespace CustomFiles {
   interface Basic extends TraceMyApi.v2.problem.BasicCustomFiles, _Utils {
-    type_: \\"basic\\";
+    type: \\"basic\\";
   }
 
   interface Custom extends _Utils {
-    type_: \\"custom\\";
+    type: \\"custom\\";
     value: Record<TraceMyApi.commons.Language.RawValue, TraceMyApi.v2.problem.Files>;
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -12418,7 +12418,7 @@ export declare namespace CustomFiles {
   interface _Visitor<Result> {
     basic: (value: TraceMyApi.v2.problem.BasicCustomFiles) => Result;
     custom: (value: Record<TraceMyApi.commons.Language.RawValue, TraceMyApi.v2.problem.Files>) => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
@@ -12426,7 +12426,7 @@ export const CustomFiles = {
   basic: (value: TraceMyApi.v2.problem.BasicCustomFiles): CustomFiles.Basic => {
     const valueWithoutVisit: Omit<CustomFiles.Basic, \\"_visit\\"> = {
       ...value,
-      type_: \\"basic\\",
+      type: \\"basic\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -12440,7 +12440,7 @@ export const CustomFiles = {
   custom: (value: Record<TraceMyApi.commons.Language.RawValue, TraceMyApi.v2.problem.Files>): CustomFiles.Custom => {
     const valueWithoutVisit: Omit<CustomFiles.Custom, \\"_visit\\"> = {
       value: value,
-      type_: \\"custom\\",
+      type: \\"custom\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -12557,19 +12557,19 @@ export type FunctionSignature =
 
 export declare namespace FunctionSignature {
   interface Void extends TraceMyApi.v2.problem.VoidFunctionSignature, _Utils {
-    type_: \\"void\\";
+    type: \\"void\\";
   }
 
   interface NonVoid extends TraceMyApi.v2.problem.NonVoidFunctionSignature, _Utils {
-    type_: \\"nonVoid\\";
+    type: \\"nonVoid\\";
   }
 
   interface VoidThatTakesActualResult extends TraceMyApi.v2.problem.VoidFunctionSignatureThatTakesActualResult, _Utils {
-    type_: \\"voidThatTakesActualResult\\";
+    type: \\"voidThatTakesActualResult\\";
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -12577,32 +12577,32 @@ export declare namespace FunctionSignature {
   }
 
   interface _Visitor<Result> {
-    void_: (value: TraceMyApi.v2.problem.VoidFunctionSignature) => Result;
+    void: (value: TraceMyApi.v2.problem.VoidFunctionSignature) => Result;
     nonVoid: (value: TraceMyApi.v2.problem.NonVoidFunctionSignature) => Result;
     voidThatTakesActualResult: (value: TraceMyApi.v2.problem.VoidFunctionSignatureThatTakesActualResult) => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
 export const FunctionSignature = {
-  void_: (value: TraceMyApi.v2.problem.VoidFunctionSignature): FunctionSignature.Void => {
+  void: (value: TraceMyApi.v2.problem.VoidFunctionSignature): FunctionSignature.Void => {
     const valueWithoutVisit: Omit<FunctionSignature.Void, \\"_visit\\"> = {
       ...value,
-      type_: \\"void\\",
+      type: \\"void\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
       writable: true,
     });
     const castedValue = valueWithoutVisit as FunctionSignature.Void;
-    castedValue._visit = (visitor) => visitor.void_(value);
+    castedValue._visit = (visitor) => visitor.void(value);
     return castedValue;
   },
 
   nonVoid: (value: TraceMyApi.v2.problem.NonVoidFunctionSignature): FunctionSignature.NonVoid => {
     const valueWithoutVisit: Omit<FunctionSignature.NonVoid, \\"_visit\\"> = {
       ...value,
-      type_: \\"nonVoid\\",
+      type: \\"nonVoid\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -12618,7 +12618,7 @@ export const FunctionSignature = {
   ): FunctionSignature.VoidThatTakesActualResult => {
     const valueWithoutVisit: Omit<FunctionSignature.VoidThatTakesActualResult, \\"_visit\\"> = {
       ...value,
-      type_: \\"voidThatTakesActualResult\\",
+      type: \\"voidThatTakesActualResult\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -12854,15 +12854,15 @@ export type TestCaseFunction = TestCaseFunction.WithActualResult | TestCaseFunct
 
 export declare namespace TestCaseFunction {
   interface WithActualResult extends TraceMyApi.v2.problem.TestCaseWithActualResultImplementation, _Utils {
-    type_: \\"withActualResult\\";
+    type: \\"withActualResult\\";
   }
 
   interface Custom extends TraceMyApi.v2.problem.VoidFunctionDefinition, _Utils {
-    type_: \\"custom\\";
+    type: \\"custom\\";
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -12872,7 +12872,7 @@ export declare namespace TestCaseFunction {
   interface _Visitor<Result> {
     withActualResult: (value: TraceMyApi.v2.problem.TestCaseWithActualResultImplementation) => Result;
     custom: (value: TraceMyApi.v2.problem.VoidFunctionDefinition) => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
@@ -12882,7 +12882,7 @@ export const TestCaseFunction = {
   ): TestCaseFunction.WithActualResult => {
     const valueWithoutVisit: Omit<TestCaseFunction.WithActualResult, \\"_visit\\"> = {
       ...value,
-      type_: \\"withActualResult\\",
+      type: \\"withActualResult\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -12896,7 +12896,7 @@ export const TestCaseFunction = {
   custom: (value: TraceMyApi.v2.problem.VoidFunctionDefinition): TestCaseFunction.Custom => {
     const valueWithoutVisit: Omit<TestCaseFunction.Custom, \\"_visit\\"> = {
       ...value,
-      type_: \\"custom\\",
+      type: \\"custom\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -12930,7 +12930,7 @@ import { TraceMyApi } from \\"../../../../../..\\";
 
 export interface TestCaseImplementation {
   description: TraceMyApi.v2.problem.TestCaseImplementationDescription;
-  function_: TraceMyApi.v2.problem.TestCaseFunction;
+  function: TraceMyApi.v2.problem.TestCaseFunction;
 }
 ",
                             "name": "TestCaseImplementation.ts",
@@ -12964,17 +12964,17 @@ export type TestCaseImplementationDescriptionBoard =
 
 export declare namespace TestCaseImplementationDescriptionBoard {
   interface Html extends _Utils {
-    type_: \\"html\\";
+    type: \\"html\\";
     value: string;
   }
 
   interface ParamId extends _Utils {
-    type_: \\"paramId\\";
+    type: \\"paramId\\";
     value: TraceMyApi.v2.problem.ParameterId;
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -12984,7 +12984,7 @@ export declare namespace TestCaseImplementationDescriptionBoard {
   interface _Visitor<Result> {
     html: (value: string) => Result;
     paramId: (value: TraceMyApi.v2.problem.ParameterId) => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
@@ -12992,7 +12992,7 @@ export const TestCaseImplementationDescriptionBoard = {
   html: (value: string): TestCaseImplementationDescriptionBoard.Html => {
     const valueWithoutVisit: Omit<TestCaseImplementationDescriptionBoard.Html, \\"_visit\\"> = {
       value: value,
-      type_: \\"html\\",
+      type: \\"html\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -13006,7 +13006,7 @@ export const TestCaseImplementationDescriptionBoard = {
   paramId: (value: TraceMyApi.v2.problem.ParameterId): TestCaseImplementationDescriptionBoard.ParamId => {
     const valueWithoutVisit: Omit<TestCaseImplementationDescriptionBoard.ParamId, \\"_visit\\"> = {
       value: value,
-      type_: \\"paramId\\",
+      type: \\"paramId\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -13035,16 +13035,16 @@ export type TestCaseImplementationReference =
 
 export declare namespace TestCaseImplementationReference {
   interface TemplateId extends _Utils {
-    type_: \\"templateId\\";
+    type: \\"templateId\\";
     value: TraceMyApi.v2.problem.TestCaseTemplateId;
   }
 
   interface Implementation extends TraceMyApi.v2.problem.TestCaseImplementation, _Utils {
-    type_: \\"implementation\\";
+    type: \\"implementation\\";
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -13054,7 +13054,7 @@ export declare namespace TestCaseImplementationReference {
   interface _Visitor<Result> {
     templateId: (value: TraceMyApi.v2.problem.TestCaseTemplateId) => Result;
     implementation: (value: TraceMyApi.v2.problem.TestCaseImplementation) => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
@@ -13062,7 +13062,7 @@ export const TestCaseImplementationReference = {
   templateId: (value: TraceMyApi.v2.problem.TestCaseTemplateId): TestCaseImplementationReference.TemplateId => {
     const valueWithoutVisit: Omit<TestCaseImplementationReference.TemplateId, \\"_visit\\"> = {
       value: value,
-      type_: \\"templateId\\",
+      type: \\"templateId\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -13078,7 +13078,7 @@ export const TestCaseImplementationReference = {
   ): TestCaseImplementationReference.Implementation => {
     const valueWithoutVisit: Omit<TestCaseImplementationReference.Implementation, \\"_visit\\"> = {
       ...value,
-      type_: \\"implementation\\",
+      type: \\"implementation\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -13614,15 +13614,15 @@ export type AssertCorrectnessCheck =
 
 export declare namespace AssertCorrectnessCheck {
   interface DeepEquality extends TraceMyApi.v2.v3.problem.DeepEqualityCorrectnessCheck, _Utils {
-    type_: \\"deepEquality\\";
+    type: \\"deepEquality\\";
   }
 
   interface Custom extends TraceMyApi.v2.v3.problem.VoidFunctionDefinitionThatTakesActualResult, _Utils {
-    type_: \\"custom\\";
+    type: \\"custom\\";
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -13632,7 +13632,7 @@ export declare namespace AssertCorrectnessCheck {
   interface _Visitor<Result> {
     deepEquality: (value: TraceMyApi.v2.v3.problem.DeepEqualityCorrectnessCheck) => Result;
     custom: (value: TraceMyApi.v2.v3.problem.VoidFunctionDefinitionThatTakesActualResult) => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
@@ -13640,7 +13640,7 @@ export const AssertCorrectnessCheck = {
   deepEquality: (value: TraceMyApi.v2.v3.problem.DeepEqualityCorrectnessCheck): AssertCorrectnessCheck.DeepEquality => {
     const valueWithoutVisit: Omit<AssertCorrectnessCheck.DeepEquality, \\"_visit\\"> = {
       ...value,
-      type_: \\"deepEquality\\",
+      type: \\"deepEquality\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -13656,7 +13656,7 @@ export const AssertCorrectnessCheck = {
   ): AssertCorrectnessCheck.Custom => {
     const valueWithoutVisit: Omit<AssertCorrectnessCheck.Custom, \\"_visit\\"> = {
       ...value,
-      type_: \\"custom\\",
+      type: \\"custom\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -13736,16 +13736,16 @@ export type CustomFiles = CustomFiles.Basic | CustomFiles.Custom | CustomFiles._
 
 export declare namespace CustomFiles {
   interface Basic extends TraceMyApi.v2.v3.problem.BasicCustomFiles, _Utils {
-    type_: \\"basic\\";
+    type: \\"basic\\";
   }
 
   interface Custom extends _Utils {
-    type_: \\"custom\\";
+    type: \\"custom\\";
     value: Record<TraceMyApi.commons.Language.RawValue, TraceMyApi.v2.v3.problem.Files>;
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -13755,7 +13755,7 @@ export declare namespace CustomFiles {
   interface _Visitor<Result> {
     basic: (value: TraceMyApi.v2.v3.problem.BasicCustomFiles) => Result;
     custom: (value: Record<TraceMyApi.commons.Language.RawValue, TraceMyApi.v2.v3.problem.Files>) => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
@@ -13763,7 +13763,7 @@ export const CustomFiles = {
   basic: (value: TraceMyApi.v2.v3.problem.BasicCustomFiles): CustomFiles.Basic => {
     const valueWithoutVisit: Omit<CustomFiles.Basic, \\"_visit\\"> = {
       ...value,
-      type_: \\"basic\\",
+      type: \\"basic\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -13777,7 +13777,7 @@ export const CustomFiles = {
   custom: (value: Record<TraceMyApi.commons.Language.RawValue, TraceMyApi.v2.v3.problem.Files>): CustomFiles.Custom => {
     const valueWithoutVisit: Omit<CustomFiles.Custom, \\"_visit\\"> = {
       value: value,
-      type_: \\"custom\\",
+      type: \\"custom\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -13894,21 +13894,21 @@ export type FunctionSignature =
 
 export declare namespace FunctionSignature {
   interface Void extends TraceMyApi.v2.v3.problem.VoidFunctionSignature, _Utils {
-    type_: \\"void\\";
+    type: \\"void\\";
   }
 
   interface NonVoid extends TraceMyApi.v2.v3.problem.NonVoidFunctionSignature, _Utils {
-    type_: \\"nonVoid\\";
+    type: \\"nonVoid\\";
   }
 
   interface VoidThatTakesActualResult
     extends TraceMyApi.v2.v3.problem.VoidFunctionSignatureThatTakesActualResult,
       _Utils {
-    type_: \\"voidThatTakesActualResult\\";
+    type: \\"voidThatTakesActualResult\\";
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -13916,32 +13916,32 @@ export declare namespace FunctionSignature {
   }
 
   interface _Visitor<Result> {
-    void_: (value: TraceMyApi.v2.v3.problem.VoidFunctionSignature) => Result;
+    void: (value: TraceMyApi.v2.v3.problem.VoidFunctionSignature) => Result;
     nonVoid: (value: TraceMyApi.v2.v3.problem.NonVoidFunctionSignature) => Result;
     voidThatTakesActualResult: (value: TraceMyApi.v2.v3.problem.VoidFunctionSignatureThatTakesActualResult) => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
 export const FunctionSignature = {
-  void_: (value: TraceMyApi.v2.v3.problem.VoidFunctionSignature): FunctionSignature.Void => {
+  void: (value: TraceMyApi.v2.v3.problem.VoidFunctionSignature): FunctionSignature.Void => {
     const valueWithoutVisit: Omit<FunctionSignature.Void, \\"_visit\\"> = {
       ...value,
-      type_: \\"void\\",
+      type: \\"void\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
       writable: true,
     });
     const castedValue = valueWithoutVisit as FunctionSignature.Void;
-    castedValue._visit = (visitor) => visitor.void_(value);
+    castedValue._visit = (visitor) => visitor.void(value);
     return castedValue;
   },
 
   nonVoid: (value: TraceMyApi.v2.v3.problem.NonVoidFunctionSignature): FunctionSignature.NonVoid => {
     const valueWithoutVisit: Omit<FunctionSignature.NonVoid, \\"_visit\\"> = {
       ...value,
-      type_: \\"nonVoid\\",
+      type: \\"nonVoid\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -13957,7 +13957,7 @@ export const FunctionSignature = {
   ): FunctionSignature.VoidThatTakesActualResult => {
     const valueWithoutVisit: Omit<FunctionSignature.VoidThatTakesActualResult, \\"_visit\\"> = {
       ...value,
-      type_: \\"voidThatTakesActualResult\\",
+      type: \\"voidThatTakesActualResult\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -14193,15 +14193,15 @@ export type TestCaseFunction = TestCaseFunction.WithActualResult | TestCaseFunct
 
 export declare namespace TestCaseFunction {
   interface WithActualResult extends TraceMyApi.v2.v3.problem.TestCaseWithActualResultImplementation, _Utils {
-    type_: \\"withActualResult\\";
+    type: \\"withActualResult\\";
   }
 
   interface Custom extends TraceMyApi.v2.v3.problem.VoidFunctionDefinition, _Utils {
-    type_: \\"custom\\";
+    type: \\"custom\\";
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -14211,7 +14211,7 @@ export declare namespace TestCaseFunction {
   interface _Visitor<Result> {
     withActualResult: (value: TraceMyApi.v2.v3.problem.TestCaseWithActualResultImplementation) => Result;
     custom: (value: TraceMyApi.v2.v3.problem.VoidFunctionDefinition) => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
@@ -14221,7 +14221,7 @@ export const TestCaseFunction = {
   ): TestCaseFunction.WithActualResult => {
     const valueWithoutVisit: Omit<TestCaseFunction.WithActualResult, \\"_visit\\"> = {
       ...value,
-      type_: \\"withActualResult\\",
+      type: \\"withActualResult\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -14235,7 +14235,7 @@ export const TestCaseFunction = {
   custom: (value: TraceMyApi.v2.v3.problem.VoidFunctionDefinition): TestCaseFunction.Custom => {
     const valueWithoutVisit: Omit<TestCaseFunction.Custom, \\"_visit\\"> = {
       ...value,
-      type_: \\"custom\\",
+      type: \\"custom\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -14269,7 +14269,7 @@ import { TraceMyApi } from \\"../../../../../../../..\\";
 
 export interface TestCaseImplementation {
   description: TraceMyApi.v2.v3.problem.TestCaseImplementationDescription;
-  function_: TraceMyApi.v2.v3.problem.TestCaseFunction;
+  function: TraceMyApi.v2.v3.problem.TestCaseFunction;
 }
 ",
                                     "name": "TestCaseImplementation.ts",
@@ -14303,17 +14303,17 @@ export type TestCaseImplementationDescriptionBoard =
 
 export declare namespace TestCaseImplementationDescriptionBoard {
   interface Html extends _Utils {
-    type_: \\"html\\";
+    type: \\"html\\";
     value: string;
   }
 
   interface ParamId extends _Utils {
-    type_: \\"paramId\\";
+    type: \\"paramId\\";
     value: TraceMyApi.v2.v3.problem.ParameterId;
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -14323,7 +14323,7 @@ export declare namespace TestCaseImplementationDescriptionBoard {
   interface _Visitor<Result> {
     html: (value: string) => Result;
     paramId: (value: TraceMyApi.v2.v3.problem.ParameterId) => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
@@ -14331,7 +14331,7 @@ export const TestCaseImplementationDescriptionBoard = {
   html: (value: string): TestCaseImplementationDescriptionBoard.Html => {
     const valueWithoutVisit: Omit<TestCaseImplementationDescriptionBoard.Html, \\"_visit\\"> = {
       value: value,
-      type_: \\"html\\",
+      type: \\"html\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -14345,7 +14345,7 @@ export const TestCaseImplementationDescriptionBoard = {
   paramId: (value: TraceMyApi.v2.v3.problem.ParameterId): TestCaseImplementationDescriptionBoard.ParamId => {
     const valueWithoutVisit: Omit<TestCaseImplementationDescriptionBoard.ParamId, \\"_visit\\"> = {
       value: value,
-      type_: \\"paramId\\",
+      type: \\"paramId\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -14374,16 +14374,16 @@ export type TestCaseImplementationReference =
 
 export declare namespace TestCaseImplementationReference {
   interface TemplateId extends _Utils {
-    type_: \\"templateId\\";
+    type: \\"templateId\\";
     value: TraceMyApi.v2.v3.problem.TestCaseTemplateId;
   }
 
   interface Implementation extends TraceMyApi.v2.v3.problem.TestCaseImplementation, _Utils {
-    type_: \\"implementation\\";
+    type: \\"implementation\\";
   }
 
   interface _Unknown extends _Utils {
-    type_: void;
+    type: void;
   }
 
   interface _Utils {
@@ -14393,7 +14393,7 @@ export declare namespace TestCaseImplementationReference {
   interface _Visitor<Result> {
     templateId: (value: TraceMyApi.v2.v3.problem.TestCaseTemplateId) => Result;
     implementation: (value: TraceMyApi.v2.v3.problem.TestCaseImplementation) => Result;
-    _other: (value: { type_: string }) => Result;
+    _other: (value: { type: string }) => Result;
   }
 }
 
@@ -14401,7 +14401,7 @@ export const TestCaseImplementationReference = {
   templateId: (value: TraceMyApi.v2.v3.problem.TestCaseTemplateId): TestCaseImplementationReference.TemplateId => {
     const valueWithoutVisit: Omit<TestCaseImplementationReference.TemplateId, \\"_visit\\"> = {
       value: value,
-      type_: \\"templateId\\",
+      type: \\"templateId\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -14417,7 +14417,7 @@ export const TestCaseImplementationReference = {
   ): TestCaseImplementationReference.Implementation => {
     const valueWithoutVisit: Omit<TestCaseImplementationReference.Implementation, \\"_visit\\"> = {
       ...value,
-      type_: \\"implementation\\",
+      type: \\"implementation\\",
     };
     Object.defineProperty(valueWithoutVisit, \\"_visit\\", {
       enumerable: false,
@@ -16266,7 +16266,7 @@ import * as schemas from \\"../../..\\";
 
 export const DebugVariableValue: core.schemas.Schema<DebugVariableValue.Raw, TraceMyApi.commons.DebugVariableValue> =
   core.schemas
-    .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+    .union(\\"type\\", {
       integerValue: core.schemas.object({
         value: core.schemas.number(),
       }),
@@ -16295,7 +16295,7 @@ export const DebugVariableValue: core.schemas.Schema<DebugVariableValue.Raw, Tra
     })
     .transform<TraceMyApi.commons.DebugVariableValue>({
       parse: (value) => {
-        switch (value.type_) {
+        switch (value.type) {
           case \\"integerValue\\": {
             return TraceMyApi.commons.DebugVariableValue.integerValue(value.value);
           }
@@ -16874,7 +16874,7 @@ import * as core from \\"../../../../core\\";
 import * as schemas from \\"../../..\\";
 
 export const VariableType: core.schemas.Schema<VariableType.Raw, TraceMyApi.commons.VariableType> = core.schemas
-  .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+  .union(\\"type\\", {
     integerType: core.schemas.object({}),
     doubleType: core.schemas.object({}),
     booleanType: core.schemas.object({}),
@@ -16888,7 +16888,7 @@ export const VariableType: core.schemas.Schema<VariableType.Raw, TraceMyApi.comm
   })
   .transform<TraceMyApi.commons.VariableType>({
     parse: (value) => {
-      switch (value.type_) {
+      switch (value.type) {
         case \\"integerType\\": {
           return TraceMyApi.commons.VariableType.integerType();
         }
@@ -16997,7 +16997,7 @@ import * as core from \\"../../../../core\\";
 import * as schemas from \\"../../..\\";
 
 export const VariableValue: core.schemas.Schema<VariableValue.Raw, TraceMyApi.commons.VariableValue> = core.schemas
-  .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+  .union(\\"type\\", {
     integerValue: core.schemas.object({
       value: core.schemas.number(),
     }),
@@ -17024,7 +17024,7 @@ export const VariableValue: core.schemas.Schema<VariableValue.Raw, TraceMyApi.co
   })
   .transform<TraceMyApi.commons.VariableValue>({
     parse: (value) => {
-      switch (value.type_) {
+      switch (value.type) {
         case \\"integerValue\\": {
           return TraceMyApi.commons.VariableValue.integerValue(value.value);
         }
@@ -17680,14 +17680,14 @@ export const PlaylistIdNotFoundErrorBody: core.schemas.Schema<
   PlaylistIdNotFoundErrorBody.Raw,
   TraceMyApi.playlist.PlaylistIdNotFoundErrorBody
 > = core.schemas
-  .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+  .union(\\"type\\", {
     playlistId: core.schemas.object({
       value: core.schemas.lazy(() => schemas.playlist.PlaylistId),
     }),
   })
   .transform<TraceMyApi.playlist.PlaylistIdNotFoundErrorBody>({
     parse: (value) => {
-      switch (value.type_) {
+      switch (value.type) {
         case \\"playlistId\\": {
           return TraceMyApi.playlist.PlaylistIdNotFoundErrorBody.playlistId(value.value);
         }
@@ -17888,7 +17888,7 @@ export const CreateProblemResponse: core.schemas.Schema<
   CreateProblemResponse.Raw,
   TraceMyApi.problem.CreateProblemResponse
 > = core.schemas
-  .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+  .union(\\"type\\", {
     success: core.schemas.object({
       value: core.schemas.lazy(() => schemas.commons.ProblemId),
     }),
@@ -17898,7 +17898,7 @@ export const CreateProblemResponse: core.schemas.Schema<
   })
   .transform<TraceMyApi.problem.CreateProblemResponse>({
     parse: (value) => {
-      switch (value.type_) {
+      switch (value.type) {
         case \\"success\\": {
           return TraceMyApi.problem.CreateProblemResponse.success(value.value);
         }
@@ -17946,7 +17946,7 @@ export const GenericCreateProblemError: core.schemas.ObjectSchema<
   TraceMyApi.problem.GenericCreateProblemError
 > = core.schemas.object({
   message: core.schemas.string(),
-  type_: core.schemas.property(\\"type\\", core.schemas.string()),
+  type: core.schemas.string(),
   stacktrace: core.schemas.string(),
 });
 
@@ -18056,7 +18056,7 @@ export const ProblemDescriptionBoard: core.schemas.Schema<
   ProblemDescriptionBoard.Raw,
   TraceMyApi.problem.ProblemDescriptionBoard
 > = core.schemas
-  .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+  .union(\\"type\\", {
     html: core.schemas.object({
       value: core.schemas.string(),
     }),
@@ -18069,7 +18069,7 @@ export const ProblemDescriptionBoard: core.schemas.Schema<
   })
   .transform<TraceMyApi.problem.ProblemDescriptionBoard>({
     parse: (value) => {
-      switch (value.type_) {
+      switch (value.type) {
         case \\"html\\": {
           return TraceMyApi.problem.ProblemDescriptionBoard.html(value.value);
         }
@@ -18307,7 +18307,7 @@ import * as core from \\"../../../../core\\";
 import * as schemas from \\"../../..\\";
 
 export const ActualResult: core.schemas.Schema<ActualResult.Raw, TraceMyApi.submission.ActualResult> = core.schemas
-  .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+  .union(\\"type\\", {
     value: core.schemas.object({
       value: core.schemas.lazy(() => schemas.commons.VariableValue),
     }),
@@ -18318,7 +18318,7 @@ export const ActualResult: core.schemas.Schema<ActualResult.Raw, TraceMyApi.subm
   })
   .transform<TraceMyApi.submission.ActualResult>({
     parse: (value) => {
-      switch (value.type_) {
+      switch (value.type) {
         case \\"value\\": {
           return TraceMyApi.submission.ActualResult.value(value.value);
         }
@@ -18400,7 +18400,7 @@ export const CodeExecutionUpdate: core.schemas.Schema<
   CodeExecutionUpdate.Raw,
   TraceMyApi.submission.CodeExecutionUpdate
 > = core.schemas
-  .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+  .union(\\"type\\", {
     buildingExecutor: core.schemas.lazyObject(() => schemas.submission.BuildingExecutorResponse),
     running: core.schemas.lazyObject(() => schemas.submission.RunningResponse),
     errored: core.schemas.lazyObject(() => schemas.submission.ErroredResponse),
@@ -18415,7 +18415,7 @@ export const CodeExecutionUpdate: core.schemas.Schema<
   })
   .transform<TraceMyApi.submission.CodeExecutionUpdate>({
     parse: (value) => {
-      switch (value.type_) {
+      switch (value.type) {
         case \\"buildingExecutor\\": {
           return TraceMyApi.submission.CodeExecutionUpdate.buildingExecutor(value);
         }
@@ -18581,14 +18581,14 @@ import * as core from \\"../../../../core\\";
 import * as schemas from \\"../../..\\";
 
 export const ErrorInfo: core.schemas.Schema<ErrorInfo.Raw, TraceMyApi.submission.ErrorInfo> = core.schemas
-  .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+  .union(\\"type\\", {
     compileError: core.schemas.lazyObject(() => schemas.submission.CompileError),
     runtimeError: core.schemas.lazyObject(() => schemas.submission.RuntimeError),
     internalError: core.schemas.lazyObject(() => schemas.submission.InternalError),
   })
   .transform<TraceMyApi.submission.ErrorInfo>({
     parse: (value) => {
-      switch (value.type_) {
+      switch (value.type) {
         case \\"compileError\\": {
           return TraceMyApi.submission.ErrorInfo.compileError(value);
         }
@@ -18689,13 +18689,13 @@ import * as core from \\"../../../../core\\";
 import * as schemas from \\"../../..\\";
 
 export const ExceptionV2: core.schemas.Schema<ExceptionV2.Raw, TraceMyApi.submission.ExceptionV2> = core.schemas
-  .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+  .union(\\"type\\", {
     generic: core.schemas.lazyObject(() => schemas.submission.ExceptionInfo),
     timeout: core.schemas.object({}),
   })
   .transform<TraceMyApi.submission.ExceptionV2>({
     parse: (value) => {
-      switch (value.type_) {
+      switch (value.type) {
         case \\"generic\\": {
           return TraceMyApi.submission.ExceptionV2.generic(value);
         }
@@ -19124,14 +19124,14 @@ export const InvalidRequestCause: core.schemas.Schema<
   InvalidRequestCause.Raw,
   TraceMyApi.submission.InvalidRequestCause
 > = core.schemas
-  .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+  .union(\\"type\\", {
     submissionIdNotFound: core.schemas.lazyObject(() => schemas.submission.SubmissionIdNotFound),
     customTestCasesUnsupported: core.schemas.lazyObject(() => schemas.submission.CustomTestCasesUnsupported),
     unexpectedLanguage: core.schemas.lazyObject(() => schemas.submission.UnexpectedLanguageError),
   })
   .transform<TraceMyApi.submission.InvalidRequestCause>({
     parse: (value) => {
-      switch (value.type_) {
+      switch (value.type) {
         case \\"submissionIdNotFound\\": {
           return TraceMyApi.submission.InvalidRequestCause.submissionIdNotFound(value);
         }
@@ -19658,7 +19658,7 @@ import * as schemas from \\"../../..\\";
 
 export const SubmissionRequest: core.schemas.Schema<SubmissionRequest.Raw, TraceMyApi.submission.SubmissionRequest> =
   core.schemas
-    .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+    .union(\\"type\\", {
       initializeProblemRequest: core.schemas.lazyObject(() => schemas.submission.InitializeProblemRequest),
       initializeWorkspaceRequest: core.schemas.object({}),
       submitV2: core.schemas.lazyObject(() => schemas.submission.SubmitRequestV2),
@@ -19667,7 +19667,7 @@ export const SubmissionRequest: core.schemas.Schema<SubmissionRequest.Raw, Trace
     })
     .transform<TraceMyApi.submission.SubmissionRequest>({
       parse: (value) => {
-        switch (value.type_) {
+        switch (value.type) {
           case \\"initializeProblemRequest\\": {
             return TraceMyApi.submission.SubmissionRequest.initializeProblemRequest(value);
           }
@@ -19737,7 +19737,7 @@ import * as schemas from \\"../../..\\";
 
 export const SubmissionResponse: core.schemas.Schema<SubmissionResponse.Raw, TraceMyApi.submission.SubmissionResponse> =
   core.schemas
-    .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+    .union(\\"type\\", {
       serverInitialized: core.schemas.object({}),
       problemInitialized: core.schemas.object({
         value: core.schemas.lazy(() => schemas.commons.ProblemId),
@@ -19751,7 +19751,7 @@ export const SubmissionResponse: core.schemas.Schema<SubmissionResponse.Raw, Tra
     })
     .transform<TraceMyApi.submission.SubmissionResponse>({
       parse: (value) => {
-        switch (value.type_) {
+        switch (value.type) {
           case \\"serverInitialized\\": {
             return TraceMyApi.submission.SubmissionResponse.serverInitialized();
           }
@@ -19833,7 +19833,7 @@ export const SubmissionStatusForTestCase: core.schemas.Schema<
   SubmissionStatusForTestCase.Raw,
   TraceMyApi.submission.SubmissionStatusForTestCase
 > = core.schemas
-  .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+  .union(\\"type\\", {
     graded: core.schemas.lazyObject(() => schemas.submission.TestCaseResultWithStdout),
     gradedV2: core.schemas.object({
       value: core.schemas.lazy(() => schemas.submission.TestCaseGrade),
@@ -19842,7 +19842,7 @@ export const SubmissionStatusForTestCase: core.schemas.Schema<
   })
   .transform<TraceMyApi.submission.SubmissionStatusForTestCase>({
     parse: (value) => {
-      switch (value.type_) {
+      switch (value.type) {
         case \\"graded\\": {
           return TraceMyApi.submission.SubmissionStatusForTestCase.graded(value);
         }
@@ -19897,13 +19897,13 @@ import * as schemas from \\"../../..\\";
 
 export const SubmissionStatusV2: core.schemas.Schema<SubmissionStatusV2.Raw, TraceMyApi.submission.SubmissionStatusV2> =
   core.schemas
-    .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+    .union(\\"type\\", {
       test: core.schemas.lazyObject(() => schemas.submission.TestSubmissionStatusV2),
       workspace: core.schemas.lazyObject(() => schemas.submission.WorkspaceSubmissionStatusV2),
     })
     .transform<TraceMyApi.submission.SubmissionStatusV2>({
       parse: (value) => {
-        switch (value.type_) {
+        switch (value.type) {
           case \\"test\\": {
             return TraceMyApi.submission.SubmissionStatusV2.test(value);
           }
@@ -19970,13 +19970,13 @@ export const SubmissionTypeState: core.schemas.Schema<
   SubmissionTypeState.Raw,
   TraceMyApi.submission.SubmissionTypeState
 > = core.schemas
-  .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+  .union(\\"type\\", {
     test: core.schemas.lazyObject(() => schemas.submission.TestSubmissionState),
     workspace: core.schemas.lazyObject(() => schemas.submission.WorkspaceSubmissionState),
   })
   .transform<TraceMyApi.submission.SubmissionTypeState>({
     parse: (value) => {
-      switch (value.type_) {
+      switch (value.type) {
         case \\"test\\": {
           return TraceMyApi.submission.SubmissionTypeState.test(value);
         }
@@ -20072,13 +20072,13 @@ import * as core from \\"../../../../core\\";
 import * as schemas from \\"../../..\\";
 
 export const TestCaseGrade: core.schemas.Schema<TestCaseGrade.Raw, TraceMyApi.submission.TestCaseGrade> = core.schemas
-  .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+  .union(\\"type\\", {
     hidden: core.schemas.lazyObject(() => schemas.submission.TestCaseHiddenGrade),
     nonHidden: core.schemas.lazyObject(() => schemas.submission.TestCaseNonHiddenGrade),
   })
   .transform<TraceMyApi.submission.TestCaseGrade>({
     parse: (value) => {
-      switch (value.type_) {
+      switch (value.type) {
         case \\"hidden\\": {
           return TraceMyApi.submission.TestCaseGrade.hidden(value);
         }
@@ -20264,7 +20264,7 @@ export const TestSubmissionStatus: core.schemas.Schema<
   TestSubmissionStatus.Raw,
   TraceMyApi.submission.TestSubmissionStatus
 > = core.schemas
-  .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+  .union(\\"type\\", {
     stopped: core.schemas.object({}),
     errored: core.schemas.object({
       value: core.schemas.lazy(() => schemas.submission.ErrorInfo),
@@ -20281,7 +20281,7 @@ export const TestSubmissionStatus: core.schemas.Schema<
   })
   .transform<TraceMyApi.submission.TestSubmissionStatus>({
     parse: (value) => {
-      switch (value.type_) {
+      switch (value.type) {
         case \\"stopped\\": {
           return TraceMyApi.submission.TestSubmissionStatus.stopped();
         }
@@ -20406,7 +20406,7 @@ export const TestSubmissionUpdateInfo: core.schemas.Schema<
   TestSubmissionUpdateInfo.Raw,
   TraceMyApi.submission.TestSubmissionUpdateInfo
 > = core.schemas
-  .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+  .union(\\"type\\", {
     running: core.schemas.object({
       value: core.schemas.lazy(() => schemas.submission.RunningSubmissionState),
     }),
@@ -20420,7 +20420,7 @@ export const TestSubmissionUpdateInfo: core.schemas.Schema<
   })
   .transform<TraceMyApi.submission.TestSubmissionUpdateInfo>({
     parse: (value) => {
-      switch (value.type_) {
+      switch (value.type) {
         case \\"running\\": {
           return TraceMyApi.submission.TestSubmissionUpdateInfo.running(value.value);
         }
@@ -20862,7 +20862,7 @@ export const WorkspaceSubmissionStatus: core.schemas.Schema<
   WorkspaceSubmissionStatus.Raw,
   TraceMyApi.submission.WorkspaceSubmissionStatus
 > = core.schemas
-  .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+  .union(\\"type\\", {
     stopped: core.schemas.object({}),
     errored: core.schemas.object({
       value: core.schemas.lazy(() => schemas.submission.ErrorInfo),
@@ -20875,7 +20875,7 @@ export const WorkspaceSubmissionStatus: core.schemas.Schema<
   })
   .transform<TraceMyApi.submission.WorkspaceSubmissionStatus>({
     parse: (value) => {
-      switch (value.type_) {
+      switch (value.type) {
         case \\"stopped\\": {
           return TraceMyApi.submission.WorkspaceSubmissionStatus.stopped();
         }
@@ -21001,7 +21001,7 @@ export const WorkspaceSubmissionUpdateInfo: core.schemas.Schema<
   WorkspaceSubmissionUpdateInfo.Raw,
   TraceMyApi.submission.WorkspaceSubmissionUpdateInfo
 > = core.schemas
-  .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+  .union(\\"type\\", {
     running: core.schemas.object({
       value: core.schemas.lazy(() => schemas.submission.RunningSubmissionState),
     }),
@@ -21016,7 +21016,7 @@ export const WorkspaceSubmissionUpdateInfo: core.schemas.Schema<
   })
   .transform<TraceMyApi.submission.WorkspaceSubmissionUpdateInfo>({
     parse: (value) => {
-      switch (value.type_) {
+      switch (value.type) {
         case \\"running\\": {
           return TraceMyApi.submission.WorkspaceSubmissionUpdateInfo.running(value.value);
         }
@@ -21371,13 +21371,13 @@ export const AssertCorrectnessCheck: core.schemas.Schema<
   AssertCorrectnessCheck.Raw,
   TraceMyApi.v2.problem.AssertCorrectnessCheck
 > = core.schemas
-  .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+  .union(\\"type\\", {
     deepEquality: core.schemas.lazyObject(() => schemas.v2.problem.DeepEqualityCorrectnessCheck),
     custom: core.schemas.lazyObject(() => schemas.v2.problem.VoidFunctionDefinitionThatTakesActualResult),
   })
   .transform<TraceMyApi.v2.problem.AssertCorrectnessCheck>({
     parse: (value) => {
-      switch (value.type_) {
+      switch (value.type) {
         case \\"deepEquality\\": {
           return TraceMyApi.v2.problem.AssertCorrectnessCheck.deepEquality(value);
         }
@@ -21520,7 +21520,7 @@ import * as core from \\"../../../../../../core\\";
 import * as schemas from \\"../../../../..\\";
 
 export const CustomFiles: core.schemas.Schema<CustomFiles.Raw, TraceMyApi.v2.problem.CustomFiles> = core.schemas
-  .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+  .union(\\"type\\", {
     basic: core.schemas.lazyObject(() => schemas.v2.problem.BasicCustomFiles),
     custom: core.schemas.object({
       value: core.schemas.record(
@@ -21531,7 +21531,7 @@ export const CustomFiles: core.schemas.Schema<CustomFiles.Raw, TraceMyApi.v2.pro
   })
   .transform<TraceMyApi.v2.problem.CustomFiles>({
     parse: (value) => {
-      switch (value.type_) {
+      switch (value.type) {
         case \\"basic\\": {
           return TraceMyApi.v2.problem.CustomFiles.basic(value);
         }
@@ -21732,7 +21732,7 @@ import * as schemas from \\"../../../../..\\";
 
 export const FunctionSignature: core.schemas.Schema<FunctionSignature.Raw, TraceMyApi.v2.problem.FunctionSignature> =
   core.schemas
-    .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+    .union(\\"type\\", {
       void: core.schemas.lazyObject(() => schemas.v2.problem.VoidFunctionSignature),
       nonVoid: core.schemas.lazyObject(() => schemas.v2.problem.NonVoidFunctionSignature),
       voidThatTakesActualResult: core.schemas.lazyObject(
@@ -21741,9 +21741,9 @@ export const FunctionSignature: core.schemas.Schema<FunctionSignature.Raw, Trace
     })
     .transform<TraceMyApi.v2.problem.FunctionSignature>({
       parse: (value) => {
-        switch (value.type_) {
+        switch (value.type) {
           case \\"void\\": {
-            return TraceMyApi.v2.problem.FunctionSignature.void_(value);
+            return TraceMyApi.v2.problem.FunctionSignature.void(value);
           }
           case \\"nonVoid\\": {
             return TraceMyApi.v2.problem.FunctionSignature.nonVoid(value);
@@ -22179,13 +22179,13 @@ import * as schemas from \\"../../../../..\\";
 
 export const TestCaseFunction: core.schemas.Schema<TestCaseFunction.Raw, TraceMyApi.v2.problem.TestCaseFunction> =
   core.schemas
-    .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+    .union(\\"type\\", {
       withActualResult: core.schemas.lazyObject(() => schemas.v2.problem.TestCaseWithActualResultImplementation),
       custom: core.schemas.lazyObject(() => schemas.v2.problem.VoidFunctionDefinition),
     })
     .transform<TraceMyApi.v2.problem.TestCaseFunction>({
       parse: (value) => {
-        switch (value.type_) {
+        switch (value.type) {
           case \\"withActualResult\\": {
             return TraceMyApi.v2.problem.TestCaseFunction.withActualResult(value);
           }
@@ -22249,10 +22249,7 @@ export const TestCaseImplementation: core.schemas.ObjectSchema<
   TraceMyApi.v2.problem.TestCaseImplementation
 > = core.schemas.object({
   description: core.schemas.lazyObject(() => schemas.v2.problem.TestCaseImplementationDescription),
-  function_: core.schemas.property(
-    \\"function\\",
-    core.schemas.lazy(() => schemas.v2.problem.TestCaseFunction)
-  ),
+  function: core.schemas.lazy(() => schemas.v2.problem.TestCaseFunction),
 });
 
 export declare namespace TestCaseImplementation {
@@ -22303,7 +22300,7 @@ export const TestCaseImplementationDescriptionBoard: core.schemas.Schema<
   TestCaseImplementationDescriptionBoard.Raw,
   TraceMyApi.v2.problem.TestCaseImplementationDescriptionBoard
 > = core.schemas
-  .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+  .union(\\"type\\", {
     html: core.schemas.object({
       value: core.schemas.string(),
     }),
@@ -22313,7 +22310,7 @@ export const TestCaseImplementationDescriptionBoard: core.schemas.Schema<
   })
   .transform<TraceMyApi.v2.problem.TestCaseImplementationDescriptionBoard>({
     parse: (value) => {
-      switch (value.type_) {
+      switch (value.type) {
         case \\"html\\": {
           return TraceMyApi.v2.problem.TestCaseImplementationDescriptionBoard.html(value.value);
         }
@@ -22361,7 +22358,7 @@ export const TestCaseImplementationReference: core.schemas.Schema<
   TestCaseImplementationReference.Raw,
   TraceMyApi.v2.problem.TestCaseImplementationReference
 > = core.schemas
-  .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+  .union(\\"type\\", {
     templateId: core.schemas.object({
       value: core.schemas.lazy(() => schemas.v2.problem.TestCaseTemplateId),
     }),
@@ -22369,7 +22366,7 @@ export const TestCaseImplementationReference: core.schemas.Schema<
   })
   .transform<TraceMyApi.v2.problem.TestCaseImplementationReference>({
     parse: (value) => {
-      switch (value.type_) {
+      switch (value.type) {
         case \\"templateId\\": {
           return TraceMyApi.v2.problem.TestCaseImplementationReference.templateId(value.value);
         }
@@ -22782,13 +22779,13 @@ export const AssertCorrectnessCheck: core.schemas.Schema<
   AssertCorrectnessCheck.Raw,
   TraceMyApi.v2.v3.problem.AssertCorrectnessCheck
 > = core.schemas
-  .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+  .union(\\"type\\", {
     deepEquality: core.schemas.lazyObject(() => schemas.v2.v3.problem.DeepEqualityCorrectnessCheck),
     custom: core.schemas.lazyObject(() => schemas.v2.v3.problem.VoidFunctionDefinitionThatTakesActualResult),
   })
   .transform<TraceMyApi.v2.v3.problem.AssertCorrectnessCheck>({
     parse: (value) => {
-      switch (value.type_) {
+      switch (value.type) {
         case \\"deepEquality\\": {
           return TraceMyApi.v2.v3.problem.AssertCorrectnessCheck.deepEquality(value);
         }
@@ -22933,7 +22930,7 @@ import * as core from \\"../../../../../../../../core\\";
 import * as schemas from \\"../../../../../../..\\";
 
 export const CustomFiles: core.schemas.Schema<CustomFiles.Raw, TraceMyApi.v2.v3.problem.CustomFiles> = core.schemas
-  .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+  .union(\\"type\\", {
     basic: core.schemas.lazyObject(() => schemas.v2.v3.problem.BasicCustomFiles),
     custom: core.schemas.object({
       value: core.schemas.record(
@@ -22944,7 +22941,7 @@ export const CustomFiles: core.schemas.Schema<CustomFiles.Raw, TraceMyApi.v2.v3.
   })
   .transform<TraceMyApi.v2.v3.problem.CustomFiles>({
     parse: (value) => {
-      switch (value.type_) {
+      switch (value.type) {
         case \\"basic\\": {
           return TraceMyApi.v2.v3.problem.CustomFiles.basic(value);
         }
@@ -23145,7 +23142,7 @@ import * as schemas from \\"../../../../../../..\\";
 
 export const FunctionSignature: core.schemas.Schema<FunctionSignature.Raw, TraceMyApi.v2.v3.problem.FunctionSignature> =
   core.schemas
-    .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+    .union(\\"type\\", {
       void: core.schemas.lazyObject(() => schemas.v2.v3.problem.VoidFunctionSignature),
       nonVoid: core.schemas.lazyObject(() => schemas.v2.v3.problem.NonVoidFunctionSignature),
       voidThatTakesActualResult: core.schemas.lazyObject(
@@ -23154,9 +23151,9 @@ export const FunctionSignature: core.schemas.Schema<FunctionSignature.Raw, Trace
     })
     .transform<TraceMyApi.v2.v3.problem.FunctionSignature>({
       parse: (value) => {
-        switch (value.type_) {
+        switch (value.type) {
           case \\"void\\": {
-            return TraceMyApi.v2.v3.problem.FunctionSignature.void_(value);
+            return TraceMyApi.v2.v3.problem.FunctionSignature.void(value);
           }
           case \\"nonVoid\\": {
             return TraceMyApi.v2.v3.problem.FunctionSignature.nonVoid(value);
@@ -23591,13 +23588,13 @@ import * as schemas from \\"../../../../../../..\\";
 
 export const TestCaseFunction: core.schemas.Schema<TestCaseFunction.Raw, TraceMyApi.v2.v3.problem.TestCaseFunction> =
   core.schemas
-    .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+    .union(\\"type\\", {
       withActualResult: core.schemas.lazyObject(() => schemas.v2.v3.problem.TestCaseWithActualResultImplementation),
       custom: core.schemas.lazyObject(() => schemas.v2.v3.problem.VoidFunctionDefinition),
     })
     .transform<TraceMyApi.v2.v3.problem.TestCaseFunction>({
       parse: (value) => {
-        switch (value.type_) {
+        switch (value.type) {
           case \\"withActualResult\\": {
             return TraceMyApi.v2.v3.problem.TestCaseFunction.withActualResult(value);
           }
@@ -23662,10 +23659,7 @@ export const TestCaseImplementation: core.schemas.ObjectSchema<
   TraceMyApi.v2.v3.problem.TestCaseImplementation
 > = core.schemas.object({
   description: core.schemas.lazyObject(() => schemas.v2.v3.problem.TestCaseImplementationDescription),
-  function_: core.schemas.property(
-    \\"function\\",
-    core.schemas.lazy(() => schemas.v2.v3.problem.TestCaseFunction)
-  ),
+  function: core.schemas.lazy(() => schemas.v2.v3.problem.TestCaseFunction),
 });
 
 export declare namespace TestCaseImplementation {
@@ -23716,7 +23710,7 @@ export const TestCaseImplementationDescriptionBoard: core.schemas.Schema<
   TestCaseImplementationDescriptionBoard.Raw,
   TraceMyApi.v2.v3.problem.TestCaseImplementationDescriptionBoard
 > = core.schemas
-  .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+  .union(\\"type\\", {
     html: core.schemas.object({
       value: core.schemas.string(),
     }),
@@ -23726,7 +23720,7 @@ export const TestCaseImplementationDescriptionBoard: core.schemas.Schema<
   })
   .transform<TraceMyApi.v2.v3.problem.TestCaseImplementationDescriptionBoard>({
     parse: (value) => {
-      switch (value.type_) {
+      switch (value.type) {
         case \\"html\\": {
           return TraceMyApi.v2.v3.problem.TestCaseImplementationDescriptionBoard.html(value.value);
         }
@@ -23774,7 +23768,7 @@ export const TestCaseImplementationReference: core.schemas.Schema<
   TestCaseImplementationReference.Raw,
   TraceMyApi.v2.v3.problem.TestCaseImplementationReference
 > = core.schemas
-  .union(core.schemas.discriminant(\\"type_\\", \\"type\\"), {
+  .union(\\"type\\", {
     templateId: core.schemas.object({
       value: core.schemas.lazy(() => schemas.v2.v3.problem.TestCaseTemplateId),
     }),
@@ -23782,7 +23776,7 @@ export const TestCaseImplementationReference: core.schemas.Schema<
   })
   .transform<TraceMyApi.v2.v3.problem.TestCaseImplementationReference>({
     parse: (value) => {
-      switch (value.type_) {
+      switch (value.type) {
         case \\"templateId\\": {
           return TraceMyApi.v2.v3.problem.TestCaseImplementationReference.templateId(value.value);
         }
