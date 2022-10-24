@@ -1603,26 +1603,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fern-api/cli@npm:0.0.220-9-gda6af2b1":
-  version: 0.0.220-9-gda6af2b1
-  resolution: "@fern-api/cli@npm:0.0.220-9-gda6af2b1"
+"@fern-api/cli@npm:0.0.220-11-g7be2f095":
+  version: 0.0.220-11-g7be2f095
+  resolution: "@fern-api/cli@npm:0.0.220-11-g7be2f095"
   dependencies:
-    "@fern-api/core-utils": 0.0.220-9-gda6af2b1
-    "@fern-api/generators-configuration": 0.0.220-9-gda6af2b1
-    "@fern-api/init": 0.0.220-9-gda6af2b1
-    "@fern-api/ir-generator": 0.0.220-9-gda6af2b1
-    "@fern-api/local-workspace-runner": 0.0.220-9-gda6af2b1
-    "@fern-api/logger": 0.0.220-9-gda6af2b1
-    "@fern-api/manage-generator": 0.0.220-9-gda6af2b1
-    "@fern-api/migrations": 0.0.220-9-gda6af2b1
-    "@fern-api/openapi-converter": 0.0.220-9-gda6af2b1
-    "@fern-api/project-configuration": 0.0.220-9-gda6af2b1
-    "@fern-api/project-loader": 0.0.220-9-gda6af2b1
-    "@fern-api/remote-workspace-runner": 0.0.220-9-gda6af2b1
-    "@fern-api/semver-utils": 0.0.220-9-gda6af2b1
-    "@fern-api/task-context": 0.0.220-9-gda6af2b1
-    "@fern-api/validator": 0.0.220-9-gda6af2b1
-    "@fern-api/workspace-loader": 0.0.220-9-gda6af2b1
+    "@fern-api/core-utils": 0.0.220-11-g7be2f095
+    "@fern-api/generators-configuration": 0.0.220-11-g7be2f095
+    "@fern-api/init": 0.0.220-11-g7be2f095
+    "@fern-api/ir-generator": 0.0.220-11-g7be2f095
+    "@fern-api/local-workspace-runner": 0.0.220-11-g7be2f095
+    "@fern-api/logger": 0.0.220-11-g7be2f095
+    "@fern-api/manage-generator": 0.0.220-11-g7be2f095
+    "@fern-api/migrations": 0.0.220-11-g7be2f095
+    "@fern-api/openapi-converter": 0.0.220-11-g7be2f095
+    "@fern-api/project-configuration": 0.0.220-11-g7be2f095
+    "@fern-api/project-loader": 0.0.220-11-g7be2f095
+    "@fern-api/remote-workspace-runner": 0.0.220-11-g7be2f095
+    "@fern-api/semver-utils": 0.0.220-11-g7be2f095
+    "@fern-api/task-context": 0.0.220-11-g7be2f095
+    "@fern-api/validator": 0.0.220-11-g7be2f095
+    "@fern-api/workspace-loader": 0.0.220-11-g7be2f095
     "@fern-fern/ir-model": 0.0.265
     ansi-escapes: ^5.0.0
     boxen: ^7.0.0
@@ -1640,128 +1640,128 @@ __metadata:
   bin:
     "fern:dev": ./dist/dev/bundle.cjs
     "fern:prod": ./dist/prod/bundle.cjs
-  checksum: 8bd9aeb3df02dbd8059175275f8ddbd7e49ec40b3295a39834d4c80190dda48a3ad614fc68cb25e6a3cb8356520ceaff788245571d0f4b4ce257ce0fda88fda9
+  checksum: 860de4f44a08ab0af3f50c97b6358863d38430d104e34f778f5cc9b5688cd50b698cf76ff79c190d6ff8aff94165d4bea3d859dd070afae198acdb26bf5b0421
   languageName: node
   linkType: hard
 
-"@fern-api/config-management-commons@npm:0.0.220-9-gda6af2b1":
-  version: 0.0.220-9-gda6af2b1
-  resolution: "@fern-api/config-management-commons@npm:0.0.220-9-gda6af2b1"
+"@fern-api/config-management-commons@npm:0.0.220-11-g7be2f095":
+  version: 0.0.220-11-g7be2f095
+  resolution: "@fern-api/config-management-commons@npm:0.0.220-11-g7be2f095"
   dependencies:
-    "@fern-api/core-utils": 0.0.220-9-gda6af2b1
-    "@fern-api/task-context": 0.0.220-9-gda6af2b1
+    "@fern-api/core-utils": 0.0.220-11-g7be2f095
+    "@fern-api/task-context": 0.0.220-11-g7be2f095
     zod: ^3.14.3
-  checksum: 6cdf38d073882ae19229e24caf1ff6892f143cb5c206e1935b60a7d319bd12d5fff5c31e957a74eb5d6a8cd4339687d42358f6a148d303035022de680464674c
+  checksum: 15e15306f7f5e54e4edaa94c82dea96bc233a8fef6d7e951b7d67f759d8a73ee995eaedf5ce437b3711084c904b76e605235e75ce7ba78763e360c8de6e90bd1
   languageName: node
   linkType: hard
 
-"@fern-api/core-utils@npm:0.0.220-9-gda6af2b1":
-  version: 0.0.220-9-gda6af2b1
-  resolution: "@fern-api/core-utils@npm:0.0.220-9-gda6af2b1"
+"@fern-api/core-utils@npm:0.0.220-11-g7be2f095":
+  version: 0.0.220-11-g7be2f095
+  resolution: "@fern-api/core-utils@npm:0.0.220-11-g7be2f095"
   dependencies:
     strip-ansi: ^7.0.1
-  checksum: 303581812d50ffd320b5b94f4e69f6947f825c8e9bfddfd90704d3ce8d23d95620608cc9877ee5562a74148a1437f783ae3dca2c099553836f5a5f040eb3c16e
+  checksum: f1a975b34bca63507df6e4f57c639ae40fe174ac733aae06acc59b488c45b5b009b72141090c2704f7d2b1eb0bd2c533f463fcda60c1eaa5b3a72ae419c6b0be
   languageName: node
   linkType: hard
 
-"@fern-api/docker-utils@npm:0.0.220-9-gda6af2b1":
-  version: 0.0.220-9-gda6af2b1
-  resolution: "@fern-api/docker-utils@npm:0.0.220-9-gda6af2b1"
+"@fern-api/docker-utils@npm:0.0.220-11-g7be2f095":
+  version: 0.0.220-11-g7be2f095
+  resolution: "@fern-api/docker-utils@npm:0.0.220-11-g7be2f095"
   dependencies:
-    "@fern-api/core-utils": 0.0.220-9-gda6af2b1
+    "@fern-api/core-utils": 0.0.220-11-g7be2f095
     dockerode: ^3.3.1
-  checksum: b144fa06559df64d8c0207eda06959a7270b016b42e8b04c9d4c84053db93d28ca01d437e152e2f112839ad93cd9152c538e0211212af7ddb35f3694a3b99b92
+  checksum: 983d0aea40347adf6f241eab59f675a237ea419d99b5a60a6146fd2f2de5645c050ce454d3dd0b4bd33bf212cf0df2df2ea2ef243acf898c72e4cfbb1933a7a5
   languageName: node
   linkType: hard
 
-"@fern-api/generators-configuration@npm:0.0.220-9-gda6af2b1":
-  version: 0.0.220-9-gda6af2b1
-  resolution: "@fern-api/generators-configuration@npm:0.0.220-9-gda6af2b1"
+"@fern-api/generators-configuration@npm:0.0.220-11-g7be2f095":
+  version: 0.0.220-11-g7be2f095
+  resolution: "@fern-api/generators-configuration@npm:0.0.220-11-g7be2f095"
   dependencies:
-    "@fern-api/config-management-commons": 0.0.220-9-gda6af2b1
-    "@fern-api/core-utils": 0.0.220-9-gda6af2b1
-    "@fern-api/project-configuration": 0.0.220-9-gda6af2b1
-    "@fern-api/task-context": 0.0.220-9-gda6af2b1
+    "@fern-api/config-management-commons": 0.0.220-11-g7be2f095
+    "@fern-api/core-utils": 0.0.220-11-g7be2f095
+    "@fern-api/project-configuration": 0.0.220-11-g7be2f095
+    "@fern-api/task-context": 0.0.220-11-g7be2f095
     "@fern-fern/fiddle-client": ^0.0.54
     js-yaml: ^4.1.0
     zod: ^3.14.3
-  checksum: d5775b1044ff1af4e839e19019fa8d73ccb6588c50ac52ed50c6c5874102064eed6965719320a7ccc932173190d5c98e2ee29d006b94d1738e18c5aa7b6432bb
+  checksum: ed5c433be894dd5575807423c36bfbe8c7970b76c50d2677ba392fb38cf0646dbfb5e1bdac48a007a8b394a6da164b5e912a8ca442264dfa689fb2292ec5d365
   languageName: node
   linkType: hard
 
-"@fern-api/init@npm:0.0.220-9-gda6af2b1":
-  version: 0.0.220-9-gda6af2b1
-  resolution: "@fern-api/init@npm:0.0.220-9-gda6af2b1"
+"@fern-api/init@npm:0.0.220-11-g7be2f095":
+  version: 0.0.220-11-g7be2f095
+  resolution: "@fern-api/init@npm:0.0.220-11-g7be2f095"
   dependencies:
-    "@fern-api/core-utils": 0.0.220-9-gda6af2b1
-    "@fern-api/generators-configuration": 0.0.220-9-gda6af2b1
-    "@fern-api/project-configuration": 0.0.220-9-gda6af2b1
-    "@fern-api/task-context": 0.0.220-9-gda6af2b1
-    "@fern-api/yaml-schema": 0.0.220-9-gda6af2b1
+    "@fern-api/core-utils": 0.0.220-11-g7be2f095
+    "@fern-api/generators-configuration": 0.0.220-11-g7be2f095
+    "@fern-api/project-configuration": 0.0.220-11-g7be2f095
+    "@fern-api/task-context": 0.0.220-11-g7be2f095
+    "@fern-api/yaml-schema": 0.0.220-11-g7be2f095
     js-yaml: ^4.1.0
-  checksum: 1b8355e6440af76d3cb26015987c7e9c5d18ef7f8d8a9c7088fc8aa6c0575318ffd027275be6c7d6db57a1de57bd7ab95a7276ee15d5dcdea52226c08f9d6817
+  checksum: 7da796a8304ac04b948a3e575c0d239edccaae84f9e7f941a3397e2c0c80cb22338f3e86f550ad93e41686374e56c3c4d54be46ee8429875d68634abb5ea6786
   languageName: node
   linkType: hard
 
-"@fern-api/ir-generator@npm:0.0.220-9-gda6af2b1":
-  version: 0.0.220-9-gda6af2b1
-  resolution: "@fern-api/ir-generator@npm:0.0.220-9-gda6af2b1"
+"@fern-api/ir-generator@npm:0.0.220-11-g7be2f095":
+  version: 0.0.220-11-g7be2f095
+  resolution: "@fern-api/ir-generator@npm:0.0.220-11-g7be2f095"
   dependencies:
-    "@fern-api/core-utils": 0.0.220-9-gda6af2b1
-    "@fern-api/workspace-loader": 0.0.220-9-gda6af2b1
-    "@fern-api/yaml-schema": 0.0.220-9-gda6af2b1
+    "@fern-api/core-utils": 0.0.220-11-g7be2f095
+    "@fern-api/workspace-loader": 0.0.220-11-g7be2f095
+    "@fern-api/yaml-schema": 0.0.220-11-g7be2f095
     "@fern-fern/ir-model": 0.0.265
     lodash-es: ^4.17.21
-  checksum: e983cca3c7a8a9f7b7561c2227b409f74757269aec1c70e0d2c526d1be7e4cf900d4c083f6855c59ae1168e503ef3ad9e7bf9f0519ebedf1b971fd5f96467a49
+  checksum: f87742696bd02bb6481b37f5b582abc4f724def5acb469f596e4d0264ea39bcbe264ed19725b6e81427e960c2bb09d47d88af4c327c9bee319f3c725847627f5
   languageName: node
   linkType: hard
 
-"@fern-api/local-workspace-runner@npm:0.0.220-9-gda6af2b1":
-  version: 0.0.220-9-gda6af2b1
-  resolution: "@fern-api/local-workspace-runner@npm:0.0.220-9-gda6af2b1"
+"@fern-api/local-workspace-runner@npm:0.0.220-11-g7be2f095":
+  version: 0.0.220-11-g7be2f095
+  resolution: "@fern-api/local-workspace-runner@npm:0.0.220-11-g7be2f095"
   dependencies:
-    "@fern-api/core-utils": 0.0.220-9-gda6af2b1
-    "@fern-api/docker-utils": 0.0.220-9-gda6af2b1
-    "@fern-api/generators-configuration": 0.0.220-9-gda6af2b1
-    "@fern-api/workspace-loader": 0.0.220-9-gda6af2b1
+    "@fern-api/core-utils": 0.0.220-11-g7be2f095
+    "@fern-api/docker-utils": 0.0.220-11-g7be2f095
+    "@fern-api/generators-configuration": 0.0.220-11-g7be2f095
+    "@fern-api/workspace-loader": 0.0.220-11-g7be2f095
     "@fern-fern/generator-exec-client": 0.0.5
     "@fern-fern/ir-model": 0.0.265
     tmp-promise: ^3.0.3
-  checksum: 43a5490f6449139d46c6b568cb42dbab0eb58f5b835c0843eee402f6c29ba0f336f8ff582234cbda0c004825d4d3365990cff87f2d4d24698c87c9b5552cb6ec
+  checksum: d172a5d806f4c05986ebe1cde9d8bbdb062644ceb35b36c328b25476deee10ef3a6701ed215eb3cdd4561fa19e9cc5a175489de3ff3724eb09a49c0424f5a8bc
   languageName: node
   linkType: hard
 
-"@fern-api/logger@npm:0.0.220-9-gda6af2b1":
-  version: 0.0.220-9-gda6af2b1
-  resolution: "@fern-api/logger@npm:0.0.220-9-gda6af2b1"
+"@fern-api/logger@npm:0.0.220-11-g7be2f095":
+  version: 0.0.220-11-g7be2f095
+  resolution: "@fern-api/logger@npm:0.0.220-11-g7be2f095"
   dependencies:
-    "@fern-api/core-utils": 0.0.220-9-gda6af2b1
+    "@fern-api/core-utils": 0.0.220-11-g7be2f095
     chalk: ^5.0.1
-  checksum: c8c26ded1fb41f03b06559f9c76e41196b76ca01853ab8e7ccba428755215c6dc23a9e30ad3aed16a80177cbfb2191f2ab2cbdb4eb70657fa6d5e19c5faf3c17
+  checksum: a38d5b46bbf60a1853c35ece700e122d01e300bae5ac5f10626058ac01f31d84cf06bc74d7a1cd6694901bf9a47b74cac7c96d4ced9be3db08063f0bebc685e9
   languageName: node
   linkType: hard
 
-"@fern-api/manage-generator@npm:0.0.220-9-gda6af2b1":
-  version: 0.0.220-9-gda6af2b1
-  resolution: "@fern-api/manage-generator@npm:0.0.220-9-gda6af2b1"
+"@fern-api/manage-generator@npm:0.0.220-11-g7be2f095":
+  version: 0.0.220-11-g7be2f095
+  resolution: "@fern-api/manage-generator@npm:0.0.220-11-g7be2f095"
   dependencies:
-    "@fern-api/generators-configuration": 0.0.220-9-gda6af2b1
-    "@fern-api/semver-utils": 0.0.220-9-gda6af2b1
-    "@fern-api/task-context": 0.0.220-9-gda6af2b1
+    "@fern-api/generators-configuration": 0.0.220-11-g7be2f095
+    "@fern-api/semver-utils": 0.0.220-11-g7be2f095
+    "@fern-api/task-context": 0.0.220-11-g7be2f095
     chalk: ^5.0.1
     immer: ^9.0.15
-  checksum: a0c4245f3373b941c1e12eb6c5a3a61bb783d8a6a69186e2a9884dbe165de7a2beedcf8fdf4f8d483515968e2415de20b30ca27721ddfc3c8b64460683ed4868
+  checksum: e39fc1f8d0ae7821254fc1e335047f896da32bc29df3eddecfbafe9496ac63a4e5e041e4fb46c427c441fc817523fe5fe3ab10cbccb4809797f682cc5d7bc7ef
   languageName: node
   linkType: hard
 
-"@fern-api/migrations@npm:0.0.220-9-gda6af2b1":
-  version: 0.0.220-9-gda6af2b1
-  resolution: "@fern-api/migrations@npm:0.0.220-9-gda6af2b1"
+"@fern-api/migrations@npm:0.0.220-11-g7be2f095":
+  version: 0.0.220-11-g7be2f095
+  resolution: "@fern-api/migrations@npm:0.0.220-11-g7be2f095"
   dependencies:
-    "@fern-api/config-management-commons": 0.0.220-9-gda6af2b1
-    "@fern-api/core-utils": 0.0.220-9-gda6af2b1
-    "@fern-api/semver-utils": 0.0.220-9-gda6af2b1
-    "@fern-api/task-context": 0.0.220-9-gda6af2b1
+    "@fern-api/config-management-commons": 0.0.220-11-g7be2f095
+    "@fern-api/core-utils": 0.0.220-11-g7be2f095
+    "@fern-api/semver-utils": 0.0.220-11-g7be2f095
+    "@fern-api/task-context": 0.0.220-11-g7be2f095
     chalk: ^5.0.1
     find-up: ^6.3.0
     glob: ^7.2.0
@@ -1770,63 +1770,63 @@ __metadata:
     js-yaml: ^4.1.0
     yaml: ^2.1.1
     zod: ^3.14.3
-  checksum: 799c8b9ba03d85ace0bea7e125a4d6ed9740f7103a98b95f4e9474c7cc46aa6b739a35d9dc433e78ba10054918c4a37373c6905beceb1273c9a08680875a4ac0
+  checksum: 19c8f5d548d9557835d006b2490f3151acd0f09bb75e60b3d20377c75a5127cf309b546d67d6858e80e802fcf3e00c9aaa5b141a818fcfd2884abfbf94cc88f4
   languageName: node
   linkType: hard
 
-"@fern-api/openapi-converter@npm:0.0.220-9-gda6af2b1":
-  version: 0.0.220-9-gda6af2b1
-  resolution: "@fern-api/openapi-converter@npm:0.0.220-9-gda6af2b1"
+"@fern-api/openapi-converter@npm:0.0.220-11-g7be2f095":
+  version: 0.0.220-11-g7be2f095
+  resolution: "@fern-api/openapi-converter@npm:0.0.220-11-g7be2f095"
   dependencies:
     "@apidevtools/swagger-parser": ^10.1.0
-    "@fern-api/core-utils": 0.0.220-9-gda6af2b1
-    "@fern-api/yaml-schema": 0.0.220-9-gda6af2b1
+    "@fern-api/core-utils": 0.0.220-11-g7be2f095
+    "@fern-api/yaml-schema": 0.0.220-11-g7be2f095
     js-yaml: ^4.1.0
     lodash-es: ^4.17.21
     openapi-types: ^12.0.0
-  checksum: a20a4f86c8c8beb423cd993df81804e4b0e00d26410fb2a94c045667c1c98d3ed675cc0413012150fc35ffd5bb317b0a6bf501e97af3a34673017a6866685f90
+  checksum: 23a0bc88dd374059f7fa0db806257e312d00639bc708327819ca5e9ff5d28eea9f2c218de95900c536c9980b2f9deae1c89bfc00cfaa45cb445a243faae15b45
   languageName: node
   linkType: hard
 
-"@fern-api/project-configuration@npm:0.0.220-9-gda6af2b1":
-  version: 0.0.220-9-gda6af2b1
-  resolution: "@fern-api/project-configuration@npm:0.0.220-9-gda6af2b1"
+"@fern-api/project-configuration@npm:0.0.220-11-g7be2f095":
+  version: 0.0.220-11-g7be2f095
+  resolution: "@fern-api/project-configuration@npm:0.0.220-11-g7be2f095"
   dependencies:
-    "@fern-api/config-management-commons": 0.0.220-9-gda6af2b1
-    "@fern-api/core-utils": 0.0.220-9-gda6af2b1
-    "@fern-api/task-context": 0.0.220-9-gda6af2b1
+    "@fern-api/config-management-commons": 0.0.220-11-g7be2f095
+    "@fern-api/core-utils": 0.0.220-11-g7be2f095
+    "@fern-api/task-context": 0.0.220-11-g7be2f095
     find-up: ^6.3.0
     zod: ^3.14.3
-  checksum: 175769ffd05c58ac9dfd7b9bc09bf001328e45627fc0944b5ef81fb46e39f82adbaa47633a2487b9880634377e7bd68db9a9bb42572e523fc7ecceb113455206
+  checksum: 0e928203ff0097fe34180fb5dc9e466956022f12726c1f94e86e69b74f94578e015fd4f78d2d8d70d8b1512b367a98316f2015710ce5221bb8ecd038b8ec959a
   languageName: node
   linkType: hard
 
-"@fern-api/project-loader@npm:0.0.220-9-gda6af2b1":
-  version: 0.0.220-9-gda6af2b1
-  resolution: "@fern-api/project-loader@npm:0.0.220-9-gda6af2b1"
+"@fern-api/project-loader@npm:0.0.220-11-g7be2f095":
+  version: 0.0.220-11-g7be2f095
+  resolution: "@fern-api/project-loader@npm:0.0.220-11-g7be2f095"
   dependencies:
-    "@fern-api/core-utils": 0.0.220-9-gda6af2b1
-    "@fern-api/logger": 0.0.220-9-gda6af2b1
-    "@fern-api/project-configuration": 0.0.220-9-gda6af2b1
-    "@fern-api/task-context": 0.0.220-9-gda6af2b1
-    "@fern-api/workspace-loader": 0.0.220-9-gda6af2b1
+    "@fern-api/core-utils": 0.0.220-11-g7be2f095
+    "@fern-api/logger": 0.0.220-11-g7be2f095
+    "@fern-api/project-configuration": 0.0.220-11-g7be2f095
+    "@fern-api/task-context": 0.0.220-11-g7be2f095
+    "@fern-api/workspace-loader": 0.0.220-11-g7be2f095
     chalk: ^5.0.1
     js-yaml: ^4.1.0
     zod: ^3.14.3
-  checksum: ca7de3fb69fee43f0018660b2acb79f13ebdf3854c99d2377eb7a6c391dc77d132328cdb7cf2ab244177a62df740898c8a76668e0af9b976f91de8a84101a055
+  checksum: d7790c5442ad56d13feff2a57d9aee15509176b95d7395e64e3c557c141602b626fa1664fc2ab503d614fd5792e38a40ef7d49731326234baca1e7672d1e1bec
   languageName: node
   linkType: hard
 
-"@fern-api/remote-workspace-runner@npm:0.0.220-9-gda6af2b1":
-  version: 0.0.220-9-gda6af2b1
-  resolution: "@fern-api/remote-workspace-runner@npm:0.0.220-9-gda6af2b1"
+"@fern-api/remote-workspace-runner@npm:0.0.220-11-g7be2f095":
+  version: 0.0.220-11-g7be2f095
+  resolution: "@fern-api/remote-workspace-runner@npm:0.0.220-11-g7be2f095"
   dependencies:
-    "@fern-api/core-utils": 0.0.220-9-gda6af2b1
-    "@fern-api/generators-configuration": 0.0.220-9-gda6af2b1
-    "@fern-api/ir-generator": 0.0.220-9-gda6af2b1
-    "@fern-api/logger": 0.0.220-9-gda6af2b1
-    "@fern-api/task-context": 0.0.220-9-gda6af2b1
-    "@fern-api/workspace-loader": 0.0.220-9-gda6af2b1
+    "@fern-api/core-utils": 0.0.220-11-g7be2f095
+    "@fern-api/generators-configuration": 0.0.220-11-g7be2f095
+    "@fern-api/ir-generator": 0.0.220-11-g7be2f095
+    "@fern-api/logger": 0.0.220-11-g7be2f095
+    "@fern-api/task-context": 0.0.220-11-g7be2f095
+    "@fern-api/workspace-loader": 0.0.220-11-g7be2f095
     "@fern-fern/fiddle-client": ^0.0.54
     "@fern-fern/ir-model": 0.0.265
     axios: ^0.27.2
@@ -1837,71 +1837,71 @@ __metadata:
     terminal-link: ^3.0.0
     tmp-promise: ^3.0.3
     url-join: ^5.0.0
-  checksum: fda16b8b0241a5a8e72ecfb22652ec402af3233429c794a2351b492b84d377479804892444bd8af339f9bde21f6142444429b3409d3ee34c63b508e5123307f4
+  checksum: 03181c8f28ece003af99e0f0ed5cb901f0099f367b97d997225ae385dcc5aec20a21401d5366a8387b8a3bc9aa6e47a88d9cbffafcd41d0ba421641a5ed336ae
   languageName: node
   linkType: hard
 
-"@fern-api/semver-utils@npm:0.0.220-9-gda6af2b1":
-  version: 0.0.220-9-gda6af2b1
-  resolution: "@fern-api/semver-utils@npm:0.0.220-9-gda6af2b1"
+"@fern-api/semver-utils@npm:0.0.220-11-g7be2f095":
+  version: 0.0.220-11-g7be2f095
+  resolution: "@fern-api/semver-utils@npm:0.0.220-11-g7be2f095"
   dependencies:
     semver-diff: ^4.0.0
-  checksum: eeba6c7f17b0773711aa276e3a3de4aa951229832b4f9c9cfe419f0b6f3b272d8d0b36f3bc1427de607e8ebf0a76ef571093810751664cca5963a0958c8ba6ea
+  checksum: f9753bb53dc132530381727b7b24bea70bd8546bbca88c307640b3cb7acc55d0065239573d1c8a4d8c0999152cb1377d0c83a309f136a9875bb787bf86373239
   languageName: node
   linkType: hard
 
-"@fern-api/task-context@npm:0.0.220-9-gda6af2b1":
-  version: 0.0.220-9-gda6af2b1
-  resolution: "@fern-api/task-context@npm:0.0.220-9-gda6af2b1"
+"@fern-api/task-context@npm:0.0.220-11-g7be2f095":
+  version: 0.0.220-11-g7be2f095
+  resolution: "@fern-api/task-context@npm:0.0.220-11-g7be2f095"
   dependencies:
-    "@fern-api/logger": 0.0.220-9-gda6af2b1
-  checksum: c8b66880f78b8050e4538152ec7f2638a808bbf937d8193e7f5ecfe9346c13b39ba7d36b0a987cd136b6262d42299fdf4af9b680b60a6f43364406824e99e00b
+    "@fern-api/logger": 0.0.220-11-g7be2f095
+  checksum: d958c6eec51e604b1b68c93ed9f9d11b63e90e4b4113323c1992c51cf98e72dc8704e2e3d1a971e4ba93eec19382a4c1ededd53116aec9bda03e66c31c643f48
   languageName: node
   linkType: hard
 
-"@fern-api/validator@npm:0.0.220-9-gda6af2b1":
-  version: 0.0.220-9-gda6af2b1
-  resolution: "@fern-api/validator@npm:0.0.220-9-gda6af2b1"
+"@fern-api/validator@npm:0.0.220-11-g7be2f095":
+  version: 0.0.220-11-g7be2f095
+  resolution: "@fern-api/validator@npm:0.0.220-11-g7be2f095"
   dependencies:
-    "@fern-api/core-utils": 0.0.220-9-gda6af2b1
-    "@fern-api/ir-generator": 0.0.220-9-gda6af2b1
-    "@fern-api/logger": 0.0.220-9-gda6af2b1
-    "@fern-api/task-context": 0.0.220-9-gda6af2b1
-    "@fern-api/workspace-loader": 0.0.220-9-gda6af2b1
-    "@fern-api/yaml-schema": 0.0.220-9-gda6af2b1
+    "@fern-api/core-utils": 0.0.220-11-g7be2f095
+    "@fern-api/ir-generator": 0.0.220-11-g7be2f095
+    "@fern-api/logger": 0.0.220-11-g7be2f095
+    "@fern-api/task-context": 0.0.220-11-g7be2f095
+    "@fern-api/workspace-loader": 0.0.220-11-g7be2f095
+    "@fern-api/yaml-schema": 0.0.220-11-g7be2f095
     chalk: ^5.0.1
     lodash-es: ^4.17.21
     strip-ansi: ^7.0.1
-  checksum: b641eb8b8280adce7e8516b927c26418a2e6babfea99db8251c3cbcd6a85ead011897d9a78fde0e9f66ad66e2276e6c1f9771af3548c54f25e42a4d931224f3f
+  checksum: 67880b6a2275352118c7e88f3293108a1331dfecf9606d296d519d4029ba5ece523b5f0e68ba6fbfed6a4706af2f07627de1422bca62f8577ba4bdeddade27d2
   languageName: node
   linkType: hard
 
-"@fern-api/workspace-loader@npm:0.0.220-9-gda6af2b1":
-  version: 0.0.220-9-gda6af2b1
-  resolution: "@fern-api/workspace-loader@npm:0.0.220-9-gda6af2b1"
+"@fern-api/workspace-loader@npm:0.0.220-11-g7be2f095":
+  version: 0.0.220-11-g7be2f095
+  resolution: "@fern-api/workspace-loader@npm:0.0.220-11-g7be2f095"
   dependencies:
-    "@fern-api/config-management-commons": 0.0.220-9-gda6af2b1
-    "@fern-api/core-utils": 0.0.220-9-gda6af2b1
-    "@fern-api/generators-configuration": 0.0.220-9-gda6af2b1
-    "@fern-api/project-configuration": 0.0.220-9-gda6af2b1
-    "@fern-api/task-context": 0.0.220-9-gda6af2b1
-    "@fern-api/yaml-schema": 0.0.220-9-gda6af2b1
+    "@fern-api/config-management-commons": 0.0.220-11-g7be2f095
+    "@fern-api/core-utils": 0.0.220-11-g7be2f095
+    "@fern-api/generators-configuration": 0.0.220-11-g7be2f095
+    "@fern-api/project-configuration": 0.0.220-11-g7be2f095
+    "@fern-api/task-context": 0.0.220-11-g7be2f095
+    "@fern-api/yaml-schema": 0.0.220-11-g7be2f095
     glob: ^7.2.0
     glob-promise: ^4.2.2
     js-yaml: ^4.1.0
     zod: ^3.14.3
-  checksum: aa8153f9a1e4517fd9d3855cecfd83390ee208d15930b5f3af9ae87be4dd77bdc1e8e534176f48c7dc550d764b71c950846b96794e1001c1eeeb65bb759a0ba5
+  checksum: 538e4b9e0807d785db05578591e149ff46184875ae8f405136f5c2c6d50ea551ce05f1cd6c81cfee2ebaab33483fe15a989f4d35551330b3db43185ba28726ac
   languageName: node
   linkType: hard
 
-"@fern-api/yaml-schema@npm:0.0.220-9-gda6af2b1":
-  version: 0.0.220-9-gda6af2b1
-  resolution: "@fern-api/yaml-schema@npm:0.0.220-9-gda6af2b1"
+"@fern-api/yaml-schema@npm:0.0.220-11-g7be2f095":
+  version: 0.0.220-11-g7be2f095
+  resolution: "@fern-api/yaml-schema@npm:0.0.220-11-g7be2f095"
   dependencies:
-    "@fern-api/core-utils": 0.0.220-9-gda6af2b1
+    "@fern-api/core-utils": 0.0.220-11-g7be2f095
     "@fern-fern/ir-model": 0.0.265
     zod: ^3.14.3
-  checksum: dbc12a4e1146ac84d13e806e69b4119892671fda47d66a9d37a490624c32062dbf1a2120558eca6808ec42951310295b5cfce9475659cf65ebd03d1a2c34df1d
+  checksum: a1497adbb1492ca2adafc3cadb222cdcb4acc56140253d3c29fe83d4acacb15b2241f7579ca489abe4fbcee44f5714df53798da3850268dbdc59f50337290a18
   languageName: node
   linkType: hard
 
@@ -1976,7 +1976,7 @@ __metadata:
     "@babel/core": ^7.19.1
     "@babel/preset-env": ^7.19.1
     "@babel/preset-typescript": ^7.18.6
-    "@fern-api/core-utils": 0.0.220-9-gda6af2b1
+    "@fern-api/core-utils": 0.0.220-11-g7be2f095
     "@fern-fern/ir-model": 0.0.265
     "@fern-typescript/commons": "workspace:*"
     "@fern-typescript/model": "workspace:*"
@@ -2021,7 +2021,7 @@ __metadata:
     "@babel/core": ^7.19.1
     "@babel/preset-env": ^7.19.1
     "@babel/preset-typescript": ^7.18.6
-    "@fern-api/core-utils": 0.0.220-9-gda6af2b1
+    "@fern-api/core-utils": 0.0.220-11-g7be2f095
     "@fern-fern/generator-exec-client": ^0.0.34
     "@fern-fern/ir-model": 0.0.265
     "@types/esutils": ^2.0.0
@@ -2086,7 +2086,7 @@ __metadata:
     "@babel/core": ^7.19.1
     "@babel/preset-env": ^7.19.1
     "@babel/preset-typescript": ^7.18.6
-    "@fern-api/core-utils": 0.0.220-9-gda6af2b1
+    "@fern-api/core-utils": 0.0.220-11-g7be2f095
     "@fern-fern/ir-model": 0.0.265
     "@fern-typescript/commons": "workspace:*"
     "@fern-typescript/resolvers": "workspace:*"
@@ -2108,7 +2108,7 @@ __metadata:
     "@babel/core": ^7.19.1
     "@babel/preset-env": ^7.19.1
     "@babel/preset-typescript": ^7.18.6
-    "@fern-api/core-utils": 0.0.220-9-gda6af2b1
+    "@fern-api/core-utils": 0.0.220-11-g7be2f095
     "@fern-fern/ir-model": 0.0.265
     "@fern-typescript/commons": "workspace:*"
     "@fern-typescript/errors": "workspace:*"
@@ -2193,11 +2193,11 @@ __metadata:
     "@babel/core": ^7.19.1
     "@babel/preset-env": ^7.19.1
     "@babel/preset-typescript": ^7.18.6
-    "@fern-api/cli": 0.0.220-9-gda6af2b1
-    "@fern-api/core-utils": 0.0.220-9-gda6af2b1
-    "@fern-api/ir-generator": 0.0.220-9-gda6af2b1
-    "@fern-api/task-context": 0.0.220-9-gda6af2b1
-    "@fern-api/workspace-loader": 0.0.220-9-gda6af2b1
+    "@fern-api/cli": 0.0.220-11-g7be2f095
+    "@fern-api/core-utils": 0.0.220-11-g7be2f095
+    "@fern-api/ir-generator": 0.0.220-11-g7be2f095
+    "@fern-api/task-context": 0.0.220-11-g7be2f095
+    "@fern-api/workspace-loader": 0.0.220-11-g7be2f095
     "@fern-fern/generator-exec-client": ^0.0.34
     "@fern-fern/ir-model": 0.0.265
     "@fern-typescript/commons": "workspace:*"
@@ -2240,7 +2240,7 @@ __metadata:
     "@babel/core": ^7.19.1
     "@babel/preset-env": ^7.19.1
     "@babel/preset-typescript": ^7.18.6
-    "@fern-api/core-utils": 0.0.220-9-gda6af2b1
+    "@fern-api/core-utils": 0.0.220-11-g7be2f095
     "@fern-fern/ir-model": 0.0.265
     "@fern-typescript/commons": "workspace:*"
     "@fern-typescript/commons-v2": "workspace:*"
@@ -2300,7 +2300,7 @@ __metadata:
     "@babel/core": ^7.19.1
     "@babel/preset-env": ^7.19.1
     "@babel/preset-typescript": ^7.18.6
-    "@fern-api/core-utils": 0.0.220-9-gda6af2b1
+    "@fern-api/core-utils": 0.0.220-11-g7be2f095
     "@fern-fern/ir-model": 0.0.265
     "@fern-typescript/commons": "workspace:*"
     "@fern-typescript/model": "workspace:*"
@@ -2326,7 +2326,7 @@ __metadata:
     "@babel/core": ^7.19.1
     "@babel/preset-env": ^7.19.1
     "@babel/preset-typescript": ^7.18.6
-    "@fern-api/core-utils": 0.0.220-9-gda6af2b1
+    "@fern-api/core-utils": 0.0.220-11-g7be2f095
     "@fern-fern/ir-model": 0.0.265
     "@fern-typescript/commons": "workspace:*"
     "@fern-typescript/model-context": "workspace:*"
@@ -2381,10 +2381,10 @@ __metadata:
     "@babel/core": ^7.19.1
     "@babel/preset-env": ^7.19.1
     "@babel/preset-typescript": ^7.18.6
-    "@fern-api/core-utils": 0.0.220-9-gda6af2b1
-    "@fern-api/ir-generator": 0.0.220-9-gda6af2b1
-    "@fern-api/task-context": 0.0.220-9-gda6af2b1
-    "@fern-api/workspace-loader": 0.0.220-9-gda6af2b1
+    "@fern-api/core-utils": 0.0.220-11-g7be2f095
+    "@fern-api/ir-generator": 0.0.220-11-g7be2f095
+    "@fern-api/task-context": 0.0.220-11-g7be2f095
+    "@fern-api/workspace-loader": 0.0.220-11-g7be2f095
     "@fern-fern/ir-model": 0.0.265
     "@fern-typescript/commons": "workspace:*"
     "@types/jest": ^28.1.6
@@ -5855,11 +5855,11 @@ __metadata:
     "@babel/core": ^7.19.1
     "@babel/preset-env": ^7.19.1
     "@babel/preset-typescript": ^7.18.6
-    "@fern-api/cli": 0.0.220-9-gda6af2b1
-    "@fern-api/core-utils": 0.0.220-9-gda6af2b1
-    "@fern-api/ir-generator": 0.0.220-9-gda6af2b1
-    "@fern-api/task-context": 0.0.220-9-gda6af2b1
-    "@fern-api/workspace-loader": 0.0.220-9-gda6af2b1
+    "@fern-api/cli": 0.0.220-11-g7be2f095
+    "@fern-api/core-utils": 0.0.220-11-g7be2f095
+    "@fern-api/ir-generator": 0.0.220-11-g7be2f095
+    "@fern-api/task-context": 0.0.220-11-g7be2f095
+    "@fern-api/workspace-loader": 0.0.220-11-g7be2f095
     "@fern-fern/generator-exec-client": ^0.0.34
     "@fern-fern/ir-model": 0.0.265
     "@fern-typescript/client": "workspace:*"
