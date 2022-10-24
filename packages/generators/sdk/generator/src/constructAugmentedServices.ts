@@ -10,20 +10,17 @@ export function constructAugmentedServices(intermediateRepresentation: Intermedi
         const leafService: AugmentedService = {
             wrappedServices: [],
             ...augmentedServices[stringifyFernFilepath(service.name.fernFilepath)],
-            isRootService: false,
             originalService: service,
             name: service.name,
         };
         augmentedServices[stringifyFernFilepath(service.name.fernFilepath)] = leafService;
 
         let lastDeclaredService = leafService;
-        for (let index = service.name.fernFilepath.length - 1; index >= 0; index--) {
-            const fernFilepath = service.name.fernFilepath.slice(0, index + 1);
-            const fernFilepathV2 = service.name.fernFilepathV2.slice(0, index + 1);
+        for (let index = service.name.fernFilepath.length - 2; index >= 0; index--) {
+            const fernFilepath = service.name.fernFilepath.slice(0, index);
+            const fernFilepathV2 = service.name.fernFilepathV2.slice(0, index);
 
-            const isRootService = index === 0;
             const wrapper = (augmentedServices[stringifyFernFilepath(fernFilepath)] ??= {
-                isRootService,
                 name: {
                     name: "Wrapper",
                     fernFilepath,

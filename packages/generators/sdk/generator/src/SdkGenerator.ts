@@ -22,6 +22,7 @@ import { CoreUtilitiesManager } from "./core-utilities/CoreUtilitiesManager";
 import { ImportStrategy } from "./declaration-referencers/DeclarationReferencer";
 import { EndpointDeclarationReferencer } from "./declaration-referencers/EndpointDeclarationReferencer";
 import { ErrorDeclarationReferencer } from "./declaration-referencers/ErrorDeclarationReferencer";
+import { RootServiceDeclarationReferencer } from "./declaration-referencers/RootServiceDeclarationReferencer";
 import { ServiceDeclarationReferencer } from "./declaration-referencers/ServiceDeclarationReferencer";
 import { TypeDeclarationReferencer } from "./declaration-referencers/TypeDeclarationReferencer";
 import { DependencyManager } from "./dependency-manager/DependencyManager";
@@ -72,6 +73,7 @@ export class SdkGenerator {
     private errorDeclarationReferencer: ErrorDeclarationReferencer;
     private errorSchemaDeclarationReferencer: ErrorDeclarationReferencer;
     private serviceDeclarationReferencer: ServiceDeclarationReferencer;
+    private rootServiceDeclarationReferencer: RootServiceDeclarationReferencer;
     private endpointDeclarationReferencer: EndpointDeclarationReferencer;
     private endpointSchemaDeclarationReferencer: EndpointDeclarationReferencer;
 
@@ -124,6 +126,10 @@ export class SdkGenerator {
         });
         this.serviceDeclarationReferencer = new ServiceDeclarationReferencer({
             containingDirectory: apiDirectory,
+        });
+        this.rootServiceDeclarationReferencer = new RootServiceDeclarationReferencer({
+            containingDirectory: [],
+            apiName,
         });
         this.endpointDeclarationReferencer = new EndpointDeclarationReferencer({
             containingDirectory: apiDirectory,
@@ -205,11 +211,15 @@ export class SdkGenerator {
     private generateServiceDeclarations() {
         const services = constructAugmentedServices(this.intermediateRepresentation);
         for (const service of services) {
+            const declarationReferencer =
+                service.name.fernFilepath.length > 0
+                    ? this.serviceDeclarationReferencer
+                    : this.rootServiceDeclarationReferencer;
             this.withFile({
-                filepath: this.serviceDeclarationReferencer.getExportedFilepath(service.name),
+                filepath: declarationReferencer.getExportedFilepath(service.name),
                 run: (serviceFile) => {
                     ServiceDeclarationHandler(service, {
-                        serviceClassName: this.serviceDeclarationReferencer.getExportedName(),
+                        serviceClassName: declarationReferencer.getExportedName(),
                         context: this.context,
                         serviceFile,
                         withEndpoint: this.createWithEndpoint(service.name),
