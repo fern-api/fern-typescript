@@ -16,12 +16,12 @@ export function constructWrapperDeclarations(
             const isRootWrapper = index === 0;
             const wrapper: WrapperName = {
                 name: isRootWrapper ? ROOT_WRAPPER_NAME : NON_ROOT_WRAPPER_NAME,
-                isRootWrapper,
                 fernFilepath: service.name.fernFilepath.slice(0, index),
             };
 
             const declarationOfWrapper = (declarations[stringifyFernFilepath(wrapper.fernFilepath)] ??= {
                 name: wrapper,
+                isRootWrapper,
                 wrappedServices: [],
                 wrappedWrappers: [],
             });
@@ -31,7 +31,6 @@ export function constructWrapperDeclarations(
             } else {
                 const wrapped: WrapperName = {
                     name: NON_ROOT_WRAPPER_NAME,
-                    isRootWrapper: false,
                     fernFilepath: [...wrapper.fernFilepath, fernFilepathPart],
                 };
                 if (!declarationOfWrapper.wrappedWrappers.some((wrapper) => isEqual(wrapper, wrapped))) {

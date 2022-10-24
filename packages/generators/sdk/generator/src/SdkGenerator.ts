@@ -7,7 +7,8 @@ import { DeclaredTypeName, ShapeType } from "@fern-fern/ir-model/types";
 import { ErrorResolver, ServiceResolver, TypeResolver } from "@fern-typescript/resolvers";
 import { GeneratorContext, SdkFile } from "@fern-typescript/sdk-declaration-handler";
 import { ErrorDeclarationHandler } from "@fern-typescript/sdk-errors";
-import { ServiceDeclarationHandler, WrapperDeclarationHandler } from "@fern-typescript/sdk-service-declaration-handler";
+import { ServiceDeclarationHandler } from "@fern-typescript/sdk-service-declaration-handler";
+import { WrapperDeclarationHandler } from "@fern-typescript/sdk-wrapper-declaration-handler";
 import {
     TypeReferenceToParsedTypeNodeConverter,
     TypeReferenceToRawTypeNodeConverter,
@@ -156,6 +157,7 @@ export class SdkGenerator {
         this.generateErrorDeclarations();
         this.generateServiceDeclarations();
         this.generateWrappers();
+        this.generateEnvironments();
         this.coreUtilitiesManager.finalize(this.exportsManager, this.dependencyManager);
         this.exportsManager.writeExportsToProject(this.rootDirectory);
         await this.generatePackage();

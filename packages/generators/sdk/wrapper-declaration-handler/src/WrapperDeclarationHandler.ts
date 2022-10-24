@@ -1,8 +1,8 @@
 import { getTextOfTsKeyword, getTextOfTsNode } from "@fern-typescript/commons";
 import { createPropertyAssignment, WrapperDeclaration } from "@fern-typescript/commons-v2";
 import { GeneratorContext, SdkFile } from "@fern-typescript/sdk-declaration-handler";
+import { Client } from "@fern-typescript/sdk-service-declaration-handler";
 import { Scope, ts } from "ts-morph";
-import { Client } from "./http/Client";
 
 export declare namespace WrapperDeclarationHandler {
     export interface Args {
@@ -27,8 +27,17 @@ export function WrapperDeclarationHandler(
     });
 
     const originProperty = optionsInterface.addProperty({
-        name: "_origin",
-        type: getTextOfTsKeyword(ts.SyntaxKind.StringKeyword),
+        name: "origin",
+        type:
+            file.environments != null
+                ? getTextOfTsNode(
+                      ts.factory.createUnionTypeNode([
+                          file.environments.getReferenceToEnvironmentEnum().typeNode,
+                          ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
+                      ])
+                  )
+                : getTextOfTsKeyword(ts.SyntaxKind.StringKeyword),
+        hasQuestionToken: file.environments?.getReferenceToDefaultEnvironment != null,
     });
 
     const authSchemeProperties = file.authSchemes.getProperties();
@@ -43,7 +52,7 @@ export function WrapperDeclarationHandler(
     const optionsMember = constructor.addParameter({
         scope: Scope.Private,
         isReadonly: true,
-        name: "options",
+        name: "_options",
         type: getTextOfTsNode(
             ts.factory.createTypeReferenceNode(
                 ts.factory.createQualifiedName(

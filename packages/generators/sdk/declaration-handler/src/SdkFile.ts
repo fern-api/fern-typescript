@@ -8,6 +8,7 @@ import { SourceFile, ts } from "ts-morph";
 import { CoreUtilities } from "./core-utilities";
 import { ExternalDependencies } from "./external-dependencies/ExternalDependencies";
 import { ParsedAuthSchemes } from "./ParsedAuthSchemes";
+import { ParsedEnvironments } from "./ParsedEnvironments";
 import { Reference } from "./Reference";
 
 export interface SdkFile {
@@ -50,5 +51,6 @@ export interface SdkFile {
     externalDependencies: ExternalDependencies;
     coreUtilities: CoreUtilities;
     authSchemes: ParsedAuthSchemes;
+    environments: ParsedEnvironments | undefined;
     fernConstants: FernConstants;
 }

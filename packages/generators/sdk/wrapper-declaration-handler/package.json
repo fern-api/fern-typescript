@@ -1,10 +1,10 @@
 {
-  "name": "@fern-typescript/service-types",
+  "name": "@fern-typescript/sdk-wrapper-declaration-handler",
   "version": "0.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/fern-api/fern-typescript.git",
-    "directory": "packages/service-types"
+    "directory": "packages/generators/sdk/wrapper-declaration-handler"
   },
   "files": [
     "lib"
@@ -18,24 +18,23 @@
     "clean": "rm -rf ./lib && tsc --build --clean",
     "compile": "tsc --build",
     "test": "yarn compile && jest --passWithNoTests",
-    "lint:eslint": "eslint --max-warnings 0 . --ignore-path=../../.eslintignore",
-    "lint:eslint:fix": "eslint --max-warnings 0 . --ignore-path=../../.eslintignore --fix",
-    "format": "prettier --write --ignore-unknown --ignore-path ../../shared/.prettierignore \"**\"",
-    "format:check": "prettier --check --ignore-unknown --ignore-path ../../shared/.prettierignore \"**\"",
+    "lint:eslint": "eslint --max-warnings 0 . --ignore-path=../../../../.eslintignore",
+    "lint:eslint:fix": "eslint --max-warnings 0 . --ignore-path=../../../../.eslintignore --fix",
+    "format": "prettier --write --ignore-unknown --ignore-path ../../../../shared/.prettierignore \"**\"",
+    "format:check": "prettier --check --ignore-unknown --ignore-path ../../../../shared/.prettierignore \"**\"",
     "depcheck": "depcheck"
   },
   "dependencies": {
-    "@fern-api/core-utils": "0.0.196-7-g43c51f07",
+    "@fern-fern/ir-model": "0.0.265",
     "@fern-typescript/commons": "workspace:*",
-    "@fern-typescript/model-context": "workspace:*",
-    "@fern-typescript/types": "workspace:*",
-    "ts-morph": "^15.1.0"
+    "@fern-typescript/commons-v2": "workspace:*",
+    "@fern-typescript/sdk-declaration-handler": "workspace:*",
+    "@fern-typescript/sdk-service-declaration-handler": "workspace:*"
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",
     "@babel/preset-env": "^7.19.1",
     "@babel/preset-typescript": "^7.18.6",
-    "@fern-fern/ir-model": "0.0.265",
     "@types/jest": "^28.1.6",
     "@types/node": "^18.7.18",
     "depcheck": "^1.4.3",

@@ -3,6 +3,7 @@ import { WrapperName } from "./WrapperName";
 
 export interface WrapperDeclaration {
     name: WrapperName;
+    isRootWrapper: boolean;
     wrappedServices: DeclaredServiceName[];
     wrappedWrappers: WrapperName[];
 }

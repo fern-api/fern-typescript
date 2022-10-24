@@ -14,13 +14,12 @@ export class WrapperDeclarationReferencer extends AbstractDeclarationReferencer<
             ],
             file: {
                 nameOnDisk: this.getFilename(wrapperName),
-                exportDeclaration: wrapperName.isRootWrapper ? { exportAll: true } : undefined,
             },
         };
     }
 
     public getFilename(wrapperName: WrapperName): string {
-        return `${this.getExportedName(wrapperName)}.ts`;
+        return `_${this.getExportedName(wrapperName)}.ts`;
     }
 
     public getExportedName(wrapperName: WrapperName): string {
