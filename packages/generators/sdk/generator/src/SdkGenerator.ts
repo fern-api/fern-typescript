@@ -99,14 +99,7 @@ export class SdkGenerator {
         this.typeResolver = new TypeResolver(intermediateRepresentation);
         this.errorResolver = new ErrorResolver(intermediateRepresentation);
 
-        const srcDirectory: ExportedDirectory[] = [
-            {
-                nameOnDisk: "src",
-            },
-        ];
-
         const apiDirectory: ExportedDirectory[] = [
-            ...srcDirectory,
             {
                 nameOnDisk: "api",
                 exportDeclaration: { namespaceExport: this.apiName },
@@ -114,7 +107,6 @@ export class SdkGenerator {
         ];
 
         const schemaDirectory: ExportedDirectory[] = [
-            ...srcDirectory,
             {
                 nameOnDisk: "schemas",
             },
@@ -136,7 +128,7 @@ export class SdkGenerator {
             containingDirectory: apiDirectory,
         });
         this.rootServiceDeclarationReferencer = new RootServiceDeclarationReferencer({
-            containingDirectory: srcDirectory,
+            containingDirectory: [],
             apiName,
         });
         this.endpointDeclarationReferencer = new EndpointDeclarationReferencer({
@@ -278,7 +270,7 @@ export class SdkGenerator {
         const getReferenceToNamedType = (typeName: DeclaredTypeName) =>
             this.typeDeclarationReferencer.getReferenceToType({
                 name: typeName,
-                importStrategy: { type: "fromRoot", namespaceImport: this.apiName },
+                importStrategy: { type: "fromRoot" },
                 referencedIn: sourceFile,
                 addImport,
             });
@@ -385,7 +377,7 @@ export class SdkGenerator {
                     name: { serviceName, endpoint },
                     referencedIn: sourceFile,
                     addImport,
-                    importStrategy: { type: "fromRoot", namespaceImport: this.apiName },
+                    importStrategy: { type: "fromRoot" },
                     subImport: typeof export_ === "string" ? [export_] : export_,
                 }),
             getReferenceToEndpointSchemaFileExport: (serviceName, endpoint, export_) =>
@@ -401,7 +393,7 @@ export class SdkGenerator {
             getReferenceToError: (errorName) =>
                 this.errorDeclarationReferencer.getReferenceToError({
                     name: errorName,
-                    importStrategy: { type: "fromRoot", namespaceImport: this.apiName },
+                    importStrategy: { type: "fromRoot" },
                     referencedIn: sourceFile,
                     addImport,
                 }),
