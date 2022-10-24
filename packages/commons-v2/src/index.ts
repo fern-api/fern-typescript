@@ -1,3 +1,4 @@
+export * from "./augmented-service";
 export { createPropertyAssignment } from "./createPropertyAssignment";
 export { type ExpressionReferenceNode } from "./ExpressionReferenceNode";
 export { getGeneratorVersion } from "./getGeneratorVersion";
