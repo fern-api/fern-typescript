@@ -1,8 +1,7 @@
 imports:
   commons: commons.yml
-ids:
-  - PlaylistId
 types:
+  PlaylistId: string
   Playlist:
     properties:
       playlist_id: PlaylistId

@@ -1,7 +1,5 @@
-ids:
-  - ChatMessageId
-
 types:
+  ChatMessageId: string
   ChatMessage:
     properties:
       id: ChatMessageId
