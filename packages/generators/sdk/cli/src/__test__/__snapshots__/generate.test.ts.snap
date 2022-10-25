@@ -40,6 +40,9 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
+      - name: Build
+        run: yarn build
+
       - name: Publish to npm
         run: |
           npm config set //registry.npmjs.org/:_authToken \${NPM_TOKEN}
