@@ -1655,8 +1655,6 @@ __metadata:
     \\"@types/url-join\\": 4.0.1
     axios: ^0.27.2
     url-join: 4.0.1
-  peerDependencies:
-    axios: \\"*\\"
   languageName: node
   linkType: soft
 
@@ -1996,9 +1994,6 @@ yarnPath: .yarn/releases/yarn-3.2.4.cjs
         \\"@types/url-join\\": \\"4.0.1\\",
         \\"axios\\": \\"^0.27.2\\",
         \\"url-join\\": \\"4.0.1\\"
-    },
-    \\"peerDependencies\\": {
-        \\"axios\\": \\"*\\"
     },
     \\"devDependencies\\": {
         \\"@types/node\\": \\"17.0.33\\",
@@ -4855,9 +4850,6 @@ yarnPath: .yarn/releases/yarn-3.2.4.cjs
         \\"basic-auth\\": \\"^2.0.1\\",
         \\"js-base64\\": \\"^3.7.2\\",
         \\"url-join\\": \\"4.0.1\\"
-    },
-    \\"peerDependencies\\": {
-        \\"axios\\": \\"*\\"
     },
     \\"devDependencies\\": {
         \\"@types/node\\": \\"17.0.33\\",
