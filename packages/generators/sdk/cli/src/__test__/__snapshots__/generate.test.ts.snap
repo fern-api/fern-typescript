@@ -1985,7 +1985,7 @@ yarnPath: .yarn/releases/yarn-3.2.4.cjs
         \\"./dist\\",
         \\"./types\\"
     ],
-    \\"exports\\": \\"./dist/index.js\\",
+    \\"exports\\": \\"./dist\\",
     \\"scripts\\": {
         \\"format\\": \\"prettier --write --print-width 120 'src/**/*.ts'\\",
         \\"build\\": \\"esbuild $(find src -name '*.ts') --format=cjs --sourcemap --outdir=dist && tsc\\"
@@ -4838,7 +4838,7 @@ yarnPath: .yarn/releases/yarn-3.2.4.cjs
         \\"./dist\\",
         \\"./types\\"
     ],
-    \\"exports\\": \\"./dist/index.js\\",
+    \\"exports\\": \\"./dist\\",
     \\"scripts\\": {
         \\"format\\": \\"prettier --write --print-width 120 'src/**/*.ts'\\",
         \\"build\\": \\"esbuild $(find src -name '*.ts') --format=cjs --sourcemap --outdir=dist && tsc\\"

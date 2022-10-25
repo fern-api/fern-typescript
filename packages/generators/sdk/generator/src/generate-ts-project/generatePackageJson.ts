@@ -49,7 +49,7 @@ export async function generatePackageJson({
         main: `./${ESBUILD_OUTPUT_DIRECTORY}/index.js`,
         types: "./types/index.d.ts",
         files: [`./${ESBUILD_OUTPUT_DIRECTORY}`, `./${TYPE_DECLARATIONS_DIRECTORY}`],
-        exports: `./${ESBUILD_OUTPUT_DIRECTORY}/index.js`,
+        exports: `./${ESBUILD_OUTPUT_DIRECTORY}`,
         scripts: {
             [PackageJsonScript.FORMAT]: `prettier --write --print-width 120 '${SRC_DIRECTORY}/**/*.ts'`,
             [PackageJsonScript.BUILD]: [
