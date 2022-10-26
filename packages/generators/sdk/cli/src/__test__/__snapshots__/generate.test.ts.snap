@@ -1627,7 +1627,7 @@ yarnPath: .yarn/releases/yarn-3.2.4.cjs
         \\"noUncheckedIndexedAccess\\": true,
         \\"noUnusedLocals\\": true,
         \\"noUnusedParameters\\": true,
-        \\"outDir\\": \\"types\\",
+        \\"declarationDir\\": \\"dist\\",
         \\"rootDir\\": \\"src\\"
     }
 }",
@@ -1982,13 +1982,19 @@ yarnPath: .yarn/releases/yarn-3.2.4.cjs
     \\"name\\": \\"@fern/nursery-api\\",
     \\"version\\": \\"0.0.1\\",
     \\"repository\\": \\"https://github.com/fern/nursery-api}\\",
-    \\"main\\": \\"./dist/index.js\\",
-    \\"types\\": \\"./types/index.d.ts\\",
     \\"files\\": [
         \\"./dist\\",
-        \\"./types\\"
+        \\"./index.d.ts\\"
     ],
-    \\"exports\\": \\"./dist\\",
+    \\"main\\": \\"./dist/index.js\\",
+    \\"types\\": \\"./index.d.ts\\",
+    \\"exports\\": {
+        \\".\\": {
+            \\"require\\": \\"./dist/index.js\\",
+            \\"import\\": \\"./dist/index.js\\",
+            \\"types\\": \\"./index.d.ts\\"
+        }
+    },
     \\"scripts\\": {
         \\"format\\": \\"prettier --write --print-width 120 'src/**/*.ts'\\",
         \\"build\\": \\"esbuild $(find src -name '*.ts') --format=cjs --sourcemap --outdir=dist && tsc\\"
@@ -2042,7 +2048,7 @@ export class FernNurseryApiClient {
   }
 }
 ",
-        "name": "FernNurseryApiClient.ts",
+        "name": "Client.ts",
         "type": "file",
       },
       Object {
@@ -3261,7 +3267,7 @@ export type RequiredKeys<T> = {
       },
       Object {
         "contents": "export * as FernNurseryApi from \\"./resources\\";
-export { FernNurseryApiClient } from \\"./FernNurseryApiClient\\";
+export { FernNurseryApiClient } from \\"./Client\\";
 ",
         "name": "index.ts",
         "type": "file",
@@ -4739,7 +4745,7 @@ export * from \\"./TokenStatus\\";
         \\"noUncheckedIndexedAccess\\": true,
         \\"noUnusedLocals\\": true,
         \\"noUnusedParameters\\": true,
-        \\"outDir\\": \\"types\\",
+        \\"declarationDir\\": \\"dist\\",
         \\"rootDir\\": \\"src\\"
     }
 }",
@@ -4835,13 +4841,19 @@ yarnPath: .yarn/releases/yarn-3.2.4.cjs
     "contents": "{
     \\"name\\": \\"@fern-trace/my-api-sdk\\",
     \\"version\\": \\"\\",
-    \\"main\\": \\"./dist/index.js\\",
-    \\"types\\": \\"./types/index.d.ts\\",
     \\"files\\": [
         \\"./dist\\",
-        \\"./types\\"
+        \\"./index.d.ts\\"
     ],
-    \\"exports\\": \\"./dist\\",
+    \\"main\\": \\"./dist/index.js\\",
+    \\"types\\": \\"./index.d.ts\\",
+    \\"exports\\": {
+        \\".\\": {
+            \\"require\\": \\"./dist/index.js\\",
+            \\"import\\": \\"./dist/index.js\\",
+            \\"types\\": \\"./index.d.ts\\"
+        }
+    },
     \\"scripts\\": {
         \\"format\\": \\"prettier --write --print-width 120 'src/**/*.ts'\\",
         \\"build\\": \\"esbuild $(find src -name '*.ts') --format=cjs --sourcemap --outdir=dist && tsc\\"
@@ -4945,7 +4957,7 @@ export class TraceMyApiClient {
   }
 }
 ",
-        "name": "TraceMyApiClient.ts",
+        "name": "Client.ts",
         "type": "file",
       },
       Object {
@@ -6248,7 +6260,7 @@ export type Environment = typeof Environment.Prod | typeof Environment.Staging;
       },
       Object {
         "contents": "export * as TraceMyApi from \\"./resources\\";
-export { TraceMyApiClient } from \\"./TraceMyApiClient\\";
+export { TraceMyApiClient } from \\"./Client\\";
 ",
         "name": "index.ts",
         "type": "file",
@@ -24330,7 +24342,7 @@ export * from \\"./GetGeneratedTestCaseTemplateFileRequest\\";
         \\"noUncheckedIndexedAccess\\": true,
         \\"noUnusedLocals\\": true,
         \\"noUnusedParameters\\": true,
-        \\"outDir\\": \\"types\\",
+        \\"declarationDir\\": \\"dist\\",
         \\"rootDir\\": \\"src\\"
     }
 }",
