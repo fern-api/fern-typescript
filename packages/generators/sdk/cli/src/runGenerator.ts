@@ -45,7 +45,7 @@ export async function runGenerator(pathToConfig: string): Promise<void> {
 
         const runYarnCommand = createYarnRunner(logger, AbsoluteFilePath.of(config.output.path));
 
-        const { writtenTo: pathToPackageOnDisk, exportDeclaration } = await generateFiles({
+        const { writtenTo: pathToPackageOnDisk } = await generateFiles({
             config,
             logger,
             npmPackage,
