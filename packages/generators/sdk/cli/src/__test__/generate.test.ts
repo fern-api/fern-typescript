@@ -49,10 +49,7 @@ describe("runGenerator", () => {
                 const irPath = path.join(fixturePath, "ir.json");
                 const configJsonPath = path.join(fixturePath, "config.json");
 
-                console.log(fixturePath, irPath, configJsonPath);
-
                 const { path: outputPath } = await tmp.dir();
-                console.log(outputPath);
 
                 // add symlink for easy access in VSCode
                 const generatedDir = path.join(fixturePath, "generated");
@@ -79,6 +76,11 @@ describe("runGenerator", () => {
                     environment: FernGeneratorExec.GeneratorEnvironment.local(),
                 };
                 await writeFile(configJsonPath, JSON.stringify(config, undefined, 4));
+
+                const { stdout } = await execa("fern", ["--version"], {
+                    cwd: FIXTURES_PATH,
+                });
+                console.log(stdout);
 
                 await execa("fern", ["ir", irPath, "--api", fixture.path, "--language", "typescript"], {
                     cwd: FIXTURES_PATH,

@@ -161,7 +161,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-deprecation", "virtual:f8e21c9fa0a798b21a87ac455600e39198fef65848556a3a2cd5c956b0460181f9e618173dcff6d9d4fb96fb870055dfe1a3ec3db5db0700e71c0184e4711659#npm:1.3.2"],\
             ["eslint-plugin-jest", "virtual:f8e21c9fa0a798b21a87ac455600e39198fef65848556a3a2cd5c956b0460181f9e618173dcff6d9d4fb96fb870055dfe1a3ec3db5db0700e71c0184e4711659#npm:26.5.3"],\
             ["execa", "npm:5.1.1"],\
-            ["fern-api", "npm:0.0.173"],\
             ["husky", "npm:7.0.4"],\
             ["is-ci", "npm:3.0.1"],\
             ["jest", "virtual:f8e21c9fa0a798b21a87ac455600e39198fef65848556a3a2cd5c956b0460181f9e618173dcff6d9d4fb96fb870055dfe1a3ec3db5db0700e71c0184e4711659#npm:28.1.3"],\
@@ -8255,7 +8254,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-deprecation", "virtual:f8e21c9fa0a798b21a87ac455600e39198fef65848556a3a2cd5c956b0460181f9e618173dcff6d9d4fb96fb870055dfe1a3ec3db5db0700e71c0184e4711659#npm:1.3.2"],\
             ["eslint-plugin-jest", "virtual:f8e21c9fa0a798b21a87ac455600e39198fef65848556a3a2cd5c956b0460181f9e618173dcff6d9d4fb96fb870055dfe1a3ec3db5db0700e71c0184e4711659#npm:26.5.3"],\
             ["execa", "npm:5.1.1"],\
-            ["fern-api", "npm:0.0.173"],\
             ["husky", "npm:7.0.4"],\
             ["is-ci", "npm:3.0.1"],\
             ["jest", "virtual:f8e21c9fa0a798b21a87ac455600e39198fef65848556a3a2cd5c956b0460181f9e618173dcff6d9d4fb96fb870055dfe1a3ec3db5db0700e71c0184e4711659#npm:28.1.3"],\
@@ -8267,15 +8265,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["typescript", "patch:typescript@npm%3A4.6.4#~builtin<compat/typescript>::version=4.6.4&hash=a1c5e5"]\
           ],\
           "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["fern-api", [\
-        ["npm:0.0.173", {\
-          "packageLocation": "./.yarn/cache/fern-api-npm-0.0.173-01668be4ef-603ba780c6.zip/node_modules/fern-api/",\
-          "packageDependencies": [\
-            ["fern-api", "npm:0.0.173"]\
-          ],\
-          "linkType": "HARD"\
         }]\
       ]],\
       ["fern-typescript", [\
