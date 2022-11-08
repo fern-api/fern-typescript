@@ -60,16 +60,6 @@ export class Client {
             });
         }
 
-        for (const apiWideHeader of this.service.apiWideHeaders) {
-            optionsInterface.addProperty({
-                name: apiWideHeader.nameV2.name.safeName.camelCase,
-                type: getTextOfTsNode(file.getReferenceToType(apiWideHeader.valueType).typeNode),
-                hasQuestionToken:
-                    apiWideHeader.valueType._type === "container" &&
-                    apiWideHeader.valueType.container._type === "optional",
-            });
-        }
-
         const serviceClass = file.sourceFile.addClass({
             name: this.serviceClassName,
             isExported: true,
