@@ -3784,10 +3784,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/core", "npm:7.19.1"],\
             ["@babel/preset-env", "virtual:f8e21c9fa0a798b21a87ac455600e39198fef65848556a3a2cd5c956b0460181f9e618173dcff6d9d4fb96fb870055dfe1a3ec3db5db0700e71c0184e4711659#npm:7.19.1"],\
             ["@babel/preset-typescript", "virtual:f8e21c9fa0a798b21a87ac455600e39198fef65848556a3a2cd5c956b0460181f9e618173dcff6d9d4fb96fb870055dfe1a3ec3db5db0700e71c0184e4711659#npm:7.18.6"],\
-            ["@fern-api/cli", "npm:0.0.220-12-g896ac474"],\
             ["@fern-api/core-utils", "npm:0.0.220-12-g896ac474"],\
             ["@fern-api/ir-generator", "npm:0.0.220-12-g896ac474"],\
-            ["@fern-api/task-context", "npm:0.0.220-12-g896ac474"],\
             ["@fern-api/workspace-loader", "npm:0.0.220-12-g896ac474"],\
             ["@fern-fern/generator-exec-client", "virtual:ed8d3b741aca6d7f72e87e186271880a21d6274efa50e516039b37f16c5f2bee49ab26b2472ba74ced210e3eaa3fe652d463400f1a2b2c8b59898c168b6831bb#npm:0.0.34"],\
             ["@fern-fern/ir-model", "npm:0.0.288"],\
@@ -3954,12 +3952,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@fern-typescript/commons", "workspace:packages/commons"],\
             ["@types/jest", "npm:28.1.6"],\
             ["@types/node", "npm:18.7.18"],\
+            ["@types/tmp", "npm:0.2.3"],\
             ["depcheck", "npm:1.4.3"],\
             ["eslint", "npm:8.23.1"],\
             ["execa", "npm:5.1.1"],\
             ["jest", "virtual:f8e21c9fa0a798b21a87ac455600e39198fef65848556a3a2cd5c956b0460181f9e618173dcff6d9d4fb96fb870055dfe1a3ec3db5db0700e71c0184e4711659#npm:28.1.3"],\
             ["memfs", "npm:3.4.7"],\
             ["prettier", "npm:2.7.1"],\
+            ["tmp-promise", "npm:3.0.3"],\
             ["typescript", "patch:typescript@npm%3A4.6.4#~builtin<compat/typescript>::version=4.6.4&hash=a1c5e5"]\
           ],\
           "linkType": "SOFT"\

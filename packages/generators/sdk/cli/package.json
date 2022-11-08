@@ -46,8 +46,6 @@
     "@babel/core": "^7.19.1",
     "@babel/preset-env": "^7.19.1",
     "@babel/preset-typescript": "^7.18.6",
-    "@fern-api/cli": "0.0.220-12-g896ac474",
-    "@fern-api/task-context": "0.0.220-12-g896ac474",
     "@ts-morph/common": "^0.16.0",
     "@types/decompress": "^4.2.4",
     "@types/jest": "^28.1.6",
