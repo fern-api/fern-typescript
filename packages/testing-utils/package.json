@@ -29,7 +29,7 @@
     "@fern-api/ir-generator": "0.0.220-12-g896ac474",
     "@fern-api/task-context": "0.0.220-12-g896ac474",
     "@fern-api/workspace-loader": "0.0.220-12-g896ac474",
-    "@fern-fern/ir-model": "0.0.265",
+    "@fern-fern/ir-model": "0.0.288",
     "@fern-typescript/commons": "workspace:*",
     "execa": "^5.1.1",
     "memfs": "^3.4.1",
