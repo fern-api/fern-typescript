@@ -182,7 +182,6 @@ import { Client as TokenClient } from \\"./resources/token/client/Client\\";
 export declare namespace FernApiClient {
   interface Options {
     environment: string;
-    apiVersion: string;
   }
 }
 
@@ -1454,7 +1453,6 @@ import * as core from \\"../../../core\\";
 export declare namespace Client {
   interface Options {
     environment: string;
-    apiVersion: string;
   }
 }
 
@@ -1829,7 +1827,6 @@ import * as core from \\"../../../core\\";
 export declare namespace Client {
   interface Options {
     environment: string;
-    apiVersion: string;
   }
 }
 
