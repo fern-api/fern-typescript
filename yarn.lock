@@ -2201,8 +2201,6 @@ __metadata:
     "@babel/preset-env": ^7.19.1
     "@babel/preset-typescript": ^7.18.6
     "@fern-api/core-utils": 0.0.220-12-g896ac474
-    "@fern-api/ir-generator": 0.0.220-12-g896ac474
-    "@fern-api/workspace-loader": 0.0.220-12-g896ac474
     "@fern-fern/generator-exec-client": ^0.0.34
     "@fern-fern/ir-model": 0.0.288
     "@fern-typescript/commons": "workspace:*"
@@ -2387,14 +2385,10 @@ __metadata:
     "@babel/preset-env": ^7.19.1
     "@babel/preset-typescript": ^7.18.6
     "@fern-api/core-utils": 0.0.220-12-g896ac474
-    "@fern-api/ir-generator": 0.0.220-12-g896ac474
-    "@fern-api/task-context": 0.0.220-12-g896ac474
-    "@fern-api/workspace-loader": 0.0.220-12-g896ac474
     "@fern-fern/ir-model": 0.0.288
     "@fern-typescript/commons": "workspace:*"
     "@types/jest": ^28.1.6
     "@types/node": ^18.7.18
-    "@types/tmp": ^0.2.3
     depcheck: ^1.4.3
     eslint: ^8.23.1
     execa: ^5.1.1
