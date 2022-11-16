@@ -1,6 +1,6 @@
 import { AbsoluteFilePath } from "@fern-api/core-utils";
-import { FernGeneratorExec } from "@fern-fern/generator-exec-client";
 import { GeneratorUpdate } from "@fern-fern/generator-exec-client/api/logging";
+import { FernGeneratorExec } from "@fern-fern/generator-exec-sdk";
 import { BUILD_PROJECT_SCRIPT_NAME, FernTypescriptGeneratorConfig, writeVolumeToDisk } from "@fern-typescript/commons";
 import { createLogger, Logger, LogLevel } from "@fern-typescript/commons-v2";
 import { GeneratorContext } from "@fern-typescript/sdk-declaration-handler";
