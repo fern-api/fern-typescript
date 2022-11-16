@@ -33,7 +33,6 @@
     "@fern-fern/generator-exec-sdk": "^0.0.46",
     "@fern-fern/ir-model": "0.0.294",
     "@fern-typescript/commons": "workspace:*",
-    "@fern-typescript/commons-v2": "workspace:*",
     "@fern-typescript/sdk-declaration-handler": "workspace:*",
     "@fern-typescript/sdk-generator": "workspace:*",
     "execa": "^5.1.1",

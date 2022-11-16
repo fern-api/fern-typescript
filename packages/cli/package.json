@@ -36,7 +36,6 @@
     "@fern-fern/ir-model": "0.0.294",
     "@fern-typescript/client": "workspace:*",
     "@fern-typescript/commons": "workspace:*",
-    "@fern-typescript/commons-v2": "workspace:*",
     "@fern-typescript/model": "workspace:*",
     "@fern-typescript/sdk-declaration-handler": "workspace:*",
     "@fern-typescript/server": "workspace:*",

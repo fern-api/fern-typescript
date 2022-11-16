@@ -26,7 +26,6 @@
   },
   "dependencies": {
     "@fern-api/core-utils": "0.0.242-2-g7745ad27",
-    "@fern-api/fs-utils": "0.0.242-2-g7745ad27",
     "@fern-typescript/commons": "workspace:*",
     "@fern-typescript/model-context": "workspace:*",
     "@fern-typescript/types": "workspace:*",
