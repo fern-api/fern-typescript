@@ -52,7 +52,7 @@ export async function generateFiles({
     await writeVolumeToDisk(volume, directoyOnDiskToWriteTo);
     await sdkGenerator.copyCoreUtilities({ pathToPackage: directoyOnDiskToWriteTo });
 
-    await runYarnCommand(["set", "version", "berry"]);
+    await runYarnCommand(["set", "version", "3.2.4"]);
     await runYarnCommand(["config", "set", "nodeLinker", "pnp"]);
     await runYarnCommand(["install"], {
         env: {
