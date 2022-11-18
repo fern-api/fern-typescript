@@ -107,36 +107,23 @@ export function getReferenceToExportFromRoot({
         getExpressionToDirectory({
             pathToDirectory: directoriesInsideNamespaceExport,
             prefix: useDynamicImport
-                ? ts.factory.createCallExpression(ts.factory.createIdentifier("import"), undefined, [
-                      ts.factory.createStringLiteral(moduleSpecifier),
-                  ])
+                ? ts.factory.createParenthesizedExpression(
+                      ts.factory.createAwaitExpression(
+                          ts.factory.createCallExpression(ts.factory.createIdentifier("import"), undefined, [
+                              ts.factory.createStringLiteral(moduleSpecifier),
+                          ])
+                      )
+                  )
                 : prefix,
         })
     );
 
-    const typeNode = ts.factory.createTypeReferenceNode(
-        useDynamicImport
-            ? subImport.reduce<ts.EntityName>(
-                  (acc, part) => ts.factory.createQualifiedName(acc, part),
-                  ts.factory.createIdentifier(exportedName)
-              )
-            : entityName
-    );
+    const typeNode = ts.factory.createTypeReferenceNode(entityName);
 
     return {
         getTypeNode: () => {
-            if (useDynamicImport) {
-                return ts.factory.createImportTypeNode(
-                    ts.factory.createLiteralTypeNode(ts.factory.createStringLiteral(moduleSpecifier)),
-                    undefined,
-                    entityName,
-                    undefined,
-                    false
-                );
-            } else {
-                addImport();
-                return typeNode;
-            }
+            addImport();
+            return typeNode;
         },
         getEntityName: () => {
             addImport();

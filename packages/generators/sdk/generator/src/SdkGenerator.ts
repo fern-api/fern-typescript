@@ -47,6 +47,7 @@ const FILE_HEADER = `/**
 const SCHEMA_IMPORT_STRATEGY: ImportStrategy = {
     type: "fromRoot",
     namespaceImport: "serializers",
+    useDynamicImport: true,
 };
 
 export declare namespace SdkGenerator {

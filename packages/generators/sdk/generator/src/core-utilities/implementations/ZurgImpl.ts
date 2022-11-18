@@ -430,7 +430,7 @@ export class ZurgImpl extends CoreUtility implements Zurg {
             toExpression: () =>
                 ts.factory.createCallExpression(lazy.getExpression(), undefined, [
                     ts.factory.createArrowFunction(
-                        undefined,
+                        [ts.factory.createModifier(ts.SyntaxKind.AsyncKeyword)],
                         undefined,
                         [],
                         undefined,
@@ -454,7 +454,7 @@ export class ZurgImpl extends CoreUtility implements Zurg {
                     toExpression: () =>
                         ts.factory.createCallExpression(lazyObject.getExpression(), undefined, [
                             ts.factory.createArrowFunction(
-                                undefined,
+                                [ts.factory.createModifier(ts.SyntaxKind.AsyncKeyword)],
                                 undefined,
                                 [],
                                 undefined,
