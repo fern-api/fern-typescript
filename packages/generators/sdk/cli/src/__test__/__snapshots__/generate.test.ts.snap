@@ -3001,7 +3001,6 @@ export * from \\"./TokenStatus\\";
     \\"compilerOptions\\": {
         \\"strict\\": true,
         \\"target\\": \\"esnext\\",
-        \\"module\\": \\"commonjs\\",
         \\"moduleResolution\\": \\"node\\",
         \\"skipLibCheck\\": true,
         \\"declaration\\": true,
@@ -4291,7 +4290,6 @@ export declare namespace Package {
     \\"compilerOptions\\": {
         \\"strict\\": true,
         \\"target\\": \\"esnext\\",
-        \\"module\\": \\"commonjs\\",
         \\"moduleResolution\\": \\"node\\",
         \\"skipLibCheck\\": true,
         \\"declaration\\": true,
@@ -24226,7 +24224,6 @@ export * from \\"./GetGeneratedTestCaseTemplateFileRequest\\";
     \\"compilerOptions\\": {
         \\"strict\\": true,
         \\"target\\": \\"esnext\\",
-        \\"module\\": \\"commonjs\\",
         \\"moduleResolution\\": \\"node\\",
         \\"skipLibCheck\\": true,
         \\"declaration\\": true,
