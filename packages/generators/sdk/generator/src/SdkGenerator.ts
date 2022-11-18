@@ -301,7 +301,7 @@ export class SdkGenerator {
                     });
 
                 const typeReferenceToParsedTypeNodeConverter = new TypeReferenceToParsedTypeNodeConverter({
-                    getReferenceToNamedType: (typeName) => getReferenceToNamedType(typeName).entityName,
+                    getReferenceToNamedType: (typeName) => getReferenceToNamedType(typeName).getEntityName(),
                     resolveType: this.typeResolver.resolveTypeName.bind(this.typeResolver),
                     getReferenceToRawEnum: (referenceToEnum) =>
                         EnumTypeGenerator.getReferenceToRawValueType({ referenceToModule: referenceToEnum }),
@@ -317,7 +317,7 @@ export class SdkGenerator {
                     });
 
                 const typeReferenceToRawTypeNodeConverter = new TypeReferenceToRawTypeNodeConverter({
-                    getReferenceToNamedType: (typeName) => getReferenceToRawNamedType(typeName).entityName,
+                    getReferenceToNamedType: (typeName) => getReferenceToRawNamedType(typeName).getEntityName(),
                     resolveType: this.typeResolver.resolveTypeName.bind(this.typeResolver),
                 });
 
@@ -333,7 +333,7 @@ export class SdkGenerator {
 
                 const getSchemaOfNamedType = (typeName: DeclaredTypeName) => {
                     let schema = coreUtilities.zurg.Schema._fromExpression(
-                        getReferenceToNamedTypeSchema(typeName).expression
+                        getReferenceToNamedTypeSchema(typeName).getExpression()
                     );
 
                     // when generating schemas, wrapped named types with lazy() to prevent issues with circular imports
@@ -365,12 +365,14 @@ export class SdkGenerator {
 
                 const getErrorSchema = (errorName: DeclaredErrorName) => {
                     let schema = coreUtilities.zurg.Schema._fromExpression(
-                        this.errorSchemaDeclarationReferencer.getReferenceToError({
-                            name: errorName,
-                            importStrategy: SCHEMA_IMPORT_STRATEGY,
-                            addImport,
-                            referencedIn: sourceFile,
-                        }).expression
+                        this.errorSchemaDeclarationReferencer
+                            .getReferenceToError({
+                                name: errorName,
+                                importStrategy: SCHEMA_IMPORT_STRATEGY,
+                                addImport,
+                                referencedIn: sourceFile,
+                            })
+                            .getExpression()
                     );
 
                     // when generating schemas, wrapped errors with lazy() to prevent issues with circular imports

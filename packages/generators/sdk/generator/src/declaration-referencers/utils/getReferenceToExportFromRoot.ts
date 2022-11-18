@@ -28,7 +28,7 @@ export declare namespace getReferenceToExportFromRoot {
 export function getReferenceToExportFromRoot({
     exportedName,
     exportedFromPath,
-    addImport,
+    addImport: addImportToFile,
     referencedIn,
     namespaceImport,
     useDynamicImport = false,
@@ -37,6 +37,7 @@ export function getReferenceToExportFromRoot({
     let prefix: ts.Identifier | undefined;
     let moduleSpecifier: ModuleSpecifier;
     let directoriesInsideNamespaceExport: ExportedDirectory[];
+    let addImport: () => void;
 
     if (exportedFromPath.directories[0]?.exportDeclaration?.namespaceExport == null && namespaceImport != null) {
         const [firstDirectory, ...remainingDirectories] = exportedFromPath.directories;
@@ -47,9 +48,9 @@ export function getReferenceToExportFromRoot({
                 : convertExportedFilePathToFilePath(exportedFromPath)
         );
 
-        if (!useDynamicImport) {
-            addImport(moduleSpecifier, { namespaceImport });
-        }
+        addImport = () => {
+            addImportToFile(moduleSpecifier, { namespaceImport });
+        };
 
         prefix = ts.factory.createIdentifier(namespaceImport);
         directoriesInsideNamespaceExport = remainingDirectories;
@@ -73,7 +74,7 @@ export function getReferenceToExportFromRoot({
             return getDirectReferenceToExport({
                 exportedName,
                 exportedFromPath,
-                addImport,
+                addImport: addImportToFile,
                 referencedIn,
                 importAlias: undefined,
                 subImport,
@@ -85,11 +86,12 @@ export function getReferenceToExportFromRoot({
             convertExportedDirectoryPathToFilePath(directoryToImportDirectlyFrom)
         );
 
-        if (!useDynamicImport) {
-            addImport(moduleSpecifier, {
-                namedImports: [firstDirectoryInsideNamespaceExport.exportDeclaration.namespaceExport],
+        const namedImport = firstDirectoryInsideNamespaceExport.exportDeclaration.namespaceExport;
+        addImport = () => {
+            addImportToFile(moduleSpecifier, {
+                namedImports: [namedImport],
             });
-        }
+        };
     }
 
     const entityName = [exportedName, ...subImport].reduce<ts.EntityName>(
@@ -100,38 +102,51 @@ export function getReferenceToExportFromRoot({
         })
     );
 
-    const dynamicImportExpression = useDynamicImport
-        ? ts.factory.createCallExpression(ts.factory.createIdentifier("import"), undefined, [
-              ts.factory.createStringLiteral(moduleSpecifier),
-          ])
-        : undefined;
-
     const expression = [exportedName, ...subImport].reduce<ts.Expression>(
         (acc, part) => ts.factory.createPropertyAccessExpression(acc, part),
         getExpressionToDirectory({
             pathToDirectory: directoriesInsideNamespaceExport,
-            prefix:
-                dynamicImportExpression != null
-                    ? prefix != null
-                        ? ts.factory.createPropertyAccessExpression(dynamicImportExpression, prefix)
-                        : dynamicImportExpression
-                    : prefix,
+            prefix: useDynamicImport
+                ? ts.factory.createCallExpression(ts.factory.createIdentifier("import"), undefined, [
+                      ts.factory.createStringLiteral(moduleSpecifier),
+                  ])
+                : prefix,
         })
     );
 
-    const typeNode = ts.factory.createTypeReferenceNode(entityName);
+    const typeNode = ts.factory.createTypeReferenceNode(
+        useDynamicImport
+            ? subImport.reduce<ts.EntityName>(
+                  (acc, part) => ts.factory.createQualifiedName(acc, part),
+                  ts.factory.createIdentifier(exportedName)
+              )
+            : entityName
+    );
 
     return {
-        typeNode: useDynamicImport
-            ? ts.factory.createImportTypeNode(
-                  ts.factory.createLiteralTypeNode(ts.factory.createStringLiteral(moduleSpecifier)),
-                  undefined,
-                  entityName,
-                  undefined,
-                  false
-              )
-            : typeNode,
-        entityName,
-        expression,
+        getTypeNode: () => {
+            if (useDynamicImport) {
+                return ts.factory.createImportTypeNode(
+                    ts.factory.createLiteralTypeNode(ts.factory.createStringLiteral(moduleSpecifier)),
+                    undefined,
+                    entityName,
+                    undefined,
+                    false
+                );
+            } else {
+                addImport();
+                return typeNode;
+            }
+        },
+        getEntityName: () => {
+            addImport();
+            return entityName;
+        },
+        getExpression: () => {
+            if (!useDynamicImport) {
+                addImport();
+            }
+            return expression;
+        },
     };
 }
