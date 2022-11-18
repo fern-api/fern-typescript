@@ -20,6 +20,7 @@ export declare namespace getReferenceToExportFromRoot {
         exportedFromPath: ExportedFilePath;
         addImport: (moduleSpecifier: ModuleSpecifier, importDeclaration: ImportDeclaration) => void;
         namespaceImport?: string;
+        useDynamicImport?: boolean;
         subImport?: string[];
     }
 }
@@ -30,20 +31,25 @@ export function getReferenceToExportFromRoot({
     addImport,
     referencedIn,
     namespaceImport,
+    useDynamicImport = false,
     subImport = [],
 }: getReferenceToExportFromRoot.Args): Reference {
     let prefix: ts.Identifier | undefined;
+    let moduleSpecifier: ModuleSpecifier;
     let directoriesInsideNamespaceExport: ExportedDirectory[];
 
     if (exportedFromPath.directories[0]?.exportDeclaration?.namespaceExport == null && namespaceImport != null) {
         const [firstDirectory, ...remainingDirectories] = exportedFromPath.directories;
-        const moduleSpecifier = getRelativePathAsModuleSpecifierTo(
+        moduleSpecifier = getRelativePathAsModuleSpecifierTo(
             referencedIn,
             firstDirectory != null
                 ? convertExportedDirectoryPathToFilePath([firstDirectory])
                 : convertExportedFilePathToFilePath(exportedFromPath)
         );
-        addImport(moduleSpecifier, { namespaceImport });
+
+        if (!useDynamicImport) {
+            addImport(moduleSpecifier, { namespaceImport });
+        }
 
         prefix = ts.factory.createIdentifier(namespaceImport);
         directoriesInsideNamespaceExport = remainingDirectories;
@@ -74,13 +80,16 @@ export function getReferenceToExportFromRoot({
             });
         }
 
-        const moduleSpecifier = getRelativePathAsModuleSpecifierTo(
+        moduleSpecifier = getRelativePathAsModuleSpecifierTo(
             referencedIn,
             convertExportedDirectoryPathToFilePath(directoryToImportDirectlyFrom)
         );
-        addImport(moduleSpecifier, {
-            namedImports: [firstDirectoryInsideNamespaceExport.exportDeclaration.namespaceExport],
-        });
+
+        if (!useDynamicImport) {
+            addImport(moduleSpecifier, {
+                namedImports: [firstDirectoryInsideNamespaceExport.exportDeclaration.namespaceExport],
+            });
+        }
     }
 
     const entityName = [exportedName, ...subImport].reduce<ts.EntityName>(
@@ -91,16 +100,37 @@ export function getReferenceToExportFromRoot({
         })
     );
 
+    const dynamicImportExpression = useDynamicImport
+        ? ts.factory.createCallExpression(ts.factory.createIdentifier("import"), undefined, [
+              ts.factory.createStringLiteral(moduleSpecifier),
+          ])
+        : undefined;
+
     const expression = [exportedName, ...subImport].reduce<ts.Expression>(
         (acc, part) => ts.factory.createPropertyAccessExpression(acc, part),
         getExpressionToDirectory({
             pathToDirectory: directoriesInsideNamespaceExport,
-            prefix,
+            prefix:
+                dynamicImportExpression != null
+                    ? prefix != null
+                        ? ts.factory.createPropertyAccessExpression(dynamicImportExpression, prefix)
+                        : dynamicImportExpression
+                    : prefix,
         })
     );
 
+    const typeNode = ts.factory.createTypeReferenceNode(entityName);
+
     return {
-        typeNode: ts.factory.createTypeReferenceNode(entityName),
+        typeNode: useDynamicImport
+            ? ts.factory.createImportTypeNode(
+                  ts.factory.createLiteralTypeNode(ts.factory.createStringLiteral(moduleSpecifier)),
+                  undefined,
+                  entityName,
+                  undefined,
+                  false
+              )
+            : typeNode,
         entityName,
         expression,
     };

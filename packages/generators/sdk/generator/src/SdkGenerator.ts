@@ -44,7 +44,10 @@ const FILE_HEADER = `/**
  */
 `;
 
-const SCHEMA_IMPORT_STRATEGY: ImportStrategy = { type: "fromRoot", namespaceImport: "serializers" };
+const SCHEMA_IMPORT_STRATEGY: ImportStrategy = {
+    type: "fromRoot",
+    namespaceImport: "serializers",
+};
 
 export declare namespace SdkGenerator {
     export interface Init {
