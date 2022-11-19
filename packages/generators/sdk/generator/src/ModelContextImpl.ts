@@ -4,7 +4,6 @@ import { TypeReferenceNode } from "@fern-typescript/commons-v2";
 import { TypeResolver } from "@fern-typescript/resolvers";
 import { CoreUtilities, ExternalDependencies, ModelContext, Reference } from "@fern-typescript/sdk-declaration-handler";
 import { TypeReferenceToParsedTypeNodeConverter } from "@fern-typescript/type-reference-converters";
-import { EnumTypeGenerator } from "@fern-typescript/types-v2";
 import { SourceFile } from "ts-morph";
 import { CoreUtilitiesManager } from "./core-utilities/CoreUtilitiesManager";
 import { TypeDeclarationReferencer } from "./declaration-referencers/TypeDeclarationReferencer";
@@ -62,8 +61,6 @@ export class ModelContextImpl implements ModelContext {
         this.typeReferenceToParsedTypeNodeConverter = new TypeReferenceToParsedTypeNodeConverter({
             getReferenceToNamedType: (typeName) => this.getReferenceToNamedType(typeName).getEntityName(),
             resolveType: (typeName) => this.resolveTypeName(typeName),
-            getReferenceToRawEnum: (referenceToEnum) =>
-                EnumTypeGenerator.getReferenceToRawValueType({ referenceToModule: referenceToEnum }),
         });
     }
 

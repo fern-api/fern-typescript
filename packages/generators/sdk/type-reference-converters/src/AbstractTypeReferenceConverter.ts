@@ -4,7 +4,6 @@ import {
     MapType,
     PrimitiveType,
     ResolvedTypeReference,
-    ShapeType,
     TypeReference,
 } from "@fern-fern/ir-model/types";
 
@@ -63,25 +62,6 @@ export abstract class AbstractTypeReferenceConverter<T> {
     protected abstract set(itemType: TypeReference): T;
     protected abstract optional(itemType: TypeReference): T;
     protected abstract unknown(): T;
-
-    protected keyType(keyType: TypeReference): T {
-        // special case: if the resolved type is an enum,
-        // we need to use the string-version of the enum
-        if (keyType._type === "named") {
-            const resolvedType = this.resolveType(keyType);
-            if (resolvedType._type === "named" && resolvedType.shape === ShapeType.Enum) {
-                return this.enumAsString(keyType);
-            }
-        }
-
-        return this.convert(keyType);
-    }
-
-    protected enumAsString(_enumTypeName: DeclaredTypeName): T {
-        // by default, treat enums as strings in maps. otherwise, typescript assumes
-        // that there won't be unknown values
-        return this.string();
-    }
 
     protected primitive(primitive: PrimitiveType): T {
         return PrimitiveType._visit<T>(primitive, {

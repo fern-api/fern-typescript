@@ -312,8 +312,6 @@ export class SdkGenerator {
                 const typeReferenceToParsedTypeNodeConverter = new TypeReferenceToParsedTypeNodeConverter({
                     getReferenceToNamedType: (typeName) => getReferenceToNamedType(typeName).getEntityName(),
                     resolveType: this.typeResolver.resolveTypeName.bind(this.typeResolver),
-                    getReferenceToRawEnum: (referenceToEnum) =>
-                        EnumTypeGenerator.getReferenceToRawValueType({ referenceToModule: referenceToEnum }),
                 });
 
                 const getReferenceToRawNamedType = (typeName: DeclaredTypeName) =>
