@@ -1,10 +1,10 @@
 {
-  "name": "@fern-typescript/types-v3",
+  "name": "@fern-typescript/union-generator",
   "version": "0.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/fern-api/fern-typescript.git",
-    "directory": "packages/types-v3"
+    "directory": "packages/abstract-union-generator"
   },
   "files": [
     "lib"
@@ -28,7 +28,6 @@
     "@fern-fern/ir-model": "0.0.294",
     "@fern-typescript/commons": "workspace:*",
     "@fern-typescript/sdk-declaration-handler": "workspace:*",
-    "@fern-typescript/union-generator": "workspace:*",
     "ts-morph": "^15.1.0"
   },
   "devDependencies": {

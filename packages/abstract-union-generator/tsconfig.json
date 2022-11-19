@@ -2,9 +2,5 @@
   "extends": "../../shared/tsconfig.shared.json",
   "compilerOptions": { "composite": true, "outDir": "lib", "rootDir": "src" },
   "include": ["./src"],
-  "references": [
-    { "path": "../abstract-union-generator" },
-    { "path": "../commons" },
-    { "path": "../generators/sdk/declaration-handler" }
-  ]
+  "references": [{ "path": "../commons" }, { "path": "../generators/sdk/declaration-handler" }]
 }
