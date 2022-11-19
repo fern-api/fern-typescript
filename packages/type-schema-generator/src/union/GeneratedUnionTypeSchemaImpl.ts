@@ -1,5 +1,7 @@
-import { GeneratedUnionTypeSchema, TypeSchemaContext } from "@fern-typescript/sdk-declaration-handler";
+import { GeneratedUnionTypeSchema } from "@fern-typescript/sdk-declaration-handler";
 
 export class GeneratedUnionTypeSchemaImpl implements GeneratedUnionTypeSchema {
-    public writeToFile(context: TypeSchemaContext): void {}
+    public writeToFile(): void {
+        // no-op
+    }
 }

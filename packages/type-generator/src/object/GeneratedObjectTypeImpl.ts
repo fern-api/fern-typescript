@@ -1,4 +1,4 @@
-import { ObjectTypeDeclaration } from "@fern-fern/ir-model/types";
+import { ObjectProperty, ObjectTypeDeclaration } from "@fern-fern/ir-model/types";
 import { getTextOfTsNode, maybeAddDocs } from "@fern-typescript/commons";
 import { GeneratedObjectType, TypeContext } from "@fern-typescript/sdk-declaration-handler";
 import { OptionalKind, PropertySignatureStructure } from "ts-morph";
@@ -15,7 +15,7 @@ export class GeneratedObjectTypeImpl
                 ...this.shape.properties.map((property) => {
                     const value = context.getReferenceToType(property.valueType);
                     const propertyNode: OptionalKind<PropertySignatureStructure> = {
-                        name: property.nameV2.name.unsafeName.camelCase,
+                        name: this.getPropertyKey(property),
                         type: getTextOfTsNode(value.typeNode),
                         hasQuestionToken: value.isOptional,
                         docs: property.docs != null ? [{ description: property.docs }] : undefined,
@@ -32,5 +32,9 @@ export class GeneratedObjectTypeImpl
         for (const extension of this.shape.extends) {
             interfaceNode.addExtends(getTextOfTsNode(context.getReferenceToNamedType(extension).getTypeNode()));
         }
+    }
+
+    public getPropertyKey(property: ObjectProperty): string {
+        return property.nameV2.name.unsafeName.camelCase;
     }
 }

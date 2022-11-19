@@ -1,16 +1,22 @@
 import { AliasTypeDeclaration } from "@fern-fern/ir-model/types";
 import { getTextOfTsKeyword, getTextOfTsNode, maybeAddDocs } from "@fern-typescript/commons";
-import { GeneratedAliasType, TypeContext } from "@fern-typescript/sdk-declaration-handler";
+import { BrandedGeneratedAliasType, TypeContext } from "@fern-typescript/sdk-declaration-handler";
 import { ts } from "ts-morph";
 import { AbstractGeneratedType } from "../AbstractGeneratedType";
 
 export class GeneratedBrandedAliasImpl
     extends AbstractGeneratedType<AliasTypeDeclaration>
-    implements GeneratedAliasType
+    implements BrandedGeneratedAliasType
 {
+    public readonly isBranded = true;
+
     public writeToFile(context: TypeContext): void {
         this.writeTypeAlias(context);
         this.writeConst(context);
+    }
+
+    public getReferenceToCreator(context: TypeContext): ts.Expression {
+        return context.getReferenceToNamedType(this.typeDeclaration.name).getExpression();
     }
 
     private writeTypeAlias(context: TypeContext) {

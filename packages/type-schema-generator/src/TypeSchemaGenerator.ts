@@ -43,16 +43,12 @@ export class TypeSchemaGenerator {
         });
     }
 
-    public generateUnion({
-        typeDeclaration,
-        typeName,
-        shape,
-    }: {
+    public generateUnion(_args: {
         typeDeclaration: TypeDeclaration;
         typeName: string;
         shape: UnionTypeDeclaration;
     }): GeneratedUnionTypeSchema {
-        return new GeneratedUnionTypeSchemaImpl({ typeDeclaration, typeName, shape });
+        return new GeneratedUnionTypeSchemaImpl();
     }
 
     public generateObject({

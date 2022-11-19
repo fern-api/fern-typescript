@@ -1,1 +1,1 @@
-export { TypeGenerator } from "./TypeSchemaGenerator";
+export { TypeSchemaGenerator } from "./TypeSchemaGenerator";

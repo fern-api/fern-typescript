@@ -1,6 +1,5 @@
 import { TypeDeclaration } from "@fern-fern/ir-model/types";
-import { Reference, TypeContext } from "@fern-typescript/sdk-declaration-handler";
-import { GeneratedType } from "./GeneratedType";
+import { GeneratedType, Reference, TypeContext } from "@fern-typescript/sdk-declaration-handler";
 
 export declare namespace AbstractGeneratedType {
     export interface Init<Shape> {

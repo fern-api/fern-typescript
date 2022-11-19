@@ -1,4 +1,8 @@
-export { type GeneratedAliasType } from "./GeneratedAliasType";
+export {
+    type BrandedGeneratedAliasType,
+    type GeneratedAliasType,
+    type NotBrandedGeneratedAliasType,
+} from "./GeneratedAliasType";
 export { type GeneratedEnumType } from "./GeneratedEnumType";
 export { type GeneratedObjectType } from "./GeneratedObjectType";
 export { type GeneratedType } from "./GeneratedType";
