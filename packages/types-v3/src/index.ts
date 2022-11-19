@@ -1,1 +1,1 @@
-export {};
+export { TypeGenerator } from "./TypeGenerator";

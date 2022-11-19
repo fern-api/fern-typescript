@@ -1,8 +1,15 @@
+import { AliasTypeDeclaration } from "@fern-fern/ir-model/types";
+import { getTextOfTsKeyword, getTextOfTsNode, maybeAddDocs } from "@fern-typescript/commons";
 import { SdkFile } from "@fern-typescript/sdk-declaration-handler";
+import { ts } from "ts-morph";
+import { AbstractGeneratedType } from "../AbstractGeneratedType";
 import { GeneratedAliasType } from "./GeneratedAliasType";
 
-export abstract class GeneratedBrandedAliasImpl implements GeneratedAliasType {
-    public writeDeclarationToFile(file: SdkFile): void {
+export class GeneratedBrandedAliasImpl
+    extends AbstractGeneratedType<AliasTypeDeclaration>
+    implements GeneratedAliasType
+{
+    public writeToFile(file: SdkFile): void {
         this.writeTypeAlias(file);
         this.writeConst(file);
     }
@@ -39,7 +46,7 @@ export abstract class GeneratedBrandedAliasImpl implements GeneratedAliasType {
                     type: getTextOfTsKeyword(ts.SyntaxKind.StringKeyword),
                 },
             ],
-            returnType: getTextOfTsNode(this.getReferenceToParsedShape(file)),
+            returnType: getTextOfTsNode(this.getReferenceToSelf(file).getTypeNode()),
             statements: [
                 getTextOfTsNode(
                     ts.factory.createReturnStatement(
@@ -48,37 +55,12 @@ export abstract class GeneratedBrandedAliasImpl implements GeneratedAliasType {
                                 ts.factory.createIdentifier(VALUE_PARAMETER_NAME),
                                 ts.factory.createKeywordTypeNode(ts.SyntaxKind.UnknownKeyword)
                             ),
-                            this.getReferenceToParsedShape(file)
+                            this.getReferenceToSelf(file).getTypeNode()
                         )
                     )
                 ),
             ],
             isExported: true,
-        });
-    }
-
-    public writeSchemaToFile(file: SdkFile): void {
-        const VALUE_PARAMETER_NAME = "value";
-        file.getSchemaOfTypeReference(this.shape.aliasOf).transform({
-            newShape: undefined,
-            parse: this.getAliasCreator(file),
-            json: ts.factory.createArrowFunction(
-                undefined,
-                undefined,
-                [
-                    ts.factory.createParameterDeclaration(
-                        undefined,
-                        undefined,
-                        undefined,
-                        VALUE_PARAMETER_NAME,
-                        undefined,
-                        undefined
-                    ),
-                ],
-                undefined,
-                undefined,
-                ts.factory.createIdentifier(VALUE_PARAMETER_NAME)
-            ),
         });
     }
 

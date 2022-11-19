@@ -14,7 +14,8 @@ import {
     TypeReferenceToSchemaConverter,
     TypeReferenceToStringExpressionConverter,
 } from "@fern-typescript/type-reference-converters";
-import { EnumTypeGenerator, getSubImportPathToRawSchema, TypeDeclarationHandler } from "@fern-typescript/types-v2";
+import { EnumTypeGenerator, getSubImportPathToRawSchema } from "@fern-typescript/types-v2";
+import { TypeGenerator } from "@fern-typescript/types-v3";
 import { Volume } from "memfs/lib/volume";
 import { Directory, Project, SourceFile, ts } from "ts-morph";
 import { constructAugmentedServices } from "./constructAugmentedServices";
@@ -83,6 +84,7 @@ export class SdkGenerator {
     private endpointDeclarationReferencer: EndpointDeclarationReferencer;
     private endpointSchemaDeclarationReferencer: EndpointDeclarationReferencer;
 
+    private typeGenerator: TypeGenerator;
     private environmentsGenerator: EnvironmentsGenerator;
 
     private generatePackage: () => Promise<void>;
@@ -147,6 +149,7 @@ export class SdkGenerator {
             containingDirectory: schemaDirectory,
         });
 
+        this.typeGenerator = new TypeGenerator({ useBrandedStringAliases: config.shouldUseBrandedStringAliases });
         this.environmentsGenerator = new EnvironmentsGenerator({ intermediateRepresentation });
 
         this.generatePackage = async () => {
@@ -181,19 +184,11 @@ export class SdkGenerator {
             this.withSdkFile({
                 filepath: this.typeDeclarationReferencer.getExportedFilepath(typeDeclaration.name),
                 run: (typeFile) => {
-                    this.withSdkFile({
-                        filepath: this.typeSchemaDeclarationReferencer.getExportedFilepath(typeDeclaration.name),
-                        isGeneratingSchemaFile: true,
-                        run: (schemaFile) => {
-                            TypeDeclarationHandler(typeDeclaration, {
-                                typeFile,
-                                schemaFile,
-                                typeName: this.typeDeclarationReferencer.getExportedName(typeDeclaration.name),
-                                context: this.context,
-                                shouldUseBrandedStringAliases: this.config.shouldUseBrandedStringAliases,
-                            });
-                        },
+                    const generatedType = this.typeGenerator.generateType({
+                        typeDeclaration,
+                        typeName: this.typeDeclarationReferencer.getExportedName(typeDeclaration.name),
                     });
+                    generatedType.writeToFile(typeFile);
                 },
             });
         }

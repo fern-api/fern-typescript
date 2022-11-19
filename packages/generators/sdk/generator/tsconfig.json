@@ -7,6 +7,7 @@
     { "path": "../../../commons-v2" },
     { "path": "../../../resolvers" },
     { "path": "../../../types-v2" },
+    { "path": "../../../types-v3" },
     { "path": "../declaration-handler" },
     { "path": "../errors" },
     { "path": "../service-declaration-handler" },

@@ -36,6 +36,7 @@
     "@fern-typescript/sdk-service-declaration-handler": "workspace:*",
     "@fern-typescript/type-reference-converters": "workspace:*",
     "@fern-typescript/types-v2": "workspace:*",
+    "@fern-typescript/types-v3": "workspace:*",
     "glob": "^8.0.3",
     "glob-promise": "^5.0.0",
     "immer": "^9.0.15",

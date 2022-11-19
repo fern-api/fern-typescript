@@ -1,47 +1,20 @@
-import { AliasTypeDeclaration, TypeDeclaration } from "@fern-fern/ir-model/types";
+import { AliasTypeDeclaration } from "@fern-fern/ir-model/types";
+import { getTextOfTsKeyword, getTextOfTsNode, maybeAddDocs } from "@fern-typescript/commons";
 import { SdkFile } from "@fern-typescript/sdk-declaration-handler";
+import { ts } from "ts-morph";
+import { AbstractGeneratedType } from "../AbstractGeneratedType";
 import { GeneratedAliasType } from "./GeneratedAliasType";
 
-export declare namespace GeneratedAliasTypeImpl {
-    export interface Init {
-        typeDeclaration: TypeDeclaration;
-        shape: AliasTypeDeclaration;
-    }
-}
-
-export class GeneratedAliasTypeImpl implements GeneratedAliasType {
-    private typeDeclaration: TypeDeclaration;
-    private shape: AliasTypeDeclaration;
-
-    constructor({ typeDeclaration, shape }: GeneratedAliasTypeImpl.Init) {
-        this.typeDeclaration = typeDeclaration;
-        this.shape = shape;
-    }
-
-    public writeDeclarationToFile(file: SdkFile): void {
+export class GeneratedAliasTypeImpl extends AbstractGeneratedType<AliasTypeDeclaration> implements GeneratedAliasType {
+    public writeToFile(file: SdkFile): void {
         this.writeTypeAlias(file);
         this.writeConst(file);
     }
 
     private writeTypeAlias(file: SdkFile) {
-        const referenceToAliasedType = file.getReferenceToType(this.shape.aliasOf).typeNode;
         const typeAlias = file.sourceFile.addTypeAlias({
             name: this.typeName,
-            type: getTextOfTsNode(
-                this.isBrandedString()
-                    ? ts.factory.createIntersectionTypeNode([
-                          referenceToAliasedType,
-                          ts.factory.createTypeLiteralNode([
-                              ts.factory.createPropertySignature(
-                                  undefined,
-                                  this.getStringBrand(),
-                                  undefined,
-                                  ts.factory.createKeywordTypeNode(ts.SyntaxKind.VoidKeyword)
-                              ),
-                          ]),
-                      ])
-                    : referenceToAliasedType
-            ),
+            type: getTextOfTsNode(file.getReferenceToType(this.shape.aliasOf).typeNode),
             isExported: true,
         });
         maybeAddDocs(typeAlias, this.typeDeclaration.docs);
@@ -57,7 +30,7 @@ export class GeneratedAliasTypeImpl implements GeneratedAliasType {
                     type: getTextOfTsKeyword(ts.SyntaxKind.StringKeyword),
                 },
             ],
-            returnType: getTextOfTsNode(this.getReferenceToParsedShape(file)),
+            returnType: getTextOfTsNode(this.getReferenceToSelf(file).getTypeNode()),
             statements: [
                 getTextOfTsNode(
                     ts.factory.createReturnStatement(
@@ -66,37 +39,12 @@ export class GeneratedAliasTypeImpl implements GeneratedAliasType {
                                 ts.factory.createIdentifier(VALUE_PARAMETER_NAME),
                                 ts.factory.createKeywordTypeNode(ts.SyntaxKind.UnknownKeyword)
                             ),
-                            this.getReferenceToParsedShape(file)
+                            this.getReferenceToSelf(file).getTypeNode()
                         )
                     )
                 ),
             ],
             isExported: true,
-        });
-    }
-
-    public writeSchemaToFile(file: SdkFile): void {
-        const VALUE_PARAMETER_NAME = "value";
-        return file.getSchemaOfTypeReference(this.shape.aliasOf).transform({
-            newShape: undefined,
-            parse: this.getAliasCreator(file),
-            json: ts.factory.createArrowFunction(
-                undefined,
-                undefined,
-                [
-                    ts.factory.createParameterDeclaration(
-                        undefined,
-                        undefined,
-                        undefined,
-                        VALUE_PARAMETER_NAME,
-                        undefined,
-                        undefined
-                    ),
-                ],
-                undefined,
-                undefined,
-                ts.factory.createIdentifier(VALUE_PARAMETER_NAME)
-            ),
         });
     }
 }

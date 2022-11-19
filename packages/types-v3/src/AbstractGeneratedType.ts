@@ -1,23 +1,29 @@
-import { SdkFile } from "@fern-typescript/sdk-declaration-handler";
+import { TypeDeclaration } from "@fern-fern/ir-model/types";
+import { Reference, SdkFile } from "@fern-typescript/sdk-declaration-handler";
 import { GeneratedType } from "./GeneratedType";
 
 export declare namespace AbstractGeneratedType {
-    export interface Init {
+    export interface Init<Shape> {
         typeName: string;
+        typeDeclaration: TypeDeclaration;
+        shape: Shape;
     }
 }
 
-export abstract class AbstractGeneratedType implements GeneratedType {
+export abstract class AbstractGeneratedType<Shape> implements GeneratedType {
     protected typeName: string;
+    protected typeDeclaration: TypeDeclaration;
+    protected shape: Shape;
 
-    constructor({ typeName }: AbstractGeneratedType.Init) {
+    constructor({ typeName, typeDeclaration, shape }: AbstractGeneratedType.Init<Shape>) {
         this.typeName = typeName;
+        this.typeDeclaration = typeDeclaration;
+        this.shape = shape;
     }
 
-    public writeSchemaToFile(file: SdkFile): void {}
+    protected getReferenceToSelf(file: SdkFile): Reference {
+        return file.getReferenceToNamedType(this.typeDeclaration.name);
+    }
 
-    protected abstract getReferenceToRawShape(file: SdkFile): ts.TypeNode;
-    protected abstract getReferenceToParsedShape(file: SdkFile): ts.TypeNode;
-    protected abstract getSchema(file: SdkFile): Zurg.Schema;
-    protected abstract generateRawTypeDeclaration(file: SdkFile, module: ModuleDeclaration): void;
+    public abstract writeToFile(file: SdkFile): void;
 }
