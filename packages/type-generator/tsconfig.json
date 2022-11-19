@@ -3,8 +3,8 @@
   "compilerOptions": { "composite": true, "outDir": "lib", "rootDir": "src" },
   "include": ["./src"],
   "references": [
-    { "path": "../abstract-union-generator" },
     { "path": "../commons" },
-    { "path": "../generators/sdk/declaration-handler" }
+    { "path": "../generators/sdk/declaration-handler" },
+    { "path": "../union-generator" }
   ]
 }

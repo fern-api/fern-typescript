@@ -8,6 +8,7 @@ import { ErrorResolver, TypeResolver } from "@fern-typescript/resolvers";
 import { GeneratorContext, SdkFile } from "@fern-typescript/sdk-declaration-handler";
 import { ErrorDeclarationHandler } from "@fern-typescript/sdk-errors";
 import { ServiceDeclarationHandler } from "@fern-typescript/sdk-service-declaration-handler";
+import { TypeGenerator } from "@fern-typescript/type-generator";
 import {
     TypeReferenceToParsedTypeNodeConverter,
     TypeReferenceToRawTypeNodeConverter,
@@ -15,7 +16,6 @@ import {
     TypeReferenceToStringExpressionConverter,
 } from "@fern-typescript/type-reference-converters";
 import { EnumTypeGenerator, getSubImportPathToRawSchema } from "@fern-typescript/types-v2";
-import { TypeGenerator } from "@fern-typescript/types-v3";
 import { Volume } from "memfs/lib/volume";
 import { Directory, Project, SourceFile, ts } from "ts-morph";
 import { constructAugmentedServices } from "./constructAugmentedServices";
