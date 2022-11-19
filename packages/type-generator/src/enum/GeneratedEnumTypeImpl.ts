@@ -1,9 +1,8 @@
 import { EnumTypeDeclaration } from "@fern-fern/ir-model/types";
 import { getTextOfTsNode, getWriterForMultiLineUnionType, maybeAddDocs } from "@fern-typescript/commons";
-import { TypeContext } from "@fern-typescript/sdk-declaration-handler";
+import { GeneratedEnumType, TypeContext } from "@fern-typescript/sdk-declaration-handler";
 import { ts, VariableDeclarationKind } from "ts-morph";
 import { AbstractGeneratedType } from "../AbstractGeneratedType";
-import { GeneratedEnumType } from "./GeneratedEnumType";
 
 export class GeneratedEnumTypeImpl extends AbstractGeneratedType<EnumTypeDeclaration> implements GeneratedEnumType {
     public writeToFile(context: TypeContext): void {

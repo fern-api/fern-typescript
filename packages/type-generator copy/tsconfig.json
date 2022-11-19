@@ -1,0 +1,14 @@
+{
+  "extends": "../../shared/tsconfig.shared.json",
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "../type-schema-generator/lib",
+    "rootDir": "../type-schema-generator/src"
+  },
+  "include": ["../type-schema-generator/src"],
+  "references": [
+    { "path": "../commons" },
+    { "path": "../generators/sdk/declaration-handler" },
+    { "path": "../union-generator" }
+  ]
+}

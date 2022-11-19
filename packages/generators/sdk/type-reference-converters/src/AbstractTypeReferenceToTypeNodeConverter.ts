@@ -18,7 +18,7 @@ export abstract class AbstractTypeReferenceToTypeNodeConverter extends AbstractT
     }
 
     protected override named(typeName: DeclaredTypeName): TypeReferenceNode {
-        const resolvedType = this.resolveType(typeName);
+        const resolvedType = this.typeResolver.resolveTypeName(typeName);
         const isOptional = ResolvedTypeReference._visit<boolean>(resolvedType, {
             container: (container) => this.container(container).isOptional,
             primitive: (primitive) => this.primitive(primitive).isOptional,

@@ -1,9 +1,8 @@
 import { UnionTypeDeclaration } from "@fern-fern/ir-model/types";
-import { TypeContext } from "@fern-typescript/sdk-declaration-handler";
+import { GeneratedUnionType, TypeContext } from "@fern-typescript/sdk-declaration-handler";
 import { AbstractParsedSingleUnionType, UnionGenerator } from "@fern-typescript/union-generator";
 import { ts } from "ts-morph";
 import { AbstractGeneratedType } from "../AbstractGeneratedType";
-import { GeneratedUnionType } from "./GeneratedUnionType";
 import { ParsedSingleUnionTypeForUnion } from "./ParsedSingleUnionTypeForUnion";
 
 export class GeneratedUnionTypeImpl extends AbstractGeneratedType<UnionTypeDeclaration> implements GeneratedUnionType {

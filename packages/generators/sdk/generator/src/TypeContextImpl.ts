@@ -60,7 +60,7 @@ export class TypeContextImpl implements TypeContext {
 
         this.typeReferenceToParsedTypeNodeConverter = new TypeReferenceToParsedTypeNodeConverter({
             getReferenceToNamedType: (typeName) => this.getReferenceToNamedType(typeName).getEntityName(),
-            resolveType: (typeName) => this.resolveTypeName(typeName),
+            typeResolver,
         });
     }
 

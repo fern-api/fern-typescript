@@ -311,7 +311,7 @@ export class SdkGenerator {
 
                 const typeReferenceToParsedTypeNodeConverter = new TypeReferenceToParsedTypeNodeConverter({
                     getReferenceToNamedType: (typeName) => getReferenceToNamedType(typeName).getEntityName(),
-                    resolveType: this.typeResolver.resolveTypeName.bind(this.typeResolver),
+                    typeResolver: this.typeResolver,
                 });
 
                 const getReferenceToRawNamedType = (typeName: DeclaredTypeName) =>
@@ -325,7 +325,7 @@ export class SdkGenerator {
 
                 const typeReferenceToRawTypeNodeConverter = new TypeReferenceToRawTypeNodeConverter({
                     getReferenceToNamedType: (typeName) => getReferenceToRawNamedType(typeName).getEntityName(),
-                    resolveType: this.typeResolver.resolveTypeName.bind(this.typeResolver),
+                    typeResolver: this.typeResolver,
                 });
 
                 const coreUtilities = this.coreUtilitiesManager.getCoreUtilities({ sourceFile, importsManager });
@@ -358,7 +358,7 @@ export class SdkGenerator {
                 const typeReferenceToSchemaConverter = new TypeReferenceToSchemaConverter({
                     getSchemaOfNamedType,
                     zurg: coreUtilities.zurg,
-                    resolveType: this.typeResolver.resolveTypeName.bind(this.typeResolver),
+                    typeResolver: this.typeResolver,
                 });
 
                 const externalDependencies = createExternalDependencies({
@@ -387,7 +387,7 @@ export class SdkGenerator {
                 };
 
                 const typeReferenceToStringExpressionConverter = new TypeReferenceToStringExpressionConverter({
-                    resolveType: this.typeResolver.resolveTypeName.bind(this.typeResolver),
+                    typeResolver: this.typeResolver,
                     stringifyEnum: EnumTypeGenerator.getReferenceToRawValue.bind(this),
                 });
 

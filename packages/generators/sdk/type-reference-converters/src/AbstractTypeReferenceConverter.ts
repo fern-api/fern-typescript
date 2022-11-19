@@ -1,23 +1,17 @@
-import {
-    ContainerType,
-    DeclaredTypeName,
-    MapType,
-    PrimitiveType,
-    ResolvedTypeReference,
-    TypeReference,
-} from "@fern-fern/ir-model/types";
+import { ContainerType, DeclaredTypeName, MapType, PrimitiveType, TypeReference } from "@fern-fern/ir-model/types";
+import { TypeResolver } from "@fern-typescript/resolvers";
 
 export declare namespace AbstractTypeReferenceConverter {
     export interface Init {
-        resolveType: (typeName: DeclaredTypeName) => ResolvedTypeReference;
+        typeResolver: TypeResolver;
     }
 }
 
 export abstract class AbstractTypeReferenceConverter<T> {
-    protected resolveType: (typeName: DeclaredTypeName) => ResolvedTypeReference;
+    protected typeResolver: TypeResolver;
 
-    constructor({ resolveType }: AbstractTypeReferenceConverter.Init) {
-        this.resolveType = resolveType;
+    constructor({ typeResolver }: AbstractTypeReferenceConverter.Init) {
+        this.typeResolver = typeResolver;
     }
 
     public convert(typeReference: TypeReference): T {
@@ -79,13 +73,7 @@ export abstract class AbstractTypeReferenceConverter<T> {
     }
 
     protected isTypeReferencePrimitive(typeReference: TypeReference): boolean {
-        if (typeReference._type === "primitive") {
-            return true;
-        }
-        if (typeReference._type !== "named") {
-            return false;
-        }
-        const resolvedType = this.resolveType(typeReference);
+        const resolvedType = this.typeResolver.resolveTypeReference(typeReference);
         return resolvedType._type === "primitive";
     }
 }

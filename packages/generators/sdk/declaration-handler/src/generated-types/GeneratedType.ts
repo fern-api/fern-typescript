@@ -1,4 +1,4 @@
-import { TypeContext } from "@fern-typescript/sdk-declaration-handler";
+import { TypeContext } from "../TypeContext";
 
 export interface GeneratedType {
     writeToFile: (context: TypeContext) => void;

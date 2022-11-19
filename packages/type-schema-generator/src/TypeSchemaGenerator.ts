@@ -7,24 +7,19 @@ import {
     UnionTypeDeclaration,
 } from "@fern-fern/ir-model/types";
 import {
-    GeneratedAliasType,
-    GeneratedEnumType,
-    GeneratedObjectType,
-    GeneratedType,
-    GeneratedUnionType,
+    GeneratedAliasTypeSchema,
+    GeneratedEnumTypeSchema,
+    GeneratedObjectTypeSchema,
+    GeneratedTypeSchema,
+    GeneratedUnionTypeSchema,
 } from "@fern-typescript/sdk-declaration-handler";
-import { GeneratedAliasTypeImpl } from "./alias/GeneratedAliasTypeImpl";
-import { GeneratedBrandedAliasImpl } from "./alias/GeneratedBrandedAliasImpl";
-import { GeneratedEnumTypeImpl } from "./enum/GeneratedEnumTypeImpl";
-import { GeneratedObjectTypeImpl } from "./object/GeneratedObjectTypeImpl";
-import { GeneratedUnionTypeImpl } from "./union/GeneratedUnionTypeImpl";
+import { GeneratedAliasTypeSchemaImpl } from "./alias/GeneratedAliasTypeSchemaImpl";
+import { GeneratedEnumTypeSchemaImpl } from "./enum/GeneratedEnumTypeSchemaImpl";
+import { GeneratedObjectTypeSchemaImpl } from "./object/GeneratedObjectTypeSchemaImpl";
+import { GeneratedUnionTypeSchemaImpl } from "./union/GeneratedUnionTypeSchemaImpl";
 
-export declare namespace TypeGenerator {
-    export interface Init {
-        useBrandedStringAliases: boolean;
-    }
-
-    export namespace generateType {
+export declare namespace TypeSchemaGenerator {
+    export namespace generateTypeSchema {
         export interface Args {
             typeName: string;
             typeDeclaration: TypeDeclaration;
@@ -32,15 +27,12 @@ export declare namespace TypeGenerator {
     }
 }
 
-export class TypeGenerator {
-    private useBrandedStringAliases: boolean;
-
-    constructor({ useBrandedStringAliases }: TypeGenerator.Init) {
-        this.useBrandedStringAliases = useBrandedStringAliases;
-    }
-
-    public generateType({ typeDeclaration, typeName }: TypeGenerator.generateType.Args): GeneratedType {
-        return Type._visit<GeneratedType>(typeDeclaration.shape, {
+export class TypeSchemaGenerator {
+    public generateTypeSchema({
+        typeDeclaration,
+        typeName,
+    }: TypeSchemaGenerator.generateTypeSchema.Args): GeneratedTypeSchema {
+        return Type._visit<GeneratedTypeSchema>(typeDeclaration.shape, {
             union: (shape) => this.generateUnion({ typeDeclaration, typeName, shape }),
             object: (shape) => this.generateObject({ typeDeclaration, typeName, shape }),
             enum: (shape) => this.generateEnum({ typeDeclaration, typeName, shape }),
@@ -59,8 +51,8 @@ export class TypeGenerator {
         typeDeclaration: TypeDeclaration;
         typeName: string;
         shape: UnionTypeDeclaration;
-    }): GeneratedUnionType {
-        return new GeneratedUnionTypeImpl({ typeDeclaration, typeName, shape });
+    }): GeneratedUnionTypeSchema {
+        return new GeneratedUnionTypeSchemaImpl({ typeDeclaration, typeName, shape });
     }
 
     public generateObject({
@@ -71,8 +63,8 @@ export class TypeGenerator {
         typeDeclaration: TypeDeclaration;
         typeName: string;
         shape: ObjectTypeDeclaration;
-    }): GeneratedObjectType {
-        return new GeneratedObjectTypeImpl({ typeDeclaration, typeName, shape });
+    }): GeneratedObjectTypeSchema {
+        return new GeneratedObjectTypeSchemaImpl({ typeDeclaration, typeName, shape });
     }
 
     public generateEnum({
@@ -83,8 +75,8 @@ export class TypeGenerator {
         typeDeclaration: TypeDeclaration;
         typeName: string;
         shape: EnumTypeDeclaration;
-    }): GeneratedEnumType {
-        return new GeneratedEnumTypeImpl({ typeDeclaration, typeName, shape });
+    }): GeneratedEnumTypeSchema {
+        return new GeneratedEnumTypeSchemaImpl({ typeDeclaration, typeName, shape });
     }
 
     public generateAlias({
@@ -95,9 +87,7 @@ export class TypeGenerator {
         typeDeclaration: TypeDeclaration;
         typeName: string;
         shape: AliasTypeDeclaration;
-    }): GeneratedAliasType {
-        return this.useBrandedStringAliases
-            ? new GeneratedBrandedAliasImpl({ typeDeclaration, typeName, shape })
-            : new GeneratedAliasTypeImpl({ typeDeclaration, typeName, shape });
+    }): GeneratedAliasTypeSchema {
+        return new GeneratedAliasTypeSchemaImpl({ typeDeclaration, typeName, shape });
     }
 }

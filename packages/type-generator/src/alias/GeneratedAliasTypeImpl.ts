@@ -1,9 +1,8 @@
 import { AliasTypeDeclaration } from "@fern-fern/ir-model/types";
 import { getTextOfTsKeyword, getTextOfTsNode, maybeAddDocs } from "@fern-typescript/commons";
-import { TypeContext } from "@fern-typescript/sdk-declaration-handler";
+import { GeneratedAliasType, TypeContext } from "@fern-typescript/sdk-declaration-handler";
 import { ts } from "ts-morph";
 import { AbstractGeneratedType } from "../AbstractGeneratedType";
-import { GeneratedAliasType } from "./GeneratedAliasType";
 
 export class GeneratedAliasTypeImpl extends AbstractGeneratedType<AliasTypeDeclaration> implements GeneratedAliasType {
     public writeToFile(context: TypeContext): void {
