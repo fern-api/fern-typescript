@@ -1,5 +1,5 @@
 import { DeclaredTypeName } from "@fern-fern/ir-model/types";
-import { SdkFile } from "@fern-typescript/sdk-declaration-handler";
+import { ModelContext } from "@fern-typescript/sdk-declaration-handler";
 import { SingleUnionTypeGenerator } from "@fern-typescript/union-generator";
 import { OptionalKind, PropertySignatureStructure, ts } from "ts-morph";
 
@@ -11,15 +11,15 @@ export class SamePropertyAsObjectSingleUnionTypeGenerator implements SingleUnion
         this.extended = extended;
     }
 
-    public getExtendsForInterface(file: SdkFile): ts.TypeNode[] {
-        return [file.getReferenceToNamedType(this.extended).getTypeNode()];
+    public getExtendsForInterface(context: ModelContext): ts.TypeNode[] {
+        return [context.getReferenceToNamedType(this.extended).getTypeNode()];
     }
 
     public getNonDiscriminantPropertiesForInterface(): OptionalKind<PropertySignatureStructure>[] {
         return [];
     }
 
-    public getParametersForBuilder(file: SdkFile): ts.ParameterDeclaration[] {
+    public getParametersForBuilder(context: ModelContext): ts.ParameterDeclaration[] {
         return [
             ts.factory.createParameterDeclaration(
                 undefined,
@@ -27,7 +27,7 @@ export class SamePropertyAsObjectSingleUnionTypeGenerator implements SingleUnion
                 undefined,
                 SamePropertyAsObjectSingleUnionTypeGenerator.BUILDER_PARAMETER_NAME,
                 undefined,
-                file.getReferenceToNamedType(this.extended).getTypeNode()
+                context.getReferenceToNamedType(this.extended).getTypeNode()
             ),
         ];
     }
@@ -40,8 +40,8 @@ export class SamePropertyAsObjectSingleUnionTypeGenerator implements SingleUnion
         ];
     }
 
-    public getVisitMethodParameterType(file: SdkFile): ts.TypeNode | undefined {
-        return file.getReferenceToNamedType(this.extended).getTypeNode();
+    public getVisitMethodParameterType(context: ModelContext): ts.TypeNode | undefined {
+        return context.getReferenceToNamedType(this.extended).getTypeNode();
     }
 
     public getVisitorArguments({

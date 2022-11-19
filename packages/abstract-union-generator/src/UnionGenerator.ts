@@ -6,7 +6,7 @@ import {
     maybeAddDocs,
     ObjectWriter,
 } from "@fern-typescript/commons";
-import { Reference, SdkFile } from "@fern-typescript/sdk-declaration-handler";
+import { ModelContext, Reference } from "@fern-typescript/sdk-declaration-handler";
 import {
     InterfaceDeclarationStructure,
     OptionalKind,
@@ -25,7 +25,7 @@ export declare namespace UnionGenerator {
         docs: string | null | undefined;
         parsedSingleUnionTypes: ParsedSingleUnionType[];
         unknownSingleUnionType: UnknownSingleUnionType;
-        getReferenceToUnion: (file: SdkFile) => Reference;
+        getReferenceToUnion: (context: ModelContext) => Reference;
     }
 }
 
@@ -45,7 +45,7 @@ export class UnionGenerator {
     private parsedSingleUnionTypes: ParsedSingleUnionType[];
     private unknownSingleUnionType: UnknownSingleUnionType;
 
-    public readonly getReferenceToUnion: (file: SdkFile) => Reference;
+    public readonly getReferenceToUnion: (context: ModelContext) => Reference;
 
     constructor({
         typeName,
@@ -63,26 +63,26 @@ export class UnionGenerator {
         this.unknownSingleUnionType = unknownSingleUnionType;
     }
 
-    public writeToFile(file: SdkFile): void {
-        this.writeTypeAlias(file);
-        this.writeModule(file);
-        this.writeConst(file);
+    public writeToFile(context: ModelContext): void {
+        this.writeTypeAlias(context);
+        this.writeModule(context);
+        this.writeConst(context);
     }
 
     /**************
      * TYPE ALIAS *
      **************/
 
-    private writeTypeAlias(file: SdkFile): void {
-        const typeAlias = file.sourceFile.addTypeAlias({
+    private writeTypeAlias(context: ModelContext): void {
+        const typeAlias = context.sourceFile.addTypeAlias({
             name: this.typeName,
             type: getWriterForMultiLineUnionType([
                 ...this.parsedSingleUnionTypes.map((singleUnionType) => ({
-                    node: this.getReferenceToSingleUnionType(singleUnionType, file),
+                    node: this.getReferenceToSingleUnionType(singleUnionType, context),
                     docs: singleUnionType.getDocs(),
                 })),
                 {
-                    node: this.getReferenceToUnknownType(file),
+                    node: this.getReferenceToUnknownType(context),
                     docs: undefined,
                 },
             ]),
@@ -91,19 +91,19 @@ export class UnionGenerator {
         maybeAddDocs(typeAlias, this.docs);
     }
 
-    public getReferenceToSingleUnionType(singleUnionType: ParsedSingleUnionType, file: SdkFile): ts.TypeNode {
+    public getReferenceToSingleUnionType(singleUnionType: ParsedSingleUnionType, context: ModelContext): ts.TypeNode {
         return ts.factory.createTypeReferenceNode(
             ts.factory.createQualifiedName(
-                this.getReferenceToUnion(file).getEntityName(),
+                this.getReferenceToUnion(context).getEntityName(),
                 singleUnionType.getInterfaceName()
             )
         );
     }
 
-    private getReferenceToUnknownType(file: SdkFile): ts.TypeNode {
+    private getReferenceToUnknownType(context: ModelContext): ts.TypeNode {
         return ts.factory.createTypeReferenceNode(
             ts.factory.createQualifiedName(
-                this.getReferenceToUnion(file).getEntityName(),
+                this.getReferenceToUnion(context).getEntityName(),
                 UnionGenerator.UNKNOWN_SINGLE_UNION_TYPE_INTERFACE_NAME
             )
         );
@@ -113,25 +113,25 @@ export class UnionGenerator {
      * MODULE *
      **********/
 
-    private writeModule(file: SdkFile): void {
-        const module = file.sourceFile.addModule({
+    private writeModule(context: ModelContext): void {
+        const module = context.sourceFile.addModule({
             name: this.typeName,
             isExported: true,
             hasDeclareKeyword: true,
         });
-        module.addInterfaces(this.getSingleUnionTypeInterfaces(file));
-        module.addInterface(this.getUtilsInterface(file));
-        module.addInterface(this.getVisitorInterface(file));
+        module.addInterfaces(this.getSingleUnionTypeInterfaces(context));
+        module.addInterface(this.getUtilsInterface(context));
+        module.addInterface(this.getVisitorInterface(context));
     }
 
-    private getSingleUnionTypeInterfaces(file: SdkFile): OptionalKind<InterfaceDeclarationStructure>[] {
+    private getSingleUnionTypeInterfaces(context: ModelContext): OptionalKind<InterfaceDeclarationStructure>[] {
         const interfaces = [
-            ...this.parsedSingleUnionTypes.map((singleUnionType) => singleUnionType.getInterfaceDeclaration(file)),
+            ...this.parsedSingleUnionTypes.map((singleUnionType) => singleUnionType.getInterfaceDeclaration(context)),
             AbstractParsedSingleUnionType.createDiscriminatedInterface({
                 typeName: UnionGenerator.UNKNOWN_SINGLE_UNION_TYPE_INTERFACE_NAME,
                 discriminant: this.discriminant,
                 discriminantValue: this.unknownSingleUnionType.discriminantType,
-                nonDiscriminantProperties: this.unknownSingleUnionType.getNonDiscriminantProperties?.(file),
+                nonDiscriminantProperties: this.unknownSingleUnionType.getNonDiscriminantProperties?.(context),
             }),
         ];
 
@@ -146,19 +146,19 @@ export class UnionGenerator {
         }));
     }
 
-    private getUtilsInterface(file: SdkFile): OptionalKind<InterfaceDeclarationStructure> {
+    private getUtilsInterface(context: ModelContext): OptionalKind<InterfaceDeclarationStructure> {
         return {
             name: UnionGenerator.UTILS_INTERFACE_NAME,
             properties: [
                 {
                     name: UnionGenerator.VISIT_UTIL_PROPERTY_NAME,
-                    type: getTextOfTsNode(this.getVisitSignature(file)),
+                    type: getTextOfTsNode(this.getVisitSignature(context)),
                 },
             ],
         };
     }
 
-    private getVisitSignature(file: SdkFile): ts.FunctionTypeNode {
+    private getVisitSignature(context: ModelContext): ts.FunctionTypeNode {
         return ts.factory.createFunctionTypeNode(
             [
                 ts.factory.createTypeParameterDeclaration(
@@ -175,7 +175,7 @@ export class UnionGenerator {
                     undefined,
                     ts.factory.createIdentifier(UnionGenerator.VISITOR_PARAMETER_NAME),
                     undefined,
-                    this.getReferenceToVisitorInterface(file)
+                    this.getReferenceToVisitorInterface(context)
                 ),
             ],
             ts.factory.createTypeReferenceNode(
@@ -185,7 +185,7 @@ export class UnionGenerator {
         );
     }
 
-    private getVisitorInterface(file: SdkFile): OptionalKind<InterfaceDeclarationStructure> {
+    private getVisitorInterface(context: ModelContext): OptionalKind<InterfaceDeclarationStructure> {
         return {
             name: UnionGenerator.VISITOR_INTERFACE_NAME,
             typeParameters: [
@@ -196,13 +196,13 @@ export class UnionGenerator {
             properties: [
                 ...this.parsedSingleUnionTypes.map<OptionalKind<PropertySignatureStructure>>((singleUnionType) => ({
                     name: singleUnionType.getVisitorKey(),
-                    type: getTextOfTsNode(singleUnionType.getVisitMethodSignature(file)),
+                    type: getTextOfTsNode(singleUnionType.getVisitMethodSignature(context)),
                 })),
                 {
                     name: UnionGenerator.UNKNOWN_VISITOR_KEY,
                     type: getTextOfTsNode(
                         AbstractParsedSingleUnionType.getVisitorPropertySignature({
-                            parameterType: this.unknownSingleUnionType.getVisitorArgument(file),
+                            parameterType: this.unknownSingleUnionType.getVisitorArgument(context),
                         })
                     ),
                 },
@@ -210,10 +210,10 @@ export class UnionGenerator {
         };
     }
 
-    public getReferenceToVisitorInterface(file: SdkFile): ts.TypeNode {
+    public getReferenceToVisitorInterface(context: ModelContext): ts.TypeNode {
         return ts.factory.createTypeReferenceNode(
             ts.factory.createQualifiedName(
-                this.getReferenceToUnion(file).getEntityName(),
+                this.getReferenceToUnion(context).getEntityName(),
                 UnionGenerator.VISITOR_INTERFACE_NAME
             ),
             [ts.factory.createTypeReferenceNode(UnionGenerator.VISITOR_RETURN_TYPE)]
@@ -224,17 +224,17 @@ export class UnionGenerator {
      * CONST *
      *********/
 
-    private writeConst(file: SdkFile): void {
+    private writeConst(context: ModelContext): void {
         if (this.parsedSingleUnionTypes.length === 0) {
             return;
         }
 
         const writer = FernWriters.object.writer({ asConst: true });
 
-        this.addBuilderProperties(file, writer);
-        this.addVisitProperty(file, writer);
+        this.addBuilderProperties(context, writer);
+        this.addVisitProperty(context, writer);
 
-        file.sourceFile.addVariableStatement({
+        context.sourceFile.addVariableStatement({
             declarationKind: VariableDeclarationKind.Const,
             declarations: [
                 {
@@ -246,18 +246,18 @@ export class UnionGenerator {
         });
     }
 
-    private addBuilderProperties(file: SdkFile, writer: ObjectWriter) {
+    private addBuilderProperties(context: ModelContext, writer: ObjectWriter) {
         for (const singleUnionType of this.parsedSingleUnionTypes) {
             writer.addProperty({
                 key: singleUnionType.getBuilderName(),
-                value: getTextOfTsNode(singleUnionType.getBuilder(file, this)),
+                value: getTextOfTsNode(singleUnionType.getBuilder(context, this)),
             });
             writer.addNewLine();
         }
     }
 
-    private addVisitProperty(file: SdkFile, writer: ObjectWriter) {
-        const referenceToUnion = this.getReferenceToUnion(file);
+    private addVisitProperty(context: ModelContext, writer: ObjectWriter) {
+        const referenceToUnion = this.getReferenceToUnion(context);
         writer.addProperty({
             key: UnionGenerator.VISIT_UTIL_PROPERTY_NAME,
             value: getTextOfTsNode(
@@ -285,7 +285,7 @@ export class UnionGenerator {
                             undefined,
                             ts.factory.createIdentifier(UnionGenerator.VISITOR_PARAMETER_NAME),
                             undefined,
-                            this.getReferenceToVisitorInterface(file),
+                            this.getReferenceToVisitorInterface(context),
                             undefined
                         ),
                     ],

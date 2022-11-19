@@ -1,6 +1,6 @@
 import { SingleUnionTypeProperty } from "@fern-fern/ir-model/types";
 import { getTextOfTsNode } from "@fern-typescript/commons";
-import { SdkFile } from "@fern-typescript/sdk-declaration-handler";
+import { ModelContext } from "@fern-typescript/sdk-declaration-handler";
 import { SingleUnionTypeGenerator } from "@fern-typescript/union-generator";
 import { OptionalKind, PropertySignatureStructure, ts } from "ts-morph";
 
@@ -16,8 +16,8 @@ export class SinglePropertySingleUnionTypeGenerator implements SingleUnionTypeGe
         return [];
     }
 
-    public getNonDiscriminantPropertiesForInterface(file: SdkFile): OptionalKind<PropertySignatureStructure>[] {
-        const type = file.getReferenceToType(this.singleProperty.type);
+    public getNonDiscriminantPropertiesForInterface(context: ModelContext): OptionalKind<PropertySignatureStructure>[] {
+        const type = context.getReferenceToType(this.singleProperty.type);
         return [
             {
                 name: this.getSinglePropertyKey(),
@@ -27,8 +27,8 @@ export class SinglePropertySingleUnionTypeGenerator implements SingleUnionTypeGe
         ];
     }
 
-    public getParametersForBuilder(file: SdkFile): ts.ParameterDeclaration[] {
-        const type = file.getReferenceToType(this.singleProperty.type);
+    public getParametersForBuilder(context: ModelContext): ts.ParameterDeclaration[] {
+        const type = context.getReferenceToType(this.singleProperty.type);
         return [
             ts.factory.createParameterDeclaration(
                 undefined,
@@ -50,8 +50,8 @@ export class SinglePropertySingleUnionTypeGenerator implements SingleUnionTypeGe
         ];
     }
 
-    public getVisitMethodParameterType(file: SdkFile): ts.TypeNode | undefined {
-        return file.getReferenceToType(this.singleProperty.type).typeNode;
+    public getVisitMethodParameterType(context: ModelContext): ts.TypeNode | undefined {
+        return context.getReferenceToType(this.singleProperty.type).typeNode;
     }
 
     public getVisitorArguments({

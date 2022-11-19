@@ -1,28 +1,28 @@
 import { AliasTypeDeclaration } from "@fern-fern/ir-model/types";
 import { getTextOfTsKeyword, getTextOfTsNode, maybeAddDocs } from "@fern-typescript/commons";
-import { SdkFile } from "@fern-typescript/sdk-declaration-handler";
+import { ModelContext } from "@fern-typescript/sdk-declaration-handler";
 import { ts } from "ts-morph";
 import { AbstractGeneratedType } from "../AbstractGeneratedType";
 import { GeneratedAliasType } from "./GeneratedAliasType";
 
 export class GeneratedAliasTypeImpl extends AbstractGeneratedType<AliasTypeDeclaration> implements GeneratedAliasType {
-    public writeToFile(file: SdkFile): void {
-        this.writeTypeAlias(file);
-        this.writeConst(file);
+    public writeToFile(context: ModelContext): void {
+        this.writeTypeAlias(context);
+        this.writeConst(context);
     }
 
-    private writeTypeAlias(file: SdkFile) {
-        const typeAlias = file.sourceFile.addTypeAlias({
+    private writeTypeAlias(context: ModelContext) {
+        const typeAlias = context.sourceFile.addTypeAlias({
             name: this.typeName,
-            type: getTextOfTsNode(file.getReferenceToType(this.shape.aliasOf).typeNode),
+            type: getTextOfTsNode(context.getReferenceToType(this.shape.aliasOf).typeNode),
             isExported: true,
         });
         maybeAddDocs(typeAlias, this.typeDeclaration.docs);
     }
 
-    private writeConst(file: SdkFile) {
+    private writeConst(context: ModelContext) {
         const VALUE_PARAMETER_NAME = "value";
-        file.sourceFile.addFunction({
+        context.sourceFile.addFunction({
             name: this.typeName,
             parameters: [
                 {
@@ -30,7 +30,7 @@ export class GeneratedAliasTypeImpl extends AbstractGeneratedType<AliasTypeDecla
                     type: getTextOfTsKeyword(ts.SyntaxKind.StringKeyword),
                 },
             ],
-            returnType: getTextOfTsNode(this.getReferenceToSelf(file).getTypeNode()),
+            returnType: getTextOfTsNode(this.getReferenceToSelf(context).getTypeNode()),
             statements: [
                 getTextOfTsNode(
                     ts.factory.createReturnStatement(
@@ -39,7 +39,7 @@ export class GeneratedAliasTypeImpl extends AbstractGeneratedType<AliasTypeDecla
                                 ts.factory.createIdentifier(VALUE_PARAMETER_NAME),
                                 ts.factory.createKeywordTypeNode(ts.SyntaxKind.UnknownKeyword)
                             ),
-                            this.getReferenceToSelf(file).getTypeNode()
+                            this.getReferenceToSelf(context).getTypeNode()
                         )
                     )
                 ),

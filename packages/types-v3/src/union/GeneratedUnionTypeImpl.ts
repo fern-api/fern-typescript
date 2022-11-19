@@ -1,5 +1,5 @@
 import { UnionTypeDeclaration } from "@fern-fern/ir-model/types";
-import { SdkFile } from "@fern-typescript/sdk-declaration-handler";
+import { ModelContext } from "@fern-typescript/sdk-declaration-handler";
 import { AbstractParsedSingleUnionType, UnionGenerator } from "@fern-typescript/union-generator";
 import { ts } from "ts-morph";
 import { AbstractGeneratedType } from "../AbstractGeneratedType";
@@ -39,7 +39,7 @@ export class GeneratedUnionTypeImpl extends AbstractGeneratedType<UnionTypeDecla
         });
     }
 
-    public writeToFile(file: SdkFile): void {
-        this.unionGenerator.writeToFile(file);
+    public writeToFile(context: ModelContext): void {
+        this.unionGenerator.writeToFile(context);
     }
 }

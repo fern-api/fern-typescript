@@ -1,6 +1,7 @@
 export * from "./core-utilities";
 export * from "./external-dependencies";
 export { type GeneratorContext } from "./GeneratorContext";
+export { type ModelContext } from "./ModelContext";
 export { type ParsedAuthSchemes } from "./ParsedAuthSchemes";
 export { type ParsedEnvironments } from "./ParsedEnvironments";
 export { type Reference } from "./Reference";

@@ -1,6 +1,6 @@
 import { WireStringWithAllCasings } from "@fern-fern/ir-model/commons";
 import { getTextOfTsNode } from "@fern-typescript/commons";
-import { SdkFile } from "@fern-typescript/sdk-declaration-handler";
+import { ModelContext } from "@fern-typescript/sdk-declaration-handler";
 import { OptionalKind, PropertySignatureStructure, ts } from "ts-morph";
 import { ParsedSingleUnionType } from "./ParsedSingleUnionType";
 import { SingleUnionTypeGenerator } from "./SingleUnionTypeGenerator";
@@ -9,14 +9,14 @@ import { UnionGenerator } from "./UnionGenerator";
 export abstract class AbstractParsedSingleUnionType implements ParsedSingleUnionType {
     constructor(private readonly singleUnionType: SingleUnionTypeGenerator) {}
 
-    public getInterfaceDeclaration(file: SdkFile): ParsedSingleUnionType.InterfaceDeclaration {
+    public getInterfaceDeclaration(context: ModelContext): ParsedSingleUnionType.InterfaceDeclaration {
         return AbstractParsedSingleUnionType.createDiscriminatedInterface({
             typeName: this.getInterfaceName(),
             discriminantValue: ts.factory.createLiteralTypeNode(
                 ts.factory.createStringLiteral(this.getDiscriminantValue())
             ),
-            nonDiscriminantProperties: this.singleUnionType.getNonDiscriminantPropertiesForInterface(file),
-            extends: this.singleUnionType.getExtendsForInterface(file),
+            nonDiscriminantProperties: this.singleUnionType.getNonDiscriminantPropertiesForInterface(context),
+            extends: this.singleUnionType.getExtendsForInterface(context),
             discriminant: this.getDiscriminant(),
         });
     }
@@ -47,16 +47,16 @@ export abstract class AbstractParsedSingleUnionType implements ParsedSingleUnion
         };
     }
 
-    public getBuilder(file: SdkFile, unionGenerator: UnionGenerator): ts.ArrowFunction {
+    public getBuilder(context: ModelContext, unionGenerator: UnionGenerator): ts.ArrowFunction {
         const VALUE_WITHOUT_VISIT_VARIABLE_NAME = "valueWithoutVisit";
         const VISITOR_PARAMETER_NAME = "visitor";
 
-        const referenceToBuiltType = unionGenerator.getReferenceToSingleUnionType(this, file);
+        const referenceToBuiltType = unionGenerator.getReferenceToSingleUnionType(this, context);
 
         return ts.factory.createArrowFunction(
             undefined,
             undefined,
-            this.singleUnionType.getParametersForBuilder(file),
+            this.singleUnionType.getParametersForBuilder(context),
             referenceToBuiltType,
             undefined,
             ts.factory.createBlock(
@@ -76,7 +76,7 @@ export abstract class AbstractParsedSingleUnionType implements ParsedSingleUnion
                                     ]),
                                     ts.factory.createObjectLiteralExpression(
                                         [
-                                            ...this.singleUnionType.getNonDiscriminantPropertiesForBuilder(file),
+                                            ...this.singleUnionType.getNonDiscriminantPropertiesForBuilder(context),
                                             ts.factory.createPropertyAssignment(
                                                 this.getDiscriminantKey(),
                                                 ts.factory.createStringLiteral(this.getDiscriminantValue())
@@ -90,7 +90,7 @@ export abstract class AbstractParsedSingleUnionType implements ParsedSingleUnion
                         )
                     ),
                     ts.factory.createReturnStatement(
-                        file.coreUtilities.base.addNonEnumerableProperty(
+                        context.coreUtilities.base.addNonEnumerableProperty(
                             ts.factory.createIdentifier(VALUE_WITHOUT_VISIT_VARIABLE_NAME),
                             ts.factory.createStringLiteral(UnionGenerator.VISIT_UTIL_PROPERTY_NAME),
                             ts.factory.createFunctionExpression(
@@ -119,7 +119,7 @@ export abstract class AbstractParsedSingleUnionType implements ParsedSingleUnion
                                         undefined,
                                         VISITOR_PARAMETER_NAME,
                                         undefined,
-                                        unionGenerator.getReferenceToVisitorInterface(file)
+                                        unionGenerator.getReferenceToVisitorInterface(context)
                                     ),
                                 ],
                                 undefined,
@@ -128,7 +128,7 @@ export abstract class AbstractParsedSingleUnionType implements ParsedSingleUnion
                                         ts.factory.createReturnStatement(
                                             ts.factory.createCallExpression(
                                                 ts.factory.createPropertyAccessExpression(
-                                                    unionGenerator.getReferenceToUnion(file).getExpression(),
+                                                    unionGenerator.getReferenceToUnion(context).getExpression(),
                                                     UnionGenerator.VISIT_UTIL_PROPERTY_NAME
                                                 ),
                                                 undefined,
@@ -187,9 +187,9 @@ export abstract class AbstractParsedSingleUnionType implements ParsedSingleUnion
         );
     }
 
-    public getVisitMethodSignature(file: SdkFile): ts.FunctionTypeNode {
+    public getVisitMethodSignature(context: ModelContext): ts.FunctionTypeNode {
         return AbstractParsedSingleUnionType.getVisitorPropertySignature({
-            parameterType: this.singleUnionType.getVisitMethodParameterType(file),
+            parameterType: this.singleUnionType.getVisitMethodParameterType(context),
         });
     }
 
