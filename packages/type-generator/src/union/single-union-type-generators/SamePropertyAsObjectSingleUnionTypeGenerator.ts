@@ -1,5 +1,5 @@
 import { DeclaredTypeName } from "@fern-fern/ir-model/types";
-import { ModelContext } from "@fern-typescript/sdk-declaration-handler";
+import { TypeContext } from "@fern-typescript/sdk-declaration-handler";
 import { SingleUnionTypeGenerator } from "@fern-typescript/union-generator";
 import { OptionalKind, PropertySignatureStructure, ts } from "ts-morph";
 
@@ -11,7 +11,7 @@ export class SamePropertyAsObjectSingleUnionTypeGenerator implements SingleUnion
         this.extended = extended;
     }
 
-    public getExtendsForInterface(context: ModelContext): ts.TypeNode[] {
+    public getExtendsForInterface(context: TypeContext): ts.TypeNode[] {
         return [context.getReferenceToNamedType(this.extended).getTypeNode()];
     }
 
@@ -19,7 +19,7 @@ export class SamePropertyAsObjectSingleUnionTypeGenerator implements SingleUnion
         return [];
     }
 
-    public getParametersForBuilder(context: ModelContext): ts.ParameterDeclaration[] {
+    public getParametersForBuilder(context: TypeContext): ts.ParameterDeclaration[] {
         return [
             ts.factory.createParameterDeclaration(
                 undefined,
@@ -40,7 +40,7 @@ export class SamePropertyAsObjectSingleUnionTypeGenerator implements SingleUnion
         ];
     }
 
-    public getVisitMethodParameterType(context: ModelContext): ts.TypeNode | undefined {
+    public getVisitMethodParameterType(context: TypeContext): ts.TypeNode | undefined {
         return context.getReferenceToNamedType(this.extended).getTypeNode();
     }
 

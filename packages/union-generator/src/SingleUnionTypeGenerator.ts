@@ -1,11 +1,11 @@
-import { ModelContext } from "@fern-typescript/sdk-declaration-handler";
+import { TypeContext } from "@fern-typescript/sdk-declaration-handler";
 import { OptionalKind, PropertySignatureStructure, ts } from "ts-morph";
 
 export interface SingleUnionTypeGenerator {
-    getExtendsForInterface(context: ModelContext): ts.TypeNode[];
-    getNonDiscriminantPropertiesForInterface(context: ModelContext): OptionalKind<PropertySignatureStructure>[];
+    getExtendsForInterface(context: TypeContext): ts.TypeNode[];
+    getNonDiscriminantPropertiesForInterface(context: TypeContext): OptionalKind<PropertySignatureStructure>[];
     getVisitorArguments(args: { localReferenceToUnionValue: ts.Expression }): ts.Expression[];
-    getVisitMethodParameterType(context: ModelContext): ts.TypeNode | undefined;
-    getParametersForBuilder(context: ModelContext): ts.ParameterDeclaration[];
-    getNonDiscriminantPropertiesForBuilder(context: ModelContext): ts.ObjectLiteralElementLike[];
+    getVisitMethodParameterType(context: TypeContext): ts.TypeNode | undefined;
+    getParametersForBuilder(context: TypeContext): ts.ParameterDeclaration[];
+    getNonDiscriminantPropertiesForBuilder(context: TypeContext): ts.ObjectLiteralElementLike[];
 }

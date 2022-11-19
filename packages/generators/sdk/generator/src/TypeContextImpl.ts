@@ -2,7 +2,7 @@ import { FernConstants } from "@fern-fern/ir-model/ir";
 import { DeclaredTypeName, ResolvedTypeReference, TypeReference } from "@fern-fern/ir-model/types";
 import { TypeReferenceNode } from "@fern-typescript/commons-v2";
 import { TypeResolver } from "@fern-typescript/resolvers";
-import { CoreUtilities, ExternalDependencies, ModelContext, Reference } from "@fern-typescript/sdk-declaration-handler";
+import { CoreUtilities, ExternalDependencies, Reference, TypeContext } from "@fern-typescript/sdk-declaration-handler";
 import { TypeReferenceToParsedTypeNodeConverter } from "@fern-typescript/type-reference-converters";
 import { SourceFile } from "ts-morph";
 import { CoreUtilitiesManager } from "./core-utilities/CoreUtilitiesManager";
@@ -11,7 +11,7 @@ import { DependencyManager } from "./dependency-manager/DependencyManager";
 import { createExternalDependencies } from "./external-dependencies/createExternalDependencies";
 import { ImportsManager } from "./imports-manager/ImportsManager";
 
-export declare namespace ModelContextImpl {
+export declare namespace TypeContextImpl {
     export interface Init {
         sourceFile: SourceFile;
         importsManager: ImportsManager;
@@ -23,7 +23,7 @@ export declare namespace ModelContextImpl {
     }
 }
 
-export class ModelContextImpl implements ModelContext {
+export class TypeContextImpl implements TypeContext {
     public readonly sourceFile: SourceFile;
     public readonly externalDependencies: ExternalDependencies;
     public readonly coreUtilities: CoreUtilities;
@@ -42,7 +42,7 @@ export class ModelContextImpl implements ModelContext {
         dependencyManager,
         typeResolver,
         typeDeclarationReferencer,
-    }: ModelContextImpl.Init) {
+    }: TypeContextImpl.Init) {
         this.sourceFile = sourceFile;
         this.externalDependencies = createExternalDependencies({
             dependencyManager,

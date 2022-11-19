@@ -6,7 +6,7 @@ import { CoreUtilities } from "./core-utilities";
 import { ExternalDependencies } from "./external-dependencies/ExternalDependencies";
 import { Reference } from "./Reference";
 
-export interface ModelContext {
+export interface TypeContext {
     sourceFile: SourceFile;
 
     // types

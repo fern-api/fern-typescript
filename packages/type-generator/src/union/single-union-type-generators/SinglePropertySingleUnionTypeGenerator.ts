@@ -1,6 +1,6 @@
 import { SingleUnionTypeProperty } from "@fern-fern/ir-model/types";
 import { getTextOfTsNode } from "@fern-typescript/commons";
-import { ModelContext } from "@fern-typescript/sdk-declaration-handler";
+import { TypeContext } from "@fern-typescript/sdk-declaration-handler";
 import { SingleUnionTypeGenerator } from "@fern-typescript/union-generator";
 import { OptionalKind, PropertySignatureStructure, ts } from "ts-morph";
 
@@ -16,7 +16,7 @@ export class SinglePropertySingleUnionTypeGenerator implements SingleUnionTypeGe
         return [];
     }
 
-    public getNonDiscriminantPropertiesForInterface(context: ModelContext): OptionalKind<PropertySignatureStructure>[] {
+    public getNonDiscriminantPropertiesForInterface(context: TypeContext): OptionalKind<PropertySignatureStructure>[] {
         const type = context.getReferenceToType(this.singleProperty.type);
         return [
             {
@@ -27,7 +27,7 @@ export class SinglePropertySingleUnionTypeGenerator implements SingleUnionTypeGe
         ];
     }
 
-    public getParametersForBuilder(context: ModelContext): ts.ParameterDeclaration[] {
+    public getParametersForBuilder(context: TypeContext): ts.ParameterDeclaration[] {
         const type = context.getReferenceToType(this.singleProperty.type);
         return [
             ts.factory.createParameterDeclaration(
@@ -50,7 +50,7 @@ export class SinglePropertySingleUnionTypeGenerator implements SingleUnionTypeGe
         ];
     }
 
-    public getVisitMethodParameterType(context: ModelContext): ts.TypeNode | undefined {
+    public getVisitMethodParameterType(context: TypeContext): ts.TypeNode | undefined {
         return context.getReferenceToType(this.singleProperty.type).typeNode;
     }
 

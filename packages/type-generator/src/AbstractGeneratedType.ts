@@ -1,5 +1,5 @@
 import { TypeDeclaration } from "@fern-fern/ir-model/types";
-import { ModelContext, Reference } from "@fern-typescript/sdk-declaration-handler";
+import { Reference, TypeContext } from "@fern-typescript/sdk-declaration-handler";
 import { GeneratedType } from "./GeneratedType";
 
 export declare namespace AbstractGeneratedType {
@@ -21,9 +21,9 @@ export abstract class AbstractGeneratedType<Shape> implements GeneratedType {
         this.shape = shape;
     }
 
-    protected getReferenceToSelf(context: ModelContext): Reference {
+    protected getReferenceToSelf(context: TypeContext): Reference {
         return context.getReferenceToNamedType(this.typeDeclaration.name);
     }
 
-    public abstract writeToFile(context: ModelContext): void;
+    public abstract writeToFile(context: TypeContext): void;
 }

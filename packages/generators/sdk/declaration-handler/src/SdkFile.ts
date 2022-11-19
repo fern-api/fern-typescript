@@ -4,13 +4,13 @@ import { HttpEndpoint } from "@fern-fern/ir-model/services/http";
 import { DeclaredTypeName, TypeReference } from "@fern-fern/ir-model/types";
 import { ExpressionReferenceNode, TypeReferenceNode, Zurg } from "@fern-typescript/commons-v2";
 import { ts } from "ts-morph";
-import { ModelContext } from "./ModelContext";
 import { ParsedAuthSchemes } from "./ParsedAuthSchemes";
 import { ParsedEnvironments } from "./ParsedEnvironments";
 import { ParsedGlobalHeaders } from "./ParsedGlobalHeaders";
 import { Reference } from "./Reference";
+import { TypeContext } from "./TypeContext";
 
-export interface SdkFile extends ModelContext {
+export interface SdkFile extends TypeContext {
     // types
     convertExpressionToString: (expression: ts.Expression, type: TypeReference) => ExpressionReferenceNode;
 

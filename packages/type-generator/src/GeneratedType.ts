@@ -1,5 +1,5 @@
-import { ModelContext } from "@fern-typescript/sdk-declaration-handler";
+import { TypeContext } from "@fern-typescript/sdk-declaration-handler";
 
 export interface GeneratedType {
-    writeToFile: (context: ModelContext) => void;
+    writeToFile: (context: TypeContext) => void;
 }

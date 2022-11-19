@@ -1,6 +1,6 @@
 import { AliasTypeDeclaration } from "@fern-fern/ir-model/types";
 import { getTextOfTsKeyword, getTextOfTsNode, maybeAddDocs } from "@fern-typescript/commons";
-import { ModelContext } from "@fern-typescript/sdk-declaration-handler";
+import { TypeContext } from "@fern-typescript/sdk-declaration-handler";
 import { ts } from "ts-morph";
 import { AbstractGeneratedType } from "../AbstractGeneratedType";
 import { GeneratedAliasType } from "./GeneratedAliasType";
@@ -9,12 +9,12 @@ export class GeneratedBrandedAliasImpl
     extends AbstractGeneratedType<AliasTypeDeclaration>
     implements GeneratedAliasType
 {
-    public writeToFile(context: ModelContext): void {
+    public writeToFile(context: TypeContext): void {
         this.writeTypeAlias(context);
         this.writeConst(context);
     }
 
-    private writeTypeAlias(context: ModelContext) {
+    private writeTypeAlias(context: TypeContext) {
         const referenceToAliasedType = context.getReferenceToType(this.shape.aliasOf).typeNode;
         const typeAlias = context.sourceFile.addTypeAlias({
             name: this.typeName,
@@ -36,7 +36,7 @@ export class GeneratedBrandedAliasImpl
         maybeAddDocs(typeAlias, this.typeDeclaration.docs);
     }
 
-    private writeConst(context: ModelContext) {
+    private writeConst(context: TypeContext) {
         const VALUE_PARAMETER_NAME = "value";
         context.sourceFile.addFunction({
             name: this.typeName,

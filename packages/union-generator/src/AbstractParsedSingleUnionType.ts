@@ -1,6 +1,6 @@
 import { WireStringWithAllCasings } from "@fern-fern/ir-model/commons";
 import { getTextOfTsNode } from "@fern-typescript/commons";
-import { ModelContext } from "@fern-typescript/sdk-declaration-handler";
+import { TypeContext } from "@fern-typescript/sdk-declaration-handler";
 import { OptionalKind, PropertySignatureStructure, ts } from "ts-morph";
 import { ParsedSingleUnionType } from "./ParsedSingleUnionType";
 import { SingleUnionTypeGenerator } from "./SingleUnionTypeGenerator";
@@ -9,7 +9,7 @@ import { UnionGenerator } from "./UnionGenerator";
 export abstract class AbstractParsedSingleUnionType implements ParsedSingleUnionType {
     constructor(private readonly singleUnionType: SingleUnionTypeGenerator) {}
 
-    public getInterfaceDeclaration(context: ModelContext): ParsedSingleUnionType.InterfaceDeclaration {
+    public getInterfaceDeclaration(context: TypeContext): ParsedSingleUnionType.InterfaceDeclaration {
         return AbstractParsedSingleUnionType.createDiscriminatedInterface({
             typeName: this.getInterfaceName(),
             discriminantValue: ts.factory.createLiteralTypeNode(
@@ -47,7 +47,7 @@ export abstract class AbstractParsedSingleUnionType implements ParsedSingleUnion
         };
     }
 
-    public getBuilder(context: ModelContext, unionGenerator: UnionGenerator): ts.ArrowFunction {
+    public getBuilder(context: TypeContext, unionGenerator: UnionGenerator): ts.ArrowFunction {
         const VALUE_WITHOUT_VISIT_VARIABLE_NAME = "valueWithoutVisit";
         const VISITOR_PARAMETER_NAME = "visitor";
 
@@ -187,7 +187,7 @@ export abstract class AbstractParsedSingleUnionType implements ParsedSingleUnion
         );
     }
 
-    public getVisitMethodSignature(context: ModelContext): ts.FunctionTypeNode {
+    public getVisitMethodSignature(context: TypeContext): ts.FunctionTypeNode {
         return AbstractParsedSingleUnionType.getVisitorPropertySignature({
             parameterType: this.singleUnionType.getVisitMethodParameterType(context),
         });
