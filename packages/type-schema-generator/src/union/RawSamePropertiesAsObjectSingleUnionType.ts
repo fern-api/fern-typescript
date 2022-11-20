@@ -19,7 +19,7 @@ export class RawSamePropertiesAsObjectSingleUnionType extends AbstractRawSingleU
     }
 
     protected getExtends(context: TypeSchemaContext): ts.TypeNode[] {
-        return [context.getReferenceToNamedType(this.extended).getTypeNode()];
+        return [context.getReferenceToRawNamedType(this.extended).getTypeNode()];
     }
 
     protected getNonDiscriminantPropertiesForInterface(): OptionalKind<PropertySignatureStructure>[] {

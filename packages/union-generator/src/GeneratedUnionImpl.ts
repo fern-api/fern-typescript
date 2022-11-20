@@ -389,7 +389,7 @@ export class GeneratedUnionImpl<Context extends TypeContext> implements Generate
                                                 [
                                                     ts.factory.createAsExpression(
                                                         ts.factory.createIdentifier(
-                                                            GeneratedUnionImpl.VISITOR_PARAMETER_NAME
+                                                            GeneratedUnionImpl.VISITEE_PARAMETER_NAME
                                                         ),
                                                         ts.factory.createKeywordTypeNode(ts.SyntaxKind.AnyKeyword)
                                                     ),

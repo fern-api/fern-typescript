@@ -2399,7 +2399,7 @@ export const TokenStatus = {
       case \\"revoked\\":
         return visitor.revoked();
       default:
-        return visitor._other(visitor as any);
+        return visitor._other(value as any);
     }
   },
 } as const;
