@@ -37,7 +37,7 @@ export class GeneratedUnionSchema<Context extends TypeSchemaContext> extends Abs
         const interfaces = this.singleUnionTypes.map((singleUnionType) => singleUnionType.generateInterface(context));
 
         module.addTypeAlias({
-            name: this.typeName,
+            name: AbstractGeneratedSchema.RAW_TYPE_NAME,
             type: getTextOfTsNode(
                 ts.factory.createUnionTypeNode(
                     interfaces.map((interface_) =>

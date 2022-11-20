@@ -1815,7 +1815,7 @@ import { FernApi } from \\"@fern/api\\";
 
 export interface CreateOwnerRequest {
   ownerId: FernApi.OwnerId;
-  data: unknown;
+  data?: unknown;
 }
 ",
                     "name": "CreateOwnerRequest.ts",
@@ -1830,7 +1830,7 @@ import { FernApi } from \\"@fern/api\\";
 
 export interface Owner {
   ownerId: FernApi.OwnerId;
-  data: unknown;
+  data?: unknown;
 }
 ",
                     "name": "Owner.ts",
@@ -1861,7 +1861,7 @@ export function OwnerId(value: string): FernApi.OwnerId {
  */
 
 export interface UpdateOwnerRequest {
-  data: unknown;
+  data?: unknown;
 }
 ",
                     "name": "UpdateOwnerRequest.ts",
@@ -2583,7 +2583,7 @@ export const CreateOwnerRequest: core.schemas.ObjectSchema<CreateOwnerRequest.Ra
 export declare namespace CreateOwnerRequest {
   interface Raw {
     ownerId: serializers.OwnerId.Raw;
-    data: unknown;
+    data?: unknown;
   }
 }
 ",
@@ -2607,7 +2607,7 @@ export const Owner: core.schemas.ObjectSchema<Owner.Raw, FernApi.Owner> = core.s
 export declare namespace Owner {
   interface Raw {
     ownerId: serializers.OwnerId.Raw;
-    data: unknown;
+    data?: unknown;
   }
 }
 ",
@@ -2646,7 +2646,7 @@ export const UpdateOwnerRequest: core.schemas.ObjectSchema<UpdateOwnerRequest.Ra
 
 export declare namespace UpdateOwnerRequest {
   interface Raw {
-    data: unknown;
+    data?: unknown;
   }
 }
 ",
@@ -2947,7 +2947,7 @@ export const TokenStatus: core.schemas.Schema<TokenStatus.Raw, FernApi.TokenStat
   });
 
 export declare namespace TokenStatus {
-  type TokenStatus = TokenStatus.Active | TokenStatus.Expired | TokenStatus.Revoked;
+  type Raw = TokenStatus.Active | TokenStatus.Expired | TokenStatus.Revoked;
 
   interface Active {
     type: \\"active\\";
