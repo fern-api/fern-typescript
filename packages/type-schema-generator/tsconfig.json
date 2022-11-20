@@ -3,10 +3,11 @@
   "compilerOptions": { "composite": true, "outDir": "lib", "rootDir": "src" },
   "include": ["./src"],
   "references": [
-    { "path": "../abstract-generated-schema" },
+    { "path": "../abstract-schema-generator" },
     { "path": "../commons" },
     { "path": "../commons-v2" },
     { "path": "../generators/sdk/declaration-handler" },
-    { "path": "../union-generator" }
+    { "path": "../union-generator" },
+    { "path": "../union-schema-generator" }
   ]
 }

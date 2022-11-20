@@ -1937,9 +1937,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fern-typescript/abstract-generated-schema@workspace:*, @fern-typescript/abstract-generated-schema@workspace:packages/abstract-generated-schema":
+"@fern-typescript/abstract-schema-generator@workspace:*, @fern-typescript/abstract-schema-generator@workspace:packages/abstract-schema-generator":
   version: 0.0.0-use.local
-  resolution: "@fern-typescript/abstract-generated-schema@workspace:packages/abstract-generated-schema"
+  resolution: "@fern-typescript/abstract-schema-generator@workspace:packages/abstract-schema-generator"
   dependencies:
     "@babel/core": ^7.19.1
     "@babel/preset-env": ^7.19.1
@@ -2466,11 +2466,12 @@ __metadata:
     "@babel/preset-env": ^7.19.1
     "@babel/preset-typescript": ^7.18.6
     "@fern-fern/ir-model": 0.0.294
-    "@fern-typescript/abstract-generated-schema": "workspace:*"
+    "@fern-typescript/abstract-schema-generator": "workspace:*"
     "@fern-typescript/commons": "workspace:*"
     "@fern-typescript/commons-v2": "workspace:*"
     "@fern-typescript/sdk-declaration-handler": "workspace:*"
     "@fern-typescript/union-generator": "workspace:*"
+    "@fern-typescript/union-schema-generator": "workspace:*"
     "@types/jest": ^28.1.6
     "@types/node": ^18.7.18
     depcheck: ^1.4.3
@@ -2537,6 +2538,30 @@ __metadata:
     "@fern-fern/ir-model": 0.0.294
     "@fern-typescript/commons": "workspace:*"
     "@fern-typescript/sdk-declaration-handler": "workspace:*"
+    "@types/jest": ^28.1.6
+    "@types/node": ^18.7.18
+    depcheck: ^1.4.3
+    eslint: ^8.23.1
+    jest: ^28.1.3
+    prettier: ^2.7.1
+    ts-morph: ^15.1.0
+    typescript: 4.6.4
+  languageName: unknown
+  linkType: soft
+
+"@fern-typescript/union-schema-generator@workspace:*, @fern-typescript/union-schema-generator@workspace:packages/union-schema-generator":
+  version: 0.0.0-use.local
+  resolution: "@fern-typescript/union-schema-generator@workspace:packages/union-schema-generator"
+  dependencies:
+    "@babel/core": ^7.19.1
+    "@babel/preset-env": ^7.19.1
+    "@babel/preset-typescript": ^7.18.6
+    "@fern-fern/ir-model": 0.0.294
+    "@fern-typescript/abstract-schema-generator": "workspace:*"
+    "@fern-typescript/commons": "workspace:*"
+    "@fern-typescript/commons-v2": "workspace:*"
+    "@fern-typescript/sdk-declaration-handler": "workspace:*"
+    "@fern-typescript/union-generator": "workspace:*"
     "@types/jest": ^28.1.6
     "@types/node": ^18.7.18
     depcheck: ^1.4.3

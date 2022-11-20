@@ -2,14 +2,16 @@ import { WireStringWithAllCasings } from "@fern-fern/ir-model/commons";
 import { getTextOfTsNode } from "@fern-typescript/commons";
 import { TypeContext } from "@fern-typescript/sdk-declaration-handler";
 import { OptionalKind, PropertySignatureStructure, ts } from "ts-morph";
+import { GeneratedUnionImpl } from "./GeneratedUnionImpl";
 import { ParsedSingleUnionType } from "./ParsedSingleUnionType";
 import { SingleUnionTypeGenerator } from "./SingleUnionTypeGenerator";
-import { UnionGenerator } from "./UnionGenerator";
 
-export abstract class AbstractParsedSingleUnionType implements ParsedSingleUnionType {
+export abstract class AbstractParsedSingleUnionType<Context extends TypeContext>
+    implements ParsedSingleUnionType<Context>
+{
     constructor(private readonly singleUnionType: SingleUnionTypeGenerator) {}
 
-    public getInterfaceDeclaration(context: TypeContext): ParsedSingleUnionType.InterfaceDeclaration {
+    public getInterfaceDeclaration(context: Context): ParsedSingleUnionType.InterfaceDeclaration {
         return AbstractParsedSingleUnionType.createDiscriminatedInterface({
             typeName: this.getInterfaceName(),
             discriminantValue: ts.factory.createLiteralTypeNode(
@@ -47,7 +49,7 @@ export abstract class AbstractParsedSingleUnionType implements ParsedSingleUnion
         };
     }
 
-    public getBuilder(context: TypeContext, unionGenerator: UnionGenerator): ts.ArrowFunction {
+    public getBuilder(context: Context, unionGenerator: GeneratedUnionImpl<Context>): ts.ArrowFunction {
         const VALUE_WITHOUT_VISIT_VARIABLE_NAME = "valueWithoutVisit";
         const VISITOR_PARAMETER_NAME = "visitor";
 
@@ -71,7 +73,7 @@ export abstract class AbstractParsedSingleUnionType implements ParsedSingleUnion
                                     ts.factory.createTypeReferenceNode(ts.factory.createIdentifier("Omit"), [
                                         referenceToBuiltType,
                                         ts.factory.createLiteralTypeNode(
-                                            ts.factory.createStringLiteral(UnionGenerator.VISIT_UTIL_PROPERTY_NAME)
+                                            ts.factory.createStringLiteral(GeneratedUnionImpl.VISIT_UTIL_PROPERTY_NAME)
                                         ),
                                     ]),
                                     ts.factory.createObjectLiteralExpression(
@@ -92,7 +94,7 @@ export abstract class AbstractParsedSingleUnionType implements ParsedSingleUnion
                     ts.factory.createReturnStatement(
                         context.coreUtilities.base.addNonEnumerableProperty(
                             ts.factory.createIdentifier(VALUE_WITHOUT_VISIT_VARIABLE_NAME),
-                            ts.factory.createStringLiteral(UnionGenerator.VISIT_UTIL_PROPERTY_NAME),
+                            ts.factory.createStringLiteral(GeneratedUnionImpl.VISIT_UTIL_PROPERTY_NAME),
                             ts.factory.createFunctionExpression(
                                 undefined,
                                 undefined,
@@ -100,7 +102,7 @@ export abstract class AbstractParsedSingleUnionType implements ParsedSingleUnion
                                 [
                                     ts.factory.createTypeParameterDeclaration(
                                         undefined,
-                                        UnionGenerator.VISITOR_RETURN_TYPE
+                                        GeneratedUnionImpl.VISITOR_RETURN_TYPE
                                     ),
                                 ],
                                 [
@@ -129,7 +131,7 @@ export abstract class AbstractParsedSingleUnionType implements ParsedSingleUnion
                                             ts.factory.createCallExpression(
                                                 ts.factory.createPropertyAccessExpression(
                                                     unionGenerator.getReferenceToUnion(context).getExpression(),
-                                                    UnionGenerator.VISIT_UTIL_PROPERTY_NAME
+                                                    GeneratedUnionImpl.VISIT_UTIL_PROPERTY_NAME
                                                 ),
                                                 undefined,
                                                 [
@@ -148,6 +150,10 @@ export abstract class AbstractParsedSingleUnionType implements ParsedSingleUnion
                 true
             )
         );
+    }
+
+    public getBuilderArgsFromExistingValue(existingValue: ts.Expression): ts.Expression[] {
+        return this.singleUnionType.getBuilderArgsFromExistingValue(existingValue);
     }
 
     private getDiscriminantKey(): string {
@@ -171,14 +177,14 @@ export abstract class AbstractParsedSingleUnionType implements ParsedSingleUnion
                     undefined,
                     undefined,
                     undefined,
-                    UnionGenerator.VISITOR_PARAMETER_NAME
+                    GeneratedUnionImpl.VISITOR_PARAMETER_NAME
                 ),
             ],
             undefined,
             undefined,
             ts.factory.createCallExpression(
                 ts.factory.createPropertyAccessExpression(
-                    ts.factory.createIdentifier(UnionGenerator.VISITOR_PARAMETER_NAME),
+                    ts.factory.createIdentifier(GeneratedUnionImpl.VISITOR_PARAMETER_NAME),
                     ts.factory.createIdentifier(this.getVisitorKey())
                 ),
                 undefined,
@@ -187,7 +193,7 @@ export abstract class AbstractParsedSingleUnionType implements ParsedSingleUnion
         );
     }
 
-    public getVisitMethodSignature(context: TypeContext): ts.FunctionTypeNode {
+    public getVisitMethodSignature(context: Context): ts.FunctionTypeNode {
         return AbstractParsedSingleUnionType.getVisitorPropertySignature({
             parameterType: this.singleUnionType.getVisitMethodParameterType(context),
         });
@@ -206,13 +212,13 @@ export abstract class AbstractParsedSingleUnionType implements ParsedSingleUnion
                           undefined,
                           undefined,
                           undefined,
-                          UnionGenerator.VISITEE_PARAMETER_NAME,
+                          GeneratedUnionImpl.VISITEE_PARAMETER_NAME,
                           undefined,
                           parameterType
                       ),
                   ]
                 : [],
-            ts.factory.createTypeReferenceNode(ts.factory.createIdentifier(UnionGenerator.VISITOR_RETURN_TYPE))
+            ts.factory.createTypeReferenceNode(ts.factory.createIdentifier(GeneratedUnionImpl.VISITOR_RETURN_TYPE))
         );
     }
 

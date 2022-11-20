@@ -1,7 +1,7 @@
 import { getTextOfTsNode } from "@fern-typescript/commons";
 import { Zurg } from "@fern-typescript/commons-v2";
 import { TypeSchemaContext } from "@fern-typescript/sdk-declaration-handler";
-import { ts, VariableDeclarationKind } from "ts-morph";
+import { ModuleDeclaration, ts, VariableDeclarationKind } from "ts-morph";
 
 export declare namespace AbstractGeneratedSchema {
     export interface Init {
@@ -9,7 +9,7 @@ export declare namespace AbstractGeneratedSchema {
     }
 }
 
-export abstract class AbstractGeneratedSchema<Context extends TypeSchemaContext = TypeSchemaContext> {
+export abstract class AbstractGeneratedSchema<Context extends TypeSchemaContext> {
     public static RAW_TYPE_NAME = "Raw";
 
     protected typeName: string;
@@ -34,16 +34,6 @@ export abstract class AbstractGeneratedSchema<Context extends TypeSchemaContext 
         this.generateModule(context);
     }
 
-    public static getReferenceToRawSchema({
-        referenceToSchemaModule,
-    }: {
-        referenceToSchemaModule: ts.EntityName;
-    }): ts.TypeNode {
-        return ts.factory.createTypeReferenceNode(
-            ts.factory.createQualifiedName(referenceToSchemaModule, AbstractGeneratedSchema.RAW_TYPE_NAME)
-        );
-    }
-
     private getReferenceToSchemaType(context: Context): ts.TypeNode {
         return context.coreUtilities.zurg.Schema._getReferenceToType({
             rawShape: this.getReferenceToRawShape(context),
@@ -51,8 +41,29 @@ export abstract class AbstractGeneratedSchema<Context extends TypeSchemaContext 
         });
     }
 
-    protected abstract getReferenceToRawShape(context: Context): ts.TypeNode;
+    protected generateModule(context: TypeSchemaContext): void {
+        const module = context.sourceFile.addModule({
+            name: this.getModuleName(),
+            isExported: true,
+            hasDeclareKeyword: true,
+        });
+        this.generateRawTypeDeclaration(context, module);
+    }
+
+    protected getReferenceToRawShape(_context: Context): ts.TypeNode {
+        return ts.factory.createTypeReferenceNode(
+            ts.factory.createQualifiedName(
+                ts.factory.createIdentifier(this.getModuleName()),
+                AbstractGeneratedSchema.RAW_TYPE_NAME
+            )
+        );
+    }
+
+    protected abstract generateRawTypeDeclaration(context: TypeSchemaContext, module: ModuleDeclaration): void;
     protected abstract getReferenceToParsedShape(context: Context): ts.TypeNode;
-    protected abstract generateModule(context: Context): void;
     protected abstract getSchema(context: Context): Zurg.Schema;
+
+    protected getModuleName(): string {
+        return this.typeName;
+    }
 }

@@ -1,10 +1,10 @@
 {
-  "name": "@fern-typescript/abstract-generated-schema",
+  "name": "@fern-typescript/union-schema-generator",
   "version": "0.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/fern-api/fern-typescript.git",
-    "directory": "packages/abstract-generated-schema"
+    "directory": "packages/union-schema-generator"
   },
   "files": [
     "lib"
@@ -25,9 +25,12 @@
     "depcheck": "depcheck"
   },
   "dependencies": {
+    "@fern-fern/ir-model": "0.0.294",
+    "@fern-typescript/abstract-schema-generator": "workspace:*",
     "@fern-typescript/commons": "workspace:*",
     "@fern-typescript/commons-v2": "workspace:*",
     "@fern-typescript/sdk-declaration-handler": "workspace:*",
+    "@fern-typescript/union-generator": "workspace:*",
     "ts-morph": "^15.1.0"
   },
   "devDependencies": {

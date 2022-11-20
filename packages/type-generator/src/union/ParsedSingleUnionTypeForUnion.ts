@@ -1,5 +1,6 @@
 import { WireStringWithAllCasings } from "@fern-fern/ir-model/commons";
 import { SingleUnionType, SingleUnionTypeProperties, UnionTypeDeclaration } from "@fern-fern/ir-model/types";
+import { TypeContext } from "@fern-typescript/sdk-declaration-handler";
 import { AbstractParsedSingleUnionType, SingleUnionTypeGenerator } from "@fern-typescript/union-generator";
 import { NoPropertiesSingleUnionTypeGenerator } from "./single-union-type-generators/NoPropertiesSingleUnionTypeGenerator";
 import { SamePropertyAsObjectSingleUnionTypeGenerator } from "./single-union-type-generators/SamePropertyAsObjectSingleUnionTypeGenerator";
@@ -12,7 +13,7 @@ export declare namespace ParsedSingleUnionTypeForUnion {
     }
 }
 
-export class ParsedSingleUnionTypeForUnion extends AbstractParsedSingleUnionType {
+export class ParsedSingleUnionTypeForUnion extends AbstractParsedSingleUnionType<TypeContext> {
     private singleUnionTypeFromUnion: SingleUnionType;
     protected union: UnionTypeDeclaration;
 

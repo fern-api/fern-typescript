@@ -1,5 +1,5 @@
 import { ObjectTypeDeclaration } from "@fern-fern/ir-model/types";
-import { AbstractGeneratedSchema } from "@fern-typescript/abstract-generated-schema";
+import { AbstractGeneratedSchema } from "@fern-typescript/abstract-schema-generator";
 import { getTextOfTsNode } from "@fern-typescript/commons";
 import { Zurg } from "@fern-typescript/commons-v2";
 import { GeneratedObjectTypeSchema, TypeSchemaContext } from "@fern-typescript/sdk-declaration-handler";

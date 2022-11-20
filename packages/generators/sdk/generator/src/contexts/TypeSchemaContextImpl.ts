@@ -20,11 +20,11 @@ import {
 } from "@fern-typescript/type-reference-converters";
 import { getSubImportPathToRawSchema } from "@fern-typescript/types-v2";
 import { SourceFile } from "ts-morph";
-import { CoreUtilitiesManager } from "./core-utilities/CoreUtilitiesManager";
-import { ImportStrategy } from "./declaration-referencers/DeclarationReferencer";
-import { TypeDeclarationReferencer } from "./declaration-referencers/TypeDeclarationReferencer";
-import { DependencyManager } from "./dependency-manager/DependencyManager";
-import { ImportsManager } from "./imports-manager/ImportsManager";
+import { CoreUtilitiesManager } from "../core-utilities/CoreUtilitiesManager";
+import { ImportStrategy } from "../declaration-referencers/DeclarationReferencer";
+import { TypeDeclarationReferencer } from "../declaration-referencers/TypeDeclarationReferencer";
+import { DependencyManager } from "../dependency-manager/DependencyManager";
+import { ImportsManager } from "../imports-manager/ImportsManager";
 import { TypeContextImpl } from "./TypeContextImpl";
 
 export declare namespace TypeSchemaContextImpl {

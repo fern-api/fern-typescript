@@ -1,16 +1,17 @@
 import { TypeContext } from "@fern-typescript/sdk-declaration-handler";
 import { OptionalKind, PropertySignatureStructure, ts } from "ts-morph";
-import { UnionGenerator } from "./UnionGenerator";
+import { GeneratedUnionImpl } from "./GeneratedUnionImpl";
 
-export interface ParsedSingleUnionType {
+export interface ParsedSingleUnionType<Context extends TypeContext> {
     getDocs(): string | null | undefined;
     getDiscriminantValue(): string;
     getInterfaceName(): string;
-    getInterfaceDeclaration(context: TypeContext): ParsedSingleUnionType.InterfaceDeclaration;
-    getBuilder(context: TypeContext, UnionGenerator: UnionGenerator): ts.ArrowFunction;
+    getInterfaceDeclaration(context: Context): ParsedSingleUnionType.InterfaceDeclaration;
+    getBuilder(context: Context, unionGenerator: GeneratedUnionImpl<Context>): ts.ArrowFunction;
     getBuilderName(): string;
+    getBuilderArgsFromExistingValue(existingValue: ts.Expression): ts.Expression[];
     getVisitMethod(args: { localReferenceToUnionValue: ts.Expression }): ts.ArrowFunction;
-    getVisitMethodSignature(context: TypeContext): ts.FunctionTypeNode;
+    getVisitMethodSignature(context: Context): ts.FunctionTypeNode;
     getVisitorKey(): string;
     invokeVisitMethod(args: {
         localReferenceToUnionValue: ts.Expression;

@@ -1,12 +1,13 @@
-import { UnionTypeDeclaration } from "@fern-fern/ir-model/types";
-import { GeneratedUnionType, TypeContext } from "@fern-typescript/sdk-declaration-handler";
-import { AbstractParsedSingleUnionType, UnionGenerator } from "@fern-typescript/union-generator";
+import { SingleUnionTypeProperty, UnionTypeDeclaration } from "@fern-fern/ir-model/types";
+import { GeneratedUnion, GeneratedUnionType, TypeContext } from "@fern-typescript/sdk-declaration-handler";
+import { AbstractParsedSingleUnionType, GeneratedUnionImpl } from "@fern-typescript/union-generator";
 import { ts } from "ts-morph";
 import { AbstractGeneratedType } from "../AbstractGeneratedType";
 import { ParsedSingleUnionTypeForUnion } from "./ParsedSingleUnionTypeForUnion";
+import { SinglePropertySingleUnionTypeGenerator } from "./single-union-type-generators/SinglePropertySingleUnionTypeGenerator";
 
 export class GeneratedUnionTypeImpl extends AbstractGeneratedType<UnionTypeDeclaration> implements GeneratedUnionType {
-    private unionGenerator: UnionGenerator;
+    private generatedUnion: GeneratedUnionImpl<TypeContext>;
 
     constructor(superInit: AbstractGeneratedType.Init<UnionTypeDeclaration>) {
         super(superInit);
@@ -15,7 +16,7 @@ export class GeneratedUnionTypeImpl extends AbstractGeneratedType<UnionTypeDecla
             (singleUnionType) => new ParsedSingleUnionTypeForUnion({ singleUnionType, union: this.shape })
         );
 
-        this.unionGenerator = new UnionGenerator({
+        this.generatedUnion = new GeneratedUnionImpl({
             typeName: this.typeName,
             getReferenceToUnion: this.getReferenceToSelf.bind(this),
             docs: this.typeDeclaration.docs,
@@ -39,6 +40,14 @@ export class GeneratedUnionTypeImpl extends AbstractGeneratedType<UnionTypeDecla
     }
 
     public writeToFile(context: TypeContext): void {
-        this.unionGenerator.writeToFile(context);
+        this.generatedUnion.writeToFile(context);
+    }
+
+    public getGeneratedUnion(): GeneratedUnion<TypeContext> {
+        return this.generatedUnion;
+    }
+
+    public getSinglePropertyKey(singleProperty: SingleUnionTypeProperty): string {
+        return SinglePropertySingleUnionTypeGenerator.getSinglePropertyKey(singleProperty);
     }
 }

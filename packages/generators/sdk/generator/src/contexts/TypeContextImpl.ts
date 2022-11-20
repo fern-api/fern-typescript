@@ -5,11 +5,11 @@ import { TypeResolver } from "@fern-typescript/resolvers";
 import { CoreUtilities, ExternalDependencies, Reference, TypeContext } from "@fern-typescript/sdk-declaration-handler";
 import { TypeReferenceToParsedTypeNodeConverter } from "@fern-typescript/type-reference-converters";
 import { SourceFile } from "ts-morph";
-import { CoreUtilitiesManager } from "./core-utilities/CoreUtilitiesManager";
-import { TypeDeclarationReferencer } from "./declaration-referencers/TypeDeclarationReferencer";
-import { DependencyManager } from "./dependency-manager/DependencyManager";
-import { createExternalDependencies } from "./external-dependencies/createExternalDependencies";
-import { ImportsManager } from "./imports-manager/ImportsManager";
+import { CoreUtilitiesManager } from "../core-utilities/CoreUtilitiesManager";
+import { TypeDeclarationReferencer } from "../declaration-referencers/TypeDeclarationReferencer";
+import { DependencyManager } from "../dependency-manager/DependencyManager";
+import { createExternalDependencies } from "../external-dependencies/createExternalDependencies";
+import { ImportsManager } from "../imports-manager/ImportsManager";
 
 export declare namespace TypeContextImpl {
     export interface Init {

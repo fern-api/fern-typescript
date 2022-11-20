@@ -51,4 +51,8 @@ export class SamePropertyAsObjectSingleUnionTypeGenerator implements SingleUnion
     }): ts.Expression[] {
         return [localReferenceToUnionValue];
     }
+
+    public getBuilderArgsFromExistingValue(existingValue: ts.Expression): ts.Expression[] {
+        return [existingValue];
+    }
 }

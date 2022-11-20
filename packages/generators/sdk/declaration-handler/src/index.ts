@@ -2,6 +2,7 @@ export * from "./core-utilities";
 export * from "./external-dependencies";
 export * from "./generated-type-schemas";
 export * from "./generated-types";
+export { type GeneratedUnion } from "./GeneratedUnion";
 export { type GeneratorContext } from "./GeneratorContext";
 export { type ParsedAuthSchemes } from "./ParsedAuthSchemes";
 export { type ParsedEnvironments } from "./ParsedEnvironments";

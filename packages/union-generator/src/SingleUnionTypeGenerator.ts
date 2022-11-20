@@ -7,5 +7,6 @@ export interface SingleUnionTypeGenerator {
     getVisitorArguments(args: { localReferenceToUnionValue: ts.Expression }): ts.Expression[];
     getVisitMethodParameterType(context: TypeContext): ts.TypeNode | undefined;
     getParametersForBuilder(context: TypeContext): ts.ParameterDeclaration[];
+    getBuilderArgsFromExistingValue(existingValue: ts.Expression): ts.Expression[];
     getNonDiscriminantPropertiesForBuilder(context: TypeContext): ts.ObjectLiteralElementLike[];
 }

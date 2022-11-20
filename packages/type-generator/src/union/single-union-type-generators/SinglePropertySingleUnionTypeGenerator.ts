@@ -63,6 +63,14 @@ export class SinglePropertySingleUnionTypeGenerator implements SingleUnionTypeGe
     }
 
     private getSinglePropertyKey(): string {
-        return this.singleProperty.name.camelCase;
+        return SinglePropertySingleUnionTypeGenerator.getSinglePropertyKey(this.singleProperty);
+    }
+
+    public static getSinglePropertyKey(singleProperty: SingleUnionTypeProperty): string {
+        return singleProperty.name.camelCase;
+    }
+
+    public getBuilderArgsFromExistingValue(existingValue: ts.Expression): ts.Expression[] {
+        return [ts.factory.createPropertyAccessExpression(existingValue, this.getSinglePropertyKey())];
     }
 }

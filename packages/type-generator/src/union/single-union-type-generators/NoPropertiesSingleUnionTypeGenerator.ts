@@ -25,4 +25,8 @@ export class NoPropertiesSingleUnionTypeGenerator implements SingleUnionTypeGene
     public getVisitorArguments(): ts.Expression[] {
         return [];
     }
+
+    public getBuilderArgsFromExistingValue(): ts.Expression[] {
+        return [];
+    }
 }

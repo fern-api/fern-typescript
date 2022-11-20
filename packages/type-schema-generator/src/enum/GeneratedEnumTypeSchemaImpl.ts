@@ -1,5 +1,5 @@
 import { EnumTypeDeclaration } from "@fern-fern/ir-model/types";
-import { AbstractGeneratedSchema } from "@fern-typescript/abstract-generated-schema";
+import { AbstractGeneratedSchema } from "@fern-typescript/abstract-schema-generator";
 import { getTextOfTsNode } from "@fern-typescript/commons";
 import { Zurg } from "@fern-typescript/commons-v2";
 import { GeneratedEnumTypeSchema, TypeSchemaContext } from "@fern-typescript/sdk-declaration-handler";
@@ -10,7 +10,7 @@ export class GeneratedEnumTypeSchemaImpl
     extends AbstractGeneratedTypeSchema<EnumTypeDeclaration>
     implements GeneratedEnumTypeSchema
 {
-    public override getSchema(context: TypeSchemaContext): Zurg.Schema {
+    protected override getSchema(context: TypeSchemaContext): Zurg.Schema {
         return context.coreUtilities.zurg.enum(this.shape.values.map((value) => value.value));
     }
 
