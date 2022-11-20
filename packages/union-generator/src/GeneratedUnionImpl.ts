@@ -102,6 +102,21 @@ export class GeneratedUnionImpl<Context extends TypeContext> implements Generate
         );
     }
 
+    public addVistMethodToValue({
+        context,
+        parsedValue,
+    }: {
+        context: Context;
+        parsedValue: ts.Expression;
+    }): ts.Expression {
+        return AbstractParsedSingleUnionType.addVisitMethodToValue({
+            context,
+            generatedUnion: this,
+            value: parsedValue,
+            referenceToBuiltType: this.getReferenceTo(context),
+        });
+    }
+
     /**************
      * TYPE ALIAS *
      **************/

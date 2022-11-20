@@ -7,7 +7,7 @@ export interface ParsedSingleUnionType<Context extends TypeContext> {
     getDiscriminantValue(): string;
     getInterfaceName(): string;
     getInterfaceDeclaration(context: Context): ParsedSingleUnionType.InterfaceDeclaration;
-    getBuilder(context: Context, unionGenerator: GeneratedUnionImpl<Context>): ts.ArrowFunction;
+    getBuilder(context: Context, generatedUnion: GeneratedUnionImpl<Context>): ts.ArrowFunction;
     getBuilderName(): string;
     getBuilderArgsFromExistingValue(existingValue: ts.Expression): ts.Expression[];
     getVisitMethod(args: { localReferenceToUnionValue: ts.Expression }): ts.ArrowFunction;

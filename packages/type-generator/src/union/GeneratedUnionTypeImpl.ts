@@ -1,5 +1,10 @@
 import { SingleUnionTypeProperty, UnionTypeDeclaration } from "@fern-fern/ir-model/types";
-import { GeneratedUnion, GeneratedUnionType, TypeContext } from "@fern-typescript/sdk-declaration-handler";
+import {
+    GeneratedUnion,
+    GeneratedUnionType,
+    TypeContext,
+    TypeSchemaContext,
+} from "@fern-typescript/sdk-declaration-handler";
 import { AbstractParsedSingleUnionType, GeneratedUnionImpl } from "@fern-typescript/union-generator";
 import { ts } from "ts-morph";
 import { AbstractGeneratedType } from "../AbstractGeneratedType";
@@ -49,5 +54,15 @@ export class GeneratedUnionTypeImpl extends AbstractGeneratedType<UnionTypeDecla
 
     public getSinglePropertyKey(singleProperty: SingleUnionTypeProperty): string {
         return SinglePropertySingleUnionTypeGenerator.getSinglePropertyKey(singleProperty);
+    }
+
+    public addVistMethodToValue({
+        context,
+        parsedValue,
+    }: {
+        context: TypeSchemaContext;
+        parsedValue: ts.Expression;
+    }): ts.Expression {
+        return this.generatedUnion.addVistMethodToValue({ context, parsedValue });
     }
 }

@@ -2941,6 +2941,12 @@ export const TokenStatus: core.schemas.Schema<TokenStatus.Raw, FernApi.TokenStat
           return FernApi.TokenStatus.expired();
         case \\"revoked\\":
           return FernApi.TokenStatus.revoked();
+        default:
+          return core.addNonEnumerableProperty(value, \\"_visit\\", function <
+            _Result
+          >(this: FernApi.TokenStatus, visitor: FernApi.TokenStatus._Visitor<_Result>) {
+            return FernApi.TokenStatus._visit(this, visitor);
+          });
       }
     },
     json: (value) => value as any,

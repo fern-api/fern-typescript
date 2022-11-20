@@ -11,6 +11,7 @@ export declare namespace GeneratedUnionSchema {
         discriminant: WireStringWithAllCasings;
         getGeneratedUnion: (context: Context) => GeneratedUnion<Context>;
         singleUnionTypes: RawSingleUnionType<Context>[];
+        getDefaultCaseForParseTransform?: (args: { context: Context; parsedValue: ts.Expression }) => ts.Statement[];
     }
 }
 
@@ -20,17 +21,22 @@ export class GeneratedUnionSchema<Context extends TypeSchemaContext> extends Abs
     private discriminant: WireStringWithAllCasings;
     private getGeneratedUnion: (context: Context) => GeneratedUnion<Context>;
     private singleUnionTypes: RawSingleUnionType<Context>[];
+    private getDefaultCaseForParseTransform:
+        | ((args: { context: Context; parsedValue: ts.Expression }) => ts.Statement[])
+        | undefined;
 
     constructor({
         discriminant,
         getGeneratedUnion,
         singleUnionTypes,
+        getDefaultCaseForParseTransform,
         ...superInit
     }: GeneratedUnionSchema.Init<Context>) {
         super(superInit);
         this.getGeneratedUnion = getGeneratedUnion;
         this.discriminant = discriminant;
         this.singleUnionTypes = singleUnionTypes;
+        this.getDefaultCaseForParseTransform = getDefaultCaseForParseTransform;
     }
 
     public override generateRawTypeDeclaration(context: Context, module: ModuleDeclaration): void {
@@ -115,28 +121,36 @@ export class GeneratedUnionSchema<Context extends TypeSchemaContext> extends Abs
                             ts.factory.createIdentifier(GeneratedUnionSchema.VALUE_PARAMETER_NAME),
                             this.getGeneratedUnion(context).discriminant
                         ),
-                        ts.factory.createCaseBlock(
-                            this.singleUnionTypes.map((singleUnionType) =>
-                                ts.factory.createCaseClause(
-                                    ts.factory.createStringLiteral(singleUnionType.discriminantValue),
-                                    [
-                                        ts.factory.createReturnStatement(
-                                            this.getGeneratedUnion(context).buildFromExistingValue({
-                                                discriminantValueToBuild: singleUnionType.discriminantValue,
-                                                existingValue: ts.factory.createIdentifier(
-                                                    GeneratedUnionSchema.VALUE_PARAMETER_NAME
-                                                ),
-                                                context,
-                                            })
-                                        ),
-                                    ]
-                                )
-                            )
-                        )
+                        ts.factory.createCaseBlock(this.getSwitchClauses(context))
                     ),
                 ],
                 true
             )
         );
+    }
+
+    private getSwitchClauses(context: Context): ts.CaseOrDefaultClause[] {
+        const clauses: ts.CaseOrDefaultClause[] = this.singleUnionTypes.map((singleUnionType) =>
+            ts.factory.createCaseClause(ts.factory.createStringLiteral(singleUnionType.discriminantValue), [
+                ts.factory.createReturnStatement(
+                    this.getGeneratedUnion(context).buildFromExistingValue({
+                        discriminantValueToBuild: singleUnionType.discriminantValue,
+                        existingValue: ts.factory.createIdentifier(GeneratedUnionSchema.VALUE_PARAMETER_NAME),
+                        context,
+                    })
+                ),
+            ])
+        );
+        if (this.getDefaultCaseForParseTransform != null) {
+            clauses.push(
+                ts.factory.createDefaultClause(
+                    this.getDefaultCaseForParseTransform({
+                        context,
+                        parsedValue: ts.factory.createIdentifier(GeneratedUnionSchema.VALUE_PARAMETER_NAME),
+                    })
+                )
+            );
+        }
+        return clauses;
     }
 }
