@@ -253,7 +253,7 @@ export class ZurgImpl extends CoreUtility implements Zurg {
             }
     );
 
-    public enum = this.withExportedName("enum", (enum_: Reference) => (values: string[]) => {
+    public enum = this.withExportedName("enum_", (enum_: Reference) => (values: string[]) => {
         const baseSchema: Zurg.BaseSchema = {
             toExpression: () =>
                 ts.factory.createCallExpression(
