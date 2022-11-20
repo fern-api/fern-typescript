@@ -34,7 +34,7 @@ export abstract class AbstractRawSingleUnionType<Context extends TypeSchemaConte
             properties: [
                 {
                     name: `"${this.disciminant.wireValue}"`,
-                    type: this.discriminantValue,
+                    type: `"${this.discriminantValue}"`,
                 },
                 ...this.getNonDiscriminantPropertiesForInterface(context),
             ],

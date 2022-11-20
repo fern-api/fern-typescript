@@ -5,30 +5,24 @@ import { AbstractTypeReferenceToTypeNodeConverter } from "./AbstractTypeReferenc
 
 export class TypeReferenceToParsedTypeNodeConverter extends AbstractTypeReferenceToTypeNodeConverter {
     protected override map(map: MapType): TypeReferenceNode {
-        return {
-            typeNode: ts.factory.createTypeReferenceNode(ts.factory.createIdentifier("Record"), [
+        return this.generateNonOptionalTypeReferenceNode(
+            ts.factory.createTypeReferenceNode(ts.factory.createIdentifier("Record"), [
                 this.convert(map.keyType).typeNode,
                 this.convert(map.valueType).typeNode,
-            ]),
-            isOptional: false,
-        };
+            ])
+        );
     }
 
     protected override set(itemType: TypeReference): TypeReferenceNode {
         const itemTypeNode = this.convert(itemType).typeNode;
-
-        return {
-            typeNode: this.isTypeReferencePrimitive(itemType)
+        return this.generateNonOptionalTypeReferenceNode(
+            this.isTypeReferencePrimitive(itemType)
                 ? ts.factory.createTypeReferenceNode("Set", [itemTypeNode])
-                : ts.factory.createArrayTypeNode(itemTypeNode),
-            isOptional: false,
-        };
+                : ts.factory.createArrayTypeNode(itemTypeNode)
+        );
     }
 
     protected override dateTime(): TypeReferenceNode {
-        return {
-            typeNode: ts.factory.createTypeReferenceNode("Date"),
-            isOptional: false,
-        };
+        return this.generateNonOptionalTypeReferenceNode(ts.factory.createTypeReferenceNode("Date"));
     }
 }

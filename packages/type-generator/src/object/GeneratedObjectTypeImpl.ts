@@ -16,7 +16,7 @@ export class GeneratedObjectTypeImpl
                     const value = context.getReferenceToType(property.valueType);
                     const propertyNode: OptionalKind<PropertySignatureStructure> = {
                         name: this.getPropertyKey(property),
-                        type: getTextOfTsNode(value.typeNode),
+                        type: getTextOfTsNode(value.typeNodeWithoutUndefined),
                         hasQuestionToken: value.isOptional,
                         docs: property.docs != null ? [{ description: property.docs }] : undefined,
                     };

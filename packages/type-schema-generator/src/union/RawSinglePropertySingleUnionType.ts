@@ -33,7 +33,7 @@ export class RawSinglePropertySingleUnionType extends AbstractRawSingleUnionType
         return [
             {
                 name: `"${this.singleProperty.nameV2.wireValue}"`,
-                type: getTextOfTsNode(type.typeNode),
+                type: getTextOfTsNode(type.typeNodeWithoutUndefined),
                 hasQuestionToken: type.isOptional,
             },
         ];

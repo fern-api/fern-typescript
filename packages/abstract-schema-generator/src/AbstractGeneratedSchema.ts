@@ -25,7 +25,13 @@ export abstract class AbstractGeneratedSchema<Context extends TypeSchemaContext>
             declarations: [
                 {
                     name: this.typeName,
-                    type: getTextOfTsNode(this.getReferenceToSchemaType(context)),
+                    type: getTextOfTsNode(
+                        this.getReferenceToSchemaType({
+                            context,
+                            rawShape: this.getReferenceToRawShape(context),
+                            parsedShape: this.getReferenceToParsedShape(context),
+                        })
+                    ),
                     initializer: getTextOfTsNode(this.getSchema(context).toExpression()),
                 },
             ],
@@ -34,11 +40,16 @@ export abstract class AbstractGeneratedSchema<Context extends TypeSchemaContext>
         this.generateModule(context);
     }
 
-    private getReferenceToSchemaType(context: Context): ts.TypeNode {
-        return context.coreUtilities.zurg.Schema._getReferenceToType({
-            rawShape: this.getReferenceToRawShape(context),
-            parsedShape: this.getReferenceToParsedShape(context),
-        });
+    protected getReferenceToSchemaType({
+        context,
+        rawShape,
+        parsedShape,
+    }: {
+        context: Context;
+        rawShape: ts.TypeNode;
+        parsedShape: ts.TypeNode;
+    }): ts.TypeNode {
+        return context.coreUtilities.zurg.Schema._getReferenceToType({ rawShape, parsedShape });
     }
 
     protected generateModule(context: TypeSchemaContext): void {

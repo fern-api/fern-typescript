@@ -1,5 +1,7 @@
 import { ContainerType, DeclaredTypeName, MapType, PrimitiveType, TypeReference } from "@fern-fern/ir-model/types";
+import { TypeReferenceNode } from "@fern-typescript/commons-v2";
 import { TypeResolver } from "@fern-typescript/resolvers";
+import { ts } from "ts-morph";
 
 export declare namespace AbstractTypeReferenceConverter {
     export interface Init {
@@ -75,5 +77,13 @@ export abstract class AbstractTypeReferenceConverter<T> {
     protected isTypeReferencePrimitive(typeReference: TypeReference): boolean {
         const resolvedType = this.typeResolver.resolveTypeReference(typeReference);
         return resolvedType._type === "primitive";
+    }
+
+    protected generateNonOptionalTypeReferenceNode(typeNode: ts.TypeNode): TypeReferenceNode {
+        return {
+            isOptional: false,
+            typeNode,
+            typeNodeWithoutUndefined: typeNode,
+        };
     }
 }

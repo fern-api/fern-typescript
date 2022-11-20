@@ -21,7 +21,7 @@ export class SinglePropertySingleUnionTypeGenerator implements SingleUnionTypeGe
         return [
             {
                 name: this.getSinglePropertyKey(),
-                type: getTextOfTsNode(type.isOptional ? type.typeNodeWithoutUndefined : type.typeNode),
+                type: getTextOfTsNode(type.typeNodeWithoutUndefined),
                 hasQuestionToken: type.isOptional,
             },
         ];
@@ -36,7 +36,7 @@ export class SinglePropertySingleUnionTypeGenerator implements SingleUnionTypeGe
                 undefined,
                 SinglePropertySingleUnionTypeGenerator.BUILDER_PARAMETER_NAME,
                 type.isOptional ? ts.factory.createToken(ts.SyntaxKind.QuestionToken) : undefined,
-                type.isOptional ? type.typeNodeWithoutUndefined : type.typeNode
+                type.typeNodeWithoutUndefined
             ),
         ];
     }

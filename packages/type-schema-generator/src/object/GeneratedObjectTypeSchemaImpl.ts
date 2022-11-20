@@ -3,7 +3,7 @@ import { AbstractGeneratedSchema } from "@fern-typescript/abstract-schema-genera
 import { getTextOfTsNode } from "@fern-typescript/commons";
 import { Zurg } from "@fern-typescript/commons-v2";
 import { GeneratedObjectTypeSchema, TypeSchemaContext } from "@fern-typescript/sdk-declaration-handler";
-import { ModuleDeclaration } from "ts-morph";
+import { ModuleDeclaration, ts } from "ts-morph";
 import { AbstractGeneratedTypeSchema } from "../AbstractGeneratedTypeSchema";
 
 export class GeneratedObjectTypeSchemaImpl
@@ -40,10 +40,22 @@ export class GeneratedObjectTypeSchemaImpl
                 const type = context.getReferenceToRawType(property.valueType);
                 return {
                     name: `"${property.nameV2.wireValue}"`,
-                    type: getTextOfTsNode(type.typeNode),
+                    type: getTextOfTsNode(type.typeNodeWithoutUndefined),
                     hasQuestionToken: type.isOptional,
                 };
             }),
         });
+    }
+
+    protected override getReferenceToSchemaType({
+        context,
+        rawShape,
+        parsedShape,
+    }: {
+        context: TypeSchemaContext;
+        rawShape: ts.TypeNode;
+        parsedShape: ts.TypeNode;
+    }): ts.TypeNode {
+        return context.coreUtilities.zurg.ObjectSchema._getReferenceToType({ rawShape, parsedShape });
     }
 }

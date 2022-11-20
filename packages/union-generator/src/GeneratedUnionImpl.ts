@@ -32,7 +32,7 @@ export declare namespace GeneratedUnionImpl {
 export class GeneratedUnionImpl<Context extends TypeContext> implements GeneratedUnion<Context> {
     public static readonly UNKNOWN_SINGLE_UNION_TYPE_INTERFACE_NAME = "_Unknown";
     public static readonly UTILS_INTERFACE_NAME = "_Utils";
-    public static readonly VISITOR_INTERFACE_NAME = "_Vistior";
+    public static readonly VISITOR_INTERFACE_NAME = "_Visitor";
     public static readonly VISITOR_RETURN_TYPE = "_Result";
     public static readonly VISITOR_PARAMETER_NAME = "visitor";
     public static readonly VISITEE_PARAMETER_NAME = "value";

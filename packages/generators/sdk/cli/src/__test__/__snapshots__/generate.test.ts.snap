@@ -1815,7 +1815,7 @@ import { FernApi } from \\"@fern/api\\";
 
 export interface CreateOwnerRequest {
   ownerId: FernApi.OwnerId;
-  data?: unknown;
+  data: unknown;
 }
 ",
                     "name": "CreateOwnerRequest.ts",
@@ -1830,7 +1830,7 @@ import { FernApi } from \\"@fern/api\\";
 
 export interface Owner {
   ownerId: FernApi.OwnerId;
-  data?: unknown;
+  data: unknown;
 }
 ",
                     "name": "Owner.ts",
@@ -1861,7 +1861,7 @@ export function OwnerId(value: string): FernApi.OwnerId {
  */
 
 export interface UpdateOwnerRequest {
-  data?: unknown;
+  data: unknown;
 }
 ",
                     "name": "UpdateOwnerRequest.ts",
@@ -2246,7 +2246,7 @@ import { FernApi } from \\"@fern/api\\";
 
 export interface CreateTokenRequest {
   ownerId: FernApi.OwnerId;
-  description?: string | undefined;
+  description?: string;
 }
 ",
                     "name": "CreateTokenRequest.ts",
@@ -2305,7 +2305,7 @@ import { FernApi } from \\"@fern/api\\";
 export interface TokenMetadata {
   tokenId: FernApi.TokenId;
   ownerId: FernApi.OwnerId;
-  description?: string | undefined;
+  description?: string;
   createdTime: Date;
   status: FernApi.TokenStatus;
 }
@@ -2345,10 +2345,10 @@ export declare namespace TokenStatus {
   }
 
   interface _Utils {
-    _visit: <_Result>(visitor: FernApi.TokenStatus._Vistior<_Result>) => _Result;
+    _visit: <_Result>(visitor: FernApi.TokenStatus._Visitor<_Result>) => _Result;
   }
 
-  interface _Vistior<_Result> {
+  interface _Visitor<_Result> {
     active: () => _Result;
     expired: () => _Result;
     revoked: () => _Result;
@@ -2363,7 +2363,7 @@ export const TokenStatus = {
     };
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
-    >(this: FernApi.TokenStatus.Active, visitor: FernApi.TokenStatus._Vistior<_Result>) {
+    >(this: FernApi.TokenStatus.Active, visitor: FernApi.TokenStatus._Visitor<_Result>) {
       return FernApi.TokenStatus._visit(this, visitor);
     });
   },
@@ -2374,7 +2374,7 @@ export const TokenStatus = {
     };
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
-    >(this: FernApi.TokenStatus.Expired, visitor: FernApi.TokenStatus._Vistior<_Result>) {
+    >(this: FernApi.TokenStatus.Expired, visitor: FernApi.TokenStatus._Visitor<_Result>) {
       return FernApi.TokenStatus._visit(this, visitor);
     });
   },
@@ -2385,12 +2385,12 @@ export const TokenStatus = {
     };
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
-    >(this: FernApi.TokenStatus.Revoked, visitor: FernApi.TokenStatus._Vistior<_Result>) {
+    >(this: FernApi.TokenStatus.Revoked, visitor: FernApi.TokenStatus._Visitor<_Result>) {
       return FernApi.TokenStatus._visit(this, visitor);
     });
   },
 
-  _visit: <_Result>(value: FernApi.TokenStatus, visitor: FernApi.TokenStatus._Vistior<_Result>): _Result => {
+  _visit: <_Result>(value: FernApi.TokenStatus, visitor: FernApi.TokenStatus._Visitor<_Result>): _Result => {
     switch (value.type) {
       case \\"active\\":
         return visitor.active();
@@ -2574,7 +2574,7 @@ import { FernApi } from \\"@fern/api\\";
 import * as core from \\"../../../core\\";
 import * as serializers from \\"../..\\";
 
-export const CreateOwnerRequest: core.schemas.Schema<CreateOwnerRequest.Raw, FernApi.CreateOwnerRequest> =
+export const CreateOwnerRequest: core.schemas.ObjectSchema<CreateOwnerRequest.Raw, FernApi.CreateOwnerRequest> =
   core.schemas.object({
     ownerId: core.schemas.lazy(async () => (await import(\\"../..\\")).OwnerId),
     data: core.schemas.unknown(),
@@ -2583,7 +2583,7 @@ export const CreateOwnerRequest: core.schemas.Schema<CreateOwnerRequest.Raw, Fer
 export declare namespace CreateOwnerRequest {
   interface Raw {
     ownerId: serializers.OwnerId.Raw;
-    data?: unknown;
+    data: unknown;
   }
 }
 ",
@@ -2599,7 +2599,7 @@ import { FernApi } from \\"@fern/api\\";
 import * as core from \\"../../../core\\";
 import * as serializers from \\"../..\\";
 
-export const Owner: core.schemas.Schema<Owner.Raw, FernApi.Owner> = core.schemas.object({
+export const Owner: core.schemas.ObjectSchema<Owner.Raw, FernApi.Owner> = core.schemas.object({
   ownerId: core.schemas.lazy(async () => (await import(\\"../..\\")).OwnerId),
   data: core.schemas.unknown(),
 });
@@ -2607,7 +2607,7 @@ export const Owner: core.schemas.Schema<Owner.Raw, FernApi.Owner> = core.schemas
 export declare namespace Owner {
   interface Raw {
     ownerId: serializers.OwnerId.Raw;
-    data?: unknown;
+    data: unknown;
   }
 }
 ",
@@ -2639,14 +2639,14 @@ export declare namespace OwnerId {
 import { FernApi } from \\"@fern/api\\";
 import * as core from \\"../../../core\\";
 
-export const UpdateOwnerRequest: core.schemas.Schema<UpdateOwnerRequest.Raw, FernApi.UpdateOwnerRequest> =
+export const UpdateOwnerRequest: core.schemas.ObjectSchema<UpdateOwnerRequest.Raw, FernApi.UpdateOwnerRequest> =
   core.schemas.object({
     data: core.schemas.unknown(),
   });
 
 export declare namespace UpdateOwnerRequest {
   interface Raw {
-    data?: unknown;
+    data: unknown;
   }
 }
 ",
@@ -2806,7 +2806,7 @@ import { FernApi } from \\"@fern/api\\";
 import * as core from \\"../../../core\\";
 import * as serializers from \\"../..\\";
 
-export const CreateTokenRequest: core.schemas.Schema<CreateTokenRequest.Raw, FernApi.CreateTokenRequest> =
+export const CreateTokenRequest: core.schemas.ObjectSchema<CreateTokenRequest.Raw, FernApi.CreateTokenRequest> =
   core.schemas.object({
     ownerId: core.schemas.lazy(async () => (await import(\\"../..\\")).OwnerId),
     description: core.schemas.string().optional(),
@@ -2815,7 +2815,7 @@ export const CreateTokenRequest: core.schemas.Schema<CreateTokenRequest.Raw, Fer
 export declare namespace CreateTokenRequest {
   interface Raw {
     ownerId: serializers.OwnerId.Raw;
-    description?: string | null | undefined;
+    description?: string | null;
   }
 }
 ",
@@ -2831,7 +2831,7 @@ import { FernApi } from \\"@fern/api\\";
 import * as core from \\"../../../core\\";
 import * as serializers from \\"../..\\";
 
-export const CreateTokenResponse: core.schemas.Schema<CreateTokenResponse.Raw, FernApi.CreateTokenResponse> =
+export const CreateTokenResponse: core.schemas.ObjectSchema<CreateTokenResponse.Raw, FernApi.CreateTokenResponse> =
   core.schemas.object({
     token: core.schemas.string(),
     tokenId: core.schemas.lazy(async () => (await import(\\"../..\\")).TokenId),
@@ -2855,7 +2855,7 @@ export declare namespace CreateTokenResponse {
 import { FernApi } from \\"@fern/api\\";
 import * as core from \\"../../../core\\";
 
-export const GetTokenMetadataRequest: core.schemas.Schema<
+export const GetTokenMetadataRequest: core.schemas.ObjectSchema<
   GetTokenMetadataRequest.Raw,
   FernApi.GetTokenMetadataRequest
 > = core.schemas.object({
@@ -2897,7 +2897,7 @@ import { FernApi } from \\"@fern/api\\";
 import * as core from \\"../../../core\\";
 import * as serializers from \\"../..\\";
 
-export const TokenMetadata: core.schemas.Schema<TokenMetadata.Raw, FernApi.TokenMetadata> = core.schemas.object({
+export const TokenMetadata: core.schemas.ObjectSchema<TokenMetadata.Raw, FernApi.TokenMetadata> = core.schemas.object({
   tokenId: core.schemas.lazy(async () => (await import(\\"../..\\")).TokenId),
   ownerId: core.schemas.lazy(async () => (await import(\\"../..\\")).OwnerId),
   description: core.schemas.string().optional(),
@@ -2909,7 +2909,7 @@ export declare namespace TokenMetadata {
   interface Raw {
     tokenId: serializers.TokenId.Raw;
     ownerId: serializers.OwnerId.Raw;
-    description?: string | null | undefined;
+    description?: string | null;
     createdTime: string;
     status: serializers.TokenStatus.Raw;
   }
@@ -2950,15 +2950,15 @@ export declare namespace TokenStatus {
   type TokenStatus = TokenStatus.Active | TokenStatus.Expired | TokenStatus.Revoked;
 
   interface Active {
-    type: active;
+    type: \\"active\\";
   }
 
   interface Expired {
-    type: expired;
+    type: \\"expired\\";
   }
 
   interface Revoked {
-    type: revoked;
+    type: \\"revoked\\";
   }
 }
 ",
@@ -4255,7 +4255,7 @@ export * from \\"./package/types\\";
 import { FernApi } from \\"@fern-fern/api-sdk\\";
 import * as core from \\"../../../core\\";
 
-export const Package: core.schemas.Schema<Package.Raw, FernApi.Package> = core.schemas.object({
+export const Package: core.schemas.ObjectSchema<Package.Raw, FernApi.Package> = core.schemas.object({
   name: core.schemas.string(),
 });
 
