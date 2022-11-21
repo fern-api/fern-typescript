@@ -1,10 +1,10 @@
 {
-  "name": "@fern-typescript/sdk-errors-v2",
+  "name": "@fern-typescript/error-generator",
   "version": "0.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/fern-api/fern-typescript.git",
-    "directory": "packages/generators/sdk/errors-v2"
+    "directory": "packages/generators/sdk/errors-generator"
   },
   "files": [
     "lib"

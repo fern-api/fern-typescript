@@ -4,7 +4,7 @@ import { BrandedGeneratedAliasType, TypeContext } from "@fern-typescript/sdk-dec
 import { ts } from "ts-morph";
 import { AbstractGeneratedType } from "../AbstractGeneratedType";
 
-export class GeneratedBrandedAliasImpl
+export class GeneratedBrandedStringAliasImpl
     extends AbstractGeneratedType<AliasTypeDeclaration>
     implements BrandedGeneratedAliasType
 {
@@ -12,7 +12,7 @@ export class GeneratedBrandedAliasImpl
 
     public writeToFile(context: TypeContext): void {
         this.writeTypeAlias(context);
-        this.writeConst(context);
+        this.writeBuilder(context);
     }
 
     public getReferenceToCreator(context: TypeContext): ts.Expression {
@@ -41,7 +41,7 @@ export class GeneratedBrandedAliasImpl
         maybeAddDocs(typeAlias, this.typeDeclaration.docs);
     }
 
-    private writeConst(context: TypeContext) {
+    private writeBuilder(context: TypeContext) {
         const VALUE_PARAMETER_NAME = "value";
         context.sourceFile.addFunction({
             name: this.typeName,

@@ -4,9 +4,9 @@ import { IntermediateRepresentation } from "@fern-fern/ir-model/ir";
 import { DeclaredServiceName } from "@fern-fern/ir-model/services/commons";
 import { HttpEndpoint } from "@fern-fern/ir-model/services/http";
 import { DeclaredTypeName, ShapeType, TypeReference } from "@fern-fern/ir-model/types";
+import { ErrorGenerator } from "@fern-typescript/error-generator";
 import { ErrorResolver, TypeResolver } from "@fern-typescript/resolvers";
 import { GeneratorContext, SdkFile } from "@fern-typescript/sdk-declaration-handler";
-import { ErrorGenerator } from "@fern-typescript/sdk-errors-v2";
 import { ServiceDeclarationHandler } from "@fern-typescript/sdk-service-declaration-handler";
 import { TypeGenerator } from "@fern-typescript/type-generator";
 import {
