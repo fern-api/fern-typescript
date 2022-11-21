@@ -11,6 +11,7 @@
     { "path": "../../../types-v2" },
     { "path": "../declaration-handler" },
     { "path": "../errors" },
+    { "path": "../errors-v2" },
     { "path": "../service-declaration-handler" },
     { "path": "../type-reference-converters" }
   ]

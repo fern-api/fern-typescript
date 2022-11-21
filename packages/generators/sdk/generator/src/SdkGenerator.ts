@@ -6,7 +6,7 @@ import { HttpEndpoint } from "@fern-fern/ir-model/services/http";
 import { DeclaredTypeName, ShapeType, TypeReference } from "@fern-fern/ir-model/types";
 import { ErrorResolver, TypeResolver } from "@fern-typescript/resolvers";
 import { GeneratorContext, SdkFile } from "@fern-typescript/sdk-declaration-handler";
-import { ErrorDeclarationHandler } from "@fern-typescript/sdk-errors";
+import { ErrorGenerator } from "@fern-typescript/sdk-errors-v2";
 import { ServiceDeclarationHandler } from "@fern-typescript/sdk-service-declaration-handler";
 import { TypeGenerator } from "@fern-typescript/type-generator";
 import {
@@ -20,6 +20,7 @@ import { EnumTypeGenerator, getSubImportPathToRawSchema } from "@fern-typescript
 import { Volume } from "memfs/lib/volume";
 import { Directory, Project, SourceFile, ts } from "ts-morph";
 import { constructAugmentedServices } from "./constructAugmentedServices";
+import { ErrorContextImpl } from "./contexts/ErrorContextImpl";
 import { TypeContextImpl } from "./contexts/TypeContextImpl";
 import { TypeSchemaContextImpl } from "./contexts/TypeSchemaContextImpl";
 import { CoreUtilitiesManager } from "./core-utilities/CoreUtilitiesManager";
@@ -69,7 +70,6 @@ export declare namespace SdkGenerator {
 export class SdkGenerator {
     private context: GeneratorContext;
     private intermediateRepresentation: IntermediateRepresentation;
-    private config: SdkGenerator.Config;
 
     private rootDirectory: Directory;
     private exportsManager: ExportsManager;
@@ -89,6 +89,7 @@ export class SdkGenerator {
 
     private typeGenerator: TypeGenerator;
     private typeSchemaGenerator: TypeSchemaGenerator;
+    private errorGenerator: ErrorGenerator;
     private environmentsGenerator: EnvironmentsGenerator;
 
     private generatePackage: () => Promise<void>;
@@ -105,7 +106,6 @@ export class SdkGenerator {
     }: SdkGenerator.Init) {
         this.context = context;
         this.intermediateRepresentation = intermediateRepresentation;
-        this.config = config;
 
         this.exportsManager = new ExportsManager({ packageName });
         this.coreUtilitiesManager = new CoreUtilitiesManager({ packageName });
@@ -166,6 +166,7 @@ export class SdkGenerator {
 
         this.typeGenerator = new TypeGenerator({ useBrandedStringAliases: config.shouldUseBrandedStringAliases });
         this.typeSchemaGenerator = new TypeSchemaGenerator();
+        this.errorGenerator = new ErrorGenerator({ useBrandedStringAliases: config.shouldUseBrandedStringAliases });
         this.environmentsGenerator = new EnvironmentsGenerator({ intermediateRepresentation, packageName });
 
         this.generatePackage = async () => {
@@ -248,22 +249,23 @@ export class SdkGenerator {
 
     private generateErrorDeclarations() {
         for (const errorDeclaration of this.intermediateRepresentation.errors) {
-            this.withSdkFile({
+            this.withSourceFile({
                 filepath: this.errorDeclarationReferencer.getExportedFilepath(errorDeclaration.name),
-                run: (errorFile) => {
-                    this.withSdkFile({
-                        filepath: this.errorSchemaDeclarationReferencer.getExportedFilepath(errorDeclaration.name),
-                        isGeneratingSchemaFile: true,
-                        run: (schemaFile) => {
-                            ErrorDeclarationHandler(errorDeclaration, {
-                                errorFile,
-                                schemaFile,
-                                errorName: this.errorDeclarationReferencer.getExportedName(errorDeclaration.name),
-                                context: this.context,
-                                shouldUseBrandedStringAliases: this.config.shouldUseBrandedStringAliases,
-                            });
-                        },
+                run: ({ sourceFile, importsManager }) => {
+                    const generatedError = this.errorGenerator.generateError({
+                        errorDeclaration,
+                        errorName: this.errorDeclarationReferencer.getExportedName(errorDeclaration.name),
                     });
+                    const errorContext = new ErrorContextImpl({
+                        sourceFile,
+                        coreUtilitiesManager: this.coreUtilitiesManager,
+                        dependencyManager: this.dependencyManager,
+                        fernConstants: this.intermediateRepresentation.constants,
+                        importsManager,
+                        typeResolver: this.typeResolver,
+                        typeDeclarationReferencer: this.typeDeclarationReferencer,
+                    });
+                    generatedError.writeToFile(errorContext);
                 },
             });
         }
