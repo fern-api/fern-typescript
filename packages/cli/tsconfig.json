@@ -4,11 +4,11 @@
   "include": ["./src"],
   "exclude": ["./src/**/__test__/**/generated"],
   "references": [
-    { "path": "../client" },
-    { "path": "../commons" },
+    { "path": "../deprecated/client" },
+    { "path": "../deprecated/commons" },
+    { "path": "../deprecated/model" },
+    { "path": "../deprecated/server" },
     { "path": "../generators/sdk/declaration-handler" },
-    { "path": "../model" },
-    { "path": "../server" },
     { "path": "../testing-utils" }
   ]
 }
