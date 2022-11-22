@@ -28,7 +28,6 @@
     "@fern-fern/ir-model": "0.0.294",
     "@fern-typescript/commons-v2": "workspace:*",
     "@fern-typescript/sdk-declaration-handler": "workspace:*",
-    "@fern-typescript/type-generator": "workspace:*",
     "@fern-typescript/type-schema-generator": "workspace:*",
     "ts-morph": "^15.1.0"
   },

@@ -2098,7 +2098,6 @@ __metadata:
     "@fern-fern/ir-model": 0.0.294
     "@fern-typescript/commons-v2": "workspace:*"
     "@fern-typescript/sdk-declaration-handler": "workspace:*"
-    "@fern-typescript/type-generator": "workspace:*"
     "@fern-typescript/type-schema-generator": "workspace:*"
     "@types/jest": ^28.1.6
     "@types/node": ^18.7.18
@@ -2238,7 +2237,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@fern-typescript/sdk-errors@workspace:*, @fern-typescript/sdk-errors@workspace:packages/generators/sdk/errors":
+"@fern-typescript/sdk-errors@workspace:packages/generators/sdk/errors":
   version: 0.0.0-use.local
   resolution: "@fern-typescript/sdk-errors@workspace:packages/generators/sdk/errors"
   dependencies:
@@ -2318,7 +2317,6 @@ __metadata:
     "@fern-typescript/error-schema-generator": "workspace:*"
     "@fern-typescript/resolvers": "workspace:*"
     "@fern-typescript/sdk-declaration-handler": "workspace:*"
-    "@fern-typescript/sdk-errors": "workspace:*"
     "@fern-typescript/sdk-service-declaration-handler": "workspace:*"
     "@fern-typescript/type-generator": "workspace:*"
     "@fern-typescript/type-reference-converters": "workspace:*"

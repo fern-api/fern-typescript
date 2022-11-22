@@ -12,7 +12,6 @@
     { "path": "../declaration-handler" },
     { "path": "../error-generator" },
     { "path": "../error-schema-generator" },
-    { "path": "../errors" },
     { "path": "../service-declaration-handler" },
     { "path": "../type-reference-converters" }
   ]

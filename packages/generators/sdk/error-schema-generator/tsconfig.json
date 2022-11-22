@@ -4,7 +4,6 @@
   "include": ["./src"],
   "references": [
     { "path": "../../../commons-v2" },
-    { "path": "../../../type-generator" },
     { "path": "../../../type-schema-generator" },
     { "path": "../declaration-handler" }
   ]
