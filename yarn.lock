@@ -5895,9 +5895,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fern-typescript@workspace:packages/cli":
+"fern-typescript@workspace:packages/deprecated/cli":
   version: 0.0.0-use.local
-  resolution: "fern-typescript@workspace:packages/cli"
+  resolution: "fern-typescript@workspace:packages/deprecated/cli"
   dependencies:
     "@babel/core": ^7.19.1
     "@babel/preset-env": ^7.19.1

@@ -4,7 +4,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/fern-api/fern-typescript.git",
-    "directory": "packages/cli"
+    "directory": "packages/deprecated/cli"
   },
   "files": [
     "lib"
@@ -18,10 +18,10 @@
     "clean": "rm -rf ./lib && tsc --build --clean",
     "compile": "tsc --build",
     "test": "yarn compile && yarn workspace @fern-typescript/service-utils compile && jest --passWithNoTests",
-    "lint:eslint": "eslint --max-warnings 0 . --ignore-path=../../.eslintignore",
-    "lint:eslint:fix": "eslint --max-warnings 0 . --ignore-path=../../.eslintignore --fix",
-    "format": "prettier --write --ignore-unknown --ignore-path ../../shared/.prettierignore \"**\"",
-    "format:check": "prettier --check --ignore-unknown --ignore-path ../../shared/.prettierignore \"**\"",
+    "lint:eslint": "eslint --max-warnings 0 . --ignore-path=../../../.eslintignore",
+    "lint:eslint:fix": "eslint --max-warnings 0 . --ignore-path=../../../.eslintignore --fix",
+    "format": "prettier --write --ignore-unknown --ignore-path ../../../shared/.prettierignore \"**\"",
+    "format:check": "prettier --check --ignore-unknown --ignore-path ../../../shared/.prettierignore \"**\"",
     "depcheck": "depcheck",
     "dockerTagLocal": "./docker/create_docker.sh local",
     "dockerTagVersion": "./docker/create_docker.sh"
