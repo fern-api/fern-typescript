@@ -5,6 +5,7 @@ import { DeclaredServiceName } from "@fern-fern/ir-model/services/commons";
 import { HttpEndpoint } from "@fern-fern/ir-model/services/http";
 import { DeclaredTypeName, ShapeType, TypeReference } from "@fern-fern/ir-model/types";
 import { ErrorGenerator } from "@fern-typescript/error-generator";
+import { ErrorSchemaGenerator } from "@fern-typescript/error-schema-generator";
 import { ErrorResolver, TypeResolver } from "@fern-typescript/resolvers";
 import { GeneratorContext, SdkFile } from "@fern-typescript/sdk-declaration-handler";
 import { ServiceDeclarationHandler } from "@fern-typescript/sdk-service-declaration-handler";
@@ -21,6 +22,7 @@ import { Volume } from "memfs/lib/volume";
 import { Directory, Project, SourceFile, ts } from "ts-morph";
 import { constructAugmentedServices } from "./constructAugmentedServices";
 import { ErrorContextImpl } from "./contexts/ErrorContextImpl";
+import { ErrorSchemaContextImpl } from "./contexts/ErrorSchemaContextImpl";
 import { TypeContextImpl } from "./contexts/TypeContextImpl";
 import { TypeSchemaContextImpl } from "./contexts/TypeSchemaContextImpl";
 import { CoreUtilitiesManager } from "./core-utilities/CoreUtilitiesManager";
@@ -90,6 +92,7 @@ export class SdkGenerator {
     private typeGenerator: TypeGenerator;
     private typeSchemaGenerator: TypeSchemaGenerator;
     private errorGenerator: ErrorGenerator;
+    private errorSchemaGenerator: ErrorSchemaGenerator;
     private environmentsGenerator: EnvironmentsGenerator;
 
     private generatePackage: () => Promise<void>;
@@ -167,6 +170,7 @@ export class SdkGenerator {
         this.typeGenerator = new TypeGenerator({ useBrandedStringAliases: config.shouldUseBrandedStringAliases });
         this.typeSchemaGenerator = new TypeSchemaGenerator();
         this.errorGenerator = new ErrorGenerator({ useBrandedStringAliases: config.shouldUseBrandedStringAliases });
+        this.errorSchemaGenerator = new ErrorSchemaGenerator();
         this.environmentsGenerator = new EnvironmentsGenerator({ intermediateRepresentation, packageName });
 
         this.generatePackage = async () => {
@@ -186,6 +190,7 @@ export class SdkGenerator {
         this.generateTypeDeclarations();
         this.generateTypeSchemas();
         this.generateErrorDeclarations();
+        this.generateErrorSchemas();
         this.generateServiceDeclarations();
         this.generateEnvironments();
         this.coreUtilitiesManager.finalize(this.exportsManager, this.dependencyManager);
@@ -226,7 +231,7 @@ export class SdkGenerator {
             this.withSourceFile({
                 filepath: this.typeSchemaDeclarationReferencer.getExportedFilepath(typeDeclaration.name),
                 run: ({ sourceFile, importsManager }) => {
-                    const generatedSchemaType = this.typeSchemaGenerator.generateTypeSchema({
+                    const generatedTypeSchema = this.typeSchemaGenerator.generateTypeSchema({
                         typeDeclaration,
                         typeName: this.typeSchemaDeclarationReferencer.getExportedName(typeDeclaration.name),
                     });
@@ -240,8 +245,9 @@ export class SdkGenerator {
                         typeDeclarationReferencer: this.typeDeclarationReferencer,
                         typeSchemaDeclarationReferencer: this.typeSchemaDeclarationReferencer,
                         typeGenerator: this.typeGenerator,
+                        typeBeingGenerated: typeDeclaration.name,
                     });
-                    generatedSchemaType.writeToFile(typeSchemaContext);
+                    generatedTypeSchema.writeToFile(typeSchemaContext);
                 },
             });
         }
@@ -256,6 +262,9 @@ export class SdkGenerator {
                         errorDeclaration,
                         errorName: this.errorDeclarationReferencer.getExportedName(errorDeclaration.name),
                     });
+                    if (generatedError == null) {
+                        return;
+                    }
                     const errorContext = new ErrorContextImpl({
                         sourceFile,
                         coreUtilitiesManager: this.coreUtilitiesManager,
@@ -266,6 +275,39 @@ export class SdkGenerator {
                         typeDeclarationReferencer: this.typeDeclarationReferencer,
                     });
                     generatedError.writeToFile(errorContext);
+                },
+            });
+        }
+    }
+
+    private generateErrorSchemas() {
+        for (const errorDeclaration of this.intermediateRepresentation.errors) {
+            this.withSourceFile({
+                filepath: this.errorSchemaDeclarationReferencer.getExportedFilepath(errorDeclaration.name),
+                run: ({ sourceFile, importsManager }) => {
+                    const generatedErrorSchema = this.errorSchemaGenerator.generateErrorSchema({
+                        errorDeclaration,
+                        errorName: this.errorSchemaDeclarationReferencer.getExportedName(errorDeclaration.name),
+                    });
+                    if (generatedErrorSchema == null) {
+                        return;
+                    }
+                    const typeSchemaContext = new ErrorSchemaContextImpl({
+                        sourceFile,
+                        coreUtilitiesManager: this.coreUtilitiesManager,
+                        dependencyManager: this.dependencyManager,
+                        fernConstants: this.intermediateRepresentation.constants,
+                        importsManager,
+                        typeResolver: this.typeResolver,
+                        typeDeclarationReferencer: this.typeDeclarationReferencer,
+                        typeSchemaDeclarationReferencer: this.typeSchemaDeclarationReferencer,
+                        typeGenerator: this.typeGenerator,
+                        errorDeclarationReferencer: this.errorDeclarationReferencer,
+                        errorGenerator: this.errorGenerator,
+                        errorResolver: this.errorResolver,
+                        errorBeingGenerated: errorDeclaration.name,
+                    });
+                    generatedErrorSchema.writeToFile(typeSchemaContext);
                 },
             });
         }

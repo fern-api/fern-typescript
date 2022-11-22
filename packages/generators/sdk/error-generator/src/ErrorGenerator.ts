@@ -2,7 +2,6 @@ import { ErrorDeclaration } from "@fern-fern/ir-model/errors";
 import { GeneratedError } from "@fern-typescript/sdk-declaration-handler";
 import { TypeGenerator } from "@fern-typescript/type-generator";
 import { GeneratedErrorImpl } from "./GeneratedErrorImpl";
-import { NoopGeneratedError } from "./NoopGeneratedError";
 
 export declare namespace ErrorGenerator {
     export interface Init {
@@ -24,9 +23,12 @@ export class ErrorGenerator {
         this.typeGenerator = new TypeGenerator({ useBrandedStringAliases });
     }
 
-    public generateError({ errorDeclaration, errorName }: ErrorGenerator.generateError.Args): GeneratedError {
+    public generateError({
+        errorDeclaration,
+        errorName,
+    }: ErrorGenerator.generateError.Args): GeneratedError | undefined {
         if (errorDeclaration.type._type === "alias" && errorDeclaration.type.aliasOf._type === "void") {
-            return new NoopGeneratedError();
+            return undefined;
         }
         return new GeneratedErrorImpl({
             errorDeclaration,

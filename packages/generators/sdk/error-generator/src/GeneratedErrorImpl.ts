@@ -13,10 +13,11 @@ export declare namespace GeneratedErrorImpl {
 }
 
 export class GeneratedErrorImpl implements GeneratedError {
+    private typeDeclaration: TypeDeclaration;
     private generatedType: GeneratedType;
 
     constructor({ errorName, errorDeclaration, typeGenerator }: GeneratedErrorImpl.Init) {
-        const typeDeclaration: TypeDeclaration = {
+        this.typeDeclaration = {
             availability: {
                 status: AvailabilityStatus.GeneralAvailability,
                 message: undefined,
@@ -30,11 +31,19 @@ export class GeneratedErrorImpl implements GeneratedError {
 
         this.generatedType = typeGenerator.generateType({
             typeName: errorName,
-            typeDeclaration,
+            typeDeclaration: this.typeDeclaration,
         });
     }
 
     public writeToFile(context: ErrorContext): void {
         this.generatedType.writeToFile(context);
+    }
+
+    public getEquivalentTypeDeclaration(): TypeDeclaration {
+        return this.typeDeclaration;
+    }
+
+    public getAsGeneratedType(): GeneratedType {
+        return this.generatedType;
     }
 }

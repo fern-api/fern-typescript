@@ -8,6 +8,7 @@ export class GeneratedBrandedStringAliasImpl
     extends AbstractGeneratedType<AliasTypeDeclaration>
     implements BrandedGeneratedAliasType
 {
+    public readonly type = "alias";
     public readonly isBranded = true;
 
     public writeToFile(context: TypeContext): void {

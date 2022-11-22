@@ -1,10 +1,10 @@
 {
-  "name": "@fern-typescript/error-generator",
+  "name": "@fern-typescript/error-schema-generator",
   "version": "0.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/fern-api/fern-typescript.git",
-    "directory": "packages/generators/sdk/errors-generator"
+    "directory": "packages/generators/sdk/error-schema-generator"
   },
   "files": [
     "lib"
@@ -26,8 +26,11 @@
   },
   "dependencies": {
     "@fern-fern/ir-model": "0.0.294",
+    "@fern-typescript/commons-v2": "workspace:*",
     "@fern-typescript/sdk-declaration-handler": "workspace:*",
-    "@fern-typescript/type-generator": "workspace:*"
+    "@fern-typescript/type-generator": "workspace:*",
+    "@fern-typescript/type-schema-generator": "workspace:*",
+    "ts-morph": "^15.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",

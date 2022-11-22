@@ -10,8 +10,9 @@
     { "path": "../../../type-schema-generator" },
     { "path": "../../../types-v2" },
     { "path": "../declaration-handler" },
+    { "path": "../error-generator" },
+    { "path": "../error-schema-generator" },
     { "path": "../errors" },
-    { "path": "../errors-generator" },
     { "path": "../service-declaration-handler" },
     { "path": "../type-reference-converters" }
   ]
