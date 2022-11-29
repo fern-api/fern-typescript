@@ -3650,7 +3650,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@fern-typescript/commons-v2", "workspace:packages/commons-v2"],\
             ["@fern-typescript/resolvers", "workspace:packages/resolvers"],\
             ["@fern-typescript/sdk-declaration-handler", "workspace:packages/generators/sdk/declaration-handler"],\
-            ["@fern-typescript/union-generator", "workspace:packages/union-generator"],\
             ["@fern-typescript/union-schema-generator", "workspace:packages/union-schema-generator"],\
             ["@types/jest", "npm:28.1.6"],\
             ["@types/node", "npm:18.7.18"],\
