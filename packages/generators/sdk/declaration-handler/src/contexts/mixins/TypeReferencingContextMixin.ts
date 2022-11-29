@@ -1,6 +1,5 @@
 import { DeclaredTypeName, ResolvedTypeReference, TypeReference } from "@fern-fern/ir-model/types";
 import { TypeReferenceNode } from "@fern-typescript/commons-v2";
-import { TypeContext } from "../..";
 import { GeneratedType } from "../../generated-types";
 import { Reference } from "../../Reference";
 
@@ -9,5 +8,5 @@ export interface TypeReferencingContextMixin {
     getReferenceToNamedType: (typeName: DeclaredTypeName) => Reference;
     resolveTypeReference: (typeReference: TypeReference) => ResolvedTypeReference;
     resolveTypeName: (typeName: DeclaredTypeName) => ResolvedTypeReference;
-    getGeneratedType: (typeName: DeclaredTypeName) => GeneratedType<TypeContext>;
+    getGeneratedType: (typeName: DeclaredTypeName) => GeneratedType;
 }
