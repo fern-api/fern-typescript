@@ -114,6 +114,12 @@ export class GeneratedUnionSchema<Context extends BaseContext> extends AbstractG
             });
     }
 
+    public override writeSchemaToFile(context: Context): void {
+        if (this.singleUnionTypes.length > 0) {
+            super.writeSchemaToFile(context);
+        }
+    }
+
     private generateAddVisitTransform(context: Context): ts.Expression {
         return ts.factory.createArrowFunction(
             undefined,

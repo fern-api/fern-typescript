@@ -1,4 +1,4 @@
-import { ResponseErrorV2, SingleResponseErrorProperty } from "@fern-fern/ir-model/services/commons";
+import { DeclaredErrorName } from "@fern-fern/ir-model/errors";
 import { getTextOfTsNode } from "@fern-typescript/commons";
 import { Zurg } from "@fern-typescript/commons-v2";
 import { EndpointTypeSchemasContext } from "@fern-typescript/sdk-declaration-handler";
@@ -7,19 +7,16 @@ import { OptionalKind, PropertySignatureStructure, ts } from "ts-morph";
 
 export declare namespace RawSinglePropertyErrorSingleUnionType {
     export interface Init extends AbstractRawSingleUnionType.Init {
-        responseError: ResponseErrorV2;
-        errorProperty: SingleResponseErrorProperty;
+        errorName: DeclaredErrorName;
     }
 }
 
 export class RawSinglePropertyErrorSingleUnionType extends AbstractRawSingleUnionType<EndpointTypeSchemasContext> {
-    private responseError: ResponseErrorV2;
-    private errorProperty: SingleResponseErrorProperty;
+    private errorName: DeclaredErrorName;
 
-    constructor({ responseError, errorProperty, ...superInit }: RawSinglePropertyErrorSingleUnionType.Init) {
+    constructor({ errorName, ...superInit }: RawSinglePropertyErrorSingleUnionType.Init) {
         super(superInit);
-        this.responseError = responseError;
-        this.errorProperty = errorProperty;
+        this.errorName = errorName;
     }
 
     protected getExtends(): ts.TypeNode[] {
@@ -31,8 +28,8 @@ export class RawSinglePropertyErrorSingleUnionType extends AbstractRawSingleUnio
     ): OptionalKind<PropertySignatureStructure>[] {
         return [
             {
-                name: `"${this.responseError.discriminantValue.wireValue}"`,
-                type: getTextOfTsNode(context.getReferenceToRawError(this.errorProperty.error).getTypeNode()),
+                name: `"${context.fernConstants.errorsV2.errorContentKey.wireValue}"`,
+                type: getTextOfTsNode(context.getReferenceToRawError(this.errorName).getTypeNode()),
             },
         ];
     }
@@ -45,10 +42,10 @@ export class RawSinglePropertyErrorSingleUnionType extends AbstractRawSingleUnio
             properties: [
                 {
                     key: {
-                        parsed: this.errorProperty.name.camelCase,
-                        raw: this.errorProperty.name.wireValue,
+                        parsed: context.fernConstants.errorsV2.errorContentKey.name.unsafeName.camelCase,
+                        raw: context.fernConstants.errorsV2.errorContentKey.wireValue,
                     },
-                    value: context.getSchemaOfError(this.errorProperty.error),
+                    value: context.getSchemaOfError(this.errorName),
                 },
             ],
         };

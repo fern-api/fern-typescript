@@ -1,5 +1,5 @@
+import { Constants } from "@fern-fern/ir-model/constants";
 import { DeclaredErrorName } from "@fern-fern/ir-model/errors";
-import { FernConstants } from "@fern-fern/ir-model/ir";
 import { DeclaredTypeName, ResolvedTypeReference, TypeReference } from "@fern-fern/ir-model/types";
 import { TypeReferenceNode } from "@fern-typescript/commons-v2";
 import {
@@ -36,7 +36,7 @@ export class EndpointTypesContextImpl implements EndpointTypesContext {
         return this.endpointTypeSchemaContext.coreUtilities;
     }
 
-    public get fernConstants(): FernConstants {
+    public get fernConstants(): Constants {
         return this.endpointTypeSchemaContext.fernConstants;
     }
 

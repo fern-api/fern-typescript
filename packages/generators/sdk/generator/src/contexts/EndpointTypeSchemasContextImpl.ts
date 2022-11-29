@@ -16,6 +16,7 @@ import { BaseContextImpl } from "./BaseContextImpl";
 import { ErrorReferencingContextMixinImpl } from "./mixins/ErrorReferencingContextMixinImpl";
 import { ErrorSchemaReferencingContextMixinImpl } from "./mixins/ErrorSchemaReferencingContextMixinImpl";
 import { TypeReferencingContextMixinImpl } from "./mixins/TypeReferencingContextMixinImpl";
+import { TypeSchemaReferencingContextMixinImpl } from "./mixins/TypeSchemaReferencingContextMixinImpl";
 
 export declare namespace EndpointTypeSchemasContextImpl {
     export interface Init extends BaseContextImpl.Init {
@@ -24,6 +25,7 @@ export declare namespace EndpointTypeSchemasContextImpl {
 
         typeResolver: TypeResolver;
         typeDeclarationReferencer: TypeDeclarationReferencer;
+        typeSchemaDeclarationReferencer: TypeDeclarationReferencer;
         errorDeclarationReferencer: ErrorDeclarationReferencer;
         errorSchemaDeclarationReferencer: ErrorDeclarationReferencer;
         endpointDeclarationReferencer: EndpointDeclarationReferencer;
@@ -35,6 +37,7 @@ export class EndpointTypeSchemasContextImpl extends BaseContextImpl implements E
     private service: HttpService;
     private endpoint: HttpEndpoint;
     private typeReferencingContextMixin: TypeReferencingContextMixinImpl;
+    private typeSchemaReferencingContextMixin: TypeSchemaReferencingContextMixinImpl;
     private errorReferencingContextMixin: ErrorReferencingContextMixinImpl;
     private errorSchemaReferencingContextMixin: ErrorSchemaReferencingContextMixinImpl;
     private endpointDeclarationReferencer: EndpointDeclarationReferencer;
@@ -45,6 +48,7 @@ export class EndpointTypeSchemasContextImpl extends BaseContextImpl implements E
         endpoint,
         typeResolver,
         typeDeclarationReferencer,
+        typeSchemaDeclarationReferencer,
         errorDeclarationReferencer,
         errorSchemaDeclarationReferencer,
         endpointDeclarationReferencer,
@@ -59,6 +63,13 @@ export class EndpointTypeSchemasContextImpl extends BaseContextImpl implements E
             importsManager: this.importsManager,
             typeResolver,
             typeDeclarationReferencer,
+        });
+        this.typeSchemaReferencingContextMixin = new TypeSchemaReferencingContextMixinImpl({
+            sourceFile: this.sourceFile,
+            coreUtilities: this.coreUtilities,
+            importsManager: this.importsManager,
+            typeResolver,
+            typeSchemaDeclarationReferencer,
         });
         this.errorReferencingContextMixin = new ErrorReferencingContextMixinImpl({
             sourceFile: this.sourceFile,
@@ -89,6 +100,22 @@ export class EndpointTypeSchemasContextImpl extends BaseContextImpl implements E
 
     public resolveTypeName(typeName: DeclaredTypeName): ResolvedTypeReference {
         return this.typeReferencingContextMixin.resolveTypeName(typeName);
+    }
+
+    public getReferenceToRawType(typeReference: TypeReference): TypeReferenceNode {
+        return this.typeSchemaReferencingContextMixin.getReferenceToRawType(typeReference);
+    }
+
+    public getReferenceToRawNamedType(typeName: DeclaredTypeName): Reference {
+        return this.typeSchemaReferencingContextMixin.getReferenceToRawNamedType(typeName);
+    }
+
+    public getSchemaOfTypeReference(typeReference: TypeReference): Zurg.Schema {
+        return this.typeSchemaReferencingContextMixin.getSchemaOfTypeReference(typeReference);
+    }
+
+    public getSchemaOfNamedType(typeName: DeclaredTypeName): Zurg.Schema {
+        return this.typeSchemaReferencingContextMixin.getSchemaOfNamedType(typeName);
     }
 
     public getReferenceToError(errorName: DeclaredErrorName): Reference {

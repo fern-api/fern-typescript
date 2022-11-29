@@ -58,6 +58,6 @@ export class ErrorSchemaReferencingContextMixinImpl implements ErrorSchemaRefere
             })
             .getExpression();
 
-        return this.coreUtilities.zurg.Schema._fromExpression(referenceToSchema);
+        return this.coreUtilities.zurg.lazy(this.coreUtilities.zurg.Schema._fromExpression(referenceToSchema));
     }
 }

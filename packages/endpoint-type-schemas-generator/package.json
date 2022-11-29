@@ -28,6 +28,7 @@
     "@fern-fern/ir-model": "0.0.294",
     "@fern-typescript/commons": "workspace:*",
     "@fern-typescript/commons-v2": "workspace:*",
+    "@fern-typescript/resolvers": "workspace:*",
     "@fern-typescript/sdk-declaration-handler": "workspace:*",
     "@fern-typescript/union-generator": "workspace:*",
     "@fern-typescript/union-schema-generator": "workspace:*",

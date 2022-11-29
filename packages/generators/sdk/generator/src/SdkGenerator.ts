@@ -176,7 +176,9 @@ export class SdkGenerator {
         this.errorGenerator = new ErrorGenerator({ useBrandedStringAliases: config.shouldUseBrandedStringAliases });
         this.errorSchemaGenerator = new ErrorSchemaGenerator();
         this.endpointTypesGenerator = new EndpointTypesGenerator();
-        this.endpointTypeSchemasGenerator = new EndpointTypeSchemasGenerator();
+        this.endpointTypeSchemasGenerator = new EndpointTypeSchemasGenerator({
+            errorResolver: this.errorResolver,
+        });
         this.environmentsGenerator = new EnvironmentsGenerator({ intermediateRepresentation, packageName });
 
         this.generatePackage = async () => {
@@ -223,7 +225,7 @@ export class SdkGenerator {
                         sourceFile,
                         coreUtilitiesManager: this.coreUtilitiesManager,
                         dependencyManager: this.dependencyManager,
-                        fernConstants: this.intermediateRepresentation.constants,
+                        fernConstants: this.intermediateRepresentation.constantsV2,
                         importsManager,
                         typeResolver: this.typeResolver,
                         typeDeclarationReferencer: this.typeDeclarationReferencer,
@@ -247,7 +249,7 @@ export class SdkGenerator {
                         sourceFile,
                         coreUtilitiesManager: this.coreUtilitiesManager,
                         dependencyManager: this.dependencyManager,
-                        fernConstants: this.intermediateRepresentation.constants,
+                        fernConstants: this.intermediateRepresentation.constantsV2,
                         importsManager,
                         typeResolver: this.typeResolver,
                         typeDeclarationReferencer: this.typeDeclarationReferencer,
@@ -277,7 +279,7 @@ export class SdkGenerator {
                         sourceFile,
                         coreUtilitiesManager: this.coreUtilitiesManager,
                         dependencyManager: this.dependencyManager,
-                        fernConstants: this.intermediateRepresentation.constants,
+                        fernConstants: this.intermediateRepresentation.constantsV2,
                         importsManager,
                         typeResolver: this.typeResolver,
                         typeDeclarationReferencer: this.typeDeclarationReferencer,
@@ -304,7 +306,7 @@ export class SdkGenerator {
                         sourceFile,
                         coreUtilitiesManager: this.coreUtilitiesManager,
                         dependencyManager: this.dependencyManager,
-                        fernConstants: this.intermediateRepresentation.constants,
+                        fernConstants: this.intermediateRepresentation.constantsV2,
                         importsManager,
                         typeResolver: this.typeResolver,
                         typeDeclarationReferencer: this.typeDeclarationReferencer,
@@ -337,7 +339,7 @@ export class SdkGenerator {
                             sourceFile,
                             coreUtilitiesManager: this.coreUtilitiesManager,
                             dependencyManager: this.dependencyManager,
-                            fernConstants: this.intermediateRepresentation.constants,
+                            fernConstants: this.intermediateRepresentation.constantsV2,
                             importsManager,
                             typeResolver: this.typeResolver,
                             typeDeclarationReferencer: this.typeDeclarationReferencer,
@@ -371,10 +373,11 @@ export class SdkGenerator {
                             sourceFile,
                             coreUtilitiesManager: this.coreUtilitiesManager,
                             dependencyManager: this.dependencyManager,
-                            fernConstants: this.intermediateRepresentation.constants,
+                            fernConstants: this.intermediateRepresentation.constantsV2,
                             importsManager,
                             typeResolver: this.typeResolver,
                             typeDeclarationReferencer: this.typeDeclarationReferencer,
+                            typeSchemaDeclarationReferencer: this.typeSchemaDeclarationReferencer,
                             errorDeclarationReferencer: this.errorDeclarationReferencer,
                             errorSchemaDeclarationReferencer: this.errorSchemaDeclarationReferencer,
                             endpointDeclarationReferencer: this.endpointDeclarationReferencer,
