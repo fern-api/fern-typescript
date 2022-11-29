@@ -19,6 +19,25 @@ export class GeneratedTypeReferenceSchema {
         this.typeReference = typeReference;
     }
 
+    public static of({
+        typeName,
+        typeReference,
+    }: {
+        typeName: string;
+        typeReference: TypeReference | undefined;
+    }): GeneratedTypeReferenceSchema | undefined {
+        if (
+            typeReference == null ||
+            // for named schemas, we can just reference the schema of that named
+            // type, no need to build our own
+            typeReference._type === "named"
+        ) {
+            return undefined;
+        }
+
+        return new GeneratedTypeReferenceSchema({ typeName, typeReference });
+    }
+
     public writeToFile(context: EndpointTypeSchemasContext): void {
         context.sourceFile.addVariableStatement({
             isExported: true,

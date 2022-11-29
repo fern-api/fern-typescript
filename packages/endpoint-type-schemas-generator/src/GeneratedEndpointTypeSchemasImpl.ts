@@ -20,20 +20,14 @@ export class GeneratedEndpointTypeSchemasImpl implements GeneratedEndpointTypeSc
     private generatedErrorSchema: GeneratedEndpointErrorSchema;
 
     constructor({ endpoint, errorResolver }: GeneratedEndpointTypeSchemasImpl.Init) {
-        this.generatedRequestSchema =
-            endpoint.request.typeV2 != null
-                ? new GeneratedTypeReferenceSchema({
-                      typeName: GeneratedEndpointTypeSchemasImpl.REQUEST_SCHEMA_NAME,
-                      typeReference: endpoint.request.typeV2,
-                  })
-                : undefined;
-        this.generatedResponseSchema =
-            endpoint.response.typeV2 != null
-                ? new GeneratedTypeReferenceSchema({
-                      typeName: GeneratedEndpointTypeSchemasImpl.RESPONSE_SCHEMA_NAME,
-                      typeReference: endpoint.response.typeV2,
-                  })
-                : undefined;
+        this.generatedRequestSchema = GeneratedTypeReferenceSchema.of({
+            typeName: GeneratedEndpointTypeSchemasImpl.REQUEST_SCHEMA_NAME,
+            typeReference: endpoint.request.typeV2 ?? undefined,
+        });
+        this.generatedResponseSchema = GeneratedTypeReferenceSchema.of({
+            typeName: GeneratedEndpointTypeSchemasImpl.RESPONSE_SCHEMA_NAME,
+            typeReference: endpoint.response.typeV2 ?? undefined,
+        });
         this.generatedErrorSchema = new GeneratedEndpointErrorSchema({ endpoint, errorResolver });
     }
 
