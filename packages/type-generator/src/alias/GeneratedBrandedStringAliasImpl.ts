@@ -1,14 +1,10 @@
 import { AliasTypeDeclaration } from "@fern-fern/ir-model/types";
 import { getTextOfTsKeyword, getTextOfTsNode, maybeAddDocs } from "@fern-typescript/commons";
-import {
-    BrandedGeneratedAliasType,
-    WithBaseContextMixin,
-    WithTypeContextMixin,
-} from "@fern-typescript/sdk-declaration-handler";
+import { BrandedGeneratedAliasType, TypeContext } from "@fern-typescript/sdk-declaration-handler";
 import { ts } from "ts-morph";
 import { AbstractGeneratedType } from "../AbstractGeneratedType";
 
-export class GeneratedBrandedStringAliasImpl<Context extends WithBaseContextMixin & WithTypeContextMixin>
+export class GeneratedBrandedStringAliasImpl<Context extends TypeContext>
     extends AbstractGeneratedType<AliasTypeDeclaration, Context>
     implements BrandedGeneratedAliasType<Context>
 {

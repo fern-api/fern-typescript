@@ -1,14 +1,10 @@
 import { ObjectProperty, ObjectTypeDeclaration } from "@fern-fern/ir-model/types";
 import { getTextOfTsNode, maybeAddDocs } from "@fern-typescript/commons";
-import {
-    GeneratedObjectType,
-    WithBaseContextMixin,
-    WithTypeContextMixin,
-} from "@fern-typescript/sdk-declaration-handler";
+import { GeneratedObjectType, TypeContext } from "@fern-typescript/sdk-declaration-handler";
 import { OptionalKind, PropertySignatureStructure } from "ts-morph";
 import { AbstractGeneratedType } from "../AbstractGeneratedType";
 
-export class GeneratedObjectTypeImpl<Context extends WithBaseContextMixin & WithTypeContextMixin>
+export class GeneratedObjectTypeImpl<Context extends TypeContext>
     extends AbstractGeneratedType<ObjectTypeDeclaration, Context>
     implements GeneratedObjectType<Context>
 {

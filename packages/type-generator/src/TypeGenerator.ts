@@ -15,8 +15,6 @@ import {
     GeneratedUnionType,
     Reference,
     TypeContext,
-    WithBaseContextMixin,
-    WithTypeContextMixin,
 } from "@fern-typescript/sdk-declaration-handler";
 import { GeneratedAliasTypeImpl } from "./alias/GeneratedAliasTypeImpl";
 import { GeneratedBrandedStringAliasImpl } from "./alias/GeneratedBrandedStringAliasImpl";
@@ -40,7 +38,7 @@ export declare namespace TypeGenerator {
     }
 }
 
-export class TypeGenerator<Context extends WithBaseContextMixin & WithTypeContextMixin = TypeContext> {
+export class TypeGenerator<Context extends TypeContext = TypeContext> {
     private useBrandedStringAliases: boolean;
 
     constructor({ useBrandedStringAliases }: TypeGenerator.Init) {

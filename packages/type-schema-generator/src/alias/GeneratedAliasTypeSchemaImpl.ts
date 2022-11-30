@@ -2,15 +2,11 @@ import { AliasTypeDeclaration } from "@fern-fern/ir-model/types";
 import { AbstractGeneratedSchema } from "@fern-typescript/abstract-schema-generator";
 import { getTextOfTsNode } from "@fern-typescript/commons";
 import { Zurg } from "@fern-typescript/commons-v2";
-import {
-    GeneratedAliasTypeSchema,
-    WithBaseContextMixin,
-    WithTypeSchemaContextMixin,
-} from "@fern-typescript/sdk-declaration-handler";
+import { GeneratedAliasTypeSchema, TypeSchemaContext } from "@fern-typescript/sdk-declaration-handler";
 import { ModuleDeclaration, ts } from "ts-morph";
 import { AbstractGeneratedTypeSchema } from "../AbstractGeneratedTypeSchema";
 
-export class GeneratedAliasTypeSchemaImpl<Context extends WithBaseContextMixin & WithTypeSchemaContextMixin>
+export class GeneratedAliasTypeSchemaImpl<Context extends TypeSchemaContext>
     extends AbstractGeneratedTypeSchema<AliasTypeDeclaration, Context>
     implements GeneratedAliasTypeSchema<Context>
 {

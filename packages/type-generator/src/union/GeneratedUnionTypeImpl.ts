@@ -1,16 +1,11 @@
 import { SingleUnionTypeProperty, UnionTypeDeclaration } from "@fern-fern/ir-model/types";
-import {
-    GeneratedUnion,
-    GeneratedUnionType,
-    WithBaseContextMixin,
-    WithTypeContextMixin,
-} from "@fern-typescript/sdk-declaration-handler";
+import { GeneratedUnion, GeneratedUnionType, TypeContext } from "@fern-typescript/sdk-declaration-handler";
 import { AbstractParsedSingleUnionType, GeneratedUnionImpl } from "@fern-typescript/union-generator";
 import { ts } from "ts-morph";
 import { AbstractGeneratedType } from "../AbstractGeneratedType";
 import { ParsedSingleUnionTypeForUnion } from "./ParsedSingleUnionTypeForUnion";
 
-export class GeneratedUnionTypeImpl<Context extends WithBaseContextMixin & WithTypeContextMixin>
+export class GeneratedUnionTypeImpl<Context extends TypeContext>
     extends AbstractGeneratedType<UnionTypeDeclaration, Context>
     implements GeneratedUnionType<Context>
 {

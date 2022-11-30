@@ -1,12 +1,6 @@
 import { HttpEndpoint, HttpService } from "@fern-fern/ir-model/services/http";
 import { getTextOfTsNode } from "@fern-typescript/commons";
-import {
-    EndpointTypesContext,
-    GeneratedEndpointTypes,
-    GeneratedUnion,
-    WithBaseContextMixin,
-    WithEndpointTypesContextMixin,
-} from "@fern-typescript/sdk-declaration-handler";
+import { EndpointTypesContext, GeneratedEndpointTypes, GeneratedUnion } from "@fern-typescript/sdk-declaration-handler";
 import { GeneratedUnionImpl } from "@fern-typescript/union-generator";
 import { ts } from "ts-morph";
 import { ParsedSingleUnionTypeForError } from "./ParsedSingleUnionTypeForError";
@@ -28,7 +22,7 @@ export class GeneratedEndpointTypesImpl implements GeneratedEndpointTypes {
 
     private endpoint: HttpEndpoint;
     private request: GeneratedEndpointRequest;
-    private errorUnion: GeneratedUnionImpl<WithBaseContextMixin & WithEndpointTypesContextMixin>;
+    private errorUnion: GeneratedUnionImpl<EndpointTypesContext>;
 
     constructor({ service, endpoint }: GeneratedEndpointTypesImpl.Init) {
         this.endpoint = endpoint;
@@ -37,7 +31,7 @@ export class GeneratedEndpointTypesImpl implements GeneratedEndpointTypes {
             ? new WrappedEndpointRequest({ service, endpoint })
             : new NotWrappedEndpointRequest({ service, endpoint });
 
-        this.errorUnion = new GeneratedUnionImpl<WithBaseContextMixin & WithEndpointTypesContextMixin>({
+        this.errorUnion = new GeneratedUnionImpl<EndpointTypesContext>({
             typeName: GeneratedEndpointTypesImpl.ERROR_INTERFACE_NAME,
             discriminant: endpoint.errorsV2.discriminant,
             docs: undefined,
@@ -69,7 +63,7 @@ export class GeneratedEndpointTypesImpl implements GeneratedEndpointTypes {
         this.errorUnion.writeToFile(context);
     }
 
-    public getErrorUnion(): GeneratedUnion<WithBaseContextMixin & WithEndpointTypesContextMixin> {
+    public getErrorUnion(): GeneratedUnion<EndpointTypesContext> {
         return this.errorUnion;
     }
 

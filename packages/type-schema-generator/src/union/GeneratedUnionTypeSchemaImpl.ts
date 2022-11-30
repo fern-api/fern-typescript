@@ -3,8 +3,7 @@ import { Zurg } from "@fern-typescript/commons-v2";
 import {
     GeneratedUnionType,
     GeneratedUnionTypeSchema,
-    WithBaseContextMixin,
-    WithTypeSchemaContextMixin,
+    TypeSchemaContext,
 } from "@fern-typescript/sdk-declaration-handler";
 import {
     GeneratedUnionSchema,
@@ -16,7 +15,7 @@ import { AbstractGeneratedTypeSchema } from "../AbstractGeneratedTypeSchema";
 import { RawSamePropertiesAsObjectSingleUnionType } from "./RawSamePropertiesAsObjectSingleUnionType";
 import { RawSinglePropertySingleUnionType } from "./RawSinglePropertySingleUnionType";
 
-export class GeneratedUnionTypeSchemaImpl<Context extends WithBaseContextMixin & WithTypeSchemaContextMixin>
+export class GeneratedUnionTypeSchemaImpl<Context extends TypeSchemaContext>
     extends AbstractGeneratedTypeSchema<UnionTypeDeclaration, Context>
     implements GeneratedUnionTypeSchema<Context>
 {
