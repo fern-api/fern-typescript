@@ -1,10 +1,14 @@
 import { AliasTypeDeclaration } from "@fern-fern/ir-model/types";
 import { getTextOfTsKeyword, getTextOfTsNode, maybeAddDocs } from "@fern-typescript/commons";
-import { BrandedGeneratedAliasType, TypeContext } from "@fern-typescript/sdk-declaration-handler";
+import {
+    BrandedGeneratedAliasType,
+    WithBaseContextMixin,
+    WithTypeContextMixin,
+} from "@fern-typescript/sdk-declaration-handler";
 import { ts } from "ts-morph";
 import { AbstractGeneratedType } from "../AbstractGeneratedType";
 
-export class GeneratedBrandedStringAliasImpl<Context extends TypeContext = TypeContext>
+export class GeneratedBrandedStringAliasImpl<Context extends WithBaseContextMixin & WithTypeContextMixin>
     extends AbstractGeneratedType<AliasTypeDeclaration, Context>
     implements BrandedGeneratedAliasType<Context>
 {
@@ -21,8 +25,8 @@ export class GeneratedBrandedStringAliasImpl<Context extends TypeContext = TypeC
     }
 
     private writeTypeAlias(context: Context) {
-        const referenceToAliasedType = context.getReferenceToType(this.shape.aliasOf).typeNode;
-        const typeAlias = context.sourceFile.addTypeAlias({
+        const referenceToAliasedType = context.type.getReferenceToType(this.shape.aliasOf).typeNode;
+        const typeAlias = context.base.sourceFile.addTypeAlias({
             name: this.typeName,
             type: getTextOfTsNode(
                 ts.factory.createIntersectionTypeNode([
@@ -44,7 +48,7 @@ export class GeneratedBrandedStringAliasImpl<Context extends TypeContext = TypeC
 
     private writeBuilder(context: Context) {
         const VALUE_PARAMETER_NAME = "value";
-        context.sourceFile.addFunction({
+        context.base.sourceFile.addFunction({
             name: this.typeName,
             parameters: [
                 {

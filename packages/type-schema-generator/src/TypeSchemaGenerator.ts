@@ -14,6 +14,8 @@ import {
     GeneratedUnionTypeSchema,
     Reference,
     TypeSchemaContext,
+    WithBaseContextMixin,
+    WithTypeSchemaContextMixin,
 } from "@fern-typescript/sdk-declaration-handler";
 import { GeneratedAliasTypeSchemaImpl } from "./alias/GeneratedAliasTypeSchemaImpl";
 import { GeneratedEnumTypeSchemaImpl } from "./enum/GeneratedEnumTypeSchemaImpl";
@@ -22,7 +24,7 @@ import { GeneratedUnionTypeSchemaImpl } from "./union/GeneratedUnionTypeSchemaIm
 
 export declare namespace TypeSchemaGenerator {
     export namespace generateTypeSchema {
-        export interface Args<Context extends TypeSchemaContext = TypeSchemaContext> {
+        export interface Args<Context> {
             typeName: string;
             shape: Type;
             getGeneratedType: () => GeneratedType<Context>;
@@ -31,7 +33,9 @@ export declare namespace TypeSchemaGenerator {
     }
 }
 
-export class TypeSchemaGenerator<Context extends TypeSchemaContext = TypeSchemaContext> {
+export class TypeSchemaGenerator<
+    Context extends WithBaseContextMixin & WithTypeSchemaContextMixin = TypeSchemaContext
+> {
     public generateTypeSchema({
         shape,
         typeName,

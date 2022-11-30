@@ -15,6 +15,8 @@ import {
     GeneratedUnionType,
     Reference,
     TypeContext,
+    WithBaseContextMixin,
+    WithTypeContextMixin,
 } from "@fern-typescript/sdk-declaration-handler";
 import { GeneratedAliasTypeImpl } from "./alias/GeneratedAliasTypeImpl";
 import { GeneratedBrandedStringAliasImpl } from "./alias/GeneratedBrandedStringAliasImpl";
@@ -28,7 +30,7 @@ export declare namespace TypeGenerator {
     }
 
     export namespace generateType {
-        export interface Args<Context extends TypeContext = TypeContext> {
+        export interface Args<Context> {
             typeName: string;
             shape: Type;
             docs: string | undefined;
@@ -38,7 +40,7 @@ export declare namespace TypeGenerator {
     }
 }
 
-export class TypeGenerator<Context extends TypeContext = TypeContext> {
+export class TypeGenerator<Context extends WithBaseContextMixin & WithTypeContextMixin = TypeContext> {
     private useBrandedStringAliases: boolean;
 
     constructor({ useBrandedStringAliases }: TypeGenerator.Init) {
@@ -127,7 +129,13 @@ export class TypeGenerator<Context extends TypeContext = TypeContext> {
         return this.useBrandedStringAliases &&
             shape.aliasOf._type === "primitive" &&
             shape.aliasOf.primitive === PrimitiveType.String
-            ? new GeneratedBrandedStringAliasImpl({ typeName, shape, docs, fernFilepath, getReferenceToSelf })
+            ? new GeneratedBrandedStringAliasImpl({
+                  typeName,
+                  shape,
+                  docs,
+                  fernFilepath,
+                  getReferenceToSelf,
+              })
             : new GeneratedAliasTypeImpl({ typeName, shape, docs, fernFilepath, getReferenceToSelf });
     }
 }

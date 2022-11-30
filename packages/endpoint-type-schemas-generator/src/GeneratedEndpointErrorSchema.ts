@@ -2,8 +2,9 @@ import { HttpEndpoint, HttpService } from "@fern-fern/ir-model/services/http";
 import { ErrorResolver } from "@fern-typescript/resolvers";
 import {
     EndpointTypeSchemasContext,
-    EndpointTypesContext,
     GeneratedUnion,
+    WithBaseContextMixin,
+    WithEndpointTypesContextMixin,
 } from "@fern-typescript/sdk-declaration-handler";
 import { GeneratedUnionSchema, RawNoPropertiesSingleUnionType } from "@fern-typescript/union-schema-generator";
 import { RawSinglePropertyErrorSingleUnionType } from "./RawSinglePropertyErrorSingleUnionType";
@@ -62,7 +63,9 @@ export class GeneratedEndpointErrorSchema {
         this.generatedErrorUnionSchema.writeSchemaToFile(context);
     }
 
-    private getErrorUnion(context: EndpointTypeSchemasContext): GeneratedUnion<EndpointTypesContext> {
-        return context.getGeneratedEndpointTypes(this.service.name, this.endpoint.id).getErrorUnion();
+    private getErrorUnion(
+        context: EndpointTypeSchemasContext
+    ): GeneratedUnion<WithBaseContextMixin & WithEndpointTypesContextMixin> {
+        return context.endpointTypes.getGeneratedEndpointTypes(this.service.name, this.endpoint.id).getErrorUnion();
     }
 }

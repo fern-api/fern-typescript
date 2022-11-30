@@ -2,11 +2,15 @@ import { ObjectTypeDeclaration } from "@fern-fern/ir-model/types";
 import { AbstractGeneratedSchema } from "@fern-typescript/abstract-schema-generator";
 import { getTextOfTsNode } from "@fern-typescript/commons";
 import { Zurg } from "@fern-typescript/commons-v2";
-import { GeneratedObjectTypeSchema, TypeSchemaContext } from "@fern-typescript/sdk-declaration-handler";
+import {
+    GeneratedObjectTypeSchema,
+    WithBaseContextMixin,
+    WithTypeSchemaContextMixin,
+} from "@fern-typescript/sdk-declaration-handler";
 import { ModuleDeclaration, ts } from "ts-morph";
 import { AbstractGeneratedTypeSchema } from "../AbstractGeneratedTypeSchema";
 
-export class GeneratedObjectTypeSchemaImpl<Context extends TypeSchemaContext = TypeSchemaContext>
+export class GeneratedObjectTypeSchemaImpl<Context extends WithBaseContextMixin & WithTypeSchemaContextMixin>
     extends AbstractGeneratedTypeSchema<ObjectTypeDeclaration, Context>
     implements GeneratedObjectTypeSchema<Context>
 {
@@ -18,18 +22,18 @@ export class GeneratedObjectTypeSchemaImpl<Context extends TypeSchemaContext = T
             throw new Error("Type is not an object: " + this.typeName);
         }
 
-        let schema = context.coreUtilities.zurg.object(
+        let schema = context.base.coreUtilities.zurg.object(
             this.shape.properties.map((property) => ({
                 key: {
                     raw: property.nameV2.wireValue,
                     parsed: generatedType.getPropertyKey(property),
                 },
-                value: context.getSchemaOfTypeReference(property.valueType),
+                value: context.typeSchema.getSchemaOfTypeReference(property.valueType),
             }))
         );
 
         for (const extension of this.shape.extends) {
-            schema = schema.extend(context.getSchemaOfNamedType(extension));
+            schema = schema.extend(context.typeSchema.getSchemaOfNamedType(extension));
         }
 
         return schema;
@@ -39,10 +43,10 @@ export class GeneratedObjectTypeSchemaImpl<Context extends TypeSchemaContext = T
         module.addInterface({
             name: AbstractGeneratedSchema.RAW_TYPE_NAME,
             extends: this.shape.extends.map((extension) =>
-                getTextOfTsNode(context.getReferenceToRawNamedType(extension).getTypeNode())
+                getTextOfTsNode(context.typeSchema.getReferenceToRawNamedType(extension).getTypeNode())
             ),
             properties: this.shape.properties.map((property) => {
-                const type = context.getReferenceToRawType(property.valueType);
+                const type = context.typeSchema.getReferenceToRawType(property.valueType);
                 return {
                     name: `"${property.nameV2.wireValue}"`,
                     type: getTextOfTsNode(type.typeNodeWithoutUndefined),
@@ -61,6 +65,6 @@ export class GeneratedObjectTypeSchemaImpl<Context extends TypeSchemaContext = T
         rawShape: ts.TypeNode;
         parsedShape: ts.TypeNode;
     }): ts.TypeNode {
-        return context.coreUtilities.zurg.ObjectSchema._getReferenceToType({ rawShape, parsedShape });
+        return context.base.coreUtilities.zurg.ObjectSchema._getReferenceToType({ rawShape, parsedShape });
     }
 }
