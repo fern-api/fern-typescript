@@ -52,7 +52,11 @@ export class GeneratedEndpointImplementation {
                           },
                       ]
                     : [],
-            returnType: getTextOfTsNode(generatedEndpointTypes.getReferenceToResponseType(context)),
+            returnType: getTextOfTsNode(
+                ts.factory.createTypeReferenceNode("Promise", [
+                    generatedEndpointTypes.getReferenceToResponseType(context),
+                ])
+            ),
             scope: Scope.Public,
             isAsync: true,
             statements: this.generateMethodBody(context),
@@ -158,7 +162,7 @@ export class GeneratedEndpointImplementation {
 
         if (lastServiceBasePathPart == null) {
             return {
-                head: urlJoin(this.service.basePathV2.head, this.endpoint.path.head),
+                head: urlJoin(this.service.basePathV2.head, "/", this.endpoint.path.head),
                 parts: this.endpoint.path.parts,
             };
         }
@@ -169,7 +173,7 @@ export class GeneratedEndpointImplementation {
                 ...serviceBasePathPartsExceptLast,
                 {
                     pathParameter: lastServiceBasePathPart.pathParameter,
-                    tail: urlJoin(lastServiceBasePathPart.tail, this.endpoint.path.head),
+                    tail: urlJoin(lastServiceBasePathPart.tail, "/", this.endpoint.path.head),
                 },
                 ...this.endpoint.path.parts,
             ],
@@ -222,6 +226,13 @@ export class GeneratedEndpointImplementation {
     }
 
     private getReturnResponseForKnownErrors(context: ServiceContext): ts.Statement[] {
+        const allErrorsButLast = [...this.endpoint.errors];
+        const lastError = allErrorsButLast.pop();
+
+        if (lastError == null) {
+            return [];
+        }
+
         const generatedEndpointTypeSchemas = this.getGeneratedEndpointTypeSchemas(context);
 
         const referenceToError = ts.factory.createPropertyAccessExpression(
@@ -246,16 +257,43 @@ export class GeneratedEndpointImplementation {
             ),
             ts.factory.createBlock(
                 [
-                    ts.factory.createReturnStatement(
-                        context.base.coreUtilities.fetcher.APIResponse.FailedResponse._build(
-                            generatedEndpointTypeSchemas.deserializeError(
-                                ts.factory.createAsExpression(
-                                    referenceToErrorBody,
-                                    generatedEndpointTypeSchemas.getReferenceToRawError(context)
+                    ts.factory.createSwitchStatement(
+                        ts.factory.createPropertyAccessChain(
+                            ts.factory.createAsExpression(
+                                referenceToErrorBody,
+                                generatedEndpointTypeSchemas.getReferenceToRawError(context)
+                            ),
+                            ts.factory.createToken(ts.SyntaxKind.QuestionDotToken),
+                            this.endpoint.errorsV2.discriminant.wireValue
+                        ),
+                        ts.factory.createCaseBlock([
+                            ...allErrorsButLast.map((error) =>
+                                ts.factory.createCaseClause(
+                                    ts.factory.createStringLiteral(
+                                        context.error.getErrorDeclaration(error.error).discriminantValueV2.wireValue
+                                    ),
+                                    []
+                                )
+                            ),
+                            ts.factory.createCaseClause(
+                                ts.factory.createStringLiteral(
+                                    context.error.getErrorDeclaration(lastError.error).discriminantValueV2.wireValue
                                 ),
-                                context
-                            )
-                        )
+                                [
+                                    ts.factory.createReturnStatement(
+                                        context.base.coreUtilities.fetcher.APIResponse.FailedResponse._build(
+                                            generatedEndpointTypeSchemas.deserializeError(
+                                                ts.factory.createAsExpression(
+                                                    referenceToErrorBody,
+                                                    generatedEndpointTypeSchemas.getReferenceToRawError(context)
+                                                ),
+                                                context
+                                            )
+                                        )
+                                    ),
+                                ]
+                            ),
+                        ])
                     ),
                 ],
                 true
