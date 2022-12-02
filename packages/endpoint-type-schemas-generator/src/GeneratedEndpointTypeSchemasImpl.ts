@@ -3,7 +3,7 @@ import { ErrorResolver } from "@fern-typescript/resolvers";
 import { EndpointTypeSchemasContext, GeneratedEndpointTypeSchemas } from "@fern-typescript/sdk-declaration-handler";
 import { ts } from "ts-morph";
 import { GeneratedEndpointErrorSchema } from "./GeneratedEndpointErrorSchema";
-import { GeneratedTypeReferenceSchema } from "./GeneratedTypeReferenceSchema";
+import { GeneratedEndpointTypeSchema } from "./GeneratedEndpointTypeSchema";
 
 export declare namespace GeneratedEndpointTypeSchemasImpl {
     export interface Init {
@@ -17,27 +17,27 @@ export class GeneratedEndpointTypeSchemasImpl implements GeneratedEndpointTypeSc
     private static REQUEST_SCHEMA_NAME = "Request";
     private static RESPONSE_SCHEMA_NAME = "Response";
 
-    private generatedRequestSchema: GeneratedTypeReferenceSchema | undefined;
-    private generatedResponseSchema: GeneratedTypeReferenceSchema | undefined;
+    private generatedRequestSchema: GeneratedEndpointTypeSchema | undefined;
+    private generatedResponseSchema: GeneratedEndpointTypeSchema | undefined;
     private generatedErrorSchema: GeneratedEndpointErrorSchema;
 
     constructor({ service, endpoint, errorResolver }: GeneratedEndpointTypeSchemasImpl.Init) {
         this.generatedRequestSchema =
             endpoint.request.typeV2 != null
-                ? new GeneratedTypeReferenceSchema({
+                ? new GeneratedEndpointTypeSchema({
                       service,
                       endpoint,
                       typeName: GeneratedEndpointTypeSchemasImpl.REQUEST_SCHEMA_NAME,
-                      typeReference: endpoint.request.typeV2,
+                      type: endpoint.request.typeV2,
                   })
                 : undefined;
         this.generatedResponseSchema =
             endpoint.response.typeV2 != null
-                ? new GeneratedTypeReferenceSchema({
+                ? new GeneratedEndpointTypeSchema({
                       service,
                       endpoint,
                       typeName: GeneratedEndpointTypeSchemasImpl.RESPONSE_SCHEMA_NAME,
-                      typeReference: endpoint.response.typeV2,
+                      type: endpoint.response.typeV2,
                   })
                 : undefined;
         this.generatedErrorSchema = new GeneratedEndpointErrorSchema({ service, endpoint, errorResolver });

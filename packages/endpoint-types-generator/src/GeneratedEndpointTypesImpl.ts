@@ -35,6 +35,7 @@ export class GeneratedEndpointTypesImpl implements GeneratedEndpointTypes {
             ? new WrappedEndpointRequest({ service, endpoint })
             : new NotWrappedEndpointRequest({ service, endpoint });
 
+        const unknownErrorSingleUnionTypeGenerator = new UnknownErrorSingleUnionTypeGenerator();
         this.errorUnion = new GeneratedUnionImpl<EndpointTypesContext>({
             typeName: GeneratedEndpointTypesImpl.ERROR_INTERFACE_NAME,
             discriminant: endpoint.errorsV2.discriminant,
@@ -48,7 +49,10 @@ export class GeneratedEndpointTypesImpl implements GeneratedEndpointTypes {
                     this.endpoint.id,
                     GeneratedEndpointTypesImpl.ERROR_INTERFACE_NAME
                 ),
-            unknownSingleUnionType: new UnknownErrorSingleUnionType(new UnknownErrorSingleUnionTypeGenerator()),
+            unknownSingleUnionType: new UnknownErrorSingleUnionType({
+                singleUnionType: unknownErrorSingleUnionTypeGenerator,
+                builderParameterName: unknownErrorSingleUnionTypeGenerator.getBuilderParameterName(),
+            }),
         });
     }
 

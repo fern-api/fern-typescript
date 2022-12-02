@@ -31,6 +31,7 @@ export class GeneratedUnionTypeSchemaImpl<Context extends TypeSchemaContext>
         this.generatedUnionSchema = new GeneratedUnionSchema({
             typeName: superInit.typeName,
             discriminant,
+            shouldIncludeDefaultCaseInTransform: true,
             getReferenceToSchema: this.getReferenceToSchema,
             getGeneratedUnion: () => this.getGeneratedUnionType().getGeneratedUnion(),
             singleUnionTypes: this.shape.types.map((singleUnionType) => {

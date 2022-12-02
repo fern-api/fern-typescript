@@ -6,39 +6,39 @@ import { Zurg } from "@fern-typescript/commons-v2";
 import { EndpointTypeSchemasContext, Reference } from "@fern-typescript/sdk-declaration-handler";
 import { ModuleDeclaration, ts } from "ts-morph";
 
-export declare namespace GeneratedTypeReferenceSchema {
+export declare namespace GeneratedEndpointTypeSchema {
     export interface Init extends AbstractGeneratedSchema.Init {
         service: HttpService;
         endpoint: HttpEndpoint;
-        typeReference: TypeReference;
+        type: TypeReference;
     }
 }
 
-export class GeneratedTypeReferenceSchema extends AbstractGeneratedSchema<EndpointTypeSchemasContext> {
+export class GeneratedEndpointTypeSchema extends AbstractGeneratedSchema<EndpointTypeSchemasContext> {
     private service: HttpService;
     private endpoint: HttpEndpoint;
-    private typeReference: TypeReference;
+    private type: TypeReference;
 
-    constructor({ service, endpoint, typeReference, ...superInit }: GeneratedTypeReferenceSchema.Init) {
+    constructor({ service, endpoint, type, ...superInit }: GeneratedEndpointTypeSchema.Init) {
         super(superInit);
         this.service = service;
         this.endpoint = endpoint;
-        this.typeReference = typeReference;
+        this.type = type;
     }
 
     protected generateRawTypeDeclaration(context: EndpointTypeSchemasContext, module: ModuleDeclaration): void {
         module.addTypeAlias({
-            name: this.typeName,
-            type: getTextOfTsNode(context.typeSchema.getReferenceToRawType(this.typeReference).typeNode),
+            name: AbstractGeneratedSchema.RAW_TYPE_NAME,
+            type: getTextOfTsNode(context.typeSchema.getReferenceToRawType(this.type).typeNode),
         });
     }
 
     protected getReferenceToParsedShape(context: EndpointTypeSchemasContext): ts.TypeNode {
-        return context.type.getReferenceToType(this.typeReference).typeNode;
+        return context.type.getReferenceToType(this.type).typeNode;
     }
 
     protected buildSchema(context: EndpointTypeSchemasContext): Zurg.Schema {
-        return context.typeSchema.getSchemaOfTypeReference(this.typeReference);
+        return context.typeSchema.getSchemaOfTypeReference(this.type);
     }
 
     protected getReferenceToSchema(context: EndpointTypeSchemasContext): Reference {

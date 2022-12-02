@@ -25,13 +25,18 @@ export class GeneratedUnionTypeImpl<Context extends TypeContext>
                 })
         );
 
+        const unknownSingleUnionTypeGenerator = new UnknownSingleUnionTypeGenerator();
+
         this.generatedUnion = new GeneratedUnionImpl({
             typeName: this.typeName,
             getReferenceToUnion: this.getReferenceToSelf.bind(this),
             docs: this.docs,
             discriminant: this.shape.discriminantV2,
             parsedSingleUnionTypes,
-            unknownSingleUnionType: new UnknownSingleUnionType(new UnknownSingleUnionTypeGenerator()),
+            unknownSingleUnionType: new UnknownSingleUnionType({
+                singleUnionType: unknownSingleUnionTypeGenerator,
+                builderParameterName: unknownSingleUnionTypeGenerator.getBuilderParameterName(),
+            }),
         });
     }
 

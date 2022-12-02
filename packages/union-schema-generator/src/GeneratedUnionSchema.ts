@@ -12,6 +12,7 @@ export declare namespace GeneratedUnionSchema {
         singleUnionTypes: RawSingleUnionType<Context>[];
         getGeneratedUnion: (context: Context) => GeneratedUnion<Context>;
         getReferenceToSchema: (context: Context) => Reference;
+        shouldIncludeDefaultCaseInTransform: boolean;
     }
 }
 
@@ -22,12 +23,14 @@ export class GeneratedUnionSchema<Context extends WithBaseContextMixin> extends 
     private singleUnionTypes: RawSingleUnionType<Context>[];
     private getGeneratedUnion: (context: Context) => GeneratedUnion<Context>;
     protected getReferenceToSchema: (context: Context) => Reference;
+    private shouldIncludeDefaultCaseInTransform: boolean;
 
     constructor({
         discriminant,
         singleUnionTypes,
         getGeneratedUnion,
         getReferenceToSchema,
+        shouldIncludeDefaultCaseInTransform,
         ...superInit
     }: GeneratedUnionSchema.Init<Context>) {
         super(superInit);
@@ -35,6 +38,7 @@ export class GeneratedUnionSchema<Context extends WithBaseContextMixin> extends 
         this.singleUnionTypes = singleUnionTypes;
         this.getGeneratedUnion = getGeneratedUnion;
         this.getReferenceToSchema = getReferenceToSchema;
+        this.shouldIncludeDefaultCaseInTransform = shouldIncludeDefaultCaseInTransform;
     }
 
     public override generateRawTypeDeclaration(context: Context, module: ModuleDeclaration): void {
@@ -134,27 +138,31 @@ export class GeneratedUnionSchema<Context extends WithBaseContextMixin> extends 
     }
 
     private getSwitchClauses(context: Context): ts.CaseOrDefaultClause[] {
-        return [
-            ...this.singleUnionTypes.map((singleUnionType) =>
-                ts.factory.createCaseClause(ts.factory.createStringLiteral(singleUnionType.discriminantValue), [
+        const clauses: ts.CaseOrDefaultClause[] = this.singleUnionTypes.map((singleUnionType) =>
+            ts.factory.createCaseClause(ts.factory.createStringLiteral(singleUnionType.discriminantValue), [
+                ts.factory.createReturnStatement(
+                    this.buildParsedUnion({
+                        discriminantValueToBuild: singleUnionType.discriminantValue,
+                        existingValue: ts.factory.createIdentifier(GeneratedUnionSchema.VALUE_PARAMETER_NAME),
+                        context,
+                    })
+                ),
+            ])
+        );
+
+        if (this.shouldIncludeDefaultCaseInTransform) {
+            clauses.push(
+                ts.factory.createDefaultClause([
                     ts.factory.createReturnStatement(
-                        this.buildParsedUnion({
-                            discriminantValueToBuild: singleUnionType.discriminantValue,
+                        this.getGeneratedUnion(context).buildUnknown({
                             existingValue: ts.factory.createIdentifier(GeneratedUnionSchema.VALUE_PARAMETER_NAME),
                             context,
                         })
                     ),
                 ])
-            ),
-            ts.factory.createDefaultClause([
-                ts.factory.createReturnStatement(
-                    this.getGeneratedUnion(context).buildUnknown({
-                        existingValue: ts.factory.createIdentifier(GeneratedUnionSchema.VALUE_PARAMETER_NAME),
-                        context,
-                    })
-                ),
-            ]),
-        ];
+            );
+        }
+        return clauses;
     }
 
     private getParsedDiscriminant(context: Context): string {

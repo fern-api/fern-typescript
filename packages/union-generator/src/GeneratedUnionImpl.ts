@@ -14,6 +14,7 @@ import {
     ts,
     VariableDeclarationKind,
 } from "ts-morph";
+import { KnownSingleUnionType } from "./known-single-union-type/KnownSingleUnionType";
 import { ParsedSingleUnionType } from "./parsed-single-union-type/ParsedSingleUnionType";
 
 export declare namespace GeneratedUnionImpl {
@@ -21,14 +22,13 @@ export declare namespace GeneratedUnionImpl {
         typeName: string;
         discriminant: WireStringWithAllCasings;
         docs: string | null | undefined;
-        parsedSingleUnionTypes: ParsedSingleUnionType<Context>[];
+        parsedSingleUnionTypes: KnownSingleUnionType<Context>[];
         unknownSingleUnionType: ParsedSingleUnionType<Context>;
         getReferenceToUnion: (context: Context) => Reference;
     }
 }
 
 export class GeneratedUnionImpl<Context extends WithBaseContextMixin> implements GeneratedUnion<Context> {
-    public static readonly UNKNOWN_SINGLE_UNION_TYPE_INTERFACE_NAME = "_Unknown";
     public static readonly UTILS_INTERFACE_NAME = "_Utils";
     public static readonly VISITOR_INTERFACE_NAME = "_Visitor";
     public static readonly VISITOR_RETURN_TYPE = "_Result";
@@ -42,7 +42,7 @@ export class GeneratedUnionImpl<Context extends WithBaseContextMixin> implements
     private discriminantWithAllCasings: WireStringWithAllCasings;
     private docs: string | null | undefined;
     private typeName: string;
-    private parsedSingleUnionTypes: ParsedSingleUnionType<Context>[];
+    private parsedSingleUnionTypes: KnownSingleUnionType<Context>[];
     private unknownSingleUnionType: ParsedSingleUnionType<Context>;
 
     constructor({
@@ -85,7 +85,7 @@ export class GeneratedUnionImpl<Context extends WithBaseContextMixin> implements
         context: Context;
     }): ts.Expression {
         const singleUnionType = this.parsedSingleUnionTypes.find(
-            (singleUnionType) => singleUnionType.getDiscriminantValueAsString() === discriminantValueToBuild
+            (singleUnionType) => singleUnionType.getDiscriminantValue() === discriminantValueToBuild
         );
         if (singleUnionType == null) {
             throw new Error(`No single union type exists for discriminant value "${discriminantValueToBuild}"`);
@@ -131,16 +131,12 @@ export class GeneratedUnionImpl<Context extends WithBaseContextMixin> implements
     private writeTypeAlias(context: Context): void {
         const typeAlias = context.base.sourceFile.addTypeAlias({
             name: this.typeName,
-            type: getWriterForMultiLineUnionType([
-                ...this.parsedSingleUnionTypes.map((singleUnionType) => ({
+            type: getWriterForMultiLineUnionType(
+                this.getAllSingleUnionTypesIncludingUnknown().map((singleUnionType) => ({
                     node: this.getReferenceToSingleUnionType(singleUnionType, context),
                     docs: singleUnionType.getDocs(),
-                })),
-                {
-                    node: this.getReferenceToUnknownType(context),
-                    docs: undefined,
-                },
-            ]),
+                }))
+            ),
             isExported: true,
         });
         maybeAddDocs(typeAlias, this.docs);
@@ -154,15 +150,6 @@ export class GeneratedUnionImpl<Context extends WithBaseContextMixin> implements
             ts.factory.createQualifiedName(
                 this.getReferenceToUnion(context).getEntityName(),
                 singleUnionType.getInterfaceName()
-            )
-        );
-    }
-
-    private getReferenceToUnknownType(context: Context): ts.TypeNode {
-        return ts.factory.createTypeReferenceNode(
-            ts.factory.createQualifiedName(
-                this.getReferenceToUnion(context).getEntityName(),
-                GeneratedUnionImpl.UNKNOWN_SINGLE_UNION_TYPE_INTERFACE_NAME
             )
         );
     }
@@ -183,12 +170,9 @@ export class GeneratedUnionImpl<Context extends WithBaseContextMixin> implements
     }
 
     private getSingleUnionTypeInterfaces(context: Context): OptionalKind<InterfaceDeclarationStructure>[] {
-        const interfaces = [
-            ...this.parsedSingleUnionTypes.map((singleUnionType) =>
-                singleUnionType.getInterfaceDeclaration(context, this)
-            ),
-            this.unknownSingleUnionType.getInterfaceDeclaration(context, this),
-        ];
+        const interfaces = this.getAllSingleUnionTypesIncludingUnknown().map((singleUnionType) =>
+            singleUnionType.getInterfaceDeclaration(context, this)
+        );
 
         for (const interface_ of interfaces) {
             interface_.extends.push(ts.factory.createTypeReferenceNode(GeneratedUnionImpl.UTILS_INTERFACE_NAME));
@@ -248,16 +232,12 @@ export class GeneratedUnionImpl<Context extends WithBaseContextMixin> implements
                     name: GeneratedUnionImpl.VISITOR_RETURN_TYPE,
                 },
             ],
-            properties: [
-                ...this.parsedSingleUnionTypes.map<OptionalKind<PropertySignatureStructure>>((singleUnionType) => ({
+            properties: this.getAllSingleUnionTypesIncludingUnknown().map<OptionalKind<PropertySignatureStructure>>(
+                (singleUnionType) => ({
                     name: singleUnionType.getVisitorKey(),
                     type: getTextOfTsNode(singleUnionType.getVisitMethodSignature(context, this)),
-                })),
-                {
-                    name: this.unknownSingleUnionType.getVisitorKey(),
-                    type: getTextOfTsNode(this.unknownSingleUnionType.getVisitMethodSignature(context, this)),
-                },
-            ],
+                })
+            ),
         };
     }
 
@@ -276,14 +256,13 @@ export class GeneratedUnionImpl<Context extends WithBaseContextMixin> implements
      *********/
 
     private writeConst(context: Context): void {
-        if (this.parsedSingleUnionTypes.length === 0) {
-            return;
-        }
-
         const writer = FernWriters.object.writer({ asConst: true });
-
         this.addBuilderProperties(context, writer);
         this.addVisitProperty(context, writer);
+
+        if (writer.isEmpty) {
+            return;
+        }
 
         context.base.sourceFile.addVariableStatement({
             declarationKind: VariableDeclarationKind.Const,
@@ -298,7 +277,7 @@ export class GeneratedUnionImpl<Context extends WithBaseContextMixin> implements
     }
 
     private addBuilderProperties(context: Context, writer: ObjectWriter) {
-        for (const singleUnionType of this.parsedSingleUnionTypes) {
+        for (const singleUnionType of this.getAllSingleUnionTypesIncludingUnknown()) {
             writer.addProperty({
                 key: singleUnionType.getBuilderName(),
                 value: getTextOfTsNode(singleUnionType.getBuilder(context, this)),
@@ -354,18 +333,23 @@ export class GeneratedUnionImpl<Context extends WithBaseContextMixin> implements
                                 ),
                                 ts.factory.createCaseBlock([
                                     ...this.parsedSingleUnionTypes.map((parsedSingleUnionType) =>
-                                        ts.factory.createCaseClause(parsedSingleUnionType.getDiscriminantValue(), [
-                                            ts.factory.createReturnStatement(
-                                                parsedSingleUnionType.invokeVisitMethod({
-                                                    localReferenceToUnionValue: ts.factory.createIdentifier(
-                                                        GeneratedUnionImpl.VISITEE_PARAMETER_NAME
-                                                    ),
-                                                    localReferenceToVisitor: ts.factory.createIdentifier(
-                                                        GeneratedUnionImpl.VISITOR_PARAMETER_NAME
-                                                    ),
-                                                })
+                                        ts.factory.createCaseClause(
+                                            ts.factory.createStringLiteral(
+                                                parsedSingleUnionType.getDiscriminantValue()
                                             ),
-                                        ])
+                                            [
+                                                ts.factory.createReturnStatement(
+                                                    parsedSingleUnionType.invokeVisitMethod({
+                                                        localReferenceToUnionValue: ts.factory.createIdentifier(
+                                                            GeneratedUnionImpl.VISITEE_PARAMETER_NAME
+                                                        ),
+                                                        localReferenceToVisitor: ts.factory.createIdentifier(
+                                                            GeneratedUnionImpl.VISITOR_PARAMETER_NAME
+                                                        ),
+                                                    })
+                                                ),
+                                            ]
+                                        )
                                     ),
                                     ts.factory.createDefaultClause([
                                         ts.factory.createReturnStatement(
@@ -396,5 +380,9 @@ export class GeneratedUnionImpl<Context extends WithBaseContextMixin> implements
                 )
             ),
         });
+    }
+
+    private getAllSingleUnionTypesIncludingUnknown(): ParsedSingleUnionType<Context>[] {
+        return [...this.parsedSingleUnionTypes, this.unknownSingleUnionType];
     }
 }

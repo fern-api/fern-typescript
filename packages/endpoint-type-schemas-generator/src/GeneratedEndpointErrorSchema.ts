@@ -32,6 +32,7 @@ export class GeneratedEndpointErrorSchema {
         const discriminant = endpoint.errorsV2.discriminant;
         this.generatedErrorUnionSchema = new GeneratedUnionSchema<EndpointTypeSchemasContext>({
             typeName: GeneratedEndpointErrorSchema.ERROR_SCHEMA_NAME,
+            shouldIncludeDefaultCaseInTransform: false,
             discriminant,
             getReferenceToSchema: (context) =>
                 context.endpointTypeSchemas.getReferenceToEndpointTypeSchemaExport(

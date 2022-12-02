@@ -69,4 +69,8 @@ export class UnknownSingleUnionTypeGenerator implements SingleUnionTypeGenerator
             ),
         ];
     }
+
+    public getBuilderParameterName(): string {
+        return UnknownSingleUnionTypeGenerator.BUILDER_PARAMETER_NAME;
+    }
 }
