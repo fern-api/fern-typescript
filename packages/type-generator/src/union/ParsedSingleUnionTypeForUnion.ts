@@ -53,7 +53,7 @@ export class ParsedSingleUnionTypeForUnion<Context extends TypeContext> extends 
         return this.singleUnionTypeFromUnion.discriminantValue.pascalCase;
     }
 
-    public getDiscriminantValue(): string {
+    public getDiscriminantValueAsString(): string {
         return this.singleUnionTypeFromUnion.discriminantValue.wireValue;
     }
 

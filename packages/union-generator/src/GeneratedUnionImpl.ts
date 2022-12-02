@@ -14,9 +14,7 @@ import {
     ts,
     VariableDeclarationKind,
 } from "ts-morph";
-import { AbstractParsedSingleUnionType } from "./parsed-single-union-type/AbstractParsedSingleUnionType";
 import { ParsedSingleUnionType } from "./parsed-single-union-type/ParsedSingleUnionType";
-import { UnknownSingleUnionType } from "./UnknownSingleUnionType";
 
 export declare namespace GeneratedUnionImpl {
     export interface Init<Context extends WithBaseContextMixin> {
@@ -24,7 +22,7 @@ export declare namespace GeneratedUnionImpl {
         discriminant: WireStringWithAllCasings;
         docs: string | null | undefined;
         parsedSingleUnionTypes: ParsedSingleUnionType<Context>[];
-        unknownSingleUnionType: UnknownSingleUnionType<Context>;
+        unknownSingleUnionType: ParsedSingleUnionType<Context>;
         getReferenceToUnion: (context: Context) => Reference;
     }
 }
@@ -39,13 +37,13 @@ export class GeneratedUnionImpl<Context extends WithBaseContextMixin> implements
     public static readonly UNKNOWN_VISITOR_KEY = "_other";
     public static readonly VISIT_UTIL_PROPERTY_NAME = "_visit";
 
+    public readonly getReferenceToUnion: (context: Context) => Reference;
+
     private discriminantWithAllCasings: WireStringWithAllCasings;
     private docs: string | null | undefined;
     private typeName: string;
     private parsedSingleUnionTypes: ParsedSingleUnionType<Context>[];
-    private unknownSingleUnionType: UnknownSingleUnionType<Context>;
-
-    public readonly getReferenceToUnion: (context: Context) => Reference;
+    private unknownSingleUnionType: ParsedSingleUnionType<Context>;
 
     constructor({
         typeName,
@@ -70,7 +68,7 @@ export class GeneratedUnionImpl<Context extends WithBaseContextMixin> implements
     }
 
     public get discriminant(): string {
-        return AbstractParsedSingleUnionType.getDiscriminantKey(this.discriminantWithAllCasings);
+        return this.discriminantWithAllCasings.camelCase;
     }
 
     public getReferenceTo(context: Context): ts.TypeNode {
@@ -87,11 +85,35 @@ export class GeneratedUnionImpl<Context extends WithBaseContextMixin> implements
         context: Context;
     }): ts.Expression {
         const singleUnionType = this.parsedSingleUnionTypes.find(
-            (singleUnionType) => singleUnionType.getDiscriminantValue() === discriminantValueToBuild
+            (singleUnionType) => singleUnionType.getDiscriminantValueAsString() === discriminantValueToBuild
         );
         if (singleUnionType == null) {
             throw new Error(`No single union type exists for discriminant value "${discriminantValueToBuild}"`);
         }
+        return this.buildSingleUnionType({
+            existingValue,
+            context,
+            singleUnionType,
+        });
+    }
+
+    public buildUnknown({ existingValue, context }: { existingValue: ts.Expression; context: Context }): ts.Expression {
+        return this.buildSingleUnionType({
+            existingValue,
+            context,
+            singleUnionType: this.unknownSingleUnionType,
+        });
+    }
+
+    private buildSingleUnionType({
+        singleUnionType,
+        context,
+        existingValue,
+    }: {
+        singleUnionType: ParsedSingleUnionType<Context>;
+        context: Context;
+        existingValue: ts.Expression;
+    }): ts.Expression {
         return ts.factory.createCallExpression(
             ts.factory.createPropertyAccessExpression(
                 this.getReferenceToUnion(context).getExpression(),
@@ -100,21 +122,6 @@ export class GeneratedUnionImpl<Context extends WithBaseContextMixin> implements
             undefined,
             singleUnionType.getBuilderArgsFromExistingValue(existingValue)
         );
-    }
-
-    public addVistMethodToValue({
-        context,
-        parsedValue,
-    }: {
-        context: Context;
-        parsedValue: ts.Expression;
-    }): ts.Expression {
-        return AbstractParsedSingleUnionType.addVisitMethodToValue({
-            context,
-            generatedUnion: this,
-            value: parsedValue,
-            referenceToBuiltType: this.getReferenceTo(context),
-        });
     }
 
     /**************
@@ -177,13 +184,10 @@ export class GeneratedUnionImpl<Context extends WithBaseContextMixin> implements
 
     private getSingleUnionTypeInterfaces(context: Context): OptionalKind<InterfaceDeclarationStructure>[] {
         const interfaces = [
-            ...this.parsedSingleUnionTypes.map((singleUnionType) => singleUnionType.getInterfaceDeclaration(context)),
-            AbstractParsedSingleUnionType.createDiscriminatedInterface({
-                typeName: GeneratedUnionImpl.UNKNOWN_SINGLE_UNION_TYPE_INTERFACE_NAME,
-                discriminant: this.discriminantWithAllCasings,
-                discriminantValue: this.unknownSingleUnionType.discriminantType,
-                nonDiscriminantProperties: this.unknownSingleUnionType.getNonDiscriminantProperties?.(context),
-            }),
+            ...this.parsedSingleUnionTypes.map((singleUnionType) =>
+                singleUnionType.getInterfaceDeclaration(context, this)
+            ),
+            this.unknownSingleUnionType.getInterfaceDeclaration(context, this),
         ];
 
         for (const interface_ of interfaces) {
@@ -247,15 +251,11 @@ export class GeneratedUnionImpl<Context extends WithBaseContextMixin> implements
             properties: [
                 ...this.parsedSingleUnionTypes.map<OptionalKind<PropertySignatureStructure>>((singleUnionType) => ({
                     name: singleUnionType.getVisitorKey(),
-                    type: getTextOfTsNode(singleUnionType.getVisitMethodSignature(context)),
+                    type: getTextOfTsNode(singleUnionType.getVisitMethodSignature(context, this)),
                 })),
                 {
-                    name: GeneratedUnionImpl.UNKNOWN_VISITOR_KEY,
-                    type: getTextOfTsNode(
-                        AbstractParsedSingleUnionType.getVisitorPropertySignature({
-                            parameterType: this.unknownSingleUnionType.getVisitorArgument(context),
-                        })
-                    ),
+                    name: this.unknownSingleUnionType.getVisitorKey(),
+                    type: getTextOfTsNode(this.unknownSingleUnionType.getVisitMethodSignature(context, this)),
                 },
             ],
         };
@@ -350,31 +350,22 @@ export class GeneratedUnionImpl<Context extends WithBaseContextMixin> implements
                             ts.factory.createSwitchStatement(
                                 ts.factory.createPropertyAccessExpression(
                                     ts.factory.createIdentifier(GeneratedUnionImpl.VISITEE_PARAMETER_NAME),
-                                    ts.factory.createIdentifier(
-                                        AbstractParsedSingleUnionType.getDiscriminantKey(
-                                            this.discriminantWithAllCasings
-                                        )
-                                    )
+                                    ts.factory.createIdentifier(this.discriminant)
                                 ),
                                 ts.factory.createCaseBlock([
                                     ...this.parsedSingleUnionTypes.map((parsedSingleUnionType) =>
-                                        ts.factory.createCaseClause(
-                                            ts.factory.createStringLiteral(
-                                                parsedSingleUnionType.getDiscriminantValue()
+                                        ts.factory.createCaseClause(parsedSingleUnionType.getDiscriminantValue(), [
+                                            ts.factory.createReturnStatement(
+                                                parsedSingleUnionType.invokeVisitMethod({
+                                                    localReferenceToUnionValue: ts.factory.createIdentifier(
+                                                        GeneratedUnionImpl.VISITEE_PARAMETER_NAME
+                                                    ),
+                                                    localReferenceToVisitor: ts.factory.createIdentifier(
+                                                        GeneratedUnionImpl.VISITOR_PARAMETER_NAME
+                                                    ),
+                                                })
                                             ),
-                                            [
-                                                ts.factory.createReturnStatement(
-                                                    parsedSingleUnionType.invokeVisitMethod({
-                                                        localReferenceToUnionValue: ts.factory.createIdentifier(
-                                                            GeneratedUnionImpl.VISITEE_PARAMETER_NAME
-                                                        ),
-                                                        localReferenceToVisitor: ts.factory.createIdentifier(
-                                                            GeneratedUnionImpl.VISITOR_PARAMETER_NAME
-                                                        ),
-                                                    })
-                                                ),
-                                            ]
-                                        )
+                                        ])
                                     ),
                                     ts.factory.createDefaultClause([
                                         ts.factory.createReturnStatement(

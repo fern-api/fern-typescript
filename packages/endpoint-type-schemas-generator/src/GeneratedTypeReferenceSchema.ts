@@ -1,61 +1,49 @@
+import { HttpEndpoint, HttpService } from "@fern-fern/ir-model/services/http";
 import { TypeReference } from "@fern-fern/ir-model/types";
+import { AbstractGeneratedSchema } from "@fern-typescript/abstract-schema-generator";
 import { getTextOfTsNode } from "@fern-typescript/commons";
-import { EndpointTypeSchemasContext } from "@fern-typescript/sdk-declaration-handler";
-import { VariableDeclarationKind } from "ts-morph";
+import { Zurg } from "@fern-typescript/commons-v2";
+import { EndpointTypeSchemasContext, Reference } from "@fern-typescript/sdk-declaration-handler";
+import { ModuleDeclaration, ts } from "ts-morph";
 
 export declare namespace GeneratedTypeReferenceSchema {
-    export interface Init {
-        typeName: string;
+    export interface Init extends AbstractGeneratedSchema.Init {
+        service: HttpService;
+        endpoint: HttpEndpoint;
         typeReference: TypeReference;
     }
 }
 
-export class GeneratedTypeReferenceSchema {
-    private typeName: string;
+export class GeneratedTypeReferenceSchema extends AbstractGeneratedSchema<EndpointTypeSchemasContext> {
+    private service: HttpService;
+    private endpoint: HttpEndpoint;
     private typeReference: TypeReference;
 
-    constructor({ typeName, typeReference }: GeneratedTypeReferenceSchema.Init) {
-        this.typeName = typeName;
+    constructor({ service, endpoint, typeReference, ...superInit }: GeneratedTypeReferenceSchema.Init) {
+        super(superInit);
+        this.service = service;
+        this.endpoint = endpoint;
         this.typeReference = typeReference;
     }
 
-    public static of({
-        typeName,
-        typeReference,
-    }: {
-        typeName: string;
-        typeReference: TypeReference | undefined;
-    }): GeneratedTypeReferenceSchema | undefined {
-        if (
-            typeReference == null ||
-            // for named schemas, we can just reference the schema of that named
-            // type, no need to build our own
-            typeReference._type === "named"
-        ) {
-            return undefined;
-        }
-
-        return new GeneratedTypeReferenceSchema({ typeName, typeReference });
+    protected generateRawTypeDeclaration(context: EndpointTypeSchemasContext, module: ModuleDeclaration): void {
+        module.addTypeAlias({
+            name: this.typeName,
+            type: getTextOfTsNode(context.typeSchema.getReferenceToRawType(this.typeReference).typeNode),
+        });
     }
 
-    public writeToFile(context: EndpointTypeSchemasContext): void {
-        context.base.sourceFile.addVariableStatement({
-            isExported: true,
-            declarationKind: VariableDeclarationKind.Const,
-            declarations: [
-                {
-                    name: this.typeName,
-                    type: getTextOfTsNode(
-                        context.base.coreUtilities.zurg.Schema._getReferenceToType({
-                            rawShape: context.typeSchema.getReferenceToRawType(this.typeReference).typeNode,
-                            parsedShape: context.type.getReferenceToType(this.typeReference).typeNode,
-                        })
-                    ),
-                    initializer: getTextOfTsNode(
-                        context.typeSchema.getSchemaOfTypeReference(this.typeReference).toExpression()
-                    ),
-                },
-            ],
-        });
+    protected getReferenceToParsedShape(context: EndpointTypeSchemasContext): ts.TypeNode {
+        return context.type.getReferenceToType(this.typeReference).typeNode;
+    }
+
+    protected buildSchema(context: EndpointTypeSchemasContext): Zurg.Schema {
+        return context.typeSchema.getSchemaOfTypeReference(this.typeReference);
+    }
+
+    protected getReferenceToSchema(context: EndpointTypeSchemasContext): Reference {
+        return context.endpointTypeSchemas.getReferenceToEndpointTypeSchemaExport(this.service.name, this.endpoint.id, [
+            this.typeName,
+        ]);
     }
 }

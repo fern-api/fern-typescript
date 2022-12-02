@@ -1,4 +1,3 @@
-import { WireStringWithAllCasings } from "@fern-fern/ir-model/commons";
 import { ResponseErrorShape, ResponseErrorsV2, ResponseErrorV2 } from "@fern-fern/ir-model/services/commons";
 import { EndpointTypesContext } from "@fern-typescript/sdk-declaration-handler";
 import {
@@ -53,7 +52,7 @@ export class ParsedSingleUnionTypeForError extends AbstractParsedSingleUnionType
         return this.error.discriminantValue.pascalCase;
     }
 
-    public getDiscriminantValue(): string {
+    public getDiscriminantValueAsString(): string {
         return this.error.discriminantValue.wireValue;
     }
 
@@ -63,9 +62,5 @@ export class ParsedSingleUnionTypeForError extends AbstractParsedSingleUnionType
 
     public getVisitorKey(): string {
         return this.error.discriminantValue.camelCase;
-    }
-
-    protected override getDiscriminant(): WireStringWithAllCasings {
-        return this.errors.discriminant;
     }
 }
