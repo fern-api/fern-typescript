@@ -392,7 +392,7 @@ export class SdkGenerator {
                     ? this.serviceDeclarationReferencer
                     : this.rootServiceDeclarationReferencer;
             this.withSourceFile({
-                filepath: this.serviceDeclarationReferencer.getExportedFilepath(service.name),
+                filepath: serviceDeclarationReferencer.getExportedFilepath(service.name),
                 run: ({ sourceFile, importsManager }) => {
                     const serviceContext = new ServiceContextImpl({
                         intermediateRepresentation: this.intermediateRepresentation,
