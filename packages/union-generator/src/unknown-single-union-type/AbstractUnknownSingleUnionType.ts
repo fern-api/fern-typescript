@@ -49,7 +49,7 @@ export abstract class AbstractUnknownSingleUnionType<
         return ts.factory.createVariableDeclaration(
             ts.factory.createIdentifier(AbstractParsedSingleUnionType.VALUE_WITHOUT_VISIT_VARIABLE_NAME),
             undefined,
-            referenceToTypeWithoutVisit,
+            undefined,
             ts.factory.createAsExpression(
                 ts.factory.createAsExpression(
                     ts.factory.createIdentifier(this.builderParameterName),

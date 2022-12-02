@@ -1646,10 +1646,7 @@ export const Error = {
   },
 
   _unknown: (fetcherError: core.Fetcher.Error): FernApi.owner.create.Error._Unknown => {
-    const valueWithoutVisit: Omit<FernApi.owner.create.Error._Unknown, \\"_visit\\"> = fetcherError as unknown as Omit<
-      FernApi.owner.create.Error._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = fetcherError as unknown as Omit<FernApi.owner.create.Error._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: FernApi.owner.create.Error._Unknown, visitor: FernApi.owner.create.Error._Visitor<_Result>) {
@@ -1721,10 +1718,7 @@ export const Error = {
   },
 
   _unknown: (fetcherError: core.Fetcher.Error): FernApi.owner.get.Error._Unknown => {
-    const valueWithoutVisit: Omit<FernApi.owner.get.Error._Unknown, \\"_visit\\"> = fetcherError as unknown as Omit<
-      FernApi.owner.get.Error._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = fetcherError as unknown as Omit<FernApi.owner.get.Error._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: FernApi.owner.get.Error._Unknown, visitor: FernApi.owner.get.Error._Visitor<_Result>) {
@@ -1802,10 +1796,7 @@ export const Error = {
   },
 
   _unknown: (fetcherError: core.Fetcher.Error): FernApi.owner.update.Error._Unknown => {
-    const valueWithoutVisit: Omit<FernApi.owner.update.Error._Unknown, \\"_visit\\"> = fetcherError as unknown as Omit<
-      FernApi.owner.update.Error._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = fetcherError as unknown as Omit<FernApi.owner.update.Error._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: FernApi.owner.update.Error._Unknown, visitor: FernApi.owner.update.Error._Visitor<_Result>) {
@@ -2105,10 +2096,7 @@ export const Error = {
   },
 
   _unknown: (fetcherError: core.Fetcher.Error): FernApi.token.create.Error._Unknown => {
-    const valueWithoutVisit: Omit<FernApi.token.create.Error._Unknown, \\"_visit\\"> = fetcherError as unknown as Omit<
-      FernApi.token.create.Error._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = fetcherError as unknown as Omit<FernApi.token.create.Error._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: FernApi.token.create.Error._Unknown, visitor: FernApi.token.create.Error._Visitor<_Result>) {
@@ -2178,8 +2166,7 @@ export const Error = {
   },
 
   _unknown: (fetcherError: core.Fetcher.Error): FernApi.token.getTokenMetadata.Error._Unknown => {
-    const valueWithoutVisit: Omit<FernApi.token.getTokenMetadata.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<FernApi.token.getTokenMetadata.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<FernApi.token.getTokenMetadata.Error._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: FernApi.token.getTokenMetadata.Error._Unknown, visitor: FernApi.token.getTokenMetadata.Error._Visitor<_Result>) {
@@ -2253,8 +2240,7 @@ export const Error = {
   },
 
   _unknown: (fetcherError: core.Fetcher.Error): FernApi.token.getTokensForOwner.Error._Unknown => {
-    const valueWithoutVisit: Omit<FernApi.token.getTokensForOwner.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<FernApi.token.getTokensForOwner.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<FernApi.token.getTokensForOwner.Error._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: FernApi.token.getTokensForOwner.Error._Unknown, visitor: FernApi.token.getTokensForOwner.Error._Visitor<_Result>) {
@@ -2447,10 +2433,7 @@ export const TokenStatus = {
   },
 
   _unknown: (value: { type: string }): FernApi.TokenStatus._Unknown => {
-    const valueWithoutVisit: Omit<FernApi.TokenStatus._Unknown, \\"_visit\\"> = value as unknown as Omit<
-      FernApi.TokenStatus._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = value as unknown as Omit<FernApi.TokenStatus._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: FernApi.TokenStatus._Unknown, visitor: FernApi.TokenStatus._Visitor<_Result>) {
@@ -6338,8 +6321,10 @@ export declare namespace Error {
 
 export const Error = {
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.admin.sendTestSubmissionUpdate.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.admin.sendTestSubmissionUpdate.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.admin.sendTestSubmissionUpdate.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<
+      TraceApi.admin.sendTestSubmissionUpdate.Error._Unknown,
+      \\"_visit\\"
+    >;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.admin.sendTestSubmissionUpdate.Error._Unknown, visitor: TraceApi.admin.sendTestSubmissionUpdate.Error._Visitor<_Result>) {
@@ -6394,8 +6379,10 @@ export declare namespace Error {
 
 export const Error = {
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.admin.sendWorkspaceSubmissionUpdate.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.admin.sendWorkspaceSubmissionUpdate.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.admin.sendWorkspaceSubmissionUpdate.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<
+      TraceApi.admin.sendWorkspaceSubmissionUpdate.Error._Unknown,
+      \\"_visit\\"
+    >;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.admin.sendWorkspaceSubmissionUpdate.Error._Unknown, visitor: TraceApi.admin.sendWorkspaceSubmissionUpdate.Error._Visitor<_Result>) {
@@ -6451,8 +6438,10 @@ export declare namespace Error {
 
 export const Error = {
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.admin.storeTracedTestCase.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.admin.storeTracedTestCase.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.admin.storeTracedTestCase.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<
+      TraceApi.admin.storeTracedTestCase.Error._Unknown,
+      \\"_visit\\"
+    >;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.admin.storeTracedTestCase.Error._Unknown, visitor: TraceApi.admin.storeTracedTestCase.Error._Visitor<_Result>) {
@@ -6508,8 +6497,10 @@ export declare namespace Error {
 
 export const Error = {
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.admin.storeTracedTestCaseV2.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.admin.storeTracedTestCaseV2.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.admin.storeTracedTestCaseV2.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<
+      TraceApi.admin.storeTracedTestCaseV2.Error._Unknown,
+      \\"_visit\\"
+    >;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.admin.storeTracedTestCaseV2.Error._Unknown, visitor: TraceApi.admin.storeTracedTestCaseV2.Error._Visitor<_Result>) {
@@ -6564,8 +6555,10 @@ export declare namespace Error {
 
 export const Error = {
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.admin.storeTracedWorkspace.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.admin.storeTracedWorkspace.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.admin.storeTracedWorkspace.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<
+      TraceApi.admin.storeTracedWorkspace.Error._Unknown,
+      \\"_visit\\"
+    >;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.admin.storeTracedWorkspace.Error._Unknown, visitor: TraceApi.admin.storeTracedWorkspace.Error._Visitor<_Result>) {
@@ -6620,8 +6613,10 @@ export declare namespace Error {
 
 export const Error = {
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.admin.storeTracedWorkspaceV2.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.admin.storeTracedWorkspaceV2.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.admin.storeTracedWorkspaceV2.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<
+      TraceApi.admin.storeTracedWorkspaceV2.Error._Unknown,
+      \\"_visit\\"
+    >;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.admin.storeTracedWorkspaceV2.Error._Unknown, visitor: TraceApi.admin.storeTracedWorkspaceV2.Error._Visitor<_Result>) {
@@ -6676,8 +6671,10 @@ export declare namespace Error {
 
 export const Error = {
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.admin.updateTestSubmissionStatus.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.admin.updateTestSubmissionStatus.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.admin.updateTestSubmissionStatus.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<
+      TraceApi.admin.updateTestSubmissionStatus.Error._Unknown,
+      \\"_visit\\"
+    >;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.admin.updateTestSubmissionStatus.Error._Unknown, visitor: TraceApi.admin.updateTestSubmissionStatus.Error._Visitor<_Result>) {
@@ -6732,8 +6729,10 @@ export declare namespace Error {
 
 export const Error = {
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.admin.updateWorkspaceSubmissionStatus.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.admin.updateWorkspaceSubmissionStatus.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.admin.updateWorkspaceSubmissionStatus.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<
+      TraceApi.admin.updateWorkspaceSubmissionStatus.Error._Unknown,
+      \\"_visit\\"
+    >;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.admin.updateWorkspaceSubmissionStatus.Error._Unknown, visitor: TraceApi.admin.updateWorkspaceSubmissionStatus.Error._Visitor<_Result>) {
@@ -7170,10 +7169,7 @@ export const DebugVariableValue = {
   },
 
   _unknown: (value: { type: string }): TraceApi.DebugVariableValue._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.DebugVariableValue._Unknown, \\"_visit\\"> = value as unknown as Omit<
-      TraceApi.DebugVariableValue._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = value as unknown as Omit<TraceApi.DebugVariableValue._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.DebugVariableValue._Unknown, visitor: TraceApi.DebugVariableValue._Visitor<_Result>) {
@@ -7699,10 +7695,7 @@ export const VariableType = {
   },
 
   _unknown: (value: { type: string }): TraceApi.VariableType._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.VariableType._Unknown, \\"_visit\\"> = value as unknown as Omit<
-      TraceApi.VariableType._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = value as unknown as Omit<TraceApi.VariableType._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.VariableType._Unknown, visitor: TraceApi.VariableType._Visitor<_Result>) {
@@ -7971,10 +7964,7 @@ export const VariableValue = {
   },
 
   _unknown: (value: { type: string }): TraceApi.VariableValue._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.VariableValue._Unknown, \\"_visit\\"> = value as unknown as Omit<
-      TraceApi.VariableValue._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = value as unknown as Omit<TraceApi.VariableValue._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.VariableValue._Unknown, visitor: TraceApi.VariableValue._Visitor<_Result>) {
@@ -8168,8 +8158,10 @@ export declare namespace Error {
 
 export const Error = {
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.homepage.getHomepageProblems.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.homepage.getHomepageProblems.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.homepage.getHomepageProblems.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<
+      TraceApi.homepage.getHomepageProblems.Error._Unknown,
+      \\"_visit\\"
+    >;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.homepage.getHomepageProblems.Error._Unknown, visitor: TraceApi.homepage.getHomepageProblems.Error._Visitor<_Result>) {
@@ -8226,8 +8218,10 @@ export declare namespace Error {
 
 export const Error = {
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.homepage.setHomepageProblems.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.homepage.setHomepageProblems.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.homepage.setHomepageProblems.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<
+      TraceApi.homepage.setHomepageProblems.Error._Unknown,
+      \\"_visit\\"
+    >;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.homepage.setHomepageProblems.Error._Unknown, visitor: TraceApi.homepage.setHomepageProblems.Error._Visitor<_Result>) {
@@ -8421,8 +8415,10 @@ export declare namespace Error {
 
 export const Error = {
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.migration.getAttemptedMigrations.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.migration.getAttemptedMigrations.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.migration.getAttemptedMigrations.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<
+      TraceApi.migration.getAttemptedMigrations.Error._Unknown,
+      \\"_visit\\"
+    >;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.migration.getAttemptedMigrations.Error._Unknown, visitor: TraceApi.migration.getAttemptedMigrations.Error._Visitor<_Result>) {
@@ -8759,8 +8755,10 @@ export declare namespace Error {
 
 export const Error = {
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.playlist.createPlaylist.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.playlist.createPlaylist.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.playlist.createPlaylist.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<
+      TraceApi.playlist.createPlaylist.Error._Unknown,
+      \\"_visit\\"
+    >;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.playlist.createPlaylist.Error._Unknown, visitor: TraceApi.playlist.createPlaylist.Error._Visitor<_Result>) {
@@ -8815,8 +8813,10 @@ export declare namespace Error {
 
 export const Error = {
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.playlist.deletePlaylist.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.playlist.deletePlaylist.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.playlist.deletePlaylist.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<
+      TraceApi.playlist.deletePlaylist.Error._Unknown,
+      \\"_visit\\"
+    >;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.playlist.deletePlaylist.Error._Unknown, visitor: TraceApi.playlist.deletePlaylist.Error._Visitor<_Result>) {
@@ -8910,8 +8910,7 @@ export const Error = {
   },
 
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.playlist.getPlaylist.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.playlist.getPlaylist.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.playlist.getPlaylist.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<TraceApi.playlist.getPlaylist.Error._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.playlist.getPlaylist.Error._Unknown, visitor: TraceApi.playlist.getPlaylist.Error._Visitor<_Result>) {
@@ -8971,8 +8970,7 @@ export declare namespace Error {
 
 export const Error = {
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.playlist.getPlaylists.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.playlist.getPlaylists.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.playlist.getPlaylists.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<TraceApi.playlist.getPlaylists.Error._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.playlist.getPlaylists.Error._Unknown, visitor: TraceApi.playlist.getPlaylists.Error._Visitor<_Result>) {
@@ -9060,8 +9058,10 @@ export const Error = {
   },
 
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.playlist.updatePlaylist.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.playlist.updatePlaylist.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.playlist.updatePlaylist.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<
+      TraceApi.playlist.updatePlaylist.Error._Unknown,
+      \\"_visit\\"
+    >;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.playlist.updatePlaylist.Error._Unknown, visitor: TraceApi.playlist.updatePlaylist.Error._Visitor<_Result>) {
@@ -9217,10 +9217,7 @@ export const PlaylistIdNotFoundErrorBody = {
   },
 
   _unknown: (value: { type: string }): TraceApi.PlaylistIdNotFoundErrorBody._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.PlaylistIdNotFoundErrorBody._Unknown, \\"_visit\\"> = value as unknown as Omit<
-      TraceApi.PlaylistIdNotFoundErrorBody._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = value as unknown as Omit<TraceApi.PlaylistIdNotFoundErrorBody._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.PlaylistIdNotFoundErrorBody._Unknown, visitor: TraceApi.PlaylistIdNotFoundErrorBody._Visitor<_Result>) {
@@ -9469,8 +9466,7 @@ export declare namespace Error {
 
 export const Error = {
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.problem.createProblem.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.problem.createProblem.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.problem.createProblem.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<TraceApi.problem.createProblem.Error._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.problem.createProblem.Error._Unknown, visitor: TraceApi.problem.createProblem.Error._Visitor<_Result>) {
@@ -9524,8 +9520,7 @@ export declare namespace Error {
 
 export const Error = {
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.problem.deleteProblem.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.problem.deleteProblem.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.problem.deleteProblem.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<TraceApi.problem.deleteProblem.Error._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.problem.deleteProblem.Error._Unknown, visitor: TraceApi.problem.deleteProblem.Error._Visitor<_Result>) {
@@ -9578,8 +9573,10 @@ export declare namespace Error {
 
 export const Error = {
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.problem.getDefaultStarterFiles.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.problem.getDefaultStarterFiles.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.problem.getDefaultStarterFiles.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<
+      TraceApi.problem.getDefaultStarterFiles.Error._Unknown,
+      \\"_visit\\"
+    >;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.problem.getDefaultStarterFiles.Error._Unknown, visitor: TraceApi.problem.getDefaultStarterFiles.Error._Visitor<_Result>) {
@@ -9643,8 +9640,7 @@ export declare namespace Error {
 
 export const Error = {
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.problem.updateProblem.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.problem.updateProblem.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.problem.updateProblem.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<TraceApi.problem.updateProblem.Error._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.problem.updateProblem.Error._Unknown, visitor: TraceApi.problem.updateProblem.Error._Visitor<_Result>) {
@@ -9722,10 +9718,7 @@ export const CreateProblemError = {
   },
 
   _unknown: (value: { errorType: string }): TraceApi.CreateProblemError._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.CreateProblemError._Unknown, \\"_visit\\"> = value as unknown as Omit<
-      TraceApi.CreateProblemError._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = value as unknown as Omit<TraceApi.CreateProblemError._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.CreateProblemError._Unknown, visitor: TraceApi.CreateProblemError._Visitor<_Result>) {
@@ -9834,10 +9827,7 @@ export const CreateProblemResponse = {
   },
 
   _unknown: (value: { type: string }): TraceApi.CreateProblemResponse._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.CreateProblemResponse._Unknown, \\"_visit\\"> = value as unknown as Omit<
-      TraceApi.CreateProblemResponse._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = value as unknown as Omit<TraceApi.CreateProblemResponse._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.CreateProblemResponse._Unknown, visitor: TraceApi.CreateProblemResponse._Visitor<_Result>) {
@@ -10005,10 +9995,7 @@ export const ProblemDescriptionBoard = {
   },
 
   _unknown: (value: { type: string }): TraceApi.ProblemDescriptionBoard._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.ProblemDescriptionBoard._Unknown, \\"_visit\\"> = value as unknown as Omit<
-      TraceApi.ProblemDescriptionBoard._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = value as unknown as Omit<TraceApi.ProblemDescriptionBoard._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.ProblemDescriptionBoard._Unknown, visitor: TraceApi.ProblemDescriptionBoard._Visitor<_Result>) {
@@ -10325,8 +10312,10 @@ export declare namespace Error {
 
 export const Error = {
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.submission.createExecutionSession.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.submission.createExecutionSession.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.submission.createExecutionSession.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<
+      TraceApi.submission.createExecutionSession.Error._Unknown,
+      \\"_visit\\"
+    >;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.submission.createExecutionSession.Error._Unknown, visitor: TraceApi.submission.createExecutionSession.Error._Visitor<_Result>) {
@@ -10383,8 +10372,10 @@ export declare namespace Error {
 
 export const Error = {
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.submission.getExecutionSession.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.submission.getExecutionSession.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.submission.getExecutionSession.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<
+      TraceApi.submission.getExecutionSession.Error._Unknown,
+      \\"_visit\\"
+    >;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.submission.getExecutionSession.Error._Unknown, visitor: TraceApi.submission.getExecutionSession.Error._Visitor<_Result>) {
@@ -10437,8 +10428,10 @@ export declare namespace Error {
 
 export const Error = {
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.submission.getExecutionSessionsState.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.submission.getExecutionSessionsState.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.submission.getExecutionSessionsState.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<
+      TraceApi.submission.getExecutionSessionsState.Error._Unknown,
+      \\"_visit\\"
+    >;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.submission.getExecutionSessionsState.Error._Unknown, visitor: TraceApi.submission.getExecutionSessionsState.Error._Visitor<_Result>) {
@@ -10501,8 +10494,10 @@ export declare namespace Error {
 
 export const Error = {
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.submission.stopExecutionSession.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.submission.stopExecutionSession.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.submission.stopExecutionSession.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<
+      TraceApi.submission.stopExecutionSession.Error._Unknown,
+      \\"_visit\\"
+    >;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.submission.stopExecutionSession.Error._Unknown, visitor: TraceApi.submission.stopExecutionSession.Error._Visitor<_Result>) {
@@ -10620,10 +10615,7 @@ export const ActualResult = {
   },
 
   _unknown: (value: { type: string }): TraceApi.ActualResult._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.ActualResult._Unknown, \\"_visit\\"> = value as unknown as Omit<
-      TraceApi.ActualResult._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = value as unknown as Omit<TraceApi.ActualResult._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.ActualResult._Unknown, visitor: TraceApi.ActualResult._Visitor<_Result>) {
@@ -10910,10 +10902,7 @@ export const CodeExecutionUpdate = {
   },
 
   _unknown: (value: { type: string }): TraceApi.CodeExecutionUpdate._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.CodeExecutionUpdate._Unknown, \\"_visit\\"> = value as unknown as Omit<
-      TraceApi.CodeExecutionUpdate._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = value as unknown as Omit<TraceApi.CodeExecutionUpdate._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.CodeExecutionUpdate._Unknown, visitor: TraceApi.CodeExecutionUpdate._Visitor<_Result>) {
@@ -11071,10 +11060,7 @@ export const ErrorInfo = {
   },
 
   _unknown: (value: { type: string }): TraceApi.ErrorInfo._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.ErrorInfo._Unknown, \\"_visit\\"> = value as unknown as Omit<
-      TraceApi.ErrorInfo._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = value as unknown as Omit<TraceApi.ErrorInfo._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.ErrorInfo._Unknown, visitor: TraceApi.ErrorInfo._Visitor<_Result>) {
@@ -11187,10 +11173,7 @@ export const ExceptionV2 = {
   },
 
   _unknown: (value: { type: string }): TraceApi.ExceptionV2._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.ExceptionV2._Unknown, \\"_visit\\"> = value as unknown as Omit<
-      TraceApi.ExceptionV2._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = value as unknown as Omit<TraceApi.ExceptionV2._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.ExceptionV2._Unknown, visitor: TraceApi.ExceptionV2._Visitor<_Result>) {
@@ -11521,10 +11504,7 @@ export const InvalidRequestCause = {
   },
 
   _unknown: (value: { type: string }): TraceApi.InvalidRequestCause._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.InvalidRequestCause._Unknown, \\"_visit\\"> = value as unknown as Omit<
-      TraceApi.InvalidRequestCause._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = value as unknown as Omit<TraceApi.InvalidRequestCause._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.InvalidRequestCause._Unknown, visitor: TraceApi.InvalidRequestCause._Visitor<_Result>) {
@@ -11964,10 +11944,7 @@ export const SubmissionRequest = {
   },
 
   _unknown: (value: { type: string }): TraceApi.SubmissionRequest._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.SubmissionRequest._Unknown, \\"_visit\\"> = value as unknown as Omit<
-      TraceApi.SubmissionRequest._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = value as unknown as Omit<TraceApi.SubmissionRequest._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.SubmissionRequest._Unknown, visitor: TraceApi.SubmissionRequest._Visitor<_Result>) {
@@ -12134,10 +12111,7 @@ export const SubmissionResponse = {
   },
 
   _unknown: (value: { type: string }): TraceApi.SubmissionResponse._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.SubmissionResponse._Unknown, \\"_visit\\"> = value as unknown as Omit<
-      TraceApi.SubmissionResponse._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = value as unknown as Omit<TraceApi.SubmissionResponse._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.SubmissionResponse._Unknown, visitor: TraceApi.SubmissionResponse._Visitor<_Result>) {
@@ -12253,10 +12227,7 @@ export const SubmissionStatusForTestCase = {
   },
 
   _unknown: (value: { type: string }): TraceApi.SubmissionStatusForTestCase._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.SubmissionStatusForTestCase._Unknown, \\"_visit\\"> = value as unknown as Omit<
-      TraceApi.SubmissionStatusForTestCase._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = value as unknown as Omit<TraceApi.SubmissionStatusForTestCase._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.SubmissionStatusForTestCase._Unknown, visitor: TraceApi.SubmissionStatusForTestCase._Visitor<_Result>) {
@@ -12347,10 +12318,7 @@ export const SubmissionStatusV2 = {
   },
 
   _unknown: (value: { type: string }): TraceApi.SubmissionStatusV2._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.SubmissionStatusV2._Unknown, \\"_visit\\"> = value as unknown as Omit<
-      TraceApi.SubmissionStatusV2._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = value as unknown as Omit<TraceApi.SubmissionStatusV2._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.SubmissionStatusV2._Unknown, visitor: TraceApi.SubmissionStatusV2._Visitor<_Result>) {
@@ -12456,10 +12424,7 @@ export const SubmissionTypeState = {
   },
 
   _unknown: (value: { type: string }): TraceApi.SubmissionTypeState._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.SubmissionTypeState._Unknown, \\"_visit\\"> = value as unknown as Omit<
-      TraceApi.SubmissionTypeState._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = value as unknown as Omit<TraceApi.SubmissionTypeState._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.SubmissionTypeState._Unknown, visitor: TraceApi.SubmissionTypeState._Visitor<_Result>) {
@@ -12577,10 +12542,7 @@ export const TestCaseGrade = {
   },
 
   _unknown: (value: { type: string }): TraceApi.TestCaseGrade._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.TestCaseGrade._Unknown, \\"_visit\\"> = value as unknown as Omit<
-      TraceApi.TestCaseGrade._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = value as unknown as Omit<TraceApi.TestCaseGrade._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.TestCaseGrade._Unknown, visitor: TraceApi.TestCaseGrade._Visitor<_Result>) {
@@ -12783,10 +12745,7 @@ export const TestSubmissionStatus = {
   },
 
   _unknown: (value: { type: string }): TraceApi.TestSubmissionStatus._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.TestSubmissionStatus._Unknown, \\"_visit\\"> = value as unknown as Omit<
-      TraceApi.TestSubmissionStatus._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = value as unknown as Omit<TraceApi.TestSubmissionStatus._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.TestSubmissionStatus._Unknown, visitor: TraceApi.TestSubmissionStatus._Visitor<_Result>) {
@@ -12983,10 +12942,7 @@ export const TestSubmissionUpdateInfo = {
   },
 
   _unknown: (value: { type: string }): TraceApi.TestSubmissionUpdateInfo._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.TestSubmissionUpdateInfo._Unknown, \\"_visit\\"> = value as unknown as Omit<
-      TraceApi.TestSubmissionUpdateInfo._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = value as unknown as Omit<TraceApi.TestSubmissionUpdateInfo._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.TestSubmissionUpdateInfo._Unknown, visitor: TraceApi.TestSubmissionUpdateInfo._Visitor<_Result>) {
@@ -13348,10 +13304,7 @@ export const WorkspaceSubmissionStatus = {
   },
 
   _unknown: (value: { type: string }): TraceApi.WorkspaceSubmissionStatus._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.WorkspaceSubmissionStatus._Unknown, \\"_visit\\"> = value as unknown as Omit<
-      TraceApi.WorkspaceSubmissionStatus._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = value as unknown as Omit<TraceApi.WorkspaceSubmissionStatus._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.WorkspaceSubmissionStatus._Unknown, visitor: TraceApi.WorkspaceSubmissionStatus._Visitor<_Result>) {
@@ -13564,10 +13517,7 @@ export const WorkspaceSubmissionUpdateInfo = {
   },
 
   _unknown: (value: { type: string }): TraceApi.WorkspaceSubmissionUpdateInfo._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.WorkspaceSubmissionUpdateInfo._Unknown, \\"_visit\\"> = value as unknown as Omit<
-      TraceApi.WorkspaceSubmissionUpdateInfo._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = value as unknown as Omit<TraceApi.WorkspaceSubmissionUpdateInfo._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.WorkspaceSubmissionUpdateInfo._Unknown, visitor: TraceApi.WorkspaceSubmissionUpdateInfo._Visitor<_Result>) {
@@ -13841,8 +13791,10 @@ export declare namespace Error {
 
 export const Error = {
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.sysprop.getNumWarmInstances.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.sysprop.getNumWarmInstances.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.sysprop.getNumWarmInstances.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<
+      TraceApi.sysprop.getNumWarmInstances.Error._Unknown,
+      \\"_visit\\"
+    >;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.sysprop.getNumWarmInstances.Error._Unknown, visitor: TraceApi.sysprop.getNumWarmInstances.Error._Visitor<_Result>) {
@@ -13904,8 +13856,10 @@ export declare namespace Error {
 
 export const Error = {
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.sysprop.setNumWarmInstances.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.sysprop.setNumWarmInstances.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.sysprop.setNumWarmInstances.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<
+      TraceApi.sysprop.setNumWarmInstances.Error._Unknown,
+      \\"_visit\\"
+    >;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.sysprop.setNumWarmInstances.Error._Unknown, visitor: TraceApi.sysprop.setNumWarmInstances.Error._Visitor<_Result>) {
@@ -14187,8 +14141,10 @@ export declare namespace Error {
 
 export const Error = {
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.v2.problem.getLatestProblem.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.v2.problem.getLatestProblem.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.v2.problem.getLatestProblem.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<
+      TraceApi.v2.problem.getLatestProblem.Error._Unknown,
+      \\"_visit\\"
+    >;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.v2.problem.getLatestProblem.Error._Unknown, visitor: TraceApi.v2.problem.getLatestProblem.Error._Visitor<_Result>) {
@@ -14241,8 +14197,10 @@ export declare namespace Error {
 
 export const Error = {
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.v2.problem.getLightweightProblems.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.v2.problem.getLightweightProblems.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.v2.problem.getLightweightProblems.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<
+      TraceApi.v2.problem.getLightweightProblems.Error._Unknown,
+      \\"_visit\\"
+    >;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.v2.problem.getLightweightProblems.Error._Unknown, visitor: TraceApi.v2.problem.getLightweightProblems.Error._Visitor<_Result>) {
@@ -14297,8 +14255,10 @@ export declare namespace Error {
 
 export const Error = {
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.v2.problem.getProblemVersion.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.v2.problem.getProblemVersion.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.v2.problem.getProblemVersion.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<
+      TraceApi.v2.problem.getProblemVersion.Error._Unknown,
+      \\"_visit\\"
+    >;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.v2.problem.getProblemVersion.Error._Unknown, visitor: TraceApi.v2.problem.getProblemVersion.Error._Visitor<_Result>) {
@@ -14348,8 +14308,7 @@ export declare namespace Error {
 
 export const Error = {
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.v2.problem.getProblems.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.v2.problem.getProblems.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.v2.problem.getProblems.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<TraceApi.v2.problem.getProblems.Error._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.v2.problem.getProblems.Error._Unknown, visitor: TraceApi.v2.problem.getProblems.Error._Visitor<_Result>) {
@@ -14458,10 +14417,7 @@ export const AssertCorrectnessCheck = {
   },
 
   _unknown: (value: { type: string }): TraceApi.v2.AssertCorrectnessCheck._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.v2.AssertCorrectnessCheck._Unknown, \\"_visit\\"> = value as unknown as Omit<
-      TraceApi.v2.AssertCorrectnessCheck._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = value as unknown as Omit<TraceApi.v2.AssertCorrectnessCheck._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.v2.AssertCorrectnessCheck._Unknown, visitor: TraceApi.v2.AssertCorrectnessCheck._Visitor<_Result>) {
@@ -14605,10 +14561,7 @@ export const CustomFiles = {
   },
 
   _unknown: (value: { type: string }): TraceApi.v2.CustomFiles._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.v2.CustomFiles._Unknown, \\"_visit\\"> = value as unknown as Omit<
-      TraceApi.v2.CustomFiles._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = value as unknown as Omit<TraceApi.v2.CustomFiles._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.v2.CustomFiles._Unknown, visitor: TraceApi.v2.CustomFiles._Visitor<_Result>) {
@@ -14801,10 +14754,7 @@ export const FunctionSignature = {
   },
 
   _unknown: (value: { type: string }): TraceApi.v2.FunctionSignature._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.v2.FunctionSignature._Unknown, \\"_visit\\"> = value as unknown as Omit<
-      TraceApi.v2.FunctionSignature._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = value as unknown as Omit<TraceApi.v2.FunctionSignature._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.v2.FunctionSignature._Unknown, visitor: TraceApi.v2.FunctionSignature._Visitor<_Result>) {
@@ -15115,10 +15065,7 @@ export const TestCaseFunction = {
   },
 
   _unknown: (value: { type: string }): TraceApi.v2.TestCaseFunction._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.v2.TestCaseFunction._Unknown, \\"_visit\\"> = value as unknown as Omit<
-      TraceApi.v2.TestCaseFunction._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = value as unknown as Omit<TraceApi.v2.TestCaseFunction._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.v2.TestCaseFunction._Unknown, visitor: TraceApi.v2.TestCaseFunction._Visitor<_Result>) {
@@ -15256,8 +15203,10 @@ export const TestCaseImplementationDescriptionBoard = {
   },
 
   _unknown: (value: { type: string }): TraceApi.v2.TestCaseImplementationDescriptionBoard._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.v2.TestCaseImplementationDescriptionBoard._Unknown, \\"_visit\\"> =
-      value as unknown as Omit<TraceApi.v2.TestCaseImplementationDescriptionBoard._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = value as unknown as Omit<
+      TraceApi.v2.TestCaseImplementationDescriptionBoard._Unknown,
+      \\"_visit\\"
+    >;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.v2.TestCaseImplementationDescriptionBoard._Unknown, visitor: TraceApi.v2.TestCaseImplementationDescriptionBoard._Visitor<_Result>) {
@@ -15349,8 +15298,7 @@ export const TestCaseImplementationReference = {
   },
 
   _unknown: (value: { type: string }): TraceApi.v2.TestCaseImplementationReference._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.v2.TestCaseImplementationReference._Unknown, \\"_visit\\"> =
-      value as unknown as Omit<TraceApi.v2.TestCaseImplementationReference._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = value as unknown as Omit<TraceApi.v2.TestCaseImplementationReference._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.v2.TestCaseImplementationReference._Unknown, visitor: TraceApi.v2.TestCaseImplementationReference._Visitor<_Result>) {
@@ -15812,8 +15760,10 @@ export declare namespace Error {
 
 export const Error = {
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.v2.v3.problem.getLatestProblem.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.v2.v3.problem.getLatestProblem.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.v2.v3.problem.getLatestProblem.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<
+      TraceApi.v2.v3.problem.getLatestProblem.Error._Unknown,
+      \\"_visit\\"
+    >;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.v2.v3.problem.getLatestProblem.Error._Unknown, visitor: TraceApi.v2.v3.problem.getLatestProblem.Error._Visitor<_Result>) {
@@ -15866,8 +15816,10 @@ export declare namespace Error {
 
 export const Error = {
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.v2.v3.problem.getLightweightProblems.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.v2.v3.problem.getLightweightProblems.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.v2.v3.problem.getLightweightProblems.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<
+      TraceApi.v2.v3.problem.getLightweightProblems.Error._Unknown,
+      \\"_visit\\"
+    >;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.v2.v3.problem.getLightweightProblems.Error._Unknown, visitor: TraceApi.v2.v3.problem.getLightweightProblems.Error._Visitor<_Result>) {
@@ -15922,8 +15874,10 @@ export declare namespace Error {
 
 export const Error = {
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.v2.v3.problem.getProblemVersion.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.v2.v3.problem.getProblemVersion.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.v2.v3.problem.getProblemVersion.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<
+      TraceApi.v2.v3.problem.getProblemVersion.Error._Unknown,
+      \\"_visit\\"
+    >;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.v2.v3.problem.getProblemVersion.Error._Unknown, visitor: TraceApi.v2.v3.problem.getProblemVersion.Error._Visitor<_Result>) {
@@ -15973,8 +15927,10 @@ export declare namespace Error {
 
 export const Error = {
   _unknown: (fetcherError: core.Fetcher.Error): TraceApi.v2.v3.problem.getProblems.Error._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.v2.v3.problem.getProblems.Error._Unknown, \\"_visit\\"> =
-      fetcherError as unknown as Omit<TraceApi.v2.v3.problem.getProblems.Error._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = fetcherError as unknown as Omit<
+      TraceApi.v2.v3.problem.getProblems.Error._Unknown,
+      \\"_visit\\"
+    >;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.v2.v3.problem.getProblems.Error._Unknown, visitor: TraceApi.v2.v3.problem.getProblems.Error._Visitor<_Result>) {
@@ -16085,10 +16041,7 @@ export const AssertCorrectnessCheck = {
   },
 
   _unknown: (value: { type: string }): TraceApi.v2.v3.AssertCorrectnessCheck._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.v2.v3.AssertCorrectnessCheck._Unknown, \\"_visit\\"> = value as unknown as Omit<
-      TraceApi.v2.v3.AssertCorrectnessCheck._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = value as unknown as Omit<TraceApi.v2.v3.AssertCorrectnessCheck._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.v2.v3.AssertCorrectnessCheck._Unknown, visitor: TraceApi.v2.v3.AssertCorrectnessCheck._Visitor<_Result>) {
@@ -16232,10 +16185,7 @@ export const CustomFiles = {
   },
 
   _unknown: (value: { type: string }): TraceApi.v2.v3.CustomFiles._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.v2.v3.CustomFiles._Unknown, \\"_visit\\"> = value as unknown as Omit<
-      TraceApi.v2.v3.CustomFiles._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = value as unknown as Omit<TraceApi.v2.v3.CustomFiles._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.v2.v3.CustomFiles._Unknown, visitor: TraceApi.v2.v3.CustomFiles._Visitor<_Result>) {
@@ -16431,10 +16381,7 @@ export const FunctionSignature = {
   },
 
   _unknown: (value: { type: string }): TraceApi.v2.v3.FunctionSignature._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.v2.v3.FunctionSignature._Unknown, \\"_visit\\"> = value as unknown as Omit<
-      TraceApi.v2.v3.FunctionSignature._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = value as unknown as Omit<TraceApi.v2.v3.FunctionSignature._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.v2.v3.FunctionSignature._Unknown, visitor: TraceApi.v2.v3.FunctionSignature._Visitor<_Result>) {
@@ -16745,10 +16692,7 @@ export const TestCaseFunction = {
   },
 
   _unknown: (value: { type: string }): TraceApi.v2.v3.TestCaseFunction._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.v2.v3.TestCaseFunction._Unknown, \\"_visit\\"> = value as unknown as Omit<
-      TraceApi.v2.v3.TestCaseFunction._Unknown,
-      \\"_visit\\"
-    >;
+    const valueWithoutVisit = value as unknown as Omit<TraceApi.v2.v3.TestCaseFunction._Unknown, \\"_visit\\">;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.v2.v3.TestCaseFunction._Unknown, visitor: TraceApi.v2.v3.TestCaseFunction._Visitor<_Result>) {
@@ -16886,8 +16830,10 @@ export const TestCaseImplementationDescriptionBoard = {
   },
 
   _unknown: (value: { type: string }): TraceApi.v2.v3.TestCaseImplementationDescriptionBoard._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.v2.v3.TestCaseImplementationDescriptionBoard._Unknown, \\"_visit\\"> =
-      value as unknown as Omit<TraceApi.v2.v3.TestCaseImplementationDescriptionBoard._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = value as unknown as Omit<
+      TraceApi.v2.v3.TestCaseImplementationDescriptionBoard._Unknown,
+      \\"_visit\\"
+    >;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.v2.v3.TestCaseImplementationDescriptionBoard._Unknown, visitor: TraceApi.v2.v3.TestCaseImplementationDescriptionBoard._Visitor<_Result>) {
@@ -16979,8 +16925,10 @@ export const TestCaseImplementationReference = {
   },
 
   _unknown: (value: { type: string }): TraceApi.v2.v3.TestCaseImplementationReference._Unknown => {
-    const valueWithoutVisit: Omit<TraceApi.v2.v3.TestCaseImplementationReference._Unknown, \\"_visit\\"> =
-      value as unknown as Omit<TraceApi.v2.v3.TestCaseImplementationReference._Unknown, \\"_visit\\">;
+    const valueWithoutVisit = value as unknown as Omit<
+      TraceApi.v2.v3.TestCaseImplementationReference._Unknown,
+      \\"_visit\\"
+    >;
     return core.addNonEnumerableProperty(valueWithoutVisit, \\"_visit\\", function <
       _Result
     >(this: TraceApi.v2.v3.TestCaseImplementationReference._Unknown, visitor: TraceApi.v2.v3.TestCaseImplementationReference._Visitor<_Result>) {
