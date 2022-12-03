@@ -1523,7 +1523,7 @@ export class Client {
 
   public async get(request: FernApi.owner.get.Request): Promise<FernApi.owner.get.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options.environment, \`/owner//\${request.ownerId}\`),
+      url: urlJoin(this.options.environment, \`/owner/\${request.ownerId}\`),
       method: \\"GET\\",
       headers: {
         \\"X-API-Version\\": this.options.apiVersion,
@@ -1554,7 +1554,7 @@ export class Client {
 
   public async update(request: FernApi.owner.update.Request): Promise<FernApi.owner.update.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options.environment, \`/owner//\${request.ownerId}\`),
+      url: urlJoin(this.options.environment, \`/owner/\${request.ownerId}\`),
       method: \\"PUT\\",
       headers: {
         \\"X-API-Version\\": this.options.apiVersion,
@@ -1993,7 +1993,7 @@ export class Client {
     request: FernApi.token.getTokensForOwner.Request
   ): Promise<FernApi.token.getTokensForOwner.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options.environment, \`/tokens//owner/\${request.ownerId}\`),
+      url: urlJoin(this.options.environment, \`/tokens/owner/\${request.ownerId}\`),
       method: \\"GET\\",
       headers: {
         \\"X-API-Version\\": this.options.apiVersion,
@@ -4581,7 +4581,7 @@ import { Client as V2Client } from \\"./resources/v2/client/Client\\";
 export declare namespace TraceApiClient {
   interface Options {
     environment?: environments.Environment | string;
-    token?: core.BearerToken;
+    token?: core.Supplier<core.BearerToken>;
   }
 }
 
@@ -5990,7 +5990,7 @@ import * as serializers from \\"../../../serialization\\";
 export declare namespace Client {
   interface Options {
     environment?: environments.Environment | string;
-    token?: core.BearerToken;
+    token?: core.Supplier<core.BearerToken>;
   }
 }
 
@@ -6003,11 +6003,11 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Prod,
-        \`/admin//store-test-submission-status/\${request.submissionId}\`
+        \`/admin/store-test-submission-status/\${request.submissionId}\`
       ),
       method: \\"POST\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
       body: await serializers.admin.updateTestSubmissionStatus.Request.json(request._body),
     });
@@ -6030,11 +6030,11 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Prod,
-        \`/admin//store-test-submission-status-v2/\${request.submissionId}\`
+        \`/admin/store-test-submission-status-v2/\${request.submissionId}\`
       ),
       method: \\"POST\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
       body: await serializers.admin.sendTestSubmissionUpdate.Request.json(request._body),
     });
@@ -6057,11 +6057,11 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Prod,
-        \`/admin//store-workspace-submission-status/\${request.submissionId}\`
+        \`/admin/store-workspace-submission-status/\${request.submissionId}\`
       ),
       method: \\"POST\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
       body: await serializers.admin.updateWorkspaceSubmissionStatus.Request.json(request._body),
     });
@@ -6084,11 +6084,11 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Prod,
-        \`/admin//store-workspace-submission-status-v2/\${request.submissionId}\`
+        \`/admin/store-workspace-submission-status-v2/\${request.submissionId}\`
       ),
       method: \\"POST\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
       body: await serializers.admin.sendWorkspaceSubmissionUpdate.Request.json(request._body),
     });
@@ -6111,11 +6111,11 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Prod,
-        \`/admin//store-test-trace/submission/\${request.submissionId}/testCase/\${request.testCaseId}\`
+        \`/admin/store-test-trace/submission/\${request.submissionId}/testCase/\${request.testCaseId}\`
       ),
       method: \\"POST\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
       body: await serializers.admin.storeTracedTestCase.Request.json(request._body),
     });
@@ -6138,11 +6138,11 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Prod,
-        \`/admin//store-test-trace-v2/submission/\${request.submissionId}/testCase/\${request.testCaseId}\`
+        \`/admin/store-test-trace-v2/submission/\${request.submissionId}/testCase/\${request.testCaseId}\`
       ),
       method: \\"POST\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
       body: await serializers.admin.storeTracedTestCaseV2.Request.json(request._body),
     });
@@ -6165,11 +6165,11 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Prod,
-        \`/admin//store-workspace-trace/submission/\${request.submissionId}\`
+        \`/admin/store-workspace-trace/submission/\${request.submissionId}\`
       ),
       method: \\"POST\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
       body: await serializers.admin.storeTracedWorkspace.Request.json(request._body),
     });
@@ -6192,11 +6192,11 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Prod,
-        \`/admin//store-workspace-trace-v2/submission/\${request.submissionId}\`
+        \`/admin/store-workspace-trace-v2/submission/\${request.submissionId}\`
       ),
       method: \\"POST\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
       body: await serializers.admin.storeTracedWorkspaceV2.Request.json(request._body),
     });
@@ -8004,7 +8004,7 @@ import * as serializers from \\"../../../serialization\\";
 export declare namespace Client {
   interface Options {
     environment?: environments.Environment | string;
-    token?: core.BearerToken;
+    token?: core.Supplier<core.BearerToken>;
   }
 }
 
@@ -8016,7 +8016,7 @@ export class Client {
       url: urlJoin(this.options.environment ?? environments.Environment.Prod, \\"/homepage-problems/\\"),
       method: \\"GET\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
     });
     if (response.ok) {
@@ -8041,7 +8041,7 @@ export class Client {
       url: urlJoin(this.options.environment ?? environments.Environment.Prod, \\"/homepage-problems/\\"),
       method: \\"POST\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
       body: await serializers.homepage.setHomepageProblems.Request.json(request),
     });
@@ -8279,7 +8279,7 @@ import * as serializers from \\"../../../serialization\\";
 export declare namespace Client {
   interface Options {
     environment?: environments.Environment | string;
-    token?: core.BearerToken;
+    token?: core.Supplier<core.BearerToken>;
   }
 }
 
@@ -8291,7 +8291,7 @@ export class Client {
       url: urlJoin(this.options.environment ?? environments.Environment.Prod, \\"/migration-info/all\\"),
       method: \\"GET\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
     });
     if (response.ok) {
@@ -8449,7 +8449,7 @@ import * as serializers from \\"../../../serialization\\";
 export declare namespace Client {
   interface Options {
     environment?: environments.Environment | string;
-    token?: core.BearerToken;
+    token?: core.Supplier<core.BearerToken>;
   }
 }
 
@@ -8466,7 +8466,7 @@ export class Client {
       ),
       method: \\"POST\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
       body: await serializers.playlist.createPlaylist.Request.json(request._body),
     });
@@ -8501,7 +8501,7 @@ export class Client {
       ),
       method: \\"GET\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
       queryParameters: queryParams,
     });
@@ -8530,7 +8530,7 @@ export class Client {
       ),
       method: \\"GET\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
     });
     if (response.ok) {
@@ -8571,7 +8571,7 @@ export class Client {
       ),
       method: \\"PUT\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
       body: await serializers.playlist.updatePlaylist.Request.json(request._body),
     });
@@ -8612,7 +8612,7 @@ export class Client {
       ),
       method: \\"DELETE\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
     });
     if (response.ok) {
@@ -9218,7 +9218,7 @@ import * as serializers from \\"../../../serialization\\";
 export declare namespace Client {
   interface Options {
     environment?: environments.Environment | string;
-    token?: core.BearerToken;
+    token?: core.Supplier<core.BearerToken>;
   }
 }
 
@@ -9230,7 +9230,7 @@ export class Client {
       url: urlJoin(this.options.environment ?? environments.Environment.Prod, \\"/problem-crud/create\\"),
       method: \\"POST\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
       body: await serializers.problem.createProblem.Request.json(request),
     });
@@ -9255,11 +9255,11 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Prod,
-        \`/problem-crud//update/\${request.problemId}\`
+        \`/problem-crud/update/\${request.problemId}\`
       ),
       method: \\"POST\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
       body: await serializers.problem.updateProblem.Request.json(request._body),
     });
@@ -9284,11 +9284,11 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Prod,
-        \`/problem-crud//delete/\${request.problemId}\`
+        \`/problem-crud/delete/\${request.problemId}\`
       ),
       method: \\"DELETE\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
     });
     if (response.ok) {
@@ -9311,7 +9311,7 @@ export class Client {
       url: urlJoin(this.options.environment ?? environments.Environment.Prod, \\"/problem-crud/default-starter-files\\"),
       method: \\"POST\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
       body: await serializers.problem.getDefaultStarterFiles.Request.json(request),
     });
@@ -10042,7 +10042,7 @@ import * as serializers from \\"../../../serialization\\";
 export declare namespace Client {
   interface Options {
     environment?: environments.Environment | string;
-    token?: core.BearerToken;
+    token?: core.Supplier<core.BearerToken>;
   }
 }
 
@@ -10058,11 +10058,11 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Prod,
-        \`/sessions//create-session/\${request.language}\`
+        \`/sessions/create-session/\${request.language}\`
       ),
       method: \\"POST\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
     });
     if (response.ok) {
@@ -10084,10 +10084,10 @@ export class Client {
     request: TraceApi.submission.getExecutionSession.Request
   ): Promise<TraceApi.submission.getExecutionSession.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options.environment ?? environments.Environment.Prod, \`/sessions//\${request.sessionId}\`),
+      url: urlJoin(this.options.environment ?? environments.Environment.Prod, \`/sessions/\${request.sessionId}\`),
       method: \\"GET\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
     });
     if (response.ok) {
@@ -10109,10 +10109,10 @@ export class Client {
     request: TraceApi.submission.stopExecutionSession.Request
   ): Promise<TraceApi.submission.stopExecutionSession.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options.environment ?? environments.Environment.Prod, \`/sessions//stop/\${request.sessionId}\`),
+      url: urlJoin(this.options.environment ?? environments.Environment.Prod, \`/sessions/stop/\${request.sessionId}\`),
       method: \\"DELETE\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
     });
     if (response.ok) {
@@ -10133,7 +10133,7 @@ export class Client {
       url: urlJoin(this.options.environment ?? environments.Environment.Prod, \\"/sessions/execution-sessions-state\\"),
       method: \\"GET\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
     });
     if (response.ok) {
@@ -13571,7 +13571,7 @@ import * as serializers from \\"../../../serialization\\";
 export declare namespace Client {
   interface Options {
     environment?: environments.Environment | string;
-    token?: core.BearerToken;
+    token?: core.Supplier<core.BearerToken>;
   }
 }
 
@@ -13584,11 +13584,11 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Prod,
-        \`/sysprop//num-warm-instances/\${request.language}/\${request.numWarmInstances}\`
+        \`/sysprop/num-warm-instances/\${request.language}/\${request.numWarmInstances}\`
       ),
       method: \\"PUT\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
     });
     if (response.ok) {
@@ -13609,7 +13609,7 @@ export class Client {
       url: urlJoin(this.options.environment ?? environments.Environment.Prod, \\"/sysprop/num-warm-instances\\"),
       method: \\"GET\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
     });
     if (response.ok) {
@@ -13780,7 +13780,7 @@ import { Client as V3Client } from \\"../resources/v3/client/Client\\";
 export declare namespace Client {
   interface Options {
     environment?: environments.Environment | string;
-    token?: core.BearerToken;
+    token?: core.Supplier<core.BearerToken>;
   }
 }
 
@@ -13848,7 +13848,7 @@ import * as serializers from \\"../../../../../serialization\\";
 export declare namespace Client {
   interface Options {
     environment?: environments.Environment | string;
-    token?: core.BearerToken;
+    token?: core.Supplier<core.BearerToken>;
   }
 }
 
@@ -13860,7 +13860,7 @@ export class Client {
       url: urlJoin(this.options.environment ?? environments.Environment.Prod, \\"/problems-v2/lightweight-problem-info\\"),
       method: \\"GET\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
     });
     if (response.ok) {
@@ -13883,7 +13883,7 @@ export class Client {
       url: urlJoin(this.options.environment ?? environments.Environment.Prod, \\"/problems-v2/problem-info\\"),
       method: \\"GET\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
     });
     if (response.ok) {
@@ -13907,11 +13907,11 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Prod,
-        \`/problems-v2//problem-info/\${request.problemId}\`
+        \`/problems-v2/problem-info/\${request.problemId}\`
       ),
       method: \\"GET\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
     });
     if (response.ok) {
@@ -13935,11 +13935,11 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Prod,
-        \`/problems-v2//problem-info/\${request.problemId}/version/\${request.problemVersion}\`
+        \`/problems-v2/problem-info/\${request.problemId}/version/\${request.problemVersion}\`
       ),
       method: \\"GET\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
     });
     if (response.ok) {
@@ -15390,7 +15390,7 @@ import { Client as ProblemClient } from \\"../resources/problem/client/Client\\"
 export declare namespace Client {
   interface Options {
     environment?: environments.Environment | string;
-    token?: core.BearerToken;
+    token?: core.Supplier<core.BearerToken>;
   }
 }
 
@@ -15451,7 +15451,7 @@ import * as serializers from \\"../../../../../../../serialization\\";
 export declare namespace Client {
   interface Options {
     environment?: environments.Environment | string;
-    token?: core.BearerToken;
+    token?: core.Supplier<core.BearerToken>;
   }
 }
 
@@ -15463,7 +15463,7 @@ export class Client {
       url: urlJoin(this.options.environment ?? environments.Environment.Prod, \\"/problems-v2/lightweight-problem-info\\"),
       method: \\"GET\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
     });
     if (response.ok) {
@@ -15486,7 +15486,7 @@ export class Client {
       url: urlJoin(this.options.environment ?? environments.Environment.Prod, \\"/problems-v2/problem-info\\"),
       method: \\"GET\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
     });
     if (response.ok) {
@@ -15510,11 +15510,11 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Prod,
-        \`/problems-v2//problem-info/\${request.problemId}\`
+        \`/problems-v2/problem-info/\${request.problemId}\`
       ),
       method: \\"GET\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
     });
     if (response.ok) {
@@ -15538,11 +15538,11 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Prod,
-        \`/problems-v2//problem-info/\${request.problemId}/version/\${request.problemVersion}\`
+        \`/problems-v2/problem-info/\${request.problemId}/version/\${request.problemVersion}\`
       ),
       method: \\"GET\\",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(this.options.token),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
     });
     if (response.ok) {

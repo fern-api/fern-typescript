@@ -174,7 +174,7 @@ export class GeneratedEndpointImplementation {
 
         if (lastServiceBasePathPart == null) {
             return {
-                head: urlJoin(this.service.basePathV2.head, "/", this.endpoint.path.head),
+                head: urlJoin(this.service.basePathV2.head, this.endpoint.path.head),
                 parts: this.endpoint.path.parts,
             };
         }

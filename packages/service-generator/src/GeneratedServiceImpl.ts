@@ -151,7 +151,9 @@ export class GeneratedServiceImpl implements GeneratedService {
             const authorizationValues = (headerNameToValues.Authorization ??= []);
             authorizationValues.push(
                 context.base.coreUtilities.auth.BearerToken.toAuthorizationHeader(
-                    this.getReferenceToOption(GeneratedServiceImpl.BEARER_OPTION_PROPERTY_NAME)
+                    context.base.coreUtilities.fetcher.Supplier.get(
+                        this.getReferenceToOption(GeneratedServiceImpl.BEARER_OPTION_PROPERTY_NAME)
+                    )
                 )
             );
         }
@@ -160,14 +162,20 @@ export class GeneratedServiceImpl implements GeneratedService {
             const authorizationValues = (headerNameToValues.Authorization ??= []);
             authorizationValues.push(
                 context.base.coreUtilities.auth.BasicAuth.toAuthorizationHeader(
-                    this.getReferenceToOption(GeneratedServiceImpl.BASIC_AUTH_OPTION_PROPERTY_NAME)
+                    context.base.coreUtilities.fetcher.Supplier.get(
+                        this.getReferenceToOption(GeneratedServiceImpl.BASIC_AUTH_OPTION_PROPERTY_NAME)
+                    )
                 )
             );
         }
 
         for (const header of this.authHeaders) {
             const headerValues = (headerNameToValues[header.nameV2.wireValue] ??= []);
-            headerValues.push(this.getReferenceToOption(this.getOptionKeyForHeader(header)));
+            headerValues.push(
+                context.base.coreUtilities.fetcher.Supplier.get(
+                    this.getReferenceToOption(this.getOptionKeyForHeader(header))
+                )
+            );
         }
 
         const headerElements: GeneratedHeader[] = [];
@@ -222,7 +230,11 @@ export class GeneratedServiceImpl implements GeneratedService {
         if (this.hasBearerAuth) {
             properties.push({
                 name: GeneratedServiceImpl.BEARER_OPTION_PROPERTY_NAME,
-                type: getTextOfTsNode(context.base.coreUtilities.auth.BearerToken._getReferenceToType()),
+                type: getTextOfTsNode(
+                    context.base.coreUtilities.fetcher.Supplier._getReferenceToType(
+                        context.base.coreUtilities.auth.BearerToken._getReferenceToType()
+                    )
+                ),
                 hasQuestionToken: true,
             });
         }
@@ -230,7 +242,11 @@ export class GeneratedServiceImpl implements GeneratedService {
         if (this.hasBasicAuth) {
             properties.push({
                 name: GeneratedServiceImpl.BASIC_AUTH_OPTION_PROPERTY_NAME,
-                type: getTextOfTsNode(context.base.coreUtilities.auth.BasicAuth._getReferenceToType()),
+                type: getTextOfTsNode(
+                    context.base.coreUtilities.fetcher.Supplier._getReferenceToType(
+                        context.base.coreUtilities.auth.BasicAuth._getReferenceToType()
+                    )
+                ),
                 hasQuestionToken: true,
             });
         }
@@ -238,7 +254,11 @@ export class GeneratedServiceImpl implements GeneratedService {
         for (const header of this.authHeaders) {
             properties.push({
                 name: this.getOptionKeyForHeader(header),
-                type: getTextOfTsNode(context.type.getReferenceToType(header.valueType).typeNodeWithoutUndefined),
+                type: getTextOfTsNode(
+                    context.base.coreUtilities.fetcher.Supplier._getReferenceToType(
+                        context.type.getReferenceToType(header.valueType).typeNodeWithoutUndefined
+                    )
+                ),
                 hasQuestionToken: true,
             });
         }
