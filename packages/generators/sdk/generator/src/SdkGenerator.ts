@@ -177,7 +177,9 @@ export class SdkGenerator {
             errorResolver: this.errorResolver,
         });
         this.environmentsGenerator = new EnvironmentsGenerator();
-        this.serviceGenerator = new ServiceGenerator();
+        this.serviceGenerator = new ServiceGenerator({
+            intermediateRepresentation: this.intermediateRepresentation,
+        });
 
         this.generatePackage = async () => {
             await generateTypeScriptProject({

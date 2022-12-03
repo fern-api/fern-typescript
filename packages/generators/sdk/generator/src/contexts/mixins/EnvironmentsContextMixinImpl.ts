@@ -1,7 +1,7 @@
 import { IntermediateRepresentation } from "@fern-fern/ir-model/ir";
 import { EnvironmentsGenerator } from "@fern-typescript/environments-generator";
 import { EnvironmentsContextMixin, GeneratedEnvironments, Reference } from "@fern-typescript/sdk-declaration-handler";
-import { SourceFile } from "ts-morph";
+import { SourceFile, ts } from "ts-morph";
 import { EnvironmentEnumDeclarationReferencer } from "../../declaration-referencers/EnvironmentEnumDeclarationReferencer";
 import { ImportsManager } from "../../imports-manager/ImportsManager";
 
@@ -49,5 +49,16 @@ export class EnvironmentsContextMixinImpl implements EnvironmentsContextMixin {
             importsManager: this.importsManager,
             sourceFile: this.sourceFile,
         });
+    }
+
+    public getReferenceToDefaultEnvironment(): ts.Expression | undefined {
+        const defaultEnvironmentName = this.getGeneratedEnvironments().defaultEnvironmentEnumMemberName;
+        if (defaultEnvironmentName == null) {
+            return undefined;
+        }
+        return ts.factory.createPropertyAccessExpression(
+            this.getReferenceToEnvironmentsEnum().getExpression(),
+            defaultEnvironmentName
+        );
     }
 }

@@ -17,11 +17,13 @@ import {
 } from "ts-morph";
 import urlJoin from "url-join";
 import { FetcherArgsBuilder } from "./FetcherArgsBuilder";
+import { GeneratedServiceImpl } from "./GeneratedServiceImpl";
 
 export declare namespace GeneratedEndpointImplementation {
     export interface Init {
         service: HttpService;
         endpoint: HttpEndpoint;
+        generatedService: GeneratedServiceImpl;
     }
 }
 
@@ -31,10 +33,12 @@ export class GeneratedEndpointImplementation {
 
     private service: HttpService;
     private endpoint: HttpEndpoint;
+    private generatedService: GeneratedServiceImpl;
 
-    constructor({ service, endpoint }: GeneratedEndpointImplementation.Init) {
+    constructor({ service, endpoint, generatedService }: GeneratedEndpointImplementation.Init) {
         this.service = service;
         this.endpoint = endpoint;
+        this.generatedService = generatedService;
     }
 
     public getImplementation(context: ServiceContext): OptionalKind<MethodDeclarationStructure> {
@@ -69,7 +73,10 @@ export class GeneratedEndpointImplementation {
         const generatedEndpointTypes = this.getGeneratedEndpointTypes(context);
 
         const fetcherArgsBuilder = new FetcherArgsBuilder({
-            url: this.buildUrl(context),
+            url: context.base.externalDependencies.urlJoin.invoke([
+                this.generatedService.getEnvironment(context),
+                this.buildUrl(context),
+            ]),
             method: this.endpoint.method,
             body:
                 this.endpoint.request.typeV2 != null
@@ -96,7 +103,7 @@ export class GeneratedEndpointImplementation {
             });
         }
 
-        for (const header of this.endpoint.headers) {
+        for (const header of [...this.service.headers, ...this.endpoint.headers]) {
             fetcherArgsBuilder.addHeader({
                 header: header.nameV2.wireValue,
                 value: generatedEndpointTypes.getReferenceToHeader(
@@ -105,6 +112,11 @@ export class GeneratedEndpointImplementation {
                 ),
             });
         }
+
+        fetcherArgsBuilder.addHeaders([
+            ...this.generatedService.getApiHeaders(),
+            ...this.generatedService.getAuthorizationHeaders(context),
+        ]);
 
         const { statementsToPrepend, fetcherArgs } = fetcherArgsBuilder.build();
         statements.push(...statementsToPrepend.map(getTextOfTsNode));
