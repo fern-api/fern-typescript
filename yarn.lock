@@ -2392,7 +2392,7 @@ __metadata:
     "@fern-typescript/error-schema-generator": "workspace:*"
     "@fern-typescript/resolvers": "workspace:*"
     "@fern-typescript/sdk-declaration-handler": "workspace:*"
-    "@fern-typescript/sdk-service-declaration-handler": "workspace:*"
+    "@fern-typescript/service-generator": "workspace:*"
     "@fern-typescript/type-generator": "workspace:*"
     "@fern-typescript/type-reference-converters": "workspace:*"
     "@fern-typescript/type-schema-generator": "workspace:*"
@@ -2415,7 +2415,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@fern-typescript/sdk-service-declaration-handler@workspace:*, @fern-typescript/sdk-service-declaration-handler@workspace:packages/deprecated/service-declaration-handler":
+"@fern-typescript/sdk-service-declaration-handler@workspace:packages/deprecated/service-declaration-handler":
   version: 0.0.0-use.local
   resolution: "@fern-typescript/sdk-service-declaration-handler@workspace:packages/deprecated/service-declaration-handler"
   dependencies:
@@ -2466,7 +2466,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@fern-typescript/service-generator@workspace:packages/service-generator":
+"@fern-typescript/service-generator@workspace:*, @fern-typescript/service-generator@workspace:packages/service-generator":
   version: 0.0.0-use.local
   resolution: "@fern-typescript/service-generator@workspace:packages/service-generator"
   dependencies:

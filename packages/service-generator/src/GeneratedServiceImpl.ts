@@ -235,11 +235,20 @@ export class GeneratedServiceImpl implements GeneratedService {
             });
         }
 
-        for (const header of [...this.apiHeaders, ...this.authHeaders]) {
+        for (const header of this.authHeaders) {
             properties.push({
                 name: this.getOptionKeyForHeader(header),
                 type: getTextOfTsNode(context.type.getReferenceToType(header.valueType).typeNodeWithoutUndefined),
                 hasQuestionToken: true,
+            });
+        }
+
+        for (const header of this.apiHeaders) {
+            const type = context.type.getReferenceToType(header.valueType);
+            properties.push({
+                name: this.getOptionKeyForHeader(header),
+                type: getTextOfTsNode(type.typeNodeWithoutUndefined),
+                hasQuestionToken: type.isOptional,
             });
         }
 

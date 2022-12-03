@@ -433,7 +433,7 @@ export class SdkGenerator {
                     environmentsGenerator: this.environmentsGenerator,
                     environmentsEnumDeclarationReferencer: this.environmentsEnumDeclarationReferencer,
                 });
-                environmentsContext.environments.getGeneratedEnvironments().writeToFile(environmentsContext);
+                environmentsContext.environments.getGeneratedEnvironments()?.writeToFile(environmentsContext);
             },
         });
     }

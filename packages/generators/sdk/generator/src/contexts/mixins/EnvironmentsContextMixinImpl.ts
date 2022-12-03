@@ -36,7 +36,10 @@ export class EnvironmentsContextMixinImpl implements EnvironmentsContextMixin {
         this.sourceFile = sourceFile;
     }
 
-    public getGeneratedEnvironments(): GeneratedEnvironments {
+    public getGeneratedEnvironments(): GeneratedEnvironments | undefined {
+        if (this.intermediateRepresentation.environments.length === 0) {
+            return undefined;
+        }
         return this.environmentsGenerator.generateEnvironments({
             environmentEnumName: this.environmentsEnumDeclarationReferencer.getExportedName(),
             environments: this.intermediateRepresentation.environments,
@@ -52,7 +55,7 @@ export class EnvironmentsContextMixinImpl implements EnvironmentsContextMixin {
     }
 
     public getReferenceToDefaultEnvironment(): ts.Expression | undefined {
-        const defaultEnvironmentName = this.getGeneratedEnvironments().defaultEnvironmentEnumMemberName;
+        const defaultEnvironmentName = this.getGeneratedEnvironments()?.defaultEnvironmentEnumMemberName;
         if (defaultEnvironmentName == null) {
             return undefined;
         }
