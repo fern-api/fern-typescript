@@ -16,7 +16,6 @@ import { TypeSchemaGenerator } from "@fern-typescript/type-schema-generator";
 import { EndpointDeclarationReferencer } from "../declaration-referencers/EndpointDeclarationReferencer";
 import { EnvironmentEnumDeclarationReferencer } from "../declaration-referencers/EnvironmentEnumDeclarationReferencer";
 import { ErrorDeclarationReferencer } from "../declaration-referencers/ErrorDeclarationReferencer";
-import { RootServiceDeclarationReferencer } from "../declaration-referencers/RootServiceDeclarationReferencer";
 import { ServiceDeclarationReferencer } from "../declaration-referencers/ServiceDeclarationReferencer";
 import { TypeDeclarationReferencer } from "../declaration-referencers/TypeDeclarationReferencer";
 import { BaseContextImpl } from "./BaseContextImpl";
@@ -46,7 +45,7 @@ export declare namespace ServiceContextImpl {
         endpointSchemaDeclarationReferencer: EndpointDeclarationReferencer;
         endpointTypesGenerator: EndpointTypesGenerator;
         endpointTypeSchemasGenerator: EndpointTypeSchemasGenerator;
-        serviceDeclarationReferencer: ServiceDeclarationReferencer | RootServiceDeclarationReferencer;
+        serviceDeclarationReferencer: ServiceDeclarationReferencer;
         serviceGenerator: ServiceGenerator;
         serviceResolver: ServiceResolver;
         environmentsGenerator: EnvironmentsGenerator;

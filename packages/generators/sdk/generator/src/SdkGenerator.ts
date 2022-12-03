@@ -24,7 +24,6 @@ import { CoreUtilitiesManager } from "./core-utilities/CoreUtilitiesManager";
 import { EndpointDeclarationReferencer } from "./declaration-referencers/EndpointDeclarationReferencer";
 import { EnvironmentEnumDeclarationReferencer } from "./declaration-referencers/EnvironmentEnumDeclarationReferencer";
 import { ErrorDeclarationReferencer } from "./declaration-referencers/ErrorDeclarationReferencer";
-import { RootServiceDeclarationReferencer } from "./declaration-referencers/RootServiceDeclarationReferencer";
 import { ServiceDeclarationReferencer } from "./declaration-referencers/ServiceDeclarationReferencer";
 import { TypeDeclarationReferencer } from "./declaration-referencers/TypeDeclarationReferencer";
 import { DependencyManager } from "./dependency-manager/DependencyManager";
@@ -77,7 +76,6 @@ export class SdkGenerator {
     private errorDeclarationReferencer: ErrorDeclarationReferencer;
     private errorSchemaDeclarationReferencer: ErrorDeclarationReferencer;
     private serviceDeclarationReferencer: ServiceDeclarationReferencer;
-    private rootServiceDeclarationReferencer: RootServiceDeclarationReferencer;
     private endpointDeclarationReferencer: EndpointDeclarationReferencer;
     private endpointSchemaDeclarationReferencer: EndpointDeclarationReferencer;
     private environmentsEnumDeclarationReferencer: EnvironmentEnumDeclarationReferencer;
@@ -147,13 +145,9 @@ export class SdkGenerator {
             packageName,
         });
         this.serviceDeclarationReferencer = new ServiceDeclarationReferencer({
+            apiName,
             containingDirectory: apiDirectory,
             packageName,
-        });
-        this.rootServiceDeclarationReferencer = new RootServiceDeclarationReferencer({
-            containingDirectory: [],
-            packageName,
-            apiName,
         });
         this.endpointDeclarationReferencer = new EndpointDeclarationReferencer({
             containingDirectory: apiDirectory,
@@ -389,12 +383,8 @@ export class SdkGenerator {
     private generateServiceDeclarations() {
         const services = this.serviceResolver.getAllAugmentedServices();
         for (const service of services) {
-            const serviceDeclarationReferencer =
-                service.name.fernFilepath.length > 0
-                    ? this.serviceDeclarationReferencer
-                    : this.rootServiceDeclarationReferencer;
             this.withSourceFile({
-                filepath: serviceDeclarationReferencer.getExportedFilepath(service.name),
+                filepath: this.serviceDeclarationReferencer.getExportedFilepath(service.name),
                 run: ({ sourceFile, importsManager }) => {
                     const serviceContext = new ServiceContextImpl({
                         intermediateRepresentation: this.intermediateRepresentation,
@@ -420,7 +410,7 @@ export class SdkGenerator {
                         errorSchemaGenerator: this.errorSchemaGenerator,
                         environmentsGenerator: this.environmentsGenerator,
                         environmentsEnumDeclarationReferencer: this.environmentsEnumDeclarationReferencer,
-                        serviceDeclarationReferencer,
+                        serviceDeclarationReferencer: this.serviceDeclarationReferencer,
                         serviceGenerator: this.serviceGenerator,
                     });
                     serviceContext.service.getGeneratedService(service.name).writeToFile(serviceContext);

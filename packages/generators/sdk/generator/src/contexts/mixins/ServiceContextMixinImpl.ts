@@ -3,7 +3,6 @@ import { ServiceResolver } from "@fern-typescript/resolvers";
 import { GeneratedService, Reference, ServiceContextMixin } from "@fern-typescript/sdk-declaration-handler";
 import { ServiceGenerator } from "@fern-typescript/service-generator";
 import { SourceFile } from "ts-morph";
-import { RootServiceDeclarationReferencer } from "../../declaration-referencers/RootServiceDeclarationReferencer";
 import { ServiceDeclarationReferencer } from "../../declaration-referencers/ServiceDeclarationReferencer";
 import { ImportsManager } from "../../imports-manager/ImportsManager";
 
@@ -11,7 +10,7 @@ export declare namespace ServiceContextMixinImpl {
     export interface Init {
         sourceFile: SourceFile;
         importsManager: ImportsManager;
-        serviceDeclarationReferencer: ServiceDeclarationReferencer | RootServiceDeclarationReferencer;
+        serviceDeclarationReferencer: ServiceDeclarationReferencer;
         serviceGenerator: ServiceGenerator;
         serviceResolver: ServiceResolver;
     }
@@ -21,7 +20,7 @@ export class ServiceContextMixinImpl implements ServiceContextMixin {
     private sourceFile: SourceFile;
     private importsManager: ImportsManager;
     private serviceGenerator: ServiceGenerator;
-    private serviceDeclarationReferencer: ServiceDeclarationReferencer | RootServiceDeclarationReferencer;
+    private serviceDeclarationReferencer: ServiceDeclarationReferencer;
     private serviceResolver: ServiceResolver;
 
     constructor({
@@ -41,7 +40,7 @@ export class ServiceContextMixinImpl implements ServiceContextMixin {
     public getGeneratedService(serviceName: DeclaredServiceName): GeneratedService {
         return this.serviceGenerator.generateService({
             service: this.serviceResolver.getServiceDeclarationFromName(serviceName),
-            serviceClassName: this.serviceDeclarationReferencer.getExportedName(),
+            serviceClassName: this.serviceDeclarationReferencer.getExportedName(serviceName),
         });
     }
 
