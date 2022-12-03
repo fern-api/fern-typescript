@@ -22,7 +22,7 @@ export class ServiceDeclarationReferencer extends AbstractServiceDeclarationRefe
     public getExportedFilepath(serviceName: DeclaredServiceName): ExportedFilePath {
         if (this.isRootClient(serviceName)) {
             return {
-                directories: this.containingDirectory,
+                directories: [],
                 file: {
                     nameOnDisk: this.getFilename(),
                     exportDeclaration: {

@@ -3953,7 +3953,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@fern-typescript/resolvers", "workspace:packages/resolvers"],\
             ["@fern-typescript/sdk-declaration-handler", "workspace:packages/generators/sdk/declaration-handler"],\
             ["@fern-typescript/sdk-service-declaration-handler", "workspace:packages/deprecated/service-declaration-handler"],\
-            ["@fern-typescript/service-generator", "workspace:packages/service-generator"],\
             ["@fern-typescript/type-generator", "workspace:packages/type-generator"],\
             ["@fern-typescript/type-reference-converters", "workspace:packages/generators/sdk/type-reference-converters"],\
             ["@fern-typescript/type-schema-generator", "workspace:packages/type-schema-generator"],\
