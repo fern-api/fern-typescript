@@ -1,4 +1,4 @@
-import { Reference } from "@fern-typescript/sdk-declaration-handler";
+import { Reference } from "@fern-typescript/contexts";
 import { SourceFile, ts } from "ts-morph";
 import { convertExportedFilePathToFilePath, ExportedFilePath } from "../../exports-manager/ExportedFilePath";
 import { ImportsManager } from "../../imports-manager/ImportsManager";

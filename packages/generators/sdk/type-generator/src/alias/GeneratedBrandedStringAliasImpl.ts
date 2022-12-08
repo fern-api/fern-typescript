@@ -1,6 +1,6 @@
-import { AliasTypeDeclaration } from "@fern-fern/ir-model/types";
+import { AliasTypeDeclaration, ExampleType } from "@fern-fern/ir-model/types";
 import { getTextOfTsKeyword, getTextOfTsNode, maybeAddDocs } from "@fern-typescript/commons";
-import { BrandedGeneratedAliasType, TypeContext } from "@fern-typescript/sdk-declaration-handler";
+import { BrandedGeneratedAliasType, TypeContext } from "@fern-typescript/contexts";
 import { ts } from "ts-morph";
 import { AbstractGeneratedType } from "../AbstractGeneratedType";
 
@@ -18,6 +18,15 @@ export class GeneratedBrandedStringAliasImpl<Context extends TypeContext>
 
     public getReferenceToCreator(context: Context): ts.Expression {
         return this.getReferenceToSelf(context).getExpression();
+    }
+
+    public buildExample(example: ExampleType, context: Context): ts.Expression {
+        if (example.type !== "alias") {
+            throw new Error("Example is not for an alias");
+        }
+        return ts.factory.createCallExpression(this.getReferenceToCreator(context), undefined, [
+            context.type.buildExample(example.value),
+        ]);
     }
 
     private writeTypeAlias(context: Context) {

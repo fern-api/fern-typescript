@@ -15,7 +15,7 @@ import {
     GeneratedUnionType,
     Reference,
     TypeContext,
-} from "@fern-typescript/sdk-declaration-handler";
+} from "@fern-typescript/contexts";
 import { GeneratedAliasTypeImpl } from "./alias/GeneratedAliasTypeImpl";
 import { GeneratedBrandedStringAliasImpl } from "./alias/GeneratedBrandedStringAliasImpl";
 import { GeneratedEnumTypeImpl } from "./enum/GeneratedEnumTypeImpl";

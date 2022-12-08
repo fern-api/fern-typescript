@@ -1,5 +1,5 @@
 import { ErrorDeclaration } from "@fern-fern/ir-model/errors";
-import { ErrorContext, GeneratedError, GeneratedType } from "@fern-typescript/sdk-declaration-handler";
+import { ErrorContext, GeneratedError, GeneratedType } from "@fern-typescript/contexts";
 import { TypeGenerator } from "@fern-typescript/type-generator";
 
 export declare namespace GeneratedErrorImpl {

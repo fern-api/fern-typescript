@@ -1,12 +1,7 @@
 import { DeclaredTypeName, ShapeType, TypeReference } from "@fern-fern/ir-model/types";
 import { TypeReferenceNode, Zurg } from "@fern-typescript/commons-v2";
+import { CoreUtilities, GeneratedTypeSchema, Reference, TypeSchemaContextMixin } from "@fern-typescript/contexts";
 import { TypeResolver } from "@fern-typescript/resolvers";
-import {
-    CoreUtilities,
-    GeneratedTypeSchema,
-    Reference,
-    TypeSchemaContextMixin,
-} from "@fern-typescript/sdk-declaration-handler";
 import { TypeGenerator } from "@fern-typescript/type-generator";
 import {
     TypeReferenceToRawTypeNodeConverter,

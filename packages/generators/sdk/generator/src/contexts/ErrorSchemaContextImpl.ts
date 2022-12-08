@@ -1,7 +1,7 @@
+import { ErrorSchemaContext } from "@fern-typescript/contexts";
 import { ErrorGenerator } from "@fern-typescript/error-generator";
 import { ErrorSchemaGenerator } from "@fern-typescript/error-schema-generator";
 import { ErrorResolver, TypeResolver } from "@fern-typescript/resolvers";
-import { ErrorSchemaContext } from "@fern-typescript/sdk-declaration-handler";
 import { TypeGenerator } from "@fern-typescript/type-generator";
 import { TypeSchemaGenerator } from "@fern-typescript/type-schema-generator";
 import { ErrorDeclarationReferencer } from "../declaration-referencers/ErrorDeclarationReferencer";

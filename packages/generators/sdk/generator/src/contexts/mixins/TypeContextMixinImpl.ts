@@ -1,7 +1,7 @@
 import { DeclaredTypeName, ResolvedTypeReference, TypeReference } from "@fern-fern/ir-model/types";
 import { TypeReferenceNode } from "@fern-typescript/commons-v2";
+import { GeneratedType, Reference, TypeContextMixin } from "@fern-typescript/contexts";
 import { TypeResolver } from "@fern-typescript/resolvers";
-import { GeneratedType, Reference, TypeContextMixin } from "@fern-typescript/sdk-declaration-handler";
 import { TypeGenerator } from "@fern-typescript/type-generator";
 import {
     TypeReferenceToParsedTypeNodeConverter,

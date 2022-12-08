@@ -5,7 +5,7 @@ import {
     maybeAddDocs,
     ObjectWriter,
 } from "@fern-typescript/commons";
-import { GeneratedUnion, Reference, WithBaseContextMixin } from "@fern-typescript/sdk-declaration-handler";
+import { GeneratedUnion, Reference, WithBaseContextMixin } from "@fern-typescript/contexts";
 import {
     InterfaceDeclarationStructure,
     OptionalKind,

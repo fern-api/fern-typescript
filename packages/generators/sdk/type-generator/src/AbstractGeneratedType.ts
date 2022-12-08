@@ -1,5 +1,5 @@
 import { FernFilepathV2 } from "@fern-fern/ir-model/commons";
-import { Reference } from "@fern-typescript/sdk-declaration-handler";
+import { Reference } from "@fern-typescript/contexts";
 
 export declare namespace AbstractGeneratedType {
     export interface Init<Shape, Context> {

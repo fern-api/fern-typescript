@@ -1,4 +1,9 @@
-import { DeclaredTypeName, ResolvedTypeReference, TypeReference } from "@fern-fern/ir-model/types";
+import {
+    DeclaredTypeName,
+    ExampleTypeReference,
+    ResolvedTypeReference,
+    TypeReference,
+} from "@fern-fern/ir-model/types";
 import { TypeReferenceNode } from "@fern-typescript/commons-v2";
 import { ts } from "ts-morph";
 import { GeneratedType } from "../../generated-types";
@@ -11,6 +16,7 @@ export interface TypeContextMixin {
     resolveTypeReference: (typeReference: TypeReference) => ResolvedTypeReference;
     resolveTypeName: (typeName: DeclaredTypeName) => ResolvedTypeReference;
     getGeneratedType: (typeName: DeclaredTypeName) => GeneratedType;
+    buildExample: (typeReference: ExampleTypeReference) => ts.Expression;
 }
 
 export interface WithTypeContextMixin {

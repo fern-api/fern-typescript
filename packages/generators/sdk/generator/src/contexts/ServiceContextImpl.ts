@@ -1,15 +1,11 @@
 import { IntermediateRepresentation } from "@fern-fern/ir-model/ir";
+import { EnvironmentsContextMixin, ServiceContext, ServiceContextMixin } from "@fern-typescript/contexts";
 import { EndpointTypeSchemasGenerator } from "@fern-typescript/endpoint-type-schemas-generator";
 import { EndpointTypesGenerator } from "@fern-typescript/endpoint-types-generator";
 import { EnvironmentsGenerator } from "@fern-typescript/environments-generator";
 import { ErrorGenerator } from "@fern-typescript/error-generator";
 import { ErrorSchemaGenerator } from "@fern-typescript/error-schema-generator";
 import { ErrorResolver, ServiceResolver, TypeResolver } from "@fern-typescript/resolvers";
-import {
-    EnvironmentsContextMixin,
-    ServiceContext,
-    ServiceContextMixin,
-} from "@fern-typescript/sdk-declaration-handler";
 import { ServiceGenerator } from "@fern-typescript/service-generator";
 import { TypeGenerator } from "@fern-typescript/type-generator";
 import { TypeSchemaGenerator } from "@fern-typescript/type-schema-generator";

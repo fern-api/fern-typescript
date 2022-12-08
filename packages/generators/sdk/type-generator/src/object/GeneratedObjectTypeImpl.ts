@@ -1,6 +1,6 @@
 import { ObjectProperty, ObjectTypeDeclaration } from "@fern-fern/ir-model/types";
 import { getTextOfTsNode, maybeAddDocs } from "@fern-typescript/commons";
-import { GeneratedObjectType, TypeContext } from "@fern-typescript/sdk-declaration-handler";
+import { GeneratedObjectType, TypeContext } from "@fern-typescript/contexts";
 import { OptionalKind, PropertySignatureStructure } from "ts-morph";
 import { AbstractGeneratedType } from "../AbstractGeneratedType";
 

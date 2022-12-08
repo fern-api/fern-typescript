@@ -1,5 +1,5 @@
+import { TypeSchemaContext } from "@fern-typescript/contexts";
 import { TypeResolver } from "@fern-typescript/resolvers";
-import { TypeSchemaContext } from "@fern-typescript/sdk-declaration-handler";
 import { TypeGenerator } from "@fern-typescript/type-generator";
 import { TypeSchemaGenerator } from "@fern-typescript/type-schema-generator";
 import { TypeDeclarationReferencer } from "../declaration-referencers/TypeDeclarationReferencer";

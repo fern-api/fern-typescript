@@ -1,10 +1,10 @@
 {
-  "name": "@fern-typescript/sdk-declaration-handler",
+  "name": "@fern-typescript/type-example-generator",
   "version": "0.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/fern-api/fern-typescript.git",
-    "directory": "packages/generators/sdk/declaration-handler"
+    "directory": "packages/generators/sdk/type-example-generator"
   },
   "files": [
     "lib"
@@ -23,12 +23,6 @@
     "format": "prettier --write --ignore-unknown --ignore-path ../../../../shared/.prettierignore \"**\"",
     "format:check": "prettier --check --ignore-unknown --ignore-path ../../../../shared/.prettierignore \"**\"",
     "depcheck": "depcheck"
-  },
-  "dependencies": {
-    "@fern-api/logger": "0.0.248-7-gb4189be0",
-    "@fern-fern/ir-model": "0.0.357",
-    "@fern-typescript/commons-v2": "workspace:*",
-    "ts-morph": "^15.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",

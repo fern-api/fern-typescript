@@ -1,7 +1,7 @@
 import { ObjectProperty } from "@fern-fern/ir-model/types";
-import { BaseGenerated } from "./BaseGenerated";
+import { BaseGeneratedType } from "./BaseGeneratedType";
 
-export interface GeneratedObjectType<Context> extends BaseGenerated<Context> {
+export interface GeneratedObjectType<Context> extends BaseGeneratedType<Context> {
     type: "object";
     getPropertyKey: (property: ObjectProperty) => string;
 }
