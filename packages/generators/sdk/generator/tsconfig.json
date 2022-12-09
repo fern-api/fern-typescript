@@ -15,6 +15,7 @@
     { "path": "../service-generator" },
     { "path": "../type-generator" },
     { "path": "../type-reference-converters" },
+    { "path": "../type-reference-example-generator" },
     { "path": "../type-schema-generator" }
   ]
 }

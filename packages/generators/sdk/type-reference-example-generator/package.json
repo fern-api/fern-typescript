@@ -1,10 +1,10 @@
 {
-  "name": "@fern-typescript/type-example-generator",
+  "name": "@fern-typescript/type-reference-example-generator",
   "version": "0.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/fern-api/fern-typescript.git",
-    "directory": "packages/generators/sdk/type-example-generator"
+    "directory": "packages/generators/sdk/type-reference-example-generator"
   },
   "files": [
     "lib"
@@ -23,6 +23,11 @@
     "format": "prettier --write --ignore-unknown --ignore-path ../../../../shared/.prettierignore \"**\"",
     "format:check": "prettier --check --ignore-unknown --ignore-path ../../../../shared/.prettierignore \"**\"",
     "depcheck": "depcheck"
+  },
+  "dependencies": {
+    "@fern-fern/ir-model": "0.0.357",
+    "@fern-typescript/contexts": "workspace:*",
+    "ts-morph": "^15.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",

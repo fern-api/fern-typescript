@@ -1,6 +1,6 @@
 import { EnumTypeDeclaration, EnumValue, ExampleType } from "@fern-fern/ir-model/types";
 import { getTextOfTsNode, getWriterForMultiLineUnionType, maybeAddDocs } from "@fern-typescript/commons";
-import { GeneratedEnumType, WithBaseContextMixin } from "@fern-typescript/contexts";
+import { GeneratedEnumType, GetReferenceOpts, WithBaseContextMixin } from "@fern-typescript/contexts";
 import { ts, VariableDeclarationKind } from "ts-morph";
 import { AbstractGeneratedType } from "../AbstractGeneratedType";
 
@@ -22,7 +22,7 @@ export class GeneratedEnumTypeImpl<Context extends WithBaseContextMixin>
             ),
         });
 
-        maybeAddDocs(type, this.docs);
+        maybeAddDocs(type, this.getDocs(context));
 
         context.base.sourceFile.addVariableStatement({
             declarationKind: VariableDeclarationKind.Const,
@@ -49,7 +49,7 @@ export class GeneratedEnumTypeImpl<Context extends WithBaseContextMixin>
         });
     }
 
-    public buildExample(example: ExampleType, context: Context): ts.Expression {
+    public buildExample(example: ExampleType, context: Context, opts: GetReferenceOpts): ts.Expression {
         if (example.type !== "enum") {
             throw new Error("Example is not for an enum");
         }
@@ -59,7 +59,7 @@ export class GeneratedEnumTypeImpl<Context extends WithBaseContextMixin>
             throw new Error("No enum with wire value: " + example.wireValue);
         }
         return ts.factory.createPropertyAccessExpression(
-            this.getReferenceToSelf(context).getExpression(),
+            this.getReferenceToSelf(context).getExpression(opts),
             this.getEnumValueName(enumValue)
         );
     }

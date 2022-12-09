@@ -22,7 +22,7 @@ export class GeneratedObjectTypeSchemaImpl<Context extends TypeSchemaContext>
             this.shape.properties.map((property) => ({
                 key: {
                     raw: property.nameV2.wireValue,
-                    parsed: generatedType.getPropertyKey(property),
+                    parsed: generatedType.getPropertyKey({ propertyWireKey: property.nameV2.wireValue }),
                 },
                 value: context.typeSchema.getSchemaOfTypeReference(property.valueType),
             }))

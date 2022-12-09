@@ -1,6 +1,6 @@
 import { ts } from "ts-morph";
-import { BaseGenerated } from "./BaseGenerated";
+import { GeneratedFile } from "./BaseGenerated";
 
-export interface BaseGeneratedTypeSchema<Context> extends BaseGenerated<Context> {
+export interface BaseGeneratedTypeSchema<Context> extends GeneratedFile<Context> {
     getReferenceToRawShape: (context: Context) => ts.TypeNode;
 }

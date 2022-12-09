@@ -17,6 +17,7 @@ export class GeneratedErrorImpl implements GeneratedError {
         this.generatedType = typeGenerator.generateType({
             typeName: errorName,
             shape: errorDeclaration.type,
+            examples: [],
             docs: errorDeclaration.docs ?? undefined,
             fernFilepath: errorDeclaration.name.fernFilepathV2,
             getReferenceToSelf: (context) => context.error.getReferenceToError(errorDeclaration.name),

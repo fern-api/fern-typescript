@@ -1,6 +1,6 @@
 import { EnvironmentsContext } from "../contexts";
-import { BaseGenerated } from "./BaseGenerated";
+import { GeneratedFile } from "./BaseGenerated";
 
-export interface GeneratedEnvironments extends BaseGenerated<EnvironmentsContext> {
+export interface GeneratedEnvironments extends GeneratedFile<EnvironmentsContext> {
     defaultEnvironmentEnumMemberName: string | undefined;
 }

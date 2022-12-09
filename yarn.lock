@@ -2377,6 +2377,7 @@ __metadata:
     "@fern-typescript/service-generator": "workspace:*"
     "@fern-typescript/type-generator": "workspace:*"
     "@fern-typescript/type-reference-converters": "workspace:*"
+    "@fern-typescript/type-reference-example-generator": "workspace:*"
     "@fern-typescript/type-schema-generator": "workspace:*"
     "@types/jest": ^28.1.6
     "@types/node": ^18.7.18
@@ -2512,23 +2513,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@fern-typescript/type-example-generator@workspace:packages/generators/sdk/type-example-generator":
-  version: 0.0.0-use.local
-  resolution: "@fern-typescript/type-example-generator@workspace:packages/generators/sdk/type-example-generator"
-  dependencies:
-    "@babel/core": ^7.19.1
-    "@babel/preset-env": ^7.19.1
-    "@babel/preset-typescript": ^7.18.6
-    "@types/jest": ^28.1.6
-    "@types/node": ^18.7.18
-    depcheck: ^1.4.3
-    eslint: ^8.23.1
-    jest: ^28.1.3
-    prettier: ^2.7.1
-    typescript: 4.6.4
-  languageName: unknown
-  linkType: soft
-
 "@fern-typescript/type-generator@workspace:*, @fern-typescript/type-generator@workspace:packages/generators/sdk/type-generator":
   version: 0.0.0-use.local
   resolution: "@fern-typescript/type-generator@workspace:packages/generators/sdk/type-generator"
@@ -2561,6 +2545,26 @@ __metadata:
     "@fern-fern/ir-model": 0.0.357
     "@fern-typescript/commons-v2": "workspace:*"
     "@fern-typescript/resolvers": "workspace:*"
+    "@types/jest": ^28.1.6
+    "@types/node": ^18.7.18
+    depcheck: ^1.4.3
+    eslint: ^8.23.1
+    jest: ^28.1.3
+    prettier: ^2.7.1
+    ts-morph: ^15.1.0
+    typescript: 4.6.4
+  languageName: unknown
+  linkType: soft
+
+"@fern-typescript/type-reference-example-generator@workspace:*, @fern-typescript/type-reference-example-generator@workspace:packages/generators/sdk/type-reference-example-generator":
+  version: 0.0.0-use.local
+  resolution: "@fern-typescript/type-reference-example-generator@workspace:packages/generators/sdk/type-reference-example-generator"
+  dependencies:
+    "@babel/core": ^7.19.1
+    "@babel/preset-env": ^7.19.1
+    "@babel/preset-typescript": ^7.18.6
+    "@fern-fern/ir-model": 0.0.357
+    "@fern-typescript/contexts": "workspace:*"
     "@types/jest": ^28.1.6
     "@types/node": ^18.7.18
     depcheck: ^1.4.3

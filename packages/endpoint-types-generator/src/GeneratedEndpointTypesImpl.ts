@@ -44,7 +44,7 @@ export class GeneratedEndpointTypesImpl implements GeneratedEndpointTypes {
         this.errorUnion = new GeneratedUnionImpl<EndpointTypesContext>({
             typeName: GeneratedEndpointTypesImpl.ERROR_INTERFACE_NAME,
             discriminant: this.getErrorUnionDiscriminant(errorDiscriminationStrategy),
-            docs: undefined,
+            getDocs: undefined,
             parsedSingleUnionTypes: endpoint.errors.map(
                 (error) => new ParsedSingleUnionTypeForError({ error, errorResolver, errorDiscriminationStrategy })
             ),

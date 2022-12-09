@@ -70,10 +70,6 @@ export class ParsedSingleUnionTypeForUnion<Context extends TypeContext> extends 
         return this.singleUnionTypeFromUnion.discriminantValue.camelCase;
     }
 
-    public getWireDiscriminantValue(): string {
-        return this.singleUnionTypeFromUnion.discriminantValueV2.wireValue;
-    }
-
     protected getDiscriminant(): WireStringWithAllCasings {
         return this.union.discriminantV2;
     }

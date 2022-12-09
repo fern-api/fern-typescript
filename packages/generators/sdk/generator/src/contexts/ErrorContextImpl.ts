@@ -2,6 +2,7 @@ import { ErrorContext } from "@fern-typescript/contexts";
 import { ErrorGenerator } from "@fern-typescript/error-generator";
 import { ErrorResolver, TypeResolver } from "@fern-typescript/resolvers";
 import { TypeGenerator } from "@fern-typescript/type-generator";
+import { TypeReferenceExampleGenerator } from "@fern-typescript/type-reference-example-generator";
 import { ErrorDeclarationReferencer } from "../declaration-referencers/ErrorDeclarationReferencer";
 import { TypeDeclarationReferencer } from "../declaration-referencers/TypeDeclarationReferencer";
 import { BaseContextImpl } from "./BaseContextImpl";
@@ -13,6 +14,7 @@ export declare namespace ErrorContextImpl {
         typeResolver: TypeResolver;
         typeGenerator: TypeGenerator;
         typeDeclarationReferencer: TypeDeclarationReferencer;
+        typeReferenceExampleGenerator: TypeReferenceExampleGenerator;
         errorDeclarationReferencer: ErrorDeclarationReferencer;
         errorGenerator: ErrorGenerator;
         errorResolver: ErrorResolver;
@@ -30,6 +32,7 @@ export class ErrorContextImpl extends BaseContextImpl implements ErrorContext {
         errorDeclarationReferencer,
         errorGenerator,
         errorResolver,
+        typeReferenceExampleGenerator,
         ...superInit
     }: ErrorContextImpl.Init) {
         super(superInit);
@@ -39,6 +42,7 @@ export class ErrorContextImpl extends BaseContextImpl implements ErrorContext {
             typeResolver,
             typeGenerator,
             typeDeclarationReferencer,
+            typeReferenceExampleGenerator,
         });
         this.error = new ErrorContextMixinImpl({
             sourceFile: this.base.sourceFile,

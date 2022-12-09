@@ -9,6 +9,7 @@ import { ErrorSchemaGenerator } from "@fern-typescript/error-schema-generator";
 import { ErrorResolver, ServiceResolver, TypeResolver } from "@fern-typescript/resolvers";
 import { ServiceGenerator } from "@fern-typescript/service-generator";
 import { TypeGenerator } from "@fern-typescript/type-generator";
+import { TypeReferenceExampleGenerator } from "@fern-typescript/type-reference-example-generator";
 import { TypeSchemaGenerator } from "@fern-typescript/type-schema-generator";
 import { Volume } from "memfs/lib/volume";
 import { Directory, Project, SourceFile } from "ts-morph";
@@ -82,6 +83,7 @@ export class SdkGenerator {
 
     private typeGenerator: TypeGenerator;
     private typeSchemaGenerator: TypeSchemaGenerator;
+    private typeReferenceExampleGenerator: TypeReferenceExampleGenerator;
     private errorGenerator: ErrorGenerator;
     private errorSchemaGenerator: ErrorSchemaGenerator;
     private endpointTypesGenerator: EndpointTypesGenerator;
@@ -164,6 +166,7 @@ export class SdkGenerator {
 
         this.typeGenerator = new TypeGenerator({ useBrandedStringAliases: config.shouldUseBrandedStringAliases });
         this.typeSchemaGenerator = new TypeSchemaGenerator();
+        this.typeReferenceExampleGenerator = new TypeReferenceExampleGenerator();
         this.errorGenerator = new ErrorGenerator({ useBrandedStringAliases: config.shouldUseBrandedStringAliases });
         this.errorSchemaGenerator = new ErrorSchemaGenerator();
         this.endpointTypesGenerator = new EndpointTypesGenerator({
@@ -225,6 +228,7 @@ export class SdkGenerator {
                         typeResolver: this.typeResolver,
                         typeDeclarationReferencer: this.typeDeclarationReferencer,
                         typeGenerator: this.typeGenerator,
+                        typeReferenceExampleGenerator: this.typeReferenceExampleGenerator,
                     });
                     typeContext.type.getGeneratedType(typeDeclaration.name).writeToFile(typeContext);
                 },
@@ -248,6 +252,7 @@ export class SdkGenerator {
                         typeSchemaDeclarationReferencer: this.typeSchemaDeclarationReferencer,
                         typeGenerator: this.typeGenerator,
                         typeSchemaGenerator: this.typeSchemaGenerator,
+                        typeReferenceExampleGenerator: this.typeReferenceExampleGenerator,
                     });
                     typeSchemaContext.typeSchema
                         .getGeneratedTypeSchema(typeDeclaration.name)
@@ -271,6 +276,7 @@ export class SdkGenerator {
                         typeResolver: this.typeResolver,
                         typeDeclarationReferencer: this.typeDeclarationReferencer,
                         typeGenerator: this.typeGenerator,
+                        typeReferenceExampleGenerator: this.typeReferenceExampleGenerator,
                         errorDeclarationReferencer: this.errorDeclarationReferencer,
                         errorGenerator: this.errorGenerator,
                         errorResolver: this.errorResolver,
@@ -295,6 +301,7 @@ export class SdkGenerator {
                         typeResolver: this.typeResolver,
                         typeDeclarationReferencer: this.typeDeclarationReferencer,
                         typeSchemaDeclarationReferencer: this.typeSchemaDeclarationReferencer,
+                        typeReferenceExampleGenerator: this.typeReferenceExampleGenerator,
                         errorDeclarationReferencer: this.errorDeclarationReferencer,
                         errorGenerator: this.errorGenerator,
                         errorResolver: this.errorResolver,
@@ -328,6 +335,7 @@ export class SdkGenerator {
                             importsManager,
                             typeResolver: this.typeResolver,
                             typeDeclarationReferencer: this.typeDeclarationReferencer,
+                            typeReferenceExampleGenerator: this.typeReferenceExampleGenerator,
                             errorDeclarationReferencer: this.errorDeclarationReferencer,
                             endpointDeclarationReferencer: this.endpointDeclarationReferencer,
                             errorGenerator: this.errorGenerator,
@@ -363,6 +371,7 @@ export class SdkGenerator {
                             typeResolver: this.typeResolver,
                             typeDeclarationReferencer: this.typeDeclarationReferencer,
                             typeSchemaDeclarationReferencer: this.typeSchemaDeclarationReferencer,
+                            typeReferenceExampleGenerator: this.typeReferenceExampleGenerator,
                             errorDeclarationReferencer: this.errorDeclarationReferencer,
                             errorSchemaDeclarationReferencer: this.errorSchemaDeclarationReferencer,
                             endpointDeclarationReferencer: this.endpointDeclarationReferencer,
@@ -401,6 +410,7 @@ export class SdkGenerator {
                         typeResolver: this.typeResolver,
                         typeDeclarationReferencer: this.typeDeclarationReferencer,
                         typeSchemaDeclarationReferencer: this.typeSchemaDeclarationReferencer,
+                        typeReferenceExampleGenerator: this.typeReferenceExampleGenerator,
                         errorDeclarationReferencer: this.errorDeclarationReferencer,
                         errorSchemaDeclarationReferencer: this.errorSchemaDeclarationReferencer,
                         endpointDeclarationReferencer: this.endpointDeclarationReferencer,

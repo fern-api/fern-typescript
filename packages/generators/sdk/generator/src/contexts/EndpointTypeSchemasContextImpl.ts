@@ -5,6 +5,7 @@ import { ErrorGenerator } from "@fern-typescript/error-generator";
 import { ErrorSchemaGenerator } from "@fern-typescript/error-schema-generator";
 import { ErrorResolver, ServiceResolver, TypeResolver } from "@fern-typescript/resolvers";
 import { TypeGenerator } from "@fern-typescript/type-generator";
+import { TypeReferenceExampleGenerator } from "@fern-typescript/type-reference-example-generator";
 import { TypeSchemaGenerator } from "@fern-typescript/type-schema-generator";
 import { EndpointDeclarationReferencer } from "../declaration-referencers/EndpointDeclarationReferencer";
 import { ErrorDeclarationReferencer } from "../declaration-referencers/ErrorDeclarationReferencer";
@@ -24,6 +25,7 @@ export declare namespace EndpointTypeSchemasContextImpl {
         typeDeclarationReferencer: TypeDeclarationReferencer;
         typeSchemaDeclarationReferencer: TypeDeclarationReferencer;
         typeSchemaGenerator: TypeSchemaGenerator;
+        typeReferenceExampleGenerator: TypeReferenceExampleGenerator;
         errorGenerator: ErrorGenerator;
         errorResolver: ErrorResolver;
         errorSchemaGenerator: ErrorSchemaGenerator;
@@ -51,6 +53,7 @@ export class EndpointTypeSchemasContextImpl extends BaseContextImpl implements E
         typeDeclarationReferencer,
         typeSchemaGenerator,
         typeSchemaDeclarationReferencer,
+        typeReferenceExampleGenerator,
         errorGenerator,
         errorResolver,
         errorDeclarationReferencer,
@@ -71,6 +74,7 @@ export class EndpointTypeSchemasContextImpl extends BaseContextImpl implements E
             typeResolver,
             typeDeclarationReferencer,
             typeGenerator,
+            typeReferenceExampleGenerator,
         });
         this.typeSchema = new TypeSchemaContextMixinImpl({
             sourceFile: this.base.sourceFile,
