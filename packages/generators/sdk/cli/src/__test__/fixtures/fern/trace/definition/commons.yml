@@ -133,3 +133,10 @@ types:
       - PYTHON
     examples:
       - JAVA
+
+  RandomUnknownType:
+    type: unknown
+    examples:
+      - foo: hello
+        bar:
+          yo: 123
