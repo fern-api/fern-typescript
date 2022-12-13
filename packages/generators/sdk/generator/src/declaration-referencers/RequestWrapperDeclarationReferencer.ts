@@ -1,3 +1,4 @@
+import { RelativeFilePath } from "@fern-api/fs-utils";
 import { DeclaredServiceName } from "@fern-fern/ir-model/services/commons";
 import { HttpEndpoint } from "@fern-fern/ir-model/services/http";
 import { ts } from "ts-morph";
@@ -17,13 +18,22 @@ export declare namespace RequestWrapperDeclarationReferencer {
         endpoint: HttpEndpoint;
     }
 }
+
+const REQUESTS_DIRECTORY_NAME = "requests";
+
 export class RequestWrapperDeclarationReferencer extends AbstractServiceDeclarationReferencer<RequestWrapperDeclarationReferencer.Name> {
     public getExportedFilepath(name: RequestWrapperDeclarationReferencer.Name): ExportedFilePath {
         return {
             directories: [
-                ...this.getExportedDirectory(name.serviceName),
+                ...this.getExportedDirectory(name.serviceName, {
+                    subExports: {
+                        [RelativeFilePath.of(REQUESTS_DIRECTORY_NAME)]: {
+                            exportAll: true,
+                        },
+                    },
+                }),
                 {
-                    nameOnDisk: "requests",
+                    nameOnDisk: REQUESTS_DIRECTORY_NAME,
                     exportDeclaration: { exportAll: true },
                 },
             ],

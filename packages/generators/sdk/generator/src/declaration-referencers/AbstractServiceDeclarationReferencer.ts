@@ -1,21 +1,24 @@
 import { DeclaredServiceName } from "@fern-fern/ir-model/services/commons";
 import { ExportedDirectory } from "../exports-manager/ExportedFilePath";
+import { ExportDeclaration } from "../exports-manager/ExportsManager";
 import { AbstractDeclarationReferencer } from "./AbstractDeclarationReferencer";
 import { getExportedDirectoriesForFernFilepath } from "./utils/getExportedDirectoriesForFernFilepath";
 
 export abstract class AbstractServiceDeclarationReferencer<Name> extends AbstractDeclarationReferencer<Name> {
-    protected static EXPORTED_CLIENT_DIRECTORY: ExportedDirectory = {
-        nameOnDisk: "client",
-        exportDeclaration: { exportAll: true },
-    };
-
-    protected getExportedDirectory(serviceName: DeclaredServiceName): ExportedDirectory[] {
+    protected getExportedDirectory(
+        serviceName: DeclaredServiceName,
+        { subExports }: { subExports?: Record<string, ExportDeclaration> } = {}
+    ): ExportedDirectory[] {
         return [
             ...this.containingDirectory,
             ...getExportedDirectoriesForFernFilepath({
                 fernFilepath: serviceName.fernFilepathV2,
             }),
-            AbstractServiceDeclarationReferencer.EXPORTED_CLIENT_DIRECTORY,
+            {
+                nameOnDisk: "client",
+                exportDeclaration: { exportAll: true },
+                subExports,
+            },
         ];
     }
 }

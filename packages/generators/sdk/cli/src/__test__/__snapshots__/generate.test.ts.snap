@@ -1962,6 +1962,7 @@ export type OwnerAlreadyExistsError = FernApi.OwnerId;
                 "contents": "export * from \\"./types\\";
 export * from \\"./errors\\";
 export * from \\"./client\\";
+export * from \\"./client/requests\\";
 ",
                 "name": "index.ts",
                 "type": "file",
@@ -2415,6 +2416,7 @@ export { GetTokenMetadataRequest } from \\"./GetTokenMetadataRequest\\";
               Object {
                 "contents": "export * from \\"./types\\";
 export * from \\"./client\\";
+export * from \\"./client/requests\\";
 ",
                 "name": "index.ts",
                 "type": "file",
@@ -6804,6 +6806,7 @@ export const Error = {
               },
               Object {
                 "contents": "export * from \\"./client\\";
+export * from \\"./client/requests\\";
 ",
                 "name": "index.ts",
                 "type": "file",
@@ -9111,6 +9114,7 @@ export type PlaylistIdNotFoundError = TraceApi.PlaylistIdNotFoundErrorBody;
                 "contents": "export * from \\"./types\\";
 export * from \\"./errors\\";
 export * from \\"./client\\";
+export * from \\"./client/requests\\";
 ",
                 "name": "index.ts",
                 "type": "file",
@@ -9668,6 +9672,7 @@ export const Error = {
               Object {
                 "contents": "export * from \\"./types\\";
 export * from \\"./client\\";
+export * from \\"./client/requests\\";
 ",
                 "name": "index.ts",
                 "type": "file",
