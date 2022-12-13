@@ -5,5 +5,6 @@ import { GeneratedUnion } from "./GeneratedUnion";
 
 export interface GeneratedEndpointTypes extends GeneratedFile<EndpointTypesContext> {
     getErrorUnion: () => GeneratedUnion<EndpointTypesContext>;
+    getReferenceToRequestBodyType: (context: EndpointTypesContext) => ts.TypeNode;
     getReferenceToResponseType: (context: EndpointTypesContext) => ts.TypeNode;
 }

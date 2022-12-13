@@ -1,5 +1,5 @@
 import { ErrorDiscriminationStrategy } from "@fern-fern/ir-model/ir";
-import { HttpEndpoint, HttpService } from "@fern-fern/ir-model/services/http";
+import { HttpEndpoint, HttpService, InlinedRequestBody } from "@fern-fern/ir-model/services/http";
 import { getTextOfTsNode } from "@fern-typescript/commons";
 import { EndpointTypesContext, GeneratedEndpointTypes, GeneratedUnion } from "@fern-typescript/contexts";
 import { ErrorResolver } from "@fern-typescript/resolvers";
@@ -19,6 +19,7 @@ export declare namespace GeneratedEndpointTypesImpl {
 }
 
 export class GeneratedEndpointTypesImpl implements GeneratedEndpointTypes {
+    private static REQUEST_BODY_INTERFACE_NAME = "RequestBody";
     private static RESPONSE_INTERFACE_NAME = "Response";
     private static ERROR_INTERFACE_NAME = "Error";
     private static STATUS_CODE_DISCRIMINANT = "statusCode";
@@ -63,12 +64,25 @@ export class GeneratedEndpointTypesImpl implements GeneratedEndpointTypes {
     }
 
     public writeToFile(context: EndpointTypesContext): void {
+        if (this.endpoint.requestBody?.type === "inlinedRequestBody") {
+            this.writeInlineRequestBodyToFile(this.endpoint.requestBody, context);
+        }
         this.writeResponseToFile(context);
         this.errorUnion.writeToFile(context);
     }
 
     public getErrorUnion(): GeneratedUnion<EndpointTypesContext> {
         return this.errorUnion;
+    }
+
+    public getReferenceToRequestBodyType(context: EndpointTypesContext): ts.TypeNode {
+        return context.endpointTypes
+            .getReferenceToEndpointTypeExport(
+                this.service.name,
+                this.endpoint.id,
+                GeneratedEndpointTypesImpl.REQUEST_BODY_INTERFACE_NAME
+            )
+            .getTypeNode();
     }
 
     public getReferenceToResponseType(context: EndpointTypesContext): ts.TypeNode {
@@ -79,6 +93,25 @@ export class GeneratedEndpointTypesImpl implements GeneratedEndpointTypes {
                 GeneratedEndpointTypesImpl.RESPONSE_INTERFACE_NAME
             )
             .getTypeNode();
+    }
+
+    private writeInlineRequestBodyToFile(inlinedRequestBody: InlinedRequestBody, context: EndpointTypesContext): void {
+        context.base.sourceFile.addInterface({
+            name: GeneratedEndpointTypesImpl.REQUEST_BODY_INTERFACE_NAME,
+            isExported: true,
+            properties: inlinedRequestBody.properties.map((property) => {
+                const type = context.type.getReferenceToType(property.valueType);
+                return {
+                    name: `"${property.name.wireValue}"`,
+                    type: getTextOfTsNode(type.typeNodeWithoutUndefined),
+                    docs: property.docs != null ? [property.docs] : undefined,
+                    hasQuestionToken: type.isOptional,
+                };
+            }),
+            extends: inlinedRequestBody.extends.map((extension) =>
+                getTextOfTsNode(context.type.getReferenceToNamedType(extension).getTypeNode())
+            ),
+        });
     }
 
     private writeResponseToFile(context: EndpointTypesContext): void {

@@ -6,6 +6,8 @@ import { ts } from "ts-morph";
 import { GeneratedEndpointErrorSchema } from "./GeneratedEndpointErrorSchema";
 import { GeneratedEndpointErrorSchemaImpl } from "./GeneratedEndpointErrorSchemaImpl";
 import { GeneratedEndpointTypeSchema } from "./GeneratedEndpointTypeSchema";
+import { GeneratedEndpointTypeSchemaImpl } from "./GeneratedEndpointTypeSchemaImpl";
+import { GeneratedInlinedRequestBodySchema } from "./GeneratedInlinedRequestBodySchema";
 import { StatusCodeDiscriminatedEndpointErrorSchema } from "./StatusCodeDiscriminatedEndpointErrorSchema";
 
 export declare namespace GeneratedEndpointTypeSchemasImpl {
@@ -22,7 +24,7 @@ export class GeneratedEndpointTypeSchemasImpl implements GeneratedEndpointTypeSc
     private static RESPONSE_SCHEMA_NAME = "Response";
 
     private generatedRequestSchema: GeneratedEndpointTypeSchema | undefined;
-    private generatedResponseSchema: GeneratedEndpointTypeSchema | undefined;
+    private generatedResponseSchema: GeneratedEndpointTypeSchemaImpl | undefined;
     private generatedErrorSchema: GeneratedEndpointErrorSchema;
 
     constructor({
@@ -33,10 +35,16 @@ export class GeneratedEndpointTypeSchemasImpl implements GeneratedEndpointTypeSc
     }: GeneratedEndpointTypeSchemasImpl.Init) {
         this.generatedRequestSchema =
             endpoint.requestBody != null
-                ? HttpRequestBody._visit(endpoint.requestBody, {
-                      inlinedRequestBody: () => false,
+                ? HttpRequestBody._visit<GeneratedEndpointTypeSchema>(endpoint.requestBody, {
+                      inlinedRequestBody: (inlinedRequestBody) =>
+                          new GeneratedInlinedRequestBodySchema({
+                              service,
+                              endpoint,
+                              typeName: GeneratedEndpointTypeSchemasImpl.REQUEST_SCHEMA_NAME,
+                              inlinedRequestBody,
+                          }),
                       reference: ({ requestBodyType }) =>
-                          new GeneratedEndpointTypeSchema({
+                          new GeneratedEndpointTypeSchemaImpl({
                               service,
                               endpoint,
                               typeName: GeneratedEndpointTypeSchemasImpl.REQUEST_SCHEMA_NAME,
@@ -49,7 +57,7 @@ export class GeneratedEndpointTypeSchemasImpl implements GeneratedEndpointTypeSc
                 : undefined;
         this.generatedResponseSchema =
             endpoint.response.typeV2 != null
-                ? new GeneratedEndpointTypeSchema({
+                ? new GeneratedEndpointTypeSchemaImpl({
                       service,
                       endpoint,
                       typeName: GeneratedEndpointTypeSchemasImpl.RESPONSE_SCHEMA_NAME,

@@ -60,19 +60,17 @@ export class GeneratedRequestWrapperImpl implements GeneratedRequestWrapper {
         if (this.endpoint.requestBody != null) {
             HttpRequestBody._visit(this.endpoint.requestBody, {
                 inlinedRequestBody: (inlinedRequestBody) => {
+                    requestInterface.addExtends(
+                        getTextOfTsNode(
+                            context.endpointTypes
+                                .getGeneratedEndpointTypes(this.service.name, this.endpoint.id)
+                                .getReferenceToRequestBodyType(context)
+                        )
+                    );
                     for (const extension of inlinedRequestBody.extends) {
                         requestInterface.addExtends(
                             getTextOfTsNode(context.type.getReferenceToNamedType(extension).getTypeNode())
                         );
-                    }
-                    for (const property of inlinedRequestBody.properties) {
-                        const type = context.type.getReferenceToType(property.valueType);
-                        const addedProperty = requestInterface.addProperty({
-                            name: this.getPropertyNameOfInlinedBodyProperty(property),
-                            type: getTextOfTsNode(type.typeNodeWithoutUndefined),
-                            hasQuestionToken: type.isOptional,
-                        });
-                        maybeAddDocs(addedProperty, property.docs);
                     }
                 },
                 reference: (referenceToRequestBody) => {
