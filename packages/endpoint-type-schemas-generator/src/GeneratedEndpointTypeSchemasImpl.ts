@@ -1,5 +1,5 @@
 import { ErrorDiscriminationStrategy } from "@fern-fern/ir-model/ir";
-import { HttpEndpoint, HttpService } from "@fern-fern/ir-model/services/http";
+import { HttpEndpoint, HttpRequestBody, HttpService } from "@fern-fern/ir-model/services/http";
 import { EndpointTypeSchemasContext, GeneratedEndpointTypeSchemas } from "@fern-typescript/contexts";
 import { ErrorResolver } from "@fern-typescript/resolvers";
 import { ts } from "ts-morph";
@@ -32,12 +32,19 @@ export class GeneratedEndpointTypeSchemasImpl implements GeneratedEndpointTypeSc
         errorDiscriminationStrategy,
     }: GeneratedEndpointTypeSchemasImpl.Init) {
         this.generatedRequestSchema =
-            endpoint.request.typeV2 != null
-                ? new GeneratedEndpointTypeSchema({
-                      service,
-                      endpoint,
-                      typeName: GeneratedEndpointTypeSchemasImpl.REQUEST_SCHEMA_NAME,
-                      type: endpoint.request.typeV2,
+            endpoint.requestBody != null
+                ? HttpRequestBody._visit(endpoint.requestBody, {
+                      inlinedRequestBody: () => false,
+                      reference: ({ requestBodyType }) =>
+                          new GeneratedEndpointTypeSchema({
+                              service,
+                              endpoint,
+                              typeName: GeneratedEndpointTypeSchemasImpl.REQUEST_SCHEMA_NAME,
+                              type: requestBodyType,
+                          }),
+                      _unknown: () => {
+                          throw new Error("Unknown HttpRequestBody type: " + endpoint.requestBody?.type);
+                      },
                   })
                 : undefined;
         this.generatedResponseSchema =
