@@ -1,8 +1,10 @@
 import { DeclaredServiceName } from "@fern-fern/ir-model/services/commons";
 import { HttpEndpoint } from "@fern-fern/ir-model/services/http";
+import { ts } from "ts-morph";
 import { ExportedFilePath } from "../exports-manager/ExportedFilePath";
 import { AbstractDeclarationReferencer } from "./AbstractDeclarationReferencer";
 import { AbstractServiceDeclarationReferencer } from "./AbstractServiceDeclarationReferencer";
+import { DeclarationReferencer } from "./DeclarationReferencer";
 import { ServiceDeclarationReferencer } from "./ServiceDeclarationReferencer";
 
 export declare namespace RequestWrapperDeclarationReferencer {
@@ -43,6 +45,12 @@ export class RequestWrapperDeclarationReferencer extends AbstractServiceDeclarat
             throw new Error("Cannot get exported name for request wrapper, because endpoint request is not wrapped");
         }
         return name.endpoint.sdkRequest.wrapperName.unsafeName.pascalCase;
+    }
+
+    public getReferenceToRequestWrapperType(
+        args: DeclarationReferencer.getReferenceTo.Options<RequestWrapperDeclarationReferencer.Name>
+    ): ts.TypeNode {
+        return this.getReferenceTo(this.getExportedName(args.name), args).getTypeNode();
     }
 
     protected override getExportedFilepathForReference(

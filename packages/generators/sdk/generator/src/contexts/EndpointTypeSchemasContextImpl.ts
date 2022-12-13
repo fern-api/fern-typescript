@@ -32,8 +32,8 @@ export declare namespace EndpointTypeSchemasContextImpl {
         errorDeclarationReferencer: ErrorDeclarationReferencer;
         errorSchemaDeclarationReferencer: ErrorDeclarationReferencer;
         endpointDeclarationReferencer: EndpointDeclarationReferencer;
-        endpointSchemaDeclarationReferencer: EndpointDeclarationReferencer;
         endpointTypesGenerator: EndpointTypesGenerator;
+        endpointSchemaDeclarationReferencer: EndpointDeclarationReferencer;
         endpointTypeSchemasGenerator: EndpointTypeSchemasGenerator;
         serviceResolver: ServiceResolver;
     }

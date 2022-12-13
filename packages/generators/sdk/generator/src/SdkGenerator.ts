@@ -27,7 +27,7 @@ import { CoreUtilitiesManager } from "./core-utilities/CoreUtilitiesManager";
 import { EndpointDeclarationReferencer } from "./declaration-referencers/EndpointDeclarationReferencer";
 import { EnvironmentEnumDeclarationReferencer } from "./declaration-referencers/EnvironmentEnumDeclarationReferencer";
 import { ErrorDeclarationReferencer } from "./declaration-referencers/ErrorDeclarationReferencer";
-import { RequestWrapperDeclarationReferencer } from "./declaration-referencers/RequestWrappedDeclarationReferencer";
+import { RequestWrapperDeclarationReferencer } from "./declaration-referencers/RequestWrapperDeclarationReferencer";
 import { ServiceDeclarationReferencer } from "./declaration-referencers/ServiceDeclarationReferencer";
 import { TypeDeclarationReferencer } from "./declaration-referencers/TypeDeclarationReferencer";
 import { DependencyManager } from "./dependency-manager/DependencyManager";
@@ -376,7 +376,12 @@ export class SdkGenerator {
                                 typeDeclarationReferencer: this.typeDeclarationReferencer,
                                 typeReferenceExampleGenerator: this.typeReferenceExampleGenerator,
                                 typeGenerator: this.typeGenerator,
+                                errorDeclarationReferencer: this.errorDeclarationReferencer,
+                                errorGenerator: this.errorGenerator,
+                                errorResolver: this.errorResolver,
                                 serviceResolver: this.serviceResolver,
+                                endpointDeclarationReferencer: this.endpointDeclarationReferencer,
+                                endpointTypesGenerator: this.endpointTypesGenerator,
                                 requestWrapperDeclarationReferencer: this.requestWrapperDeclarationReferencer,
                                 requestWrapperGenerator: this.requestWrapperGenerator,
                             });
@@ -411,8 +416,8 @@ export class SdkGenerator {
                             typeReferenceExampleGenerator: this.typeReferenceExampleGenerator,
                             errorDeclarationReferencer: this.errorDeclarationReferencer,
                             errorSchemaDeclarationReferencer: this.errorSchemaDeclarationReferencer,
-                            endpointDeclarationReferencer: this.endpointDeclarationReferencer,
                             endpointSchemaDeclarationReferencer: this.endpointSchemaDeclarationReferencer,
+                            endpointDeclarationReferencer: this.endpointDeclarationReferencer,
                             endpointTypesGenerator: this.endpointTypesGenerator,
                             typeGenerator: this.typeGenerator,
                             errorGenerator: this.errorGenerator,
@@ -453,6 +458,8 @@ export class SdkGenerator {
                         endpointDeclarationReferencer: this.endpointDeclarationReferencer,
                         endpointSchemaDeclarationReferencer: this.endpointSchemaDeclarationReferencer,
                         endpointTypesGenerator: this.endpointTypesGenerator,
+                        requestWrapperDeclarationReferencer: this.requestWrapperDeclarationReferencer,
+                        requestWrapperGenerator: this.requestWrapperGenerator,
                         typeGenerator: this.typeGenerator,
                         errorGenerator: this.errorGenerator,
                         errorResolver: this.errorResolver,
