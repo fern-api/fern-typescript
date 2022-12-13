@@ -47,7 +47,9 @@ export class GeneratedInlinedRequestBodySchema extends AbstractGeneratedEndpoint
         let schema = context.base.coreUtilities.zurg.object(
             this.inlinedRequestBody.properties.map((property) => ({
                 key: {
-                    parsed: "TODO parsed property name",
+                    parsed: context.endpointTypes
+                        .getGeneratedEndpointTypes(this.service.name, this.endpoint.id)
+                        .getInlinedRequestBodyPropertyKey(property),
                     raw: property.name.wireValue,
                 },
                 value: context.typeSchema.getSchemaOfTypeReference(property.valueType),

@@ -5,7 +5,7 @@ import { GeneratedFile } from "./GeneratedFile";
 
 export interface GeneratedRequestWrapper extends GeneratedFile<RequestWrapperContext> {
     areAllPropertiesOptional: (context: RequestWrapperContext) => boolean;
-    getReferenceToBody: (requestParameter: ts.Expression, context: RequestWrapperContext) => ts.Expression;
+    getReferenceToBody: (requestParameter: ts.Expression, context: RequestWrapperContext) => ts.Expression | undefined;
     getReferenceToQueryParameter: (queryParameter: QueryParameter, requestParameter: ts.Expression) => ts.Expression;
     getReferenceToHeader: (header: HttpHeader, requestParameter: ts.Expression) => ts.Expression;
 }

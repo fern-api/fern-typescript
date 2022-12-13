@@ -33,7 +33,7 @@ export abstract class AbstractRequestParameter implements RequestParameter {
         };
     }
 
-    public abstract getReferenceToRequestBody(context: ServiceContext): ts.Expression;
+    public abstract getReferenceToRequestBody(context: ServiceContext): ts.Expression | undefined;
     public abstract getReferenceToQueryParameter(
         queryParameter: QueryParameter,
         context: ServiceContext

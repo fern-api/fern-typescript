@@ -103,9 +103,12 @@ export class GeneratedRequestWrapperImpl implements GeneratedRequestWrapper {
         return ts.factory.createPropertyAccessExpression(requestParameter, this.getPropertyNameOfHeader(header));
     }
 
-    public getReferenceToBody(requestParameter: ts.Expression, context: RequestWrapperContext): ts.Expression {
+    public getReferenceToBody(
+        requestParameter: ts.Expression,
+        context: RequestWrapperContext
+    ): ts.Expression | undefined {
         if (this.endpoint.requestBody == null) {
-            throw new Error("Endpoint does not have a body");
+            return undefined;
         }
         return HttpRequestBody._visit<ts.Expression>(this.endpoint.requestBody, {
             reference: () =>

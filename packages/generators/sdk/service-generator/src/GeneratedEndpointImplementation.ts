@@ -114,13 +114,7 @@ export class GeneratedEndpointImplementation {
                 this.buildUrl(),
             ]),
             method: this.endpoint.method,
-            body:
-                this.requestParameter != null
-                    ? this.getGeneratedEndpointTypeSchemas(context).serializeRequest(
-                          this.requestParameter.getReferenceToRequestBody(context),
-                          context
-                      )
-                    : undefined,
+            body: this.getSerializedRequestBody(context),
         });
 
         for (const queryParameter of this.endpoint.queryParameters) {
@@ -226,6 +220,18 @@ export class GeneratedEndpointImplementation {
                 ...this.endpoint.path.parts,
             ],
         };
+    }
+
+    private getSerializedRequestBody(context: ServiceContext): ts.Expression | undefined {
+        if (this.requestParameter == null) {
+            return undefined;
+        }
+        const referenceToRequestBody = this.requestParameter.getReferenceToRequestBody(context);
+        if (referenceToRequestBody == null) {
+            return undefined;
+        }
+
+        return this.getGeneratedEndpointTypeSchemas(context).serializeRequest(referenceToRequestBody, context);
     }
 
     private getReturnResponseStatements(context: ServiceContext): ts.Statement[] {

@@ -12,7 +12,7 @@ export class RequestWrapperParameter extends AbstractRequestParameter {
         };
     }
 
-    public getReferenceToRequestBody(context: ServiceContext): ts.Expression {
+    public getReferenceToRequestBody(context: ServiceContext): ts.Expression | undefined {
         return this.getGeneratedRequestWrapper(context).getReferenceToBody(
             ts.factory.createIdentifier(AbstractRequestParameter.REQUEST_PARAMETER_NAME),
             context

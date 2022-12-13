@@ -1,5 +1,10 @@
 import { ErrorDiscriminationStrategy } from "@fern-fern/ir-model/ir";
-import { HttpEndpoint, HttpService, InlinedRequestBody } from "@fern-fern/ir-model/services/http";
+import {
+    HttpEndpoint,
+    HttpService,
+    InlinedRequestBody,
+    InlinedRequestBodyProperty,
+} from "@fern-fern/ir-model/services/http";
 import { getTextOfTsNode } from "@fern-typescript/commons";
 import { EndpointTypesContext, GeneratedEndpointTypes, GeneratedUnion } from "@fern-typescript/contexts";
 import { ErrorResolver } from "@fern-typescript/resolvers";
@@ -102,7 +107,7 @@ export class GeneratedEndpointTypesImpl implements GeneratedEndpointTypes {
             properties: inlinedRequestBody.properties.map((property) => {
                 const type = context.type.getReferenceToType(property.valueType);
                 return {
-                    name: `"${property.name.wireValue}"`,
+                    name: this.getInlinedRequestBodyPropertyKey(property),
                     type: getTextOfTsNode(type.typeNodeWithoutUndefined),
                     docs: property.docs != null ? [property.docs] : undefined,
                     hasQuestionToken: type.isOptional,
@@ -112,6 +117,10 @@ export class GeneratedEndpointTypesImpl implements GeneratedEndpointTypes {
                 getTextOfTsNode(context.type.getReferenceToNamedType(extension).getTypeNode())
             ),
         });
+    }
+
+    public getInlinedRequestBodyPropertyKey(property: InlinedRequestBodyProperty): string {
+        return property.name.name.unsafeName.camelCase;
     }
 
     private writeResponseToFile(context: EndpointTypesContext): void {

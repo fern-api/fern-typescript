@@ -4,7 +4,7 @@ import { OptionalKind, ParameterDeclarationStructure, ts } from "ts-morph";
 
 export interface RequestParameter {
     getParameterDeclaration: (context: ServiceContext) => OptionalKind<ParameterDeclarationStructure>;
-    getReferenceToRequestBody: (context: ServiceContext) => ts.Expression;
+    getReferenceToRequestBody: (context: ServiceContext) => ts.Expression | undefined;
     getReferenceToQueryParameter: (queryParameter: QueryParameter, context: ServiceContext) => ts.Expression;
     getReferenceToHeader: (header: HttpHeader, context: ServiceContext) => ts.Expression;
 }
