@@ -49,10 +49,10 @@ export class RequestWrapperDeclarationReferencer extends AbstractServiceDeclarat
     }
 
     public getExportedName(name: RequestWrapperDeclarationReferencer.Name): string {
-        if (name.endpoint.sdkRequest == null || name.endpoint.sdkRequest.type !== "wrapper") {
+        if (name.endpoint.sdkRequest == null || name.endpoint.sdkRequest.shape.type !== "wrapper") {
             throw new Error("Cannot get exported name for request wrapper, because endpoint request is not wrapped");
         }
-        return name.endpoint.sdkRequest.wrapperName.unsafeName.pascalCase;
+        return name.endpoint.sdkRequest.shape.wrapperName.unsafeName.pascalCase;
     }
 
     public getReferenceToRequestWrapperType(

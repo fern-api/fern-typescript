@@ -1,4 +1,4 @@
-import { HttpEndpoint, HttpHeader, HttpService, QueryParameter } from "@fern-fern/ir-model/services/http";
+import { HttpEndpoint, HttpHeader, HttpService, QueryParameter, SdkRequest } from "@fern-fern/ir-model/services/http";
 import { getTextOfTsNode } from "@fern-typescript/commons";
 import { ServiceContext } from "@fern-typescript/contexts";
 import { OptionalKind, ParameterDeclarationStructure, ts } from "ts-morph";
@@ -8,29 +8,33 @@ export declare namespace AbstractRequestParameter {
     export interface Init {
         service: HttpService;
         endpoint: HttpEndpoint;
+        sdkRequest: SdkRequest;
     }
 }
 
 export abstract class AbstractRequestParameter implements RequestParameter {
-    // TODO this should be in IR, since this can conflict with path parameter names
-    protected static REQUEST_PARAMETER_NAME = "request";
-
     protected service: HttpService;
     protected endpoint: HttpEndpoint;
+    protected sdkRequest: SdkRequest;
 
-    constructor({ service, endpoint }: AbstractRequestParameter.Init) {
+    constructor({ service, endpoint, sdkRequest }: AbstractRequestParameter.Init) {
         this.service = service;
         this.endpoint = endpoint;
+        this.sdkRequest = sdkRequest;
     }
 
     public getParameterDeclaration(context: ServiceContext): OptionalKind<ParameterDeclarationStructure> {
         const type = this.getParameterType(context);
 
         return {
-            name: AbstractRequestParameter.REQUEST_PARAMETER_NAME,
+            name: this.getRequestParameterName(),
             type: getTextOfTsNode(type.type),
             hasQuestionToken: type.isOptional,
         };
+    }
+
+    protected getRequestParameterName(): string {
+        return this.sdkRequest.requestParameterName.unsafeName.camelCase;
     }
 
     public abstract getReferenceToRequestBody(context: ServiceContext): ts.Expression | undefined;

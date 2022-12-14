@@ -14,7 +14,7 @@ export class RequestWrapperParameter extends AbstractRequestParameter {
 
     public getReferenceToRequestBody(context: ServiceContext): ts.Expression | undefined {
         return this.getGeneratedRequestWrapper(context).getReferenceToBody(
-            ts.factory.createIdentifier(AbstractRequestParameter.REQUEST_PARAMETER_NAME),
+            ts.factory.createIdentifier(this.getRequestParameterName()),
             context
         );
     }
@@ -22,14 +22,14 @@ export class RequestWrapperParameter extends AbstractRequestParameter {
     public getReferenceToQueryParameter(queryParameter: QueryParameter, context: ServiceContext): ts.Expression {
         return this.getGeneratedRequestWrapper(context).getReferenceToQueryParameter(
             queryParameter,
-            ts.factory.createIdentifier(AbstractRequestParameter.REQUEST_PARAMETER_NAME)
+            ts.factory.createIdentifier(this.getRequestParameterName())
         );
     }
 
     public getReferenceToHeader(header: HttpHeader, context: ServiceContext): ts.Expression {
         return this.getGeneratedRequestWrapper(context).getReferenceToHeader(
             header,
-            ts.factory.createIdentifier(AbstractRequestParameter.REQUEST_PARAMETER_NAME)
+            ts.factory.createIdentifier(this.getRequestParameterName())
         );
     }
 

@@ -21,9 +21,6 @@ export declare namespace GeneratedRequestWrapperImpl {
 }
 
 export class GeneratedRequestWrapperImpl implements GeneratedRequestWrapper {
-    // TODO: this should be in IR to prevent conflicts with query-params and headers
-    private static BODY_PROPERTY_NAME = "body";
-
     private service: HttpService;
     private endpoint: HttpEndpoint;
     private wrapperName: string;
@@ -77,7 +74,7 @@ export class GeneratedRequestWrapperImpl implements GeneratedRequestWrapper {
                 reference: (referenceToRequestBody) => {
                     const type = context.type.getReferenceToType(referenceToRequestBody.requestBodyType);
                     const property = requestInterface.addProperty({
-                        name: GeneratedRequestWrapperImpl.BODY_PROPERTY_NAME,
+                        name: this.getReferencedBodyPropertyName(),
                         type: getTextOfTsNode(type.typeNodeWithoutUndefined),
                         hasQuestionToken: type.isOptional,
                     });
@@ -113,10 +110,7 @@ export class GeneratedRequestWrapperImpl implements GeneratedRequestWrapper {
         }
         return HttpRequestBody._visit<ts.Expression>(this.endpoint.requestBody, {
             reference: () =>
-                ts.factory.createPropertyAccessExpression(
-                    requestParameter,
-                    GeneratedRequestWrapperImpl.BODY_PROPERTY_NAME
-                ),
+                ts.factory.createPropertyAccessExpression(requestParameter, this.getReferencedBodyPropertyName()),
             inlinedRequestBody: (inlinedRequestBody) => {
                 return ts.factory.createObjectLiteralExpression(
                     [
@@ -238,5 +232,15 @@ export class GeneratedRequestWrapperImpl implements GeneratedRequestWrapper {
 
     private getAllHeaders(): HttpHeader[] {
         return [...this.service.headers, ...this.endpoint.headers];
+    }
+
+    private getReferencedBodyPropertyName(): string {
+        if (this.endpoint.sdkRequest == null) {
+            throw new Error("Request body is defined but sdkRequest is null");
+        }
+        if (this.endpoint.sdkRequest.shape.type !== "wrapper") {
+            throw new Error("Request body is defined but sdkRequest is not a wrapper");
+        }
+        return this.endpoint.sdkRequest.shape.bodyKey.unsafeName.camelCase;
     }
 }

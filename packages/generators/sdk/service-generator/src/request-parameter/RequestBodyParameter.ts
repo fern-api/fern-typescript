@@ -18,7 +18,7 @@ export class RequestBodyParameter extends AbstractRequestParameter {
     }
 
     public getReferenceToRequestBody(): ts.Expression {
-        return ts.factory.createIdentifier(AbstractRequestParameter.REQUEST_PARAMETER_NAME);
+        return ts.factory.createIdentifier(this.getRequestParameterName());
     }
 
     public getReferenceToQueryParameter(): ts.Expression {

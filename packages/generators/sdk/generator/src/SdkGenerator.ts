@@ -359,7 +359,7 @@ export class SdkGenerator {
                             .writeToFile(endpointTypesContext);
                     },
                 });
-                if (endpoint.sdkRequest?.type === "wrapper") {
+                if (endpoint.sdkRequest?.shape.type === "wrapper") {
                     this.withSourceFile({
                         filepath: this.requestWrapperDeclarationReferencer.getExportedFilepath({
                             serviceName: service.name,

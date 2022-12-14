@@ -1,5 +1,5 @@
 import { ErrorDiscriminationStrategy } from "@fern-fern/ir-model/ir";
-import { HttpEndpoint, HttpPath, HttpService, PathParameter, SdkRequest } from "@fern-fern/ir-model/services/http";
+import { HttpEndpoint, HttpPath, HttpService, PathParameter, SdkRequestShape } from "@fern-fern/ir-model/services/http";
 import { getTextOfTsNode } from "@fern-typescript/commons";
 import { GeneratedEndpointTypes, GeneratedEndpointTypeSchemas, ServiceContext } from "@fern-typescript/contexts";
 import { ErrorResolver } from "@fern-typescript/resolvers";
@@ -54,14 +54,16 @@ export class GeneratedEndpointImplementation {
         this.generatedService = generatedService;
         this.errorResolver = errorResolver;
         this.errorDiscriminationStrategy = errorDiscriminationStrategy;
+
+        const sdkRequest = this.endpoint.sdkRequest;
         this.requestParameter =
-            this.endpoint.sdkRequest != null
-                ? SdkRequest._visit<RequestParameter>(this.endpoint.sdkRequest, {
+            sdkRequest != null
+                ? SdkRequestShape._visit<RequestParameter>(sdkRequest.shape, {
                       justRequestBody: (requestBodyReference) =>
-                          new RequestBodyParameter({ requestBodyReference, service, endpoint }),
-                      wrapper: () => new RequestWrapperParameter({ service, endpoint }),
+                          new RequestBodyParameter({ requestBodyReference, service, endpoint, sdkRequest }),
+                      wrapper: () => new RequestWrapperParameter({ service, endpoint, sdkRequest }),
                       _unknown: () => {
-                          throw new Error("Unknown SdkRequest: " + this.endpoint.sdkRequest?.type);
+                          throw new Error("Unknown SdkRequest: " + this.endpoint.sdkRequest?.shape.type);
                       },
                   })
                 : undefined;
