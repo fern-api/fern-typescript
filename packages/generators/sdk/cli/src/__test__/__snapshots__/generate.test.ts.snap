@@ -6184,6 +6184,11 @@ export class Client {
     testCaseId: string,
     request: TraceApi.StoreTracedTestCaseRequest
   ): Promise<TraceApi.admin.storeTracedTestCase.Response> {
+    const _queryParams = new URLSearchParams();
+    if (request.someQueryParam != null) {
+      _queryParams.append(\\"some-query-param\\", request.someQueryParam);
+    }
+
     const _response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Prod,
@@ -6193,6 +6198,7 @@ export class Client {
       headers: {
         Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
       },
+      queryParameters: _queryParams,
       body: await serializers.admin.storeTracedTestCase.Request.json({
         result: request.result,
         traceResponses: request.traceResponses,
@@ -6327,6 +6333,7 @@ export * as storeTracedWorkspaceV2 from \\"./storeTracedWorkspaceV2\\";
 import { TraceApi } from \\"@fern-trace/api-sdk\\";
 
 export interface StoreTracedTestCaseRequest {
+  someQueryParam?: string;
   result: TraceApi.TestCaseResultWithStdout;
   traceResponses: TraceApi.TraceResponse[];
 }
@@ -17123,7 +17130,7 @@ import * as core from \\"../../../core\\";
 
 export const Request: core.schemas.Schema<
   serializers.admin.storeTracedTestCase.Request.Raw,
-  TraceApi.StoreTracedTestCaseRequest
+  Omit<TraceApi.StoreTracedTestCaseRequest, \\"someQueryParam\\">
 > = core.schemas.object({
   result: core.schemas.lazyObject(async () => (await import(\\"../..\\")).TestCaseResultWithStdout),
   traceResponses: core.schemas.list(core.schemas.lazyObject(async () => (await import(\\"../..\\")).TraceResponse)),

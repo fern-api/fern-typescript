@@ -53,6 +53,8 @@ services:
             testCaseId: string
           request:
             name: StoreTracedTestCaseRequest
+            query-parameters:
+              some-query-param: optional<string>
             body:
               properties:
                 result: submission.TestCaseResultWithStdout
