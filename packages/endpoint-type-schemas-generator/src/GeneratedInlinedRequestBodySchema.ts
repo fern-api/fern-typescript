@@ -38,17 +38,35 @@ export class GeneratedInlinedRequestBodySchema extends AbstractGeneratedEndpoint
     }
 
     protected getReferenceToParsedShape(context: EndpointTypeSchemasContext): ts.TypeNode {
-        return context.endpointTypes
-            .getGeneratedEndpointTypes(this.service.name, this.endpoint.id)
-            .getReferenceToRequestBodyType(context);
+        const referenceToRequestWrapper = context.requestWrapper.getReferenceToRequestWrapper(
+            this.service.name,
+            this.endpoint.id
+        );
+        const generatedRequestWrapper = context.requestWrapper.getGeneratedRequestWrapper(
+            this.service.name,
+            this.endpoint.id
+        );
+        const nonBodyKeys = generatedRequestWrapper.getNonBodyKeys();
+        if (nonBodyKeys.length === 0) {
+            return referenceToRequestWrapper;
+        } else {
+            return ts.factory.createTypeReferenceNode(ts.factory.createIdentifier("Omit"), [
+                referenceToRequestWrapper,
+                ts.factory.createUnionTypeNode(
+                    nonBodyKeys.map((nonBodyKey) =>
+                        ts.factory.createLiteralTypeNode(ts.factory.createStringLiteral(nonBodyKey))
+                    )
+                ),
+            ]);
+        }
     }
 
     protected buildSchema(context: EndpointTypeSchemasContext): Zurg.Schema {
         let schema = context.base.coreUtilities.zurg.object(
             this.inlinedRequestBody.properties.map((property) => ({
                 key: {
-                    parsed: context.endpointTypes
-                        .getGeneratedEndpointTypes(this.service.name, this.endpoint.id)
+                    parsed: context.requestWrapper
+                        .getGeneratedRequestWrapper(this.service.name, this.endpoint.id)
                         .getInlinedRequestBodyPropertyKey(property),
                     raw: property.name.wireValue,
                 },

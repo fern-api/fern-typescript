@@ -60,13 +60,14 @@ export class GeneratedRequestWrapperImpl implements GeneratedRequestWrapper {
         if (this.endpoint.requestBody != null) {
             HttpRequestBody._visit(this.endpoint.requestBody, {
                 inlinedRequestBody: (inlinedRequestBody) => {
-                    requestInterface.addExtends(
-                        getTextOfTsNode(
-                            context.endpointTypes
-                                .getGeneratedEndpointTypes(this.service.name, this.endpoint.id)
-                                .getReferenceToRequestBodyType(context)
-                        )
-                    );
+                    for (const property of inlinedRequestBody.properties) {
+                        const type = context.type.getReferenceToType(property.valueType);
+                        requestInterface.addProperty({
+                            name: this.getInlinedRequestBodyPropertyKey(property),
+                            type: getTextOfTsNode(type.typeNodeWithoutUndefined),
+                            hasQuestionToken: type.isOptional,
+                        });
+                    }
                     for (const extension of inlinedRequestBody.extends) {
                         requestInterface.addExtends(
                             getTextOfTsNode(context.type.getReferenceToNamedType(extension).getTypeNode())
@@ -124,7 +125,7 @@ export class GeneratedRequestWrapperImpl implements GeneratedRequestWrapper {
                                 ts.factory.createStringLiteral(property.name.wireValue),
                                 ts.factory.createPropertyAccessExpression(
                                     requestParameter,
-                                    this.getPropertyNameOfInlinedBodyProperty(property)
+                                    this.getInlinedRequestBodyPropertyKey(property)
                                 )
                             )
                         ),
@@ -158,6 +159,19 @@ export class GeneratedRequestWrapperImpl implements GeneratedRequestWrapper {
             this.#areBodyPropertiesOptional = this.expensivelyComputeIfAllPropertiesAreOptional(context);
         }
         return this.#areBodyPropertiesOptional;
+    }
+
+    public getNonBodyKeys(): string[] {
+        return [
+            ...this.getAllQueryParameters().map((queryParameter) =>
+                this.getPropertyNameOfQueryParameter(queryParameter)
+            ),
+            ...this.getAllHeaders().map((header) => this.getPropertyNameOfHeader(header)),
+        ];
+    }
+
+    public getInlinedRequestBodyPropertyKey(property: InlinedRequestBodyProperty): string {
+        return property.name.name.unsafeName.camelCase;
     }
 
     private expensivelyComputeIfAllPropertiesAreOptional(context: RequestWrapperContext): boolean {
@@ -216,10 +230,6 @@ export class GeneratedRequestWrapperImpl implements GeneratedRequestWrapper {
 
     private getPropertyNameOfHeader(header: HttpHeader): string {
         return header.nameV2.name.unsafeName.camelCase;
-    }
-
-    private getPropertyNameOfInlinedBodyProperty(property: InlinedRequestBodyProperty): string {
-        return property.name.name.unsafeName.camelCase;
     }
 
     private getAllQueryParameters(): QueryParameter[] {

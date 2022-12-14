@@ -419,6 +419,8 @@ export class SdkGenerator {
                             endpointSchemaDeclarationReferencer: this.endpointSchemaDeclarationReferencer,
                             endpointDeclarationReferencer: this.endpointDeclarationReferencer,
                             endpointTypesGenerator: this.endpointTypesGenerator,
+                            requestWrapperDeclarationReferencer: this.requestWrapperDeclarationReferencer,
+                            requestWrapperGenerator: this.requestWrapperGenerator,
                             typeGenerator: this.typeGenerator,
                             errorGenerator: this.errorGenerator,
                             errorResolver: this.errorResolver,
