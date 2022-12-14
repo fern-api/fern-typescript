@@ -27,9 +27,7 @@ export class RequestWrapperDeclarationReferencer extends AbstractServiceDeclarat
             directories: [
                 ...this.getExportedDirectory(name.serviceName, {
                     subExports: {
-                        [RelativeFilePath.of(REQUESTS_DIRECTORY_NAME)]: {
-                            exportAll: true,
-                        },
+                        [RelativeFilePath.of(REQUESTS_DIRECTORY_NAME)]: { exportAll: true },
                     },
                 }),
                 {
@@ -61,14 +59,5 @@ export class RequestWrapperDeclarationReferencer extends AbstractServiceDeclarat
         args: DeclarationReferencer.getReferenceTo.Options<RequestWrapperDeclarationReferencer.Name>
     ): ts.TypeNode {
         return this.getReferenceTo(this.getExportedName(args.name), args).getTypeNode();
-    }
-
-    protected override getExportedFilepathForReference(
-        name: RequestWrapperDeclarationReferencer.Name
-    ): ExportedFilePath {
-        return {
-            directories: this.getExportedDirectory(name.serviceName),
-            file: undefined,
-        };
     }
 }

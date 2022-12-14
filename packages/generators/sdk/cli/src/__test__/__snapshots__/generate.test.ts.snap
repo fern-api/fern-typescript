@@ -1531,6 +1531,8 @@ export * from \\"./owner/types\\";
 export * as token from \\"./token\\";
 export * from \\"./token/types\\";
 export * from \\"./owner/errors\\";
+export * from \\"./owner/client/requests\\";
+export * from \\"./token/client/requests\\";
 ",
             "name": "index.ts",
             "type": "file",
@@ -1559,7 +1561,7 @@ export declare namespace Client {
 export class Client {
   constructor(private readonly options: Client.Options) {}
 
-  public async create(request: FernApi.owner.CreateOwnerRequest): Promise<FernApi.owner.create.Response> {
+  public async create(request: FernApi.CreateOwnerRequest): Promise<FernApi.owner.create.Response> {
     const _response = await core.fetcher({
       url: urlJoin(this.options.environment, \\"/owner/\\"),
       method: \\"POST\\",
@@ -1631,7 +1633,7 @@ export class Client {
 
   public async update(
     ownerId: FernApi.OwnerId,
-    request: FernApi.owner.UpdateOwnerRequest
+    request: FernApi.UpdateOwnerRequest
   ): Promise<FernApi.owner.update.Response> {
     const _response = await core.fetcher({
       url: urlJoin(this.options.environment, \`/owner/\${ownerId}\`),
@@ -1962,7 +1964,6 @@ export type OwnerAlreadyExistsError = FernApi.OwnerId;
                 "contents": "export * from \\"./types\\";
 export * from \\"./errors\\";
 export * from \\"./client\\";
-export * from \\"./client/requests\\";
 ",
                 "name": "index.ts",
                 "type": "file",
@@ -2036,7 +2037,7 @@ export declare namespace Client {
 export class Client {
   constructor(private readonly options: Client.Options) {}
 
-  public async create(request: FernApi.token.CreateTokenRequest): Promise<FernApi.token.create.Response> {
+  public async create(request: FernApi.CreateTokenRequest): Promise<FernApi.token.create.Response> {
     const _response = await core.fetcher({
       url: urlJoin(this.options.environment, \\"/tokens/create\\"),
       method: \\"POST\\",
@@ -2072,7 +2073,7 @@ export class Client {
   }
 
   public async getTokenMetadata(
-    request: FernApi.token.GetTokenMetadataRequest
+    request: FernApi.GetTokenMetadataRequest
   ): Promise<FernApi.token.getTokenMetadata.Response> {
     const _response = await core.fetcher({
       url: urlJoin(this.options.environment, \\"/tokens/metadata\\"),
@@ -2416,7 +2417,6 @@ export { GetTokenMetadataRequest } from \\"./GetTokenMetadataRequest\\";
               Object {
                 "contents": "export * from \\"./types\\";
 export * from \\"./client\\";
-export * from \\"./client/requests\\";
 ",
                 "name": "index.ts",
                 "type": "file",
@@ -6194,7 +6194,7 @@ export class Client {
   public async storeTracedTestCase(
     submissionId: TraceApi.SubmissionId,
     testCaseId: string,
-    request: TraceApi.admin.StoreTracedTestCaseRequest
+    request: TraceApi.StoreTracedTestCaseRequest
   ): Promise<TraceApi.admin.storeTracedTestCase.Response> {
     const _response = await core.fetcher({
       url: urlJoin(
@@ -6254,7 +6254,7 @@ export class Client {
 
   public async storeTracedWorkspace(
     submissionId: TraceApi.SubmissionId,
-    request: TraceApi.admin.StoreTracedWorkspaceRequest
+    request: TraceApi.StoreTracedWorkspaceRequest
   ): Promise<TraceApi.admin.storeTracedWorkspace.Response> {
     const _response = await core.fetcher({
       url: urlJoin(
@@ -6806,7 +6806,6 @@ export const Error = {
               },
               Object {
                 "contents": "export * from \\"./client\\";
-export * from \\"./client/requests\\";
 ",
                 "name": "index.ts",
                 "type": "file",
@@ -8294,7 +8293,10 @@ export * from \\"./submission/types\\";
 export * as v2 from \\"./v2\\";
 export * from \\"./playlist/errors\\";
 export * as admin from \\"./admin\\";
+export * from \\"./admin/client/requests\\";
 export * as homepage from \\"./homepage\\";
+export * from \\"./playlist/client/requests\\";
+export * from \\"./problem/client/requests\\";
 export * as sysprop from \\"./sysprop\\";
 ",
             "name": "index.ts",
@@ -8573,7 +8575,7 @@ export class Client {
 
   public async getPlaylists(
     serviceParam: number,
-    request: TraceApi.playlist.GetPlaylistsRequest
+    request: TraceApi.GetPlaylistsRequest
   ): Promise<TraceApi.playlist.getPlaylists.Response> {
     const _queryParams = new URLSearchParams();
     if (request.limit != null) {
@@ -9114,7 +9116,6 @@ export type PlaylistIdNotFoundError = TraceApi.PlaylistIdNotFoundErrorBody;
                 "contents": "export * from \\"./types\\";
 export * from \\"./errors\\";
 export * from \\"./client\\";
-export * from \\"./client/requests\\";
 ",
                 "name": "index.ts",
                 "type": "file",
@@ -9386,7 +9387,7 @@ export class Client {
   }
 
   public async getDefaultStarterFiles(
-    request: TraceApi.problem.GetDefaultStarterFilesRequest
+    request: TraceApi.GetDefaultStarterFilesRequest
   ): Promise<TraceApi.problem.getDefaultStarterFiles.Response> {
     const _response = await core.fetcher({
       url: urlJoin(this.options.environment ?? environments.Environment.Prod, \\"/problem-crud/default-starter-files\\"),
@@ -9672,7 +9673,6 @@ export const Error = {
               Object {
                 "contents": "export * from \\"./types\\";
 export * from \\"./client\\";
-export * from \\"./client/requests\\";
 ",
                 "name": "index.ts",
                 "type": "file",
