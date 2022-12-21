@@ -73,7 +73,12 @@ export async function runGenerator(pathToConfig: string): Promise<void> {
                 });
             },
             github: async (githubOutputMode) => {
-                await runYarnCommand(["install"]);
+                await runYarnCommand(["install"], {
+                    env: {
+                        // set enableImmutableInstalls=false so we can modify yarn.lock, even when in CI
+                        YARN_ENABLE_IMMUTABLE_INSTALLS: "false",
+                    },
+                });
                 await runYarnCommand(["dlx", "@yarnpkg/sdks", "vscode"]);
                 await writeGitHubWorkflows({
                     config,
