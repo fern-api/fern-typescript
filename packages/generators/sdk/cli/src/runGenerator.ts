@@ -73,6 +73,8 @@ export async function runGenerator(pathToConfig: string): Promise<void> {
                 });
             },
             github: async (githubOutputMode) => {
+                await runYarnCommand(["install"]);
+                await runYarnCommand(["dlx", "@yarnpkg/sdks", "vscode"]);
                 await writeGitHubWorkflows({
                     config,
                     githubOutputMode,

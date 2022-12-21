@@ -28,6 +28,7 @@ export async function publishPackage({
         logger,
     });
 
+    await runYarnCommand(["install"]);
     await runYarnCommand(["run", PackageJsonScript.BUILD]);
 
     await generatorNotificationService.sendUpdate(
