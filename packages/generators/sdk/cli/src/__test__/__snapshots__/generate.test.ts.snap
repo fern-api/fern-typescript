@@ -7870,7 +7870,7 @@ export * from \\"./TokenStatus\\";
     \\"compilerOptions\\": {
         \\"strict\\": true,
         \\"target\\": \\"esnext\\",
-        \\"module\\": \\"nodenext\\",
+        \\"module\\": \\"esnext\\",
         \\"moduleResolution\\": \\"node\\",
         \\"esModuleInterop\\": true,
         \\"skipLibCheck\\": true,

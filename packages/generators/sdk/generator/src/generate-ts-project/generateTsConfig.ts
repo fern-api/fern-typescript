@@ -14,7 +14,7 @@ export async function generateTsConfig({
     const compilerOptions: CompilerOptions = {
         strict: true,
         target: "esnext" as unknown as ScriptTarget,
-        module: (shouldOutputEsm ? "nodenext" : "commonjs") as unknown as ModuleKind,
+        module: (shouldOutputEsm ? "esnext" : "commonjs") as unknown as ModuleKind,
         moduleResolution: "node" as unknown as ModuleResolutionKind,
         esModuleInterop: true,
         skipLibCheck: true,
