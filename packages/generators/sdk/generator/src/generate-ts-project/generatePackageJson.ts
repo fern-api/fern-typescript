@@ -33,7 +33,6 @@ export async function generatePackageJson({
     packageName,
     packageVersion,
     isPackagePrivate,
-    shouldOutputEsm,
     dependencies,
     repositoryUrl,
 }: {
@@ -41,7 +40,6 @@ export async function generatePackageJson({
     packageName: string;
     packageVersion: string | undefined;
     isPackagePrivate: boolean;
-    shouldOutputEsm: boolean;
     repositoryUrl: string | undefined;
     dependencies: PackageDependencies | undefined;
 }): Promise<void> {
@@ -53,13 +51,6 @@ export async function generatePackageJson({
         packageJson = {
             ...packageJson,
             version: packageVersion,
-        };
-    }
-
-    if (shouldOutputEsm) {
-        packageJson = {
-            ...packageJson,
-            type: "module",
         };
     }
 
