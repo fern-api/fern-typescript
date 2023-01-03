@@ -54,21 +54,19 @@ export async function generatePackageJson({
         };
     }
 
-    const outputFile = shouldOutputEsm ? "index.mjs" : "index.cjs";
-
     packageJson = {
         ...packageJson,
         private: isPackagePrivate,
         repository: repositoryUrl,
         files: ["index.js", "index.js.map", "*.d.ts"],
-        main: outputFile,
+        main: "index.js",
         types: "./index.d.ts",
         scripts: {
             [PackageJsonScript.FORMAT]: PRETTIER_COMMAND.join(" "),
             [PackageJsonScript.BUILD]: [
                 `esbuild src/index.ts --bundle --sourcemap --format=${
                     shouldOutputEsm ? "esm" : "cjs"
-                } --outfile=${outputFile}`,
+                } --outfile=index.js`,
                 "tsc",
                 "tsc-alias",
             ].join(" && "),
