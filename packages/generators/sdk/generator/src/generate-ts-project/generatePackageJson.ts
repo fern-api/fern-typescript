@@ -59,7 +59,7 @@ export async function generatePackageJson({
         private: isPackagePrivate,
         repository: repositoryUrl,
         files: ["index.js", "index.js.map", "*.d.ts"],
-        main: "index.js",
+        main: "./index.js",
         types: "./index.d.ts",
         scripts: {
             [PackageJsonScript.FORMAT]: PRETTIER_COMMAND.join(" "),
