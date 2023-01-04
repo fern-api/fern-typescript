@@ -93,7 +93,7 @@ export class TypeSchemaContextMixinImpl implements TypeSchemaContextMixin {
                     name: typeDeclaration.name,
                     importsManager: this.importsManager,
                     referencedIn: this.sourceFile,
-                    importStrategy: getSchemaImportStrategy({ useDynamicImport: false }),
+                    importStrategy: getSchemaImportStrategy(),
                 }),
         });
     }
@@ -105,10 +105,7 @@ export class TypeSchemaContextMixinImpl implements TypeSchemaContextMixin {
     public getReferenceToRawNamedType(typeName: DeclaredTypeName): Reference {
         return this.typeSchemaDeclarationReferencer.getReferenceToType({
             name: typeName,
-            importStrategy: getSchemaImportStrategy({
-                // dynamic import not needed for types
-                useDynamicImport: false,
-            }),
+            importStrategy: getSchemaImportStrategy(),
             // TODO this should not be hardcoded here
             subImport: ["Raw"],
             importsManager: this.importsManager,
@@ -124,11 +121,7 @@ export class TypeSchemaContextMixinImpl implements TypeSchemaContextMixin {
         const referenceToSchema = this.typeSchemaDeclarationReferencer
             .getReferenceToType({
                 name: typeName,
-                importStrategy: getSchemaImportStrategy({
-                    // use dynamic imports when  schemas insides schemas,
-                    // to avoid issues with circular imports
-                    useDynamicImport: true,
-                }),
+                importStrategy: getSchemaImportStrategy(),
                 importsManager: this.importsManager,
                 referencedIn: this.sourceFile,
             })
