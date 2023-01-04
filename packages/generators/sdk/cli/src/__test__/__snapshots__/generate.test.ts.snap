@@ -71,9 +71,9 @@ yarnPath: .yarn/releases/yarn-3.2.4.cjs
     \\"scripts\\": {
         \\"format\\": \\"prettier --write --print-width 120 src/**/*.ts\\",
         \\"compile\\": \\"tsc && tsc-alias\\",
-        \\"build:esm\\": \\"esbuild src/index.ts --bundle --platform=node --packages=external --format=esm --banner:js=\\\\\\"import { createRequire } from 'module';\\\\nconst require = createRequire(import.meta.url);\\\\\\" --outfile=index.mjs\\",
-        \\"build:cjs\\": \\"esbuild src/index.ts --bundle --platform=node --packages=external --format=cjs --outfile=index.cjs\\",
-        \\"build:browser\\": \\"esbuild src/index.ts --bundle --platform=browser --packages=external --sourcemap --outfile=browser.js\\",
+        \\"build:esm\\": \\"esbuild src/index.ts --bundle --platform=node --packages=external --alias:@fern-fern/fiddle-sdk=./src --format=esm --banner:js=\\\\\\"import { createRequire } from 'module';\\\\nconst require = createRequire(import.meta.url);\\\\\\" --outfile=index.mjs\\",
+        \\"build:cjs\\": \\"esbuild src/index.ts --bundle --platform=node --packages=external --alias:@fern-fern/fiddle-sdk=./src --format=cjs --outfile=index.cjs\\",
+        \\"build:browser\\": \\"esbuild src/index.ts --bundle --platform=browser --packages=external --alias:@fern-fern/fiddle-sdk=./src --sourcemap --outfile=browser.js\\",
         \\"build\\": \\"yarn compile && yarn build:esm && yarn build:cjs && yarn build:browser\\"
     },
     \\"dependencies\\": {
@@ -4979,9 +4979,9 @@ yarnPath: .yarn/releases/yarn-3.2.4.cjs
     \\"scripts\\": {
         \\"format\\": \\"prettier --write --print-width 120 src/**/*.ts\\",
         \\"compile\\": \\"tsc && tsc-alias\\",
-        \\"build:esm\\": \\"esbuild src/index.ts --bundle --platform=node --packages=external --format=esm --banner:js=\\\\\\"import { createRequire } from 'module';\\\\nconst require = createRequire(import.meta.url);\\\\\\" --outfile=index.mjs\\",
-        \\"build:cjs\\": \\"esbuild src/index.ts --bundle --platform=node --packages=external --format=cjs --outfile=index.cjs\\",
-        \\"build:browser\\": \\"esbuild src/index.ts --bundle --platform=browser --packages=external --sourcemap --outfile=browser.js\\",
+        \\"build:esm\\": \\"esbuild src/index.ts --bundle --platform=node --packages=external --alias:@fern/api=./src --format=esm --banner:js=\\\\\\"import { createRequire } from 'module';\\\\nconst require = createRequire(import.meta.url);\\\\\\" --outfile=index.mjs\\",
+        \\"build:cjs\\": \\"esbuild src/index.ts --bundle --platform=node --packages=external --alias:@fern/api=./src --format=cjs --outfile=index.cjs\\",
+        \\"build:browser\\": \\"esbuild src/index.ts --bundle --platform=browser --packages=external --alias:@fern/api=./src --sourcemap --outfile=browser.js\\",
         \\"build\\": \\"yarn compile && yarn build:esm && yarn build:cjs && yarn build:browser\\"
     },
     \\"dependencies\\": {
@@ -7963,9 +7963,9 @@ node_modules
     \\"scripts\\": {
         \\"format\\": \\"prettier --write --print-width 120 src/**/*.ts\\",
         \\"compile\\": \\"tsc && tsc-alias\\",
-        \\"build:esm\\": \\"esbuild src/index.ts --bundle --platform=node --packages=external --format=esm --banner:js=\\\\\\"import { createRequire } from 'module';\\\\nconst require = createRequire(import.meta.url);\\\\\\" --outfile=index.mjs\\",
-        \\"build:cjs\\": \\"esbuild src/index.ts --bundle --platform=node --packages=external --format=cjs --outfile=index.cjs\\",
-        \\"build:browser\\": \\"esbuild src/index.ts --bundle --platform=browser --packages=external --sourcemap --outfile=browser.js\\",
+        \\"build:esm\\": \\"esbuild src/index.ts --bundle --platform=node --packages=external --alias:@fern/api=./src --format=esm --banner:js=\\\\\\"import { createRequire } from 'module';\\\\nconst require = createRequire(import.meta.url);\\\\\\" --outfile=index.mjs\\",
+        \\"build:cjs\\": \\"esbuild src/index.ts --bundle --platform=node --packages=external --alias:@fern/api=./src --format=cjs --outfile=index.cjs\\",
+        \\"build:browser\\": \\"esbuild src/index.ts --bundle --platform=browser --packages=external --alias:@fern/api=./src --sourcemap --outfile=browser.js\\",
         \\"build\\": \\"yarn compile && yarn build:esm && yarn build:cjs && yarn build:browser\\"
     },
     \\"devDependencies\\": {
@@ -9311,9 +9311,9 @@ yarnPath: .yarn/releases/yarn-3.2.4.cjs
     \\"scripts\\": {
         \\"format\\": \\"prettier --write --print-width 120 src/**/*.ts\\",
         \\"compile\\": \\"tsc && tsc-alias\\",
-        \\"build:esm\\": \\"esbuild src/index.ts --bundle --platform=node --packages=external --format=esm --banner:js=\\\\\\"import { createRequire } from 'module';\\\\nconst require = createRequire(import.meta.url);\\\\\\" --outfile=index.mjs\\",
-        \\"build:cjs\\": \\"esbuild src/index.ts --bundle --platform=node --packages=external --format=cjs --outfile=index.cjs\\",
-        \\"build:browser\\": \\"esbuild src/index.ts --bundle --platform=browser --packages=external --sourcemap --outfile=browser.js\\",
+        \\"build:esm\\": \\"esbuild src/index.ts --bundle --platform=node --packages=external --alias:@fern-trace/api-sdk=./src --format=esm --banner:js=\\\\\\"import { createRequire } from 'module';\\\\nconst require = createRequire(import.meta.url);\\\\\\" --outfile=index.mjs\\",
+        \\"build:cjs\\": \\"esbuild src/index.ts --bundle --platform=node --packages=external --alias:@fern-trace/api-sdk=./src --format=cjs --outfile=index.cjs\\",
+        \\"build:browser\\": \\"esbuild src/index.ts --bundle --platform=browser --packages=external --alias:@fern-trace/api-sdk=./src --sourcemap --outfile=browser.js\\",
         \\"build\\": \\"yarn compile && yarn build:esm && yarn build:cjs && yarn build:browser\\"
     },
     \\"dependencies\\": {
