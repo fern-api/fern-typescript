@@ -135,7 +135,7 @@ function generateEsbuildCommand({
     outfile: string;
     jsBanner?: string;
 }): string {
-    const parts = ["esbuild", "src/index.ts", "--bundle", `--platform=${platform}`];
+    const parts = ["esbuild", "src/index.ts", "--bundle", `--platform=${platform}`, "--packages=external"];
     if (shouldIncludeSourceMaps) {
         parts.push("--sourcemap");
     }
