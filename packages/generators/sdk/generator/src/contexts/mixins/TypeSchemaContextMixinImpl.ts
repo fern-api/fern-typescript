@@ -1,4 +1,4 @@
-import { DeclaredTypeName, ShapeType, TypeReference } from "@fern-fern/ir-model/types";
+import { DeclaredTypeName, TypeReference } from "@fern-fern/ir-model/types";
 import { TypeReferenceNode, Zurg } from "@fern-typescript/commons-v2";
 import { CoreUtilities, GeneratedTypeSchema, Reference, TypeSchemaContextMixin } from "@fern-typescript/contexts";
 import { TypeResolver } from "@fern-typescript/resolvers";
@@ -127,16 +127,6 @@ export class TypeSchemaContextMixinImpl implements TypeSchemaContextMixin {
             })
             .getExpression();
 
-        const schema = this.coreUtilities.zurg.Schema._fromExpression(referenceToSchema);
-
-        // when generating schemas, wrap named types with lazy() to prevent issues with circular imports
-        return this.wrapSchemaWithLazy(schema, typeName);
-    }
-
-    private wrapSchemaWithLazy(schema: Zurg.Schema, typeName: DeclaredTypeName): Zurg.Schema {
-        const resolvedType = this.typeResolver.resolveTypeName(typeName);
-        return resolvedType._type === "named" && resolvedType.shape === ShapeType.Object
-            ? this.coreUtilities.zurg.lazyObject(schema)
-            : this.coreUtilities.zurg.lazy(schema);
+        return this.coreUtilities.zurg.Schema._fromExpression(referenceToSchema);
     }
 }
