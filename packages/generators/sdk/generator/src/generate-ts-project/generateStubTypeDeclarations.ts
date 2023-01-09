@@ -7,14 +7,14 @@ export async function generateStubTypeDeclarations(volume: Volume): Promise<void
         getPathToProjectFile("core.d.ts"),
         `// this is needed for older versions of TypeScript
 // that don't read the "exports" field in package.json
-export * from "./${TYPES_DIRECTORY}/core/index.d.ts";
+export * from "./${TYPES_DIRECTORY}/core";
 `
     );
     await volume.promises.writeFile(
         getPathToProjectFile("serialization.d.ts"),
         `// this is needed for older versions of TypeScript
 // that don't read the "exports" field in package.json
-export * from "./${TYPES_DIRECTORY}/serialization/index.d.ts";
+export * from "./${TYPES_DIRECTORY}/serialization";
 `
     );
 }
